@@ -3,7 +3,7 @@ package logic
 import (
 	"errors"
 
-	"github.com/louisevanderlith/mango/pkg"
+	"github.com/louisevanderlith/mango"
 )
 
 type LookupObj struct {
@@ -13,30 +13,30 @@ type LookupObj struct {
 }
 
 func GetCategories(instanceID string) ([]LookupObj, error) {
-	resp, err := util.GETMessage(instanceID, "Things.API", "category")
+	resp, err := mango.GETMessage(instanceID, "Things.API", "category")
 
 	return toDTO(resp, err)
 }
 
 func GetManufacturers(instanceID string) ([]LookupObj, error) {
-	resp, err := util.GETMessage(instanceID, "Things.API", "message")
+	resp, err := mango.GETMessage(instanceID, "Things.API", "message")
 
 	return toDTO(resp, err)
 }
 
 func GetModels(instanceID string) ([]LookupObj, error) {
-	resp, err := util.GETMessage(instanceID, "Things.API", "model")
+	resp, err := mango.GETMessage(instanceID, "Things.API", "model")
 
 	return toDTO(resp, err)
 }
 
 func GetSubCategories(instanceID string) ([]LookupObj, error) {
-	resp, err := util.GETMessage(instanceID, "Things.API", "subcategory")
+	resp, err := mango.GETMessage(instanceID, "Things.API", "subcategory")
 
 	return toDTO(resp, err)
 }
 
-func toDTO(resp *util.RESTResult, err error) ([]LookupObj, error) {
+func toDTO(resp *mango.RESTResult, err error) ([]LookupObj, error) {
 	var result []LookupObj
 
 	if err != nil {

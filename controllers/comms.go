@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"github.com/louisevanderlith/mango/app/admin/logic"
-	"github.com/louisevanderlith/mango/pkg/control"
+	"github.com/louisevanderlith/admin/logic"
+	"github.com/louisevanderlith/mango/control"
 )
 
 type CommsController struct {

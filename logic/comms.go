@@ -1,7 +1,7 @@
 package logic
 
 import (
-	"github.com/louisevanderlith/mango/pkg"
+	"github.com/louisevanderlith/mango"
 )
 
 type CommsObject struct {
@@ -13,7 +13,7 @@ type CommsObject struct {
 }
 
 func GetCommsMessages(instanceID string) ([]CommsObject, error) {
-	resp, err := util.GETMessage(instanceID, "Communication.API", "message")
+	resp, err := mango.GETMessage(instanceID, "Communication.API", "message")
 
 	if err != nil {
 		return []CommsObject{}, err

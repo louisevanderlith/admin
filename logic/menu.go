@@ -1,7 +1,7 @@
 package logic
 
 import (
-	"github.com/louisevanderlith/mango/pkg/control"
+	"github.com/louisevanderlith/mango/control"
 )
 
 func GetMenu(path string) *control.Menu {

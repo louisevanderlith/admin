@@ -1,11 +1,11 @@
 package logic
 
 import (
-	"github.com/louisevanderlith/mango/core/folio"
+	folio "github.com/louisevanderlith/folio/core"
 
 	"github.com/louisevanderlith/husk"
 
-	"github.com/louisevanderlith/mango/pkg"
+	"github.com/louisevanderlith/mango"
 )
 
 var uploadURL string
@@ -13,7 +13,7 @@ var uploadURL string
 func GetSites(instanceID string) ([]folio.Profile, error) {
 	var result []folio.Profile
 
-	resp, err := util.GETMessage(instanceID, "Folio.API", "profile", "all", "A10")
+	resp, err := mango.GETMessage(instanceID, "Folio.API", "profile", "all", "A10")
 
 	if err != nil {
 		return result, err
@@ -38,9 +38,9 @@ func GetSites(instanceID string) ([]folio.Profile, error) {
 	return result, nil
 }
 
-func GetSite(siteKey *husk.Key, instanceID string) (folio.Profile, error) {
+func GetSite(siteKey husk.Key, instanceID string) (folio.Profile, error) {
 	result := folio.Profile{}
-	resp, err := util.GETMessage(instanceID, "Folio.API", "profile", siteKey.String())
+	resp, err := mango.GETMessage(instanceID, "Folio.API", "profile", siteKey.String())
 
 	if err != nil {
 		return result, err
@@ -80,7 +80,7 @@ func setImageURLs(instanceID string) {
 }
 
 func setUploadURL(instanceID string) {
-	url, err := util.GetServiceURL(instanceID, "Artifact.API", true)
+	url, err := mango.GetServiceURL(instanceID, "Artifact.API", true)
 
 	if err != nil {
 		log.Print("setImageURLs:", err)

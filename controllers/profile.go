@@ -5,9 +5,9 @@ import (
 
 	"github.com/louisevanderlith/husk"
 
-	"github.com/louisevanderlith/mango/pkg/control"
+	"github.com/louisevanderlith/mango/control"
 
-	"github.com/louisevanderlith/mango/app/admin/logic"
+	"github.com/louisevanderlith/admin/logic"
 )
 
 type ProfileController struct {

@@ -2,13 +2,13 @@ package routers
 
 import (
 	"github.com/astaxie/beego"
-	"github.com/louisevanderlith/mango/app/admin/controllers"
-	"github.com/louisevanderlith/mango/pkg"
-	"github.com/louisevanderlith/mango/pkg/control"
-	"github.com/louisevanderlith/mango/pkg/enums"
+	"github.com/louisevanderlith/admin/controllers"
+	"github.com/louisevanderlith/mango"
+	"github.com/louisevanderlith/mango/control"
+	"github.com/louisevanderlith/mango/enums"
 )
 
-func Setup(s *util.Service) {
+func Setup(s *mango.Service) {
 	ctrlmap := EnableFilters(s)
 
 	beego.Router("/", controllers.NewDefaultCtrl(ctrlmap))
@@ -21,7 +21,7 @@ func Setup(s *util.Service) {
 	beego.Router("/profile/:key", controllers.NewProfileCtrl(ctrlmap), "get:GetEdit")
 }
 
-func EnableFilters(s *util.Service) *control.ControllerMap {
+func EnableFilters(s *mango.Service) *control.ControllerMap {
 	ctrlmap := control.CreateControlMap(s)
 	emptyMap := make(control.ActionMap)
 	emptyMap["POST"] = enums.Admin
