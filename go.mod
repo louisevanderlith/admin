@@ -13,7 +13,7 @@ require (
 	github.com/kr/pretty v0.1.0 // indirect
 	github.com/louisevanderlith/folio v0.1.0
 	github.com/louisevanderlith/husk v0.0.0-20181202133139-ef9019913e69
-	github.com/louisevanderlith/mango v0.1.10
+	github.com/louisevanderlith/mango v0.2.12
 	github.com/pkg/errors v0.8.1 // indirect
 	github.com/siddontang/ledisdb v0.0.0-20190202134119-8ceb77e66a92 // indirect
 	github.com/syndtr/goleveldb v1.0.0 // indirect

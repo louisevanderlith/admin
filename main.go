@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"os"
 
 	"github.com/astaxie/beego"
 	"github.com/louisevanderlith/admin/routers"
@@ -10,7 +11,7 @@ import (
 )
 
 func main() {
-	mode := beego.BConfig.RunMode
+	mode := os.Getenv("RUNMODE")
 
 	// Register with router
 	name := beego.BConfig.AppName

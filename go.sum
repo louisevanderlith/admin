@@ -51,6 +51,12 @@ github.com/louisevanderlith/mango v0.1.6 h1:r1NGHovrpdIBg8zMgOxj6hwCG83WLy3IK3lG
 github.com/louisevanderlith/mango v0.1.6/go.mod h1:HgTP32VLyeos6GZCfMnPMWT9OcYe313qmL7ZUgfwSFQ=
 github.com/louisevanderlith/mango v0.1.10 h1:aU+Zt0NqoNkGIEn3ULFDlOYYxzyoZJrnu3UYt+mg0p0=
 github.com/louisevanderlith/mango v0.1.10/go.mod h1:HgTP32VLyeos6GZCfMnPMWT9OcYe313qmL7ZUgfwSFQ=
+github.com/louisevanderlith/mango v0.1.12 h1:n0vd6QsplIGf7UxhPHwwZYZOrg8KS8Sa68r/GkQwls8=
+github.com/louisevanderlith/mango v0.1.12/go.mod h1:HgTP32VLyeos6GZCfMnPMWT9OcYe313qmL7ZUgfwSFQ=
+github.com/louisevanderlith/mango v0.2.11 h1:G13wSlRrvXfeyU8Fc5HKvCsTFgVvFV93nyvfxVT+70U=
+github.com/louisevanderlith/mango v0.2.11/go.mod h1:HgTP32VLyeos6GZCfMnPMWT9OcYe313qmL7ZUgfwSFQ=
+github.com/louisevanderlith/mango v0.2.12 h1:yv07wH0qyA6RDrBecyfrWyIIabiaukkHueyYxKD6dF8=
+github.com/louisevanderlith/mango v0.2.12/go.mod h1:HgTP32VLyeos6GZCfMnPMWT9OcYe313qmL7ZUgfwSFQ=
 github.com/mattn/go-sqlite3 v1.10.0/go.mod h1:FPy6KqzDD04eiIsT53CuJW3U88zkxoIYsOqkbpncsNc=
 github.com/onsi/ginkgo v1.6.0/go.mod h1:lLunBs/Ym6LB5Z9jYTR76FiuTmxDTDusOGeTQH+WWjE=
 github.com/onsi/ginkgo v1.7.0/go.mod h1:lLunBs/Ym6LB5Z9jYTR76FiuTmxDTDusOGeTQH+WWjE=
