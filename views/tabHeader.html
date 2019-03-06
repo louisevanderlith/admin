@@ -7,7 +7,7 @@
                         <label for="lstHeader">Headers</label>
                         <button type="button" class="btn btn-info btn-sm" id="btnAddHeader">Add Row</button>
                         <ul id="lstHeader" class="list-group">
-                            {{range $key, $val := .data.Headers}}
+                            {{range $key, $val := .Data.Headers}}
                             <li class="list-group-item" id="liHeader{{$key}}" data-id="{{$val.ID}}">
                                 <button type="button" class="fa fa-close close removeRow" data-liID="liHeader{{$key}}"></button>
                                 <div class="control-group">

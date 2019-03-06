@@ -45,6 +45,8 @@ github.com/louisevanderlith/husk v0.0.0-20181104041408-83bedc2cf11c h1:1YU9tYeov
 github.com/louisevanderlith/husk v0.0.0-20181104041408-83bedc2cf11c/go.mod h1:FiREVNZW48kA++iCekTEqFLcpe1m31+FQhd1ePm0YLA=
 github.com/louisevanderlith/husk v0.0.0-20181202133139-ef9019913e69 h1:UV0sQzgikNy+H1o8cyt8eUFcwBwEBFVrPKZkDoLXHaE=
 github.com/louisevanderlith/husk v0.0.0-20181202133139-ef9019913e69/go.mod h1:FiREVNZW48kA++iCekTEqFLcpe1m31+FQhd1ePm0YLA=
+github.com/louisevanderlith/husk v0.1.0 h1:4xrM+r7HLwONxII2TcvLia/QvVWJfNROp0yacqz5ww8=
+github.com/louisevanderlith/husk v0.1.0/go.mod h1:FiREVNZW48kA++iCekTEqFLcpe1m31+FQhd1ePm0YLA=
 github.com/louisevanderlith/mango v0.1.5 h1:EKsSd0JLdx976C2bIKthy9ZWM4kp0TIEJt/mfw51pm4=
 github.com/louisevanderlith/mango v0.1.5/go.mod h1:HgTP32VLyeos6GZCfMnPMWT9OcYe313qmL7ZUgfwSFQ=
 github.com/louisevanderlith/mango v0.1.6 h1:r1NGHovrpdIBg8zMgOxj6hwCG83WLy3IK3lGvsNm1rA=

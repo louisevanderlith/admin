@@ -7,7 +7,7 @@
                         <label for="lstPortfolio">Portfolio</label>
                         <button type="button" class="btn btn-info btn-sm" id="btnAddPortfolio">Add Row</button>
                         <ul id="lstPortfolio" class="list-group">
-                            {{range $key, $val := .data.PortfolioItems}}
+                            {{range $key, $val := .Data.PortfolioItems}}
                             <li class="list-group-item" id="liPortfolio{{$key}}" data-id="{{$val.ID}}">
                                 <button type="button" class="fa fa-close close removeRow" data-liID="liPortfolio{{$key}}"></button>
                                 <div class="control-group">

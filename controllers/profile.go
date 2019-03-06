@@ -1,9 +1,8 @@
 package controllers
 
 import (
-	"log"
-
 	"github.com/louisevanderlith/husk"
+	"github.com/louisevanderlith/mango"
 
 	"github.com/louisevanderlith/mango/control"
 
@@ -25,9 +24,19 @@ func (c *ProfileController) Get() {
 	c.Setup("profile")
 	c.CreateSideMenu(logic.GetMenu("/profile"))
 
-	data, err := logic.GetSites(c.GetInstanceID())
+	resp, err := mango.GETMessage(c.GetInstanceID(), "Folio.API", "profile", "all", "A10")
 
-	c.Serve(data, err)
+	if err != nil {
+		c.Serve(nil, err)
+		return
+	}
+
+	if resp.Failed() {
+		c.Serve(nil, resp)
+		return
+	}
+
+	c.Serve(resp.Data, err)
 }
 
 func (c *ProfileController) GetEdit() {
@@ -35,10 +44,20 @@ func (c *ProfileController) GetEdit() {
 	key, err := husk.ParseKey(c.Ctx.Input.Param(":key"))
 
 	if err != nil {
-		log.Print("GetEdit:", err)
+		c.Serve(nil, err)
 	}
 
-	data, err := logic.GetSite(key, c.GetInstanceID())
+	resp, err := mango.GETMessage(c.GetInstanceID(), "Folio.API", "profile", key.String())
 
-	c.Serve(data, err)
+	if err != nil {
+		c.Serve(nil, err)
+		return
+	}
+
+	if resp.Failed() {
+		c.Serve(nil, resp)
+		return
+	}
+
+	c.Serve(resp.Data, err)
 }

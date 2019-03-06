@@ -6,12 +6,14 @@
                 <i class="fa fa-table"></i> Profiles
                 <button type="button" class="btn btn-info btn-sm" id="btnAddSite">Create Site</button>
             </div>
+            <div>
+                {{ . }}
+            </div>
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th>Key</th>
                                 <th>Title</th>
                                 <th>Description</th>
                                 <th>Actions</th>
@@ -19,20 +21,18 @@
                         </thead>
                         <tfoot>
                             <tr>
-                                <th>Key</th>
                                 <th>Title</th>
                                 <th>Description</th>
                                 <th>Actions</th>
                             </tr>
                         </tfoot>
                         <tbody>
-                            {{range $key, $val := .data}}
+                            {{range $key, $val := .Data}}
                             <tr>
-                                <td>{{$val.Key}}</td>
-                                <td>{{$val.Title}}</td>
-                                <td>{{$val.Description}}</td>
+                                <td>{{$val.V.Title}}</td>
+                                <td>{{$val.V.Description}}</td>
                                 <td>
-                                    <a href="/profile/{{$val.Key}}" class="btn btn-primary">Edit</a>
+                                    <a href="/profile/{{$val.K}}" class="btn btn-primary">Edit</a>
                                 </td>
                             </tr>
                             {{end}}
@@ -40,7 +40,7 @@
                     </table>
                 </div>
             </div>
-            <div class="card-footer small text-muted">Updated a while ago.</div>
+            <div class="card-footer small text-muted">---</div>
         </div>
     </div>
 </div>

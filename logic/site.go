@@ -1,60 +1,6 @@
 package logic
 
-import (
-	folio "github.com/louisevanderlith/folio/core"
-
-	"github.com/louisevanderlith/husk"
-
-	"github.com/louisevanderlith/mango"
-)
-
 var uploadURL string
-
-func GetSites(instanceID string) ([]folio.Profile, error) {
-	var result []folio.Profile
-
-	resp, err := mango.GETMessage(instanceID, "Folio.API", "profile", "all", "A10")
-
-	if err != nil {
-		return result, err
-	}
-
-	if resp.Failed() {
-		return result, resp
-	}
-
-	coll, ok := resp.Data.(husk.Collection)
-
-	if ok && coll.Any() {
-		itor := coll.GetEnumerator()
-
-		if itor.MoveNext() {
-			curr := itor.Current()
-
-			result = append(result, curr.Data().(folio.Profile))
-		}
-	}
-
-	return result, nil
-}
-
-func GetSite(siteKey husk.Key, instanceID string) (folio.Profile, error) {
-	result := folio.Profile{}
-	resp, err := mango.GETMessage(instanceID, "Folio.API", "profile", siteKey.String())
-
-	if err != nil {
-		return result, err
-	}
-
-	if resp.Failed() {
-		return result, resp
-	}
-
-	result = resp.Data.(folio.Profile)
-	//result.setImageURLs(instanceID)
-
-	return result, nil
-}
 
 /*
 func setImageURLs(instanceID string) {
