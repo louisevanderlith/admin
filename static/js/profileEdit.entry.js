@@ -1,4 +1,3 @@
-
 import FormState from './formState.js';
 import * as lookup from './pathLookup';
 import * as services from './services';
@@ -25,7 +24,6 @@ const forms = {
         txtPhone: $('#txtPhone'),
         txtURL: $('#txtURL'),
         image: $('#uplProfileImg'),
-        txtStylesheet: $('#txtStylesheet'),
         save: $('#btnSaveSite'),
         saveEvent: trySaveSite
     },
@@ -134,6 +132,7 @@ function doUpload(formData, infoObj, ctrlID) {
 
 function finishUpload(obj, infoObj, ctrlID) {
     let fullURL = imageURL + "/" + obj.Data;
+    console.log(obj, infoObj, ctrlID);
     let imageHolder = $(`#${ctrlID.replace('Img', 'View')}`);
     let uploader = $('#' + ctrlID);
 
@@ -213,8 +212,7 @@ function submitSite(formKey) {
         ContactEmail: siteForm.txtEmail.val(),
         ContactPhone: siteForm.txtPhone.val(),
         URL: siteForm.txtURL.val(),
-        ImageID: siteForm.image.data('id'),
-        StyleSheet: siteForm.txtStylesheet.val()
+        ImageKey: siteForm.image.data('id'),
     };
 
     services.updateSite(data, successMessage, errorMessage, completeForm(formKey, formState));

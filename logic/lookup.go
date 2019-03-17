@@ -1,8 +1,6 @@
 package logic
 
 import (
-	"errors"
-
 	"github.com/louisevanderlith/mango"
 )
 
@@ -13,44 +11,32 @@ type LookupObj struct {
 }
 
 func GetCategories(instanceID string) ([]LookupObj, error) {
-	resp, err := mango.GETMessage(instanceID, "Things.API", "category")
-
-	return toDTO(resp, err)
+	return getLookup(instanceID, "category")
 }
 
 func GetManufacturers(instanceID string) ([]LookupObj, error) {
-	resp, err := mango.GETMessage(instanceID, "Things.API", "message")
-
-	return toDTO(resp, err)
+	return getLookup(instanceID, "manufacturer")
 }
 
 func GetModels(instanceID string) ([]LookupObj, error) {
-	resp, err := mango.GETMessage(instanceID, "Things.API", "model")
-
-	return toDTO(resp, err)
+	return getLookup(instanceID, "model")
 }
 
 func GetSubCategories(instanceID string) ([]LookupObj, error) {
-	resp, err := mango.GETMessage(instanceID, "Things.API", "subcategory")
-
-	return toDTO(resp, err)
+	return getLookup(instanceID, "subcategory")
 }
 
-func toDTO(resp *mango.RESTResult, err error) ([]LookupObj, error) {
-	var result []LookupObj
+func getLookup(instanceID, controller string) ([]LookupObj, error) {
+	result := []LookupObj{}
+
+	fail, err := mango.DoGET(&result, instanceID, "Things.API", controller)
 
 	if err != nil {
 		return result, err
 	}
 
-	if resp.Failed() {
-		return result, resp
-	}
-
-	result, ok := resp.Data.([]LookupObj)
-
-	if !ok {
-		return result, errors.New("not a []LookupObj")
+	if fail != nil {
+		return result, fail
 	}
 
 	return result, nil

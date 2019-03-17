@@ -24,19 +24,20 @@ func (c *ProfileController) Get() {
 	c.Setup("profile")
 	c.CreateSideMenu(logic.GetMenu("/profile"))
 
-	resp, err := mango.GETMessage(c.GetInstanceID(), "Folio.API", "profile", "all", "A10")
+	result := []interface{}{}
+	fail, err := mango.DoGET(&result, c.GetInstanceID(), "Folio.API", "profile", "all", "A10")
 
 	if err != nil {
 		c.Serve(nil, err)
 		return
 	}
 
-	if resp.Failed() {
-		c.Serve(nil, resp)
+	if fail != nil {
+		c.Serve(nil, fail)
 		return
 	}
 
-	c.Serve(resp.Data, err)
+	c.Serve(result, nil)
 }
 
 func (c *ProfileController) GetEdit() {
@@ -47,17 +48,18 @@ func (c *ProfileController) GetEdit() {
 		c.Serve(nil, err)
 	}
 
-	resp, err := mango.GETMessage(c.GetInstanceID(), "Folio.API", "profile", key.String())
+	result := make(map[string]interface{})
+	fail, err := mango.DoGET(&result, c.GetInstanceID(), "Folio.API", "profile", key.String())
 
 	if err != nil {
 		c.Serve(nil, err)
 		return
 	}
 
-	if resp.Failed() {
-		c.Serve(nil, resp)
+	if fail != nil {
+		c.Serve(nil, fail)
 		return
 	}
 
-	c.Serve(resp.Data, err)
+	c.Serve(result, nil)
 }

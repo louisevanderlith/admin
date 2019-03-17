@@ -23,6 +23,12 @@ func main() {
 	if err != nil {
 		log.Print("Register: ", err)
 	} else {
+		err = mango.UpdateTheme(srv.ID)
+
+		if err != nil {
+			panic(err)
+		}
+
 		routers.Setup(srv)
 
 		beego.SetStaticPath("/dist", "dist")
