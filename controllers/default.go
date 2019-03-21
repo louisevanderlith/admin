@@ -19,4 +19,11 @@ func NewDefaultCtrl(ctrlMap *control.ControllerMap) *DefaultController {
 func (c *DefaultController) Get() {
 	c.Setup("default")
 	c.CreateSideMenu(logic.GetMenu("/"))
+
+	result := make(map[string]string)
+	result["Comms.API"] = "/comms"
+	result["Router.API"] = "/memory"
+	result["Folio.API"] = "/profiles"
+	//result[]
+	c.Serve(result, nil)
 }

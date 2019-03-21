@@ -15,12 +15,8 @@ func Setup(s *mango.Service) {
 	profileCtrl := controllers.NewProfileCtrl(ctrlmap)
 
 	beego.Router("/", controllers.NewDefaultCtrl(ctrlmap))
-	beego.Router("/category", controllers.NewCategoryCtrl(ctrlmap))
 	beego.Router("/comms", commsCtrl, "get:Get")
 	beego.Router("/comms/:key", commsCtrl, "get:GetView")
-	beego.Router("/manufacturer", controllers.NewManufacturerCtrl(ctrlmap))
-	beego.Router("/model", controllers.NewModelCtrl(ctrlmap))
-	beego.Router("/subcategory", controllers.NewSubCategoryCtrl(ctrlmap))
 	beego.Router("/profiles", profileCtrl, "get:Get")
 	beego.Router("/profile/:key", profileCtrl, "get:GetEdit")
 	beego.Router("/memory", controllers.NewMemoryCtrl(ctrlmap))
@@ -33,13 +29,10 @@ func EnableFilters(s *mango.Service) *control.ControllerMap {
 	emptyMap["GET"] = enums.Admin
 
 	ctrlmap.Add("/", emptyMap)
-	ctrlmap.Add("/category", emptyMap)
 	ctrlmap.Add("/comms", emptyMap)
-	ctrlmap.Add("/manufacturer", emptyMap)
-	ctrlmap.Add("/model", emptyMap)
-	ctrlmap.Add("/subcategory", emptyMap)
 	ctrlmap.Add("/profiles", emptyMap)
 	ctrlmap.Add("/profile", emptyMap)
+	ctrlmap.Add("/memory", emptyMap)
 
 	beego.InsertFilter("/*", beego.BeforeRouter, ctrlmap.FilterUI)
 

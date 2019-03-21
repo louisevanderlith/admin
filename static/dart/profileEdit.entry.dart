@@ -44,19 +44,19 @@ void uploadFile(Event e) {
 void doUpload(FormData formData, Map<String, String> infoObj, String ctrlID) {
   var success = (obj) => {finishUpload(obj, infoObj, ctrlID)};
 
-  createUpload(formData, success, errorMessage);
+  createUpload(formData, success);
 }
 
 void finishUpload(
     Map<String, String> obj, Map<String, String> infoObj, String ctrlID) {
-  var fullURL = imageURL + "/" + obj["Data"];
+  var fullURL = _imageURL + "/" + obj["Data"];
 
-  var imageHolder = querySelector("#${ctrlID.replace('Img', 'View')}");
+  var imageHolder = querySelector("#${ctrlID.replaceFirst('Img', 'View')}");
   var uploader = querySelector("#${ctrlID}");
 
-  imageHolder.removeAttr('hidden');
-  imageHolder.attr("src", fullURL);
+  imageHolder.attributes.remove('hidden');
+  imageHolder.setAttribute('src', fullURL);
 
-  uploader.data("id", obj.Data);
-  uploader.removeAttr('required');
+  uploader.dataset['id'] = obj['Data'];
+  uploader.attributes.remove('required');
 }

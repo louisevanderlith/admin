@@ -1,1 +1,21 @@
-<h1>Some content here...</h1>
+<div>
+    <div class="groupname">Admin.APP;</div>
+    <div class="wrapper">
+        <div class="card">
+            <span>description:</span>
+            <div>Here you can control every API currently running in the environment.</div>
+        </div>
+    </div>
+    <div class="wrapper">
+        <div class="card">
+            <span>description:</span>
+            <div>
+                <ul>
+                    {{range $key, $val := .Data}}
+                    <li><a href="{{$val}}">{{$key}}</a></li>
+                    {{end}}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

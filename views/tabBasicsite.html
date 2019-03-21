@@ -2,26 +2,30 @@
     <div class="col-12">
         <div class="container">
             <form id="frmBasicSite" role="form" data-toggle="validator">
-                <div class="control-group">
-                    <div class="form-group floating-label-form-group controls">
-                        <label for="txtTitle">Title</label>
-                        <input class="form-control" type="text" id="txtTitle" placeholder="Title" required data-validation-required-message="Please enter the Title"
-                            value="{{.Data.Title}}" />
-                        <p class="help-block with-errors text-danger"></p>
+                <div class="wrapper">
+                    <div class="card">
+                        <span>title:</span>
+                        <div>
+                            <input class="form-control" type="text" id="txtTitle" placeholder="Title" required
+                                data-validation-required-message="Please enter the Title" value="{{.Data.Title}}" />
+                            <p class="with-errors text-danger"></p>
+                        </div>
                     </div>
                 </div>
                 <div class="control-group">
                     <div class="form-group floating-label-form-group controls">
                         <label for="txtDescription">Description</label>
-                        <textarea class="form-control" id="txtDescription" placeholder="Description" required data-validation-required-message="Please enter the Description"
-                            cols="40" rows="5">{{.Data.Description}}</textarea>
+                        <textarea class="form-control" id="txtDescription" placeholder="Description" required
+                            data-validation-required-message="Please enter the Description" cols="40"
+                            rows="5">{{.Data.Description}}</textarea>
                         <p class="help-block with-errors text-danger"></p>
                     </div>
                 </div>
                 <div class="control-group">
                     <div class="form-group floating-label-form-group controls">
                         <label for="txtEmail">Email Address</label>
-                        <input class="form-control" type="email" id="txtEmail" required data-validation-required-message="Please enter the email address."
+                        <input class="form-control" type="email" id="txtEmail" required
+                            data-validation-required-message="Please enter the email address."
                             value="{{.Data.ContactEmail}}" />
                         <p class="help-block with-errors text-danger"></p>
                     </div>
@@ -29,7 +33,8 @@
                 <div class="control-group">
                     <div class="form-group floating-label-form-group controls">
                         <label for="txtPhone">Contact Number</label>
-                        <input class="form-control" type="tel" id="txtPhone" minlength="9" maxlength="10" required data-validation-required-message="Please enter the phone number."
+                        <input class="form-control" type="tel" id="txtPhone" minlength="9" maxlength="10" required
+                            data-validation-required-message="Please enter the phone number."
                             value="{{.Data.ContactPhone}}" />
                         <p class="help-block with-errors text-danger"></p>
                     </div>
@@ -37,8 +42,8 @@
                 <div class="control-group">
                     <div class="form-group floating-label-form-group controls">
                         <label for="txtURL">URL</label>
-                        <input class="form-control" type="url" id="txtURL" required data-validation-required-message="Please enter this site's URL"
-                            value="{{.Data.URL}}" />
+                        <input class="form-control" type="url" id="txtURL" required
+                            data-validation-required-message="Please enter this site's URL" value="{{.Data.URL}}" />
                         <p class="help-block with-errors text-danger"></p>
                     </div>
                 </div>
@@ -49,11 +54,14 @@
                             <div class="control-group">
                                 <div class="form-group floating-label-form-group controls">
                                     <label for="uplProfileImg">Icon</label>
-                                    <input class="form-control" type="file" multiple="false" data-for="logo" data-name="Profile" data-itemid="{{.Data.ID}}" data-id="{{.Data.ImageKey}}"
-                                        accept=".jpg, .jpeg, .png" id="uplProfileImg" placeholder="Profile Image" {{if not .Data.ImageURL}}
-                                        required data-validation-required-message="Please provide this item's image." {{end}}
-                                    />
-                                    <input {{if not .Data.ImageKey}} hidden {{end}} type="image" id="uplProfileView" class="img-thumbnail" src="https://artifact{{.Host}}v1/upload/file/{{.Data.ImageKey.Stamp}}`{{.Data.ImageKey.ID}}"
+                                    <input class="form-control" type="file" multiple="false" data-for="logo"
+                                        data-name="Profile" data-itemid="{{.Data.ID}}" data-id="{{.Data.ImageKey}}"
+                                        accept=".jpg, .jpeg, .png" id="uplProfileImg" placeholder="Profile Image"
+                                        {{if not .Data.ImageURL}} required
+                                        data-validation-required-message="Please provide this item's image." {{end}} />
+                                    <input {{if not .Data.ImageKey}} hidden {{end}} type="image" id="uplProfileView"
+                                        class="img-thumbnail"
+                                        src="https://artifact{{.Host}}v1/upload/file/{{.Data.ImageKey.Stamp}}`{{.Data.ImageKey.ID}}"
                                         alt="profile image" />
                                     <p class="help-block with-errors text-danger"></p>
                                 </div>
