@@ -12,7 +12,7 @@ void main() async {
   var path = window.location.pathname;
   var currentID = path.substring(path.lastIndexOf('/') + 1);
 
-  new ProfileForm('#frmBasicSite', currentID, '#txtTitle', '#txtDescription',
+  new ProfileForm('#frmBasicsite', currentID, '#txtTitle', '#txtDescription',
       '#txtEmail', '#txtPhone', '#txtURL', '#uplProfileImg', '#btnSaveSite');
 
   _imageURL = await buildPath('Artifact.API', "upload", ["file"]);

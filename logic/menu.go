@@ -37,7 +37,7 @@ func commsChildren(path string) *control.Menu {
 
 func folioChildren(path string) *control.Menu {
 	children := control.NewMenu(path)
-	children.AddItem("/profiles", "Profiles", "fa-user", nil)
+	children.AddItem("/profiles/A10", "Profiles", "fa-user", nil)
 
 	return children
 }

@@ -6,12 +6,12 @@ Map<String, String> _pastNames = {
 };
 
 String routerDefault() {
-  HiddenInputElement hostPath = querySelector("#HostID");
+  InputElement hostPath = querySelector('#HostID');
   return "https://router${hostPath.value}v1/discovery/";
 }
 
 Future<String> getRouterPath(String apiName) async {
-  HiddenInputElement instanceElem = querySelector("#InstanceID");
+  InputElement instanceElem = querySelector('#InstanceID');
   var routerURL = await getServiceURL("Router.API");
 
   return "${routerURL}${instanceElem.value}/${apiName}/true";
@@ -38,7 +38,6 @@ Future<String> getServiceURL(String apiName) async {
     _pastNames[apiName] = serviceURL;
   }
 
-  print(serviceURL);
   return serviceURL;
 }
 

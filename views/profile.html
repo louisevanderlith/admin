@@ -1,42 +1,45 @@
-<div class="row">
-    <div class="col-12">
-        <h1>Profiles</h1>
-        <div class="card mb-3">
-            <div class="card-header">
-                <i class="fa fa-table"></i>
-                <button type="button" class="btn btn-info btn-sm" id="btnAddSite">Create new Profile</button>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th>Title</th>
-                                <th>Description</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tfoot>
-                            <tr>
-                                <th>Title</th>
-                                <th>Description</th>
-                                <th>Actions</th>
-                            </tr>
-                        </tfoot>
-                        <tbody>
-                            {{range $key, $val := .Data}}
-                            <tr>
-                                <td>{{$val.V.Title}}</td>
-                                <td>{{$val.V.Description}}</td>
-                                <td>
-                                    <a href="/profile/{{$val.K}}" class="btn btn-primary">Edit</a>
-                                </td>
-                            </tr>
-                            {{end}}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+<nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+        <li><a href="../">Folio.API</a></li>
+        <li class="is-active"><a href="#" aria-current="page">Profiles</a></li>
+    </ul>
+</nav>
+<section class="hero is-info welcome is-small">
+    <div class="hero-body">
+        <div class="container">
+            <h1 class="title">
+                Profiles
+            </h1>
+            <button class="button is-primary is-small" type="button" id="btnAddSite">Create new Profile</button>
         </div>
     </div>
-</div>
+</section>
+<section class="section">
+    <table class="table is-fullwidth is-hoverable" id="dataTable">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </tfoot>
+        <tbody>
+            {{range $key, $val := .Data}}
+            <tr>
+                <td>{{$val.V.Title}}</td>
+                <td>{{$val.V.Description}}</td>
+                <td>
+                    <a href="/profile/{{$val.K}}" class="btn btn-primary">Edit</a>
+                </td>
+            </tr>
+            {{end}}
+        </tbody>
+    </table>
+</section>

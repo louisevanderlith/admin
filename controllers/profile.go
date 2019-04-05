@@ -21,11 +21,12 @@ func NewProfileCtrl(ctrlMap *control.ControllerMap) *ProfileController {
 }
 
 func (c *ProfileController) Get() {
-	c.Setup("profile")
+	c.Setup("profile", "Profiles", true)
 	c.CreateSideMenu(logic.GetMenu("/profile"))
 
 	result := []interface{}{}
-	fail, err := mango.DoGET(&result, c.GetInstanceID(), "Folio.API", "profile", "all", "A10")
+	pagesize := c.Ctx.Input.Param(":pagesize")
+	fail, err := mango.DoGET(&result, c.GetInstanceID(), "Folio.API", "profile", "all", pagesize)
 
 	if err != nil {
 		c.Serve(nil, err)
@@ -41,7 +42,7 @@ func (c *ProfileController) Get() {
 }
 
 func (c *ProfileController) GetEdit() {
-	c.Setup("profileEdit")
+	c.Setup("profileEdit", "Edit Profile", true)
 	key, err := husk.ParseKey(c.Ctx.Input.Param(":key"))
 
 	if err != nil {

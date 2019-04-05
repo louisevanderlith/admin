@@ -1,42 +1,61 @@
-<div class="row">
-    <div class="col-12">
+<nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+        <li><a href="/">Folio.API</a></li>
+        <li><a href="/profiles/A10">Profile</a></li>
+        <li class="is-active"><a href="#" aria-current="page">{{.Data.Title}}</a></li>
+    </ul>
+</nav>
+<section class="hero is-info welcome is-small">
+    <div class="hero-body">
         <div class="container">
-            <h3>Tabs</h3>
-            <ul class="nav nav-tabs" role="tablist">
-                <li class="nav-item active">
-                    <a class="nav-link" role="tab" data-toggle="tab" href="#tabBasicsite">Profile Info</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" role="tab" data-toggle="tab" href="#tabHeader">Headers</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" role="tab" data-toggle="tab" href="#tabPortfolio">Portfolio</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" role="tab" data-toggle="tab" href="#tabAbout">About Us</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" role="tab" data-toggle="tab" href="#tabSocialMedia">Social media</a>
-                </li>
-            </ul>
-            <div id="success"></div>
-            <div class="tab-content">
-                <div role="tabpanel" id="tabBasicsite" class="tab-pane fade in active">
-                    {{ template "/tabBasicsite.html" . }}
-                </div>
-                <div role="tabpanel" id="tabHeader" class="tab-pane fade">
-                    {{ template "/tabHeader.html" . }}
-                </div>
-                <div role="tabpanel" id="tabPortfolio" class="tab-pane fade">
-                    {{ template "/tabPortfolio.html" . }}
-                </div>
-                <div role="tabpanel" id="tabAbout" class="tab-pane fade">
-                    {{ template "/tabAbout.html" . }}
-                </div>
-                <div role="tabpanel" id="tabSocialMedia" class="tab-pane fade">
-                    {{ template "/tabSocialmedia.html" . }}
-                </div>
-            </div>
+            <h1 class="title">
+                Editing Profile {{.Data.Title}}
+            </h1>
+            <button class="button is-primary is-small" type="button" id="btnSave">Save</button>
         </div>
     </div>
-</div>
+</section>
+<section class="section">
+    <div class="tabs is-boxed is-centered main-menu" id="nav">
+        <ul>
+            <li data-target="paneBasicsite" id="tabBasicsite" class="is-active">
+                <a>
+                    <span class="icon is-small"><i class="fa fa-image"></i></span>
+                    <span>Profile Info</span>
+                </a>
+            </li>
+            <li data-target="paneHeader" id="tabHeader">
+                <a>
+                    <span class="icon is-small"><i class="fab fa-empire"></i></span>
+                    <span>Headers</span>
+                </a>
+            </li>
+            <li data-target="panePortfolio" id="tabPortfolio">
+                <a>
+                    <span class="icon is-small"><i class="fab fa-superpowers"></i></span>
+                    <span>Portfolio</span>
+                </a>
+            </li>
+            <li data-target="paneSocialmedia" id="tabSocialmedia">
+                <a>
+                    <span class="icon is-small"><i class="fa fa-film"></i></span>
+                    <span>Social Media</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="tab-content">
+        <div class="tab-pane is-active" id="paneBasicsite">
+            {{ template "tabBasicsite.html" .}}
+        </div>
+        <div class="tab-pane" id="paneHeader">
+            {{ template "tabHeader.html" .}}
+        </div>
+        <div class="tab-pane" id="panePortfolio">
+            {{ template "tabPortfolio.html" .}}
+        </div>
+        <div class="tab-pane" id="paneSocialmedia">
+            {{ template "tabSocialmedia.html" .}}
+        </div>
+    </div>
+</section>

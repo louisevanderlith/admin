@@ -18,7 +18,7 @@ func NewMemoryCtrl(ctrlMap *control.ControllerMap) *MemoryController {
 }
 
 func (c *MemoryController) Get() {
-	c.Setup("memory")
+	c.Setup("memory", "Memory", true)
 	c.CreateSideMenu(logic.GetMenu("/memory"))
 
 	result := []interface{}{}

@@ -12,26 +12,19 @@ COPY routers ./routers
 
 RUN CGO_ENABLED="0" go build
 
-FROM alpine:latest as styler
+FROM google/dart AS pyltjie
 
-RUN apk --no-cache add nodejs nodejs-npm
-RUN npm install -g gulp gulp-cli
+WORKDIR /arrow
+COPY static/dart ./assets/dart
 
-WORKDIR /scissor
-COPY package.json .
-COPY package-lock.json .
-RUN npm install
-
-COPY gulpfile.js .
-COPY .babelrc .
-COPY static ./static
-
-RUN gulp
+RUN mkdir -p assets/js
+COPY compiledart.sh .
+RUN sh ./compiledart.sh
 
 FROM alpine:latest
 
 COPY --from=builder /box/admin .
-COPY --from=styler /scissor/dist dist
+COPY --from=pyltjie /arrow/assets/js dist/js
 COPY conf conf
 COPY views views
 

@@ -19,7 +19,7 @@ func NewCommsCtrl(ctrlMap *control.ControllerMap) *CommsController {
 }
 
 func (c *CommsController) Get() {
-	c.Setup("comms")
+	c.Setup("comms", "Messages", true)
 	c.CreateSideMenu(logic.GetMenu("/comms"))
 
 	result := []interface{}{}
@@ -39,7 +39,7 @@ func (c *CommsController) Get() {
 }
 
 func (c *CommsController) GetView() {
-	c.Setup("commsView")
+	c.Setup("commsView", "View Message", true)
 	c.CreateSideMenu(logic.GetMenu("/comms"))
 
 	key, err := husk.ParseKey(c.Ctx.Input.Param(":key"))

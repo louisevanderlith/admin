@@ -17,7 +17,7 @@ func Setup(s *mango.Service) {
 	beego.Router("/", controllers.NewDefaultCtrl(ctrlmap))
 	beego.Router("/comms", commsCtrl, "get:Get")
 	beego.Router("/comms/:key", commsCtrl, "get:GetView")
-	beego.Router("/profiles", profileCtrl, "get:Get")
+	beego.Router("/profiles/:pagesize", profileCtrl, "get:Get")
 	beego.Router("/profile/:key", profileCtrl, "get:GetEdit")
 	beego.Router("/memory", controllers.NewMemoryCtrl(ctrlmap))
 }

@@ -38,7 +38,9 @@ services:
     ports:
       - "8090:8090"
     networks:
-        - mango_net
+      - mango_net
+    volumes: 
+      - ../folio/db:/db
     depends_on:
         - RouterDEV
     command: ["./wait-for-it.sh", "RouterDEV:8080", "--", "python", "app.py"]
@@ -94,6 +96,8 @@ services:
       - "8086:8086"
     networks:
       - "mango_net"
+    volumes: 
+      - ../secure/db:/db
     depends_on:
       - "AuthDEV"
     command: ["./wait-for-it.sh", "AuthDEV:8094", "--", "python", "app.py"]
