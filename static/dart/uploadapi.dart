@@ -1,11 +1,12 @@
-import 'dart:convert';
 import 'dart:html';
-
 import 'pathlookup.dart';
 
-void createUpload(data, success) {
-  buildPath('Artifact.API', 'upload', new List<String>()).then((buildPath) => {
-        HttpRequest.requestCrossOrigin(buildPath,
-            method: "POST", sendData: jsonEncode(data)).then(success)
-      });
+Future createUpload(FormData data) async {
+  var path = await buildPath('Artifact.API', 'upload', new List<String>());
+
+  return HttpRequest.request(path,
+      method: 'POST',
+      withCredentials: false,
+      responseType: "application/json",
+      sendData: data);
 }

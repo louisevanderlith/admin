@@ -6,13 +6,14 @@ import 'profileform.dart';
 import 'uploadapi.dart';
 
 String _imageURL;
+String _objKey;
 
 void main() async {
   print('Profile Edit');
   var path = window.location.pathname;
-  var currentID = path.substring(path.lastIndexOf('/') + 1);
+  _objKey = path.substring(path.lastIndexOf('/') + 1);
 
-  new ProfileForm('#frmBasicsite', currentID, '#txtTitle', '#txtDescription',
+  new ProfileForm('#frmBasicsite', _objKey, '#txtTitle', '#txtDescription',
       '#txtEmail', '#txtPhone', '#txtURL', '#uplProfileImg', '#btnSaveSite');
 
   _imageURL = await buildPath('Artifact.API', "upload", ["file"]);
@@ -26,25 +27,31 @@ void uploadFile(Event e) {
 
     var forAttr = fileElem.dataset['for'];
     var nameAttr = fileElem.dataset['name'];
-    var idAttr = fileElem.dataset['itemid'];
+    var idAttr = _objKey.replaceFirst('%60', '`');
     var ctrlID = fileElem.id;
-    var infoObj = {"For": forAttr, "ItemName": nameAttr, "ItemID": idAttr};
+    var infoObj = {"For": forAttr, "ItemName": nameAttr, "ItemKey": idAttr};
 
     if (files.length > 0) {
-      var formData = new FormData();
       File firstFile = files[0];
-      formData.append('file', firstFile.toString());
-      formData.append('info', jsonEncode(infoObj));
 
-      doUpload(formData, infoObj, ctrlID);
+      doUpload(firstFile, infoObj, ctrlID);
     }
   }
 }
 
-void doUpload(FormData formData, Map<String, String> infoObj, String ctrlID) {
-  var success = (obj) => {finishUpload(obj, infoObj, ctrlID)};
+void doUpload(File file, Map<String, String> infoObj, String ctrlID) {
+  //var reader = new FileReader();
 
-  createUpload(formData, success);
+  //reader.onLoadEnd.listen((ProgressEvent e) {
+    //var formData = new Map<String, String>();
+    var formData = new FormData();
+    formData.appendBlob("file", file);
+    formData.append("info", jsonEncode(infoObj));
+    
+    createUpload(formData).then((obj) => {finishUpload(obj, infoObj, ctrlID)});
+  //});
+
+  //reader.readAsArrayBuffer(file);
 }
 
 void finishUpload(

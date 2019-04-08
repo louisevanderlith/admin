@@ -9,7 +9,7 @@ class ProfileForm extends FormState {
   EmailInputElement _email;
   TelephoneInputElement _phone;
   TextInputElement _url;
-  Element _image;
+  FileUploadInputElement _image;
   
   ProfileForm(
       String idElem,

@@ -1,5 +1,4 @@
 <div class="content">
-    <p class="subtitle has-text-grey">Information</p>
     <form id="frmBasicsite" role="form">
         <div class="field">
             <div class="control">
@@ -45,13 +44,24 @@
 
         <div class="field">
             <div class="control">
-                <label class="label" for="uplProfileImg"></label>
-                <input class="upload" type="file" multiple="false" data-for="logo" data-name="Profile"
-                    data-itemid="{{.Data.ID}}" data-id="{{.Data.ImageKey}}" accept=".jpg, .jpeg, .png"
-                    id="uplProfileImg" placeholder="Profile Image" {{if not .Data.ImageURL}} required
-                    data-validation-required-message="Please provide this item's image." {{end}} />
-                <input {{if not .Data.ImageKey}} hidden {{end}} type="image" id="uplProfileView" class="img-thumbnail"
-                    src="https://artifact{{.Host}}v1/upload/file/{{.Data.ImageKey.Stamp}}`{{.Data.ImageKey.ID}}"
+                <label class="label" for="uplProfileImg">Profile image</label>
+                <div class="file">
+                    <label class="file-label">
+                        <input class="file-input" type="file" multiple="false" data-for="logo" data-name="Profile"
+                            data-itemid="{{.Data.Key}}" data-id="{{.Data.ImageKey}}" accept=".jpg, .jpeg, .png"
+                            id="uplProfileImg" placeholder="Profile Image" {{if eq .Data.ImageKey "0`0"}} required {{end}} />
+                            <p class="help is-danger"></p>
+                            <span class="file-cta">
+                                    <span class="file-icon">
+                                        <i class="fas fa-upload"></i>
+                                    </span>
+                                    <span class="file-label">
+                                        Choose a file…
+                                    </span>
+                                </span>
+                </div>
+                <input  type="image" id="uplProfileView" class='image {{if eq .Data.ImageKey "0`0"}} is-hidden {{end}}'
+                    src="https://artifact{{.Host}}v1/upload/file/{{.Data.ImageKey}}"
                     alt="profile image" />
                 <p class="help is-danger"></p>
             </div>
