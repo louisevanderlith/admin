@@ -1,67 +1,64 @@
 <div class="content">
     <button type="button" class="button is-info is-small" id="btnAddHeader">Add Row</button>
     <form id="frmHeader" role="form">
-        <ul id="lstHeader">
-            {{range $key, $val := .Data.Headers}}
-            <li class="li" id="liHeader{{$key}}" data-id="{{$val.ID}}">
-                <div class="card">
-                    <header class="card-header">
-                        <p class="card-header-title">
-                            <div class="control">
-                                <input type="text" class="input" id="txtHeaderHeading{{$key}}" required
-                                    placeholder="Heading" value="{{$val.Heading}}" />
-                                <p class="help is-danger"></p>
-                            </div>
-                        </p>
-                        <a href="#" data-liID="liHeader{{$key}}" class="card-header-icon" aria-label="more options">
-                            <span class="icon">
-                                <i class="fa fa-close" aria-hidden="true"></i>
-                            </span>
-                        </a>
-                    </header>
-                    <div {{if not $val.ImageKey}} hidden {{end}} class="card-image">
-                        <figure class="image">
-                            <img src="https://artifact{{.Host}}v1/upload/file/{{$val.ImageKey}}" alt="{{$val.Heading}}">
-                        </figure>
+        {{range $key, $val := .Data.Headers}}
+        <div class="card" id="liHeader{{$key}}" data-id="{{$val.ID}}">
+            <header class="card-header">
+                <p class="card-header-title">
+                    <div class="control">
+                        <input type="text" class="input" id="txtHeaderHeading{{$key}}" required placeholder="Heading"
+                            value="{{$val.Heading}}" />
+                        <p class="help is-danger"></p>
                     </div>
-                    <div class="card-content">
-                        <div class="content">
-                            <div class="field">
-                                <div class="control">
-                                    <label class="label" for="uplHeaderImg{{$key}}">Banner</label>
-                                    <div class="file">
-                                        <label class="file-label">
-                                            <input class="file-input" type="file" multiple="false" data-for="banner"
-                                                data-name="Header" data-itemid="{{$val.ID}}" data-id="{{$val.ImageID}}"
-                                                accept=".jpg, .jpeg, .png" id="uplHeaderImg{{$key}}"
-                                                placeholder="Header Banner" {{if not $val.ImageKey}} required {{end}} />
-                                            <p class="help is-danger"></p>
-                                            <span class="file-cta">
-                                                <span class="file-icon">
-                                                    <i class="fas fa-upload"></i>
-                                                </span>
-                                                <span class="file-label">
-                                                    Choose a file…
-                                                </span>
-                                            </span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="field">
-                                <div class="control">
-                                    <label class="label" for="txtHeaderText{{$key}}">Text</label>
-                                    <textarea class="textarea" id="txtHeaderText{{$key}}" placeholder="Text" required
-                                        cols="40" rows="5">{{$val.Text}}</textarea>
+                </p>
+                <a href="#" data-liID="liHeader{{$key}}" class="card-header-icon" aria-label="more options">
+                    <span class="icon">
+                        <i class="fa fa-close" aria-hidden="true"></i>
+                    </span>
+                </a>
+            </header>
+            <div class="card-image">
+                <figure class="image">
+                    <img id="uplHeaderView{{$key}}" class='{{if eq .Data.ImageKey "0`0"}} is-hidden {{end}}'
+                        src="https://artifact{{.Host}}v1/upload/file/{{$val.ImageKey}}" alt="{{$val.Heading}}">
+                </figure>
+            </div>
+            <div class="card-content">
+                <div class="content">
+                    <div class="field">
+                        <div class="control">
+                            <label class="label" for="uplHeaderImg{{$key}}">Banner</label>
+                            <div class="file">
+                                <label class="file-label">
+                                    <input class="file-input" type="file" multiple="false" data-for="banner"
+                                        data-name="Header" data-id="{{$val.ImageKey}}" accept=".jpg, .jpeg, .png"
+                                        id="uplHeaderImg{{$key}}" placeholder="Header Banner"
+                                        {{if eq .Data.ImageKey "0`0"}} required {{end}} />
                                     <p class="help is-danger"></p>
-                                </div>
+                                    <span class="file-cta">
+                                        <span class="file-icon">
+                                            <i class="fas fa-upload"></i>
+                                        </span>
+                                        <span class="file-label">
+                                            Choose a file…
+                                        </span>
+                                    </span>
+                                </label>
                             </div>
                         </div>
                     </div>
+                    <div class="field">
+                        <div class="control">
+                            <label class="label" for="txtHeaderText{{$key}}">Text</label>
+                            <textarea class="textarea" id="txtHeaderText{{$key}}" placeholder="Text" required cols="40"
+                                rows="5">{{$val.Text}}</textarea>
+                            <p class="help is-danger"></p>
+                        </div>
+                    </div>
                 </div>
-            </li>
-            {{end}}
-        </ul>
+            </div>
+        </div>
+        {{end}}
         <button id="btnSaveHeader" class="button is-block is-success is-large is-fullwidth">Save</button>
     </form>
 </div>

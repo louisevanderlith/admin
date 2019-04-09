@@ -48,21 +48,20 @@
                 <div class="file">
                     <label class="file-label">
                         <input class="file-input" type="file" multiple="false" data-for="logo" data-name="Profile"
-                            data-itemid="{{.Data.Key}}" data-id="{{.Data.ImageKey}}" accept=".jpg, .jpeg, .png"
-                            id="uplProfileImg" placeholder="Profile Image" {{if eq .Data.ImageKey "0`0"}} required {{end}} />
-                            <p class="help is-danger"></p>
-                            <span class="file-cta">
-                                    <span class="file-icon">
-                                        <i class="fas fa-upload"></i>
-                                    </span>
-                                    <span class="file-label">
-                                        Choose a file…
-                                    </span>
-                                </span>
+                            data-id="{{.Data.ImageKey}}" accept=".jpg, .jpeg, .png" id="uplProfileImg"
+                            placeholder="Profile Image" {{if eq .Data.ImageKey "0`0"}} required {{end}} />
+                        <p class="help is-danger"></p>
+                        <span class="file-cta">
+                            <span class="file-icon">
+                                <i class="fas fa-upload"></i>
+                            </span>
+                            <span class="file-label">
+                                Choose a file…
+                            </span>
+                        </span>
                 </div>
-                <input  type="image" id="uplProfileView" class='image {{if eq .Data.ImageKey "0`0"}} is-hidden {{end}}'
-                    src="https://artifact{{.Host}}v1/upload/file/{{.Data.ImageKey}}"
-                    alt="profile image" />
+                <input type="image" id="uplProfileView" class='image {{if eq .Data.ImageKey "0`0"}} is-hidden {{end}}'
+                    src="https://artifact{{.Host}}v1/upload/file/{{.Data.ImageKey}}" alt="profile image" />
                 <p class="help is-danger"></p>
             </div>
         </div>

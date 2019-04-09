@@ -1,134 +1,73 @@
 <div class="content">
     <button type="button" class="button is-info is-small" id="btnAddPortfolio">Add Row</button>
     <form id="frmPortfolio" role="form">
-        <ul id="lstHeader">
-            {{range $key, $val := .Data.PortfolioItems}}
-            <li class="li" id="liPortfolio{{$key}}" data-id="{{$val.ID}}">
-                <div class="card">
-                    <header class="card-header">
-                        <p class="card-header-title">
-                            <div class="control">
-                                <input type="text" class="input" id="txtHeaderHeading{{$key}}" required
-                                    placeholder="Heading" value="{{$val.Heading}}" />
-                                <p class="help is-danger"></p>
-                            </div>
-                        </p>
-                        <a href="#" data-liID="liPortfolio{{$key}}" class="card-header-icon" aria-label="more options">
-                            <span class="icon">
-                                <i class="fa fa-close" aria-hidden="true"></i>
-                            </span>
-                        </a>
-                    </header>
-                    <div {{if not $val.ImageKey}} hidden {{end}} class="card-image">
-                        <figure class="image">
-                            <img src="https://artifact{{.Host}}v1/upload/file/{{$val.ImageKey}}" alt="{{$val.Heading}}">
-                        </figure>
+        {{range $key, $val := .Data.PortfolioItems}}
+        <div class="card" id="liPortfolio{{$key}}" data-id="{{$val.ID}}">
+            <header class="card-header">
+                <p class="card-header-title">
+                    <div class="control">
+                        <input type="text" class="input" id="txtHeaderHeading{{$key}}" required placeholder="Heading"
+                            value="{{$val.Heading}}" />
+                        <p class="help is-danger"></p>
                     </div>
-                    <div class="card-content">
-                        <div class="content">
-                            <div class="field">
-                                <div class="control">
-                                    <label class="label" for="uplPortfolioImg{{$key}}">Portfolio image</label>
-                                    <div class="file">
-                                        <label class="file-label">
-                                            <input class="file-input" type="file" multiple="false" data-for="banner"
-                                                data-name="Portfolio" data-itemid="{{$val.ID}}"
-                                                data-id="{{$val.ImageID}}" accept=".jpg, .jpeg, .png"
-                                                id="uplPortfolioImg{{$key}}" placeholder="Portfolio image"
-                                                {{if not $val.ImageKey}} required {{end}} />
-                                            <p class="help is-danger"></p>
-                                            <span class="file-cta">
-                                                <span class="file-icon">
-                                                    <i class="fas fa-upload"></i>
-                                                </span>
-                                                <span class="file-label">
-                                                    Choose a file…
-                                                </span>
-                                            </span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="field">
-                                <div class="control">
-                                    <label for="txtPortfolioName{{$key}}">Name</label>
-                                    <input type="text" class="input" id="txtPortfolioName{{$key}}" required
-                                        placeholder="Name" data-validation-required-message="Please enter a name."
-                                        value="{{$val.Name}}" />
+                </p>
+                <a href="#" data-liID="liPortfolio{{$key}}" class="card-header-icon" aria-label="more options">
+                    <span class="icon">
+                        <i class="fa fa-close" aria-hidden="true"></i>
+                    </span>
+                </a>
+            </header>
+            <div {{if eq $val.ImageKey "0`0"}} hidden {{end}} class="card-image">
+                <figure class="image">
+                    <img id="uplPortfolioView{{$key}}" class='{{if eq $val.ImageKey "0`0"}} is-hidden {{end}}'
+                        src="https://artifact{{.Host}}v1/upload/file/{{$val.ImageKey}}" alt="{{$val.Heading}}">
+                </figure>
+            </div>
+            <div class="card-content">
+                <div class="content">
+                    <div class="field">
+                        <div class="control">
+                            <label class="label" for="uplPortfolioImg{{$key}}">Portfolio image</label>
+                            <div class="file">
+                                <label class="file-label">
+                                    <input class="file-input" type="file" multiple="false" data-for="thumb"
+                                        data-name="Portfolio" data-id="{{$val.ImageKey}}" accept=".jpg, .jpeg, .png"
+                                        id="uplPortfolioImg{{$key}}" placeholder="Portfolio image"
+                                        {{if eq $val.ImageKey "0`0"}} required {{end}} />
                                     <p class="help is-danger"></p>
-                                </div>
+                                    <span class="file-cta">
+                                        <span class="file-icon">
+                                            <i class="fas fa-upload"></i>
+                                        </span>
+                                        <span class="file-label">
+                                            Choose a file…
+                                        </span>
+                                    </span>
+                                </label>
                             </div>
-                            <div class="field">
-                                <div class="control">
-                                    <label for="txtPortfolioURL{{$key}}">URL</label>
-                                    <input class="form-control" type="url" id="txtPortfolioURL{{$key}}" required
-                                        placeholder="URL"
-                                        data-validation-required-message="Please enter the destination URL."
-                                        value="{{$val.URL}}" />
-                                    <p class="help is-danger"></p>
-                                </div>
-                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <label class="label" for="txtPortfolioName{{$key}}">Name</label>
+                            <input type="text" class="input" id="txtPortfolioName{{$key}}" required placeholder="Name"
+                                value="{{$val.Name}}" />
+                            <p class="help is-danger"></p>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <label class="label" for="txtPortfolioURL{{$key}}">URL</label>
+                            <input class="input" type="url" id="txtPortfolioURL{{$key}}" required
+                                placeholder="URL" data-validation-required-message="Please enter the destination URL."
+                                value="{{$val.URL}}" />
+                            <p class="help is-danger"></p>
                         </div>
                     </div>
                 </div>
-            </li>
-            {{end}}
-        </ul>
+            </div>
+        </div>
+        {{end}}
         <button id="btnSaveHeader" class="button is-block is-success is-large is-fullwidth">Save</button>
     </form>
-</div>
-
-
-
-
-
-<div class="card">
-    <h1>Portfolio</h1>
-    <div class="wrapper">
-        <button type="button" class="btn btn-info btn-sm" id="btnAddPortfolio">Add Row</button>
-    </div>
-    <div class="wrapper">
-        <div class="card">
-            <form id="frmPortfolio" role="form" data-toggle="validator">
-                <ul id="lstPortfolio" class="list-group">
-                    {{range $key, $val := .Data.PortfolioItems}}
-                    <li class="list-group-item" id="liPortfolio{{$key}}" data-id="{{$val.ID}}">
-                        <button type="button" class="fa fa-close close removeRow"
-                            data-liID="liPortfolio{{$key}}"></button>
-                        <div class="wrapper">
-                            <div class="card">
-                                <label for="uplPortfolioImg{{$key}}">Icon</label>
-                                <input class="form-control" type="file" multiple="false" data-for="thumb"
-                                    data-name="Portfolio" data-itemid="{{$val.ID}}" data-id="{{$val.ImageID}}"
-                                    accept=".jpg, .jpeg, .png" id="uplPortfolioImg{{$key}}"
-                                    placeholder="Portfolio Image" {{if not $val.ImageURL}} required
-                                    data-validation-required-message="Please provide this item's image." {{end}} />
-                                <input {{if not $val.ImageURL}} hidden {{end}} type="image"
-                                    id="uplPortfolioView{{$key}}" class="img-thumbnail" src="{{$val.ImageURL}}"
-                                    alt="portfolio image" />
-                                <p class="with-errors text-danger"></p>
-                            </div>
-                            <div class="card">
-                                <label for="txtPortfolioName{{$key}}">Name</label>
-                                <input type="text" class="form-control" id="txtPortfolioName{{$key}}" required
-                                    placeholder="Name" data-validation-required-message="Please enter a name."
-                                    value="{{$val.Name}}" />
-                                <p class="with-errors text-danger"></p>
-                            </div>
-                            <div class="card">
-                                <label for="txtPortfolioURL{{$key}}">URL</label>
-                                <input class="form-control" type="url" id="txtPortfolioURL{{$key}}" required
-                                    placeholder="URL"
-                                    data-validation-required-message="Please enter the destination URL."
-                                    value="{{$val.URL}}" />
-                            </div>
-                        </div>
-                    </li>
-                    {{end}}
-                </ul>
-                <a class="btn btn-secondary" href="/site">Back</a>
-                <button type="button" class="btn btn-primary" id="btnSavePortfolio">Save</button>
-            </form>
-        </div>
-    </div>
 </div>

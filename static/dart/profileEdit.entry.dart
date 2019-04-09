@@ -17,7 +17,7 @@ void main() async {
       '#txtEmail', '#txtPhone', '#txtURL', '#uplProfileImg', '#btnSaveSite');
 
   _imageURL = await buildPath('Artifact.API', "upload", ["file"]);
-  querySelector('input[type="file"]').onChange.listen(uploadFile);
+  querySelectorAll('input[type="file"]').onChange.listen(uploadFile);
 }
 
 void uploadFile(Event e) {
@@ -40,30 +40,32 @@ void uploadFile(Event e) {
 }
 
 void doUpload(File file, Map<String, String> infoObj, String ctrlID) {
-  //var reader = new FileReader();
+  var formData = new FormData();
+  formData.appendBlob("file", file);
+  formData.append("info", jsonEncode(infoObj));
 
-  //reader.onLoadEnd.listen((ProgressEvent e) {
-    //var formData = new Map<String, String>();
-    var formData = new FormData();
-    formData.appendBlob("file", file);
-    formData.append("info", jsonEncode(infoObj));
-    
-    createUpload(formData).then((obj) => {finishUpload(obj, infoObj, ctrlID)});
-  //});
-
-  //reader.readAsArrayBuffer(file);
+  createUpload(formData).then((obj) {
+    print(obj.response);
+    var resp = jsonDecode(obj.response);
+    finishUpload(resp, infoObj, ctrlID);
+  });
 }
 
-void finishUpload(
-    Map<String, String> obj, Map<String, String> infoObj, String ctrlID) {
-  var fullURL = _imageURL + "/" + obj["Data"];
+void finishUpload(dynamic obj, Map<String, String> infoObj, String ctrlID) {
+  if (obj['Error'].length > 0) {
+    print(obj['Error']);
+    return;
+  }
+
+  var data = obj['Data'];
+  var fullURL = "${_imageURL}/${data}";
 
   var imageHolder = querySelector("#${ctrlID.replaceFirst('Img', 'View')}");
   var uploader = querySelector("#${ctrlID}");
 
-  imageHolder.attributes.remove('hidden');
+  imageHolder.classes.remove('is-hidden');
   imageHolder.setAttribute('src', fullURL);
 
-  uploader.dataset['id'] = obj['Data'];
+  uploader.dataset['id'] = data;
   uploader.attributes.remove('required');
 }
