@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:html';
 
 import 'pathlookup.dart';
-import 'profileform.dart';
+import 'models/profileform.dart';
 import 'uploadapi.dart';
 
 String _imageURL;
@@ -10,14 +10,30 @@ String _objKey;
 
 void main() async {
   print('Profile Edit');
-  var path = window.location.pathname;
-  _objKey = path.substring(path.lastIndexOf('/') + 1);
 
-  new ProfileForm('#frmBasicsite', _objKey, '#txtTitle', '#txtDescription',
-      '#txtEmail', '#txtPhone', '#txtURL', '#uplProfileImg', '#btnSaveSite');
+  _objKey = getObjKey();
+
+  new ProfileForm(
+      '#frmBasicsite',
+      _objKey,
+      '#txtTitle',
+      '#txtDescription',
+      '#txtEmail',
+      '#txtPhone',
+      '#txtURL',
+      '#uplProfileImg',
+      '#frmHeader',
+      '#frmPortfolio',
+      '#frmSocialmedia',
+      '#btnSave');
 
   _imageURL = await buildPath('Artifact.API', "upload", ["file"]);
   querySelectorAll('input[type="file"]').onChange.listen(uploadFile);
+}
+
+String getObjKey() {
+  var path = window.location.pathname;
+  return path.substring(path.lastIndexOf('/') + 1).replaceFirst('%60', '`');
 }
 
 void uploadFile(Event e) {
@@ -27,9 +43,8 @@ void uploadFile(Event e) {
 
     var forAttr = fileElem.dataset['for'];
     var nameAttr = fileElem.dataset['name'];
-    var idAttr = _objKey.replaceFirst('%60', '`');
     var ctrlID = fileElem.id;
-    var infoObj = {"For": forAttr, "ItemName": nameAttr, "ItemKey": idAttr};
+    var infoObj = {"For": forAttr, "ItemName": nameAttr, "ItemKey": _objKey};
 
     if (files.length > 0) {
       File firstFile = files[0];

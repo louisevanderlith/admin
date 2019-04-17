@@ -8,14 +8,12 @@
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                 <tr>
-                    <th>ID</th>
                     <th>Name</th>
                     <th>Description</th>
                 </tr>
                 </thead>
                 <tfoot>
                 <tr>
-                    <th>ID</th>
                     <th>Name</th>
                     <th>Description</th>
                 </tr>
@@ -23,7 +21,6 @@
                 <tbody>
                 {{range $key, $val := .data}}
                 <tr>
-                    <td>{{$val.ID}}</td>
                     <td>{{$val.Name}}</td>
                     <td>{{$val.Description}}</td>
                 </tr>

@@ -1,9 +1,7 @@
 import 'dart:html';
 import 'dart:convert';
 
-Map<String, String> _pastNames = {
-  "Router.API": routerDefault()
-};
+Map<String, String> _pastNames = {"Router.API": routerDefault()};
 
 String routerDefault() {
   InputElement hostPath = querySelector('#HostID');
@@ -19,10 +17,10 @@ Future<String> getRouterPath(String apiName) async {
 
 Future<String> doLookup(String apiName) async {
   var routerPath = await getRouterPath(apiName);
-  var resp = await HttpRequest.getString(routerPath, onProgress: lookupProgress);
+  var resp =
+      await HttpRequest.getString(routerPath, onProgress: lookupProgress);
   final json = jsonDecode(resp);
 
-  print(json);
   return json["Data"];
 }
 
@@ -44,7 +42,7 @@ Future<String> getServiceURL(String apiName) async {
 Future<String> buildPath(
     String apiName, String controller, List<String> params) async {
   var url = await getServiceURL(apiName);
-  print("URL \t" + url);
+
   var result = url + 'v1/' + controller;
 
   for (var i = 0; i < params.length; i++) {

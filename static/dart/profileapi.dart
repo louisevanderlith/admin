@@ -3,10 +3,14 @@ import 'dart:html';
 
 import 'pathlookup.dart';
 
-Future updateProfile(Object data) async {
-  var url = await buildPath("Folio.API", "message", new List<String>());
-  var resp = await HttpRequest.requestCrossOrigin(url,
+Future<String> createProfile(Object data) async {
+  var url = await buildPath("Folio.API", "profile", new List<String>());
+  return HttpRequest.requestCrossOrigin(url,
       method: "POST", sendData: jsonEncode(data));
+}
 
-  print(resp);
+Future<String> updateProfile(Object data) async {
+  var url = await buildPath("Folio.API", "profile", new List<String>());
+  return HttpRequest.requestCrossOrigin(url,
+      method: "PUT", sendData: jsonEncode(data));
 }

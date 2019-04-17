@@ -15,7 +15,6 @@ function addSite() {
         ContactEmail: "fake@email.com",
         ContactPhone: "000",
         URL: "https://avosa.co.za",
-        StyleSheet: "none.css",
     };
 
     let success = function (obj) {

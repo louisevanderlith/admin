@@ -3,7 +3,7 @@
     <form id="frmSocialmedia" role="form">
         <div class="field">
             {{range $key, $val := .Data.SocialLinks}}
-            <div class="card" id="liSocial{{$key}}" data-id="{{$val.ID}}">
+            <div class="card">
                 <header class="card-header">
                     <a href="#" data-liID="liSocial{{$key}}" class="card-header-icon" aria-label="more options">
                         <span class="icon">
@@ -34,6 +34,5 @@
             </div>
             {{end}}
         </div>
-        <button id="btnSaveSocial" class="button is-block is-success is-large is-fullwidth">Save</button>
     </form>
 </div>

@@ -2,7 +2,7 @@
     <button type="button" class="button is-info is-small" id="btnAddPortfolio">Add Row</button>
     <form id="frmPortfolio" role="form">
         {{range $key, $val := .Data.PortfolioItems}}
-        <div class="card" id="liPortfolio{{$key}}" data-id="{{$val.ID}}">
+        <div class="card">
             <header class="card-header">
                 <p class="card-header-title">
                     <div class="control">
@@ -19,8 +19,8 @@
             </header>
             <div {{if eq $val.ImageKey "0`0"}} hidden {{end}} class="card-image">
                 <figure class="image">
-                    <img id="uplPortfolioView{{$key}}" class='{{if eq $val.ImageKey "0`0"}} is-hidden {{end}}'
-                        src="https://artifact{{.Host}}v1/upload/file/{{$val.ImageKey}}" alt="{{$val.Heading}}">
+                    <img id="uplPortfolioView{{$key}}" src="https://artifact{{.Host}}v1/upload/file/{{$val.ImageKey}}"
+                        class='{{if eq $val.ImageKey "0`0"}}is-hidden{{end}}' alt="{{$val.Heading}}">
                 </figure>
             </div>
             <div class="card-content">
@@ -58,8 +58,8 @@
                     <div class="field">
                         <div class="control">
                             <label class="label" for="txtPortfolioURL{{$key}}">URL</label>
-                            <input class="input" type="url" id="txtPortfolioURL{{$key}}" required
-                                placeholder="URL" data-validation-required-message="Please enter the destination URL."
+                            <input class="input" type="url" id="txtPortfolioURL{{$key}}" required placeholder="URL"
+                                data-validation-required-message="Please enter the destination URL."
                                 value="{{$val.URL}}" />
                             <p class="help is-danger"></p>
                         </div>
@@ -68,6 +68,5 @@
             </div>
         </div>
         {{end}}
-        <button id="btnSaveHeader" class="button is-block is-success is-large is-fullwidth">Save</button>
     </form>
 </div>

@@ -1,6 +1,12 @@
 import 'dart:html';
-import 'formstate.dart';
-import 'profileapi.dart';
+import '../formstate.dart';
+import '../profileapi.dart';
+import 'headerform.dart';
+import 'headeritem.dart';
+import 'portfolioform.dart';
+import 'portfolioitem.dart';
+import 'socialmediaform.dart';
+import 'socialmediaitem.dart';
 
 class ProfileForm extends FormState {
   String _objKey;
@@ -10,7 +16,11 @@ class ProfileForm extends FormState {
   TelephoneInputElement _phone;
   TextInputElement _url;
   FileUploadInputElement _image;
-  
+
+  HeaderForm _headers;
+  PortfolioForm _portfolios;
+  SocialmediaForm _socialmedia;
+
   ProfileForm(
       String idElem,
       String objKey,
@@ -20,6 +30,9 @@ class ProfileForm extends FormState {
       String phoneElem,
       String urlElem,
       String imageElem,
+      String frmHeader,
+      String frmPortfolio,
+      String frmSocialmedia,
       String submitBtn)
       : super(idElem, submitBtn) {
     _objKey = objKey;
@@ -30,8 +43,12 @@ class ProfileForm extends FormState {
     _url = querySelector(urlElem);
     _image = querySelector(imageElem);
 
+    _headers = new HeaderForm(frmHeader, submitBtn);
+    _socialmedia = new SocialmediaForm(frmSocialmedia, submitBtn);
+    _portfolios = new PortfolioForm(frmPortfolio, submitBtn);
+
     querySelector(submitBtn).onClick.listen(onSend);
-    registerValidation();
+    registerFormElements([_name, _description, _email, _phone, _url, _image]);
   }
 
   String get name {
@@ -58,40 +75,16 @@ class ProfileForm extends FormState {
     return _image.dataset["id"];
   }
 
-  void registerValidation() {
-    _name.onBlur.listen((e) => {validate(e, _name)});
-    _description.onBlur.listen((e) => {validateArea(e, _description)});
-    _email.onBlur.listen((e) => {validate(e, _email)});
-    _phone.onBlur.listen((e) => {validate(e, _phone)});
-    _url.onBlur.listen((e) => {validate(e, _url)});
+  List<PortfolioItem> get portfolioItems {
+    return _portfolios.items;
   }
 
-  void validate(Event e, InputElement elem) {
-    var elemValid = elem.checkValidity();
-
-    if (!elemValid) {
-      elem.setAttribute("invalid", "");
-    } else {
-      elem.removeAttribute("invalid");
-    }
-
-    elem.nextElementSibling.text = elem.validationMessage;
-
-    super.disableSubmit(!super.isFormValid());
+  List<SocialmediaItem> get socialmediaItems {
+    return _socialmedia.items;
   }
 
-  void validateArea(Event e, TextAreaElement elem) {
-    var elemValid = elem.checkValidity();
-
-    if (!elemValid) {
-      elem.setAttribute("invalid", "");
-    } else {
-      elem.removeAttribute("invalid");
-    }
-
-    elem.nextElementSibling.text = elem.validationMessage;
-
-    super.disableSubmit(!super.isFormValid());
+  List<HeaderItem> get headerItems {
+    return _headers.items;
   }
 
   void onSend(Event e) {
@@ -103,13 +96,18 @@ class ProfileForm extends FormState {
 
   Future submitSend() async {
     var obj = {
-      "Id": _objKey,
-      "Title": name,
-      "Description": description,
-      "ContactEmail": email,
-      "ContactPhone": phone,
-      "URL": url,
-      "ImageKey": imageKey,
+      "Key": _objKey,
+      "Body": {
+        "Title": name,
+        "Description": description,
+        "ContactEmail": email,
+        "ContactPhone": phone,
+        "URL": url,
+        "ImageKey": imageKey,
+        "PortfolioItems": portfolioItems,
+        "SocialLinks": socialmediaItems,
+        "Headers": headerItems
+      }
     };
 
     return await updateProfile(obj);
