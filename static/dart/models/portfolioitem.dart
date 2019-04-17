@@ -1,4 +1,5 @@
 import 'dart:html';
+import '../uploadapi.dart';
 
 class PortfolioItem {
   FileUploadInputElement _image;
@@ -6,12 +7,17 @@ class PortfolioItem {
   UrlInputElement _url;
   bool _loaded;
 
-  PortfolioItem(String imageElem, String nameElem, String urlElem) {
+  PortfolioItem(
+      String imageElem, String nameElem, String urlElem) {
     _image = querySelector(imageElem);
     _name = querySelector(nameElem);
     _url = querySelector(urlElem);
 
     _loaded = _image != null && _name != null && _url != null;
+
+    if (_loaded) {
+      _image.onChange.listen(uploadFile);
+    }
   }
 
   String get imageKey {
@@ -31,6 +37,6 @@ class PortfolioItem {
   }
 
   Object toJson() {
-    return {"imageKey": imageKey, "name": name, "url": url};
+    return {"ImageKey": imageKey, "Name": name, "URL": url};
   }
 }

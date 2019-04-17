@@ -4,15 +4,20 @@ import '../formstate.dart';
 import 'headeritem.dart';
 
 class HeaderForm extends FormState {
-  List<HeaderItem> _headerIDs;
-  ButtonElement _submit;
+  List<HeaderItem> _items;
 
-  HeaderForm(String idElem, String btnSubmit) : super(idElem, btnSubmit) {
-    _headerIDs = findHeaders();
+  HeaderForm(String idElem, String btnSubmit, String btnAdd) : super(idElem, btnSubmit) {
+    _items = findHeaders();
+
+    querySelector(btnAdd).onClick.listen(onAddClick);
+  }
+
+  void onAddClick(MouseEvent e) {
+    addHeader();
   }
 
   List<HeaderItem> get items {
-    return _headerIDs;
+    return _items;
   }
 
   void addHeader() {
@@ -25,8 +30,7 @@ class HeaderForm extends FormState {
     var item = new HeaderItem("#uplHeaderImg${indx}",
         "#txtHeaderHeading${indx}", "#txtHeaderText${indx}");
 
-    //add to items
-    _headerIDs.add(item);
+    _items.add(item);
   }
 
   List<HeaderItem> findHeaders() {
@@ -53,7 +57,7 @@ class HeaderForm extends FormState {
   //returns HTML for a Header Item
   Element buildElement(int index) {
     var schema = '''
-    <div class="card" id="liHeader${index}" data-id="0`0">
+    <div class="card">
             <header class="card-header">
                 <p class="card-header-title">
                     <div class="control">
@@ -100,7 +104,7 @@ class HeaderForm extends FormState {
                         <div class="control">
                             <label class="label" for="txtHeaderText${index}">Text</label>
                             <textarea id="txtHeaderText${index}"
-                            class="textarea"  placeholder="Text" required cols="40" rows="5">Provide some text...</textarea>
+                            class="textarea"  placeholder="Text" required cols="40" rows="5"></textarea>
                             <p class="help is-danger"></p>
                         </div>
                     </div>

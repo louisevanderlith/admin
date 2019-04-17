@@ -25,6 +25,6 @@ class SocialmediaItem {
   }
 
   Object toJson() {
-    return {"icon": icon, "url": url};
+    return {"Icon": icon, "URL": url};
   }
 }

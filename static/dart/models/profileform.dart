@@ -7,6 +7,7 @@ import 'portfolioform.dart';
 import 'portfolioitem.dart';
 import 'socialmediaform.dart';
 import 'socialmediaitem.dart';
+import '../uploadapi.dart';
 
 class ProfileForm extends FormState {
   String _objKey;
@@ -31,8 +32,11 @@ class ProfileForm extends FormState {
       String urlElem,
       String imageElem,
       String frmHeader,
+      String addHeader,
       String frmPortfolio,
+      String addPortfolio,
       String frmSocialmedia,
+      String addSocial,
       String submitBtn)
       : super(idElem, submitBtn) {
     _objKey = objKey;
@@ -43,12 +47,15 @@ class ProfileForm extends FormState {
     _url = querySelector(urlElem);
     _image = querySelector(imageElem);
 
-    _headers = new HeaderForm(frmHeader, submitBtn);
-    _socialmedia = new SocialmediaForm(frmSocialmedia, submitBtn);
-    _portfolios = new PortfolioForm(frmPortfolio, submitBtn);
+    _headers = new HeaderForm(frmHeader, submitBtn, addHeader);
+    _socialmedia = new SocialmediaForm(frmSocialmedia, submitBtn, addSocial);
+    _portfolios =
+        new PortfolioForm(frmPortfolio, submitBtn, addPortfolio);
 
     querySelector(submitBtn).onClick.listen(onSend);
     registerFormElements([_name, _description, _email, _phone, _url, _image]);
+
+    _image.onChange.listen(uploadFile);
   }
 
   String get name {

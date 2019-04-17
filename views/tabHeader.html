@@ -1,6 +1,7 @@
 <div class="content">
     <button type="button" class="button is-info is-small" id="btnAddHeader">Add Row</button>
     <form id="frmHeader" role="form">
+        {{$host := .Host}}
         {{range $key, $val := .Data.Headers}}
         <div class="card">
             <header class="card-header">
@@ -20,7 +21,7 @@
             <div class="card-image">
                 <figure class="image">
                     <img id="uplHeaderView{{$key}}" class='{{if eq .Data.ImageKey "0`0"}} is-hidden {{end}}'
-                        src="https://artifact{{.Host}}v1/upload/file/{{$val.ImageKey}}" alt="{{$val.Heading}}">
+                        src="https://artifact{{$host}}v1/upload/file/{{$val.ImageKey}}" alt="{{$val.Heading}}">
                 </figure>
             </div>
             <div class="card-content">

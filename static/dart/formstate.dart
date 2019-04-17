@@ -31,11 +31,37 @@ class FormState {
 
   void registerFormElements(List<Element> elements) {
     for (var elem in elements) {
-      elem.onBlur.listen((e) => {validateElement(e, elem)});
+      var runtime = elem.runtimeType.toString();
+      Function validFunc;
+      if (runtime == "InputElement") {
+        validFunc = validateElement;
+      }
+
+      if (runtime == "TextAreaElement") {
+        validFunc = validateAreaElement;
+      }
+
+      if (validFunc != null) {
+        elem.onBlur.listen((e) => validFunc(e, elem));
+      }
     }
   }
 
   void validateElement(Event e, InputElement elem) {
+    var elemValid = elem.checkValidity();
+
+    if (!elemValid) {
+      elem.setAttribute("invalid", "");
+    } else {
+      elem.removeAttribute("invalid");
+    }
+
+    elem.nextElementSibling.text = elem.validationMessage;
+
+    disableSubmit(!isFormValid());
+  }
+
+  void validateAreaElement(Event e, TextAreaElement elem) {
     var elemValid = elem.checkValidity();
 
     if (!elemValid) {

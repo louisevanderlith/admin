@@ -1,4 +1,5 @@
 import 'dart:html';
+import '../uploadapi.dart';
 
 class HeaderItem {
   FileUploadInputElement _image;
@@ -12,6 +13,10 @@ class HeaderItem {
     _text = querySelector(textElem);
 
     _loaded = _image != null && _heading != null && _text != null;
+
+    if (_loaded) {
+      _image.onChange.listen(uploadFile);
+    }
   }
 
   String get imageKey {
@@ -31,6 +36,6 @@ class HeaderItem {
   }
 
   Object toJson() {
-    return {"imageKey": imageKey, "heading": heading, "text": text};
+    return {"ImageKey": imageKey, "Heading": heading, "Text": text};
   }
 }
