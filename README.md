@@ -4,9 +4,9 @@ Mango Web: Admin
 Admin is the back-office application used to manage Mango modules.
 
 ## Run with Docker
-* $ docker build -t avosa/admin:latest .
+* $ docker build -t avosa/admin:dev .
 * $ docker rm AdminDEV
-* $ docker run -d -e RUNMODE=DEV -p 8088:8088 --network mango_net --name AdminDEV avosa/admin:latest 
+* $ docker run -d -e RUNMODE=DEV -p 8088:8088 --network mango_net --name AdminDEV avosa/admin:dev 
 * $ docker logs AdminDEV
 
 ## Run with docker-compose
