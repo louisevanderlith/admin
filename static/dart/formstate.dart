@@ -20,7 +20,7 @@ class FormState {
   ButtonElement get submit {
     return _sendBtn;
   }
-
+  
   bool isFormValid() {
     return _form.checkValidity();
   }

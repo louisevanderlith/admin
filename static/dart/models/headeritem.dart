@@ -4,7 +4,7 @@ import '../uploadapi.dart';
 class HeaderItem {
   FileUploadInputElement _image;
   TextInputElement _heading;
-  TextInputElement _text;
+  TextAreaElement _text;
   bool _loaded;
 
   HeaderItem(String imageElem, String headingElem, String textElem) {
@@ -34,7 +34,7 @@ class HeaderItem {
   bool loaded() {
     return _loaded;
   }
-
+  
   Object toJson() {
     return {"ImageKey": imageKey, "Heading": heading, "Text": text};
   }

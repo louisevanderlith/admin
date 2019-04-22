@@ -11,8 +11,9 @@ type CommsController struct {
 	control.UIController
 }
 
-func NewCommsCtrl(ctrlMap *control.ControllerMap) *CommsController {
+func NewCommsCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) *CommsController {
 	result := &CommsController{}
+	result.SetTheme(settings)
 	result.SetInstanceMap(ctrlMap)
 
 	return result
@@ -23,19 +24,9 @@ func (c *CommsController) Get() {
 	c.CreateSideMenu(logic.GetMenu("/comms"))
 
 	result := []interface{}{}
-	fail, err := mango.DoGET(&result, c.GetInstanceID(), "Comms.API", "message", "all", "A10")
+	err := mango.DoGET(&result, c.GetInstanceID(), "Comms.API", "message", "all", "A10")
 
-	if err != nil {
-		c.Serve(nil, err)
-		return
-	}
-
-	if fail != nil {
-		c.Serve(nil, fail)
-		return
-	}
-
-	c.Serve(result, nil)
+	c.Serve(result, err)
 }
 
 func (c *CommsController) GetView() {
@@ -49,17 +40,7 @@ func (c *CommsController) GetView() {
 	}
 
 	result := make(map[string]interface{})
-	fail, err := mango.DoGET(&result, c.GetInstanceID(), "Comms.API", "message", key.String())
+	err = mango.DoGET(&result, c.GetInstanceID(), "Comms.API", "message", key.String())
 
-	if err != nil {
-		c.Serve(nil, err)
-		return
-	}
-
-	if fail != nil {
-		c.Serve(nil, fail)
-		return
-	}
-
-	c.Serve(result, nil)
+	c.Serve(result, err)
 }
