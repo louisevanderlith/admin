@@ -28,15 +28,10 @@ func GetSubCategories(instanceID string) ([]LookupObj, error) {
 
 func getLookup(instanceID, controller string) ([]LookupObj, error) {
 	result := []LookupObj{}
-
-	fail, err := mango.DoGET(&result, instanceID, "Things.API", controller)
+	err := mango.DoGET(&result, instanceID, "Things.API", controller)
 
 	if err != nil {
 		return result, err
-	}
-
-	if fail != nil {
-		return result, fail
 	}
 
 	return result, nil

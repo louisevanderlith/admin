@@ -1,6 +1,7 @@
 import 'dart:html';
 
 import '../formstate.dart';
+import '../trustvalidator.dart';
 import 'socialmediaitem.dart';
 
 class SocialmediaForm extends FormState {
@@ -8,7 +9,7 @@ class SocialmediaForm extends FormState {
 
   SocialmediaForm(String idElem, String btnSubmit, String btnAdd)
       : super(idElem, btnSubmit) {
-    _items = findSocials(btnSubmit);
+    _items = findSocials();
 
     querySelector(btnAdd).onClick.listen(onAddClick);
   }
@@ -21,7 +22,7 @@ class SocialmediaForm extends FormState {
     return _items;
   }
 
-  List<SocialmediaItem> findSocials(String btnSubmit) {
+  List<SocialmediaItem> findSocials() {
     var hasSocial = false;
     var result = new List<SocialmediaItem>();
     var indx = 0;
@@ -47,7 +48,7 @@ class SocialmediaForm extends FormState {
 
     var schema = buildElement(indx);
     form.children.add(schema);
-
+  
     var item =
         new SocialmediaItem('#txtSocialIcon${indx}', '#txtSocialURL${indx}');
 
@@ -88,6 +89,6 @@ class SocialmediaForm extends FormState {
             </div>
         ''';
 
-    return new Element.html(schema);
+    return new Element.html(schema, validator: new TrustedNodeValidator());
   }
 }

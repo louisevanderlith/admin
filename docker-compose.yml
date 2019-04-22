@@ -9,7 +9,6 @@ services:
         - HOST=${HOST}
       depends_on:
         - RouterDEV
-        - FolioDEV
         - ThemeDEV
         - SecureDEV
         - ArtifactDEV
@@ -55,8 +54,8 @@ services:
     networks:
         - mango_net
     depends_on:
-        - RouterDEV
-    command: ["./wait-for-it.sh", "RouterDEV:8080", "--", "python", "app.py"]
+        - FolioDEV
+    command: ["./wait-for-it.sh", "FolioDEV:8090", "--", "python", "app.py"]
 
   GateDEV:
     image: avosa/gate:dev

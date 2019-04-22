@@ -13,8 +13,9 @@ type ProfileController struct {
 	control.UIController
 }
 
-func NewProfileCtrl(ctrlMap *control.ControllerMap) *ProfileController {
+func NewProfileCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) *ProfileController {
 	result := &ProfileController{}
+	result.SetTheme(settings)
 	result.SetInstanceMap(ctrlMap)
 
 	return result
@@ -26,23 +27,14 @@ func (c *ProfileController) Get() {
 
 	result := []interface{}{}
 	pagesize := c.Ctx.Input.Param(":pagesize")
-	fail, err := mango.DoGET(&result, c.GetInstanceID(), "Folio.API", "profile", "all", pagesize)
+	err := mango.DoGET(&result, c.GetInstanceID(), "Folio.API", "profile", "all", pagesize)
 
-	if err != nil {
-		c.Serve(nil, err)
-		return
-	}
-
-	if fail != nil {
-		c.Serve(nil, fail)
-		return
-	}
-
-	c.Serve(result, nil)
+	c.Serve(result, err)
 }
 
 func (c *ProfileController) GetEdit() {
 	c.Setup("profileEdit", "Edit Profile", true)
+	c.CreateSideMenu(logic.GetMenu("/profile"))
 	key, err := husk.ParseKey(c.Ctx.Input.Param(":key"))
 
 	if err != nil {
@@ -50,17 +42,7 @@ func (c *ProfileController) GetEdit() {
 	}
 
 	result := make(map[string]interface{})
-	fail, err := mango.DoGET(&result, c.GetInstanceID(), "Folio.API", "profile", key.String())
+	err = mango.DoGET(&result, c.GetInstanceID(), "Folio.API", "profile", key.String())
 
-	if err != nil {
-		c.Serve(nil, err)
-		return
-	}
-
-	if fail != nil {
-		c.Serve(nil, fail)
-		return
-	}
-
-	c.Serve(result, nil)
+	c.Serve(result, err)
 }
