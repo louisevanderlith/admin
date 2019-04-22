@@ -1,15 +1,15 @@
 import 'dart:html';
 
 import '../formstate.dart';
+import '../trustvalidator.dart';
 import 'portfolioitem.dart';
 
 class PortfolioForm extends FormState {
   List<PortfolioItem> _items;
-  String _objKey;
 
   PortfolioForm(String idElem, String btnSubmit, String btnAdd)
       : super(idElem, btnSubmit) {
-    _items = findPortfolios(btnSubmit);
+    _items = findPortfolios();
 
     querySelector(btnAdd).onClick.listen(onAddClick);
   }
@@ -22,7 +22,7 @@ class PortfolioForm extends FormState {
     return _items;
   }
 
-  List<PortfolioItem> findPortfolios(String btnSubmit) {
+  List<PortfolioItem> findPortfolios() {
     var hasPortf = false;
     var result = new List<PortfolioItem>();
     var indx = 0;
@@ -124,6 +124,6 @@ class PortfolioForm extends FormState {
         </div>
     ''';
 
-    return new Element.html(schema);
+    return new Element.html(schema, validator: new TrustedNodeValidator());
   }
 }

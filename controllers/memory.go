@@ -10,8 +10,9 @@ type MemoryController struct {
 	control.UIController
 }
 
-func NewMemoryCtrl(ctrlMap *control.ControllerMap) *MemoryController {
+func NewMemoryCtrl(ctrlMap *control.ControllerMap, setting mango.ThemeSetting) *MemoryController {
 	result := &MemoryController{}
+	result.SetTheme(setting)
 	result.SetInstanceMap(ctrlMap)
 
 	return result
@@ -22,17 +23,7 @@ func (c *MemoryController) Get() {
 	c.CreateSideMenu(logic.GetMenu("/memory"))
 
 	result := []interface{}{}
-	fail, err := mango.DoGET(&result, c.GetInstanceID(), "Router.API", "memory")
+	err := mango.DoGET(&result, c.GetInstanceID(), "Router.API", "memory")
 
-	if err != nil {
-		c.Serve(nil, err)
-		return
-	}
-
-	if fail != nil {
-		c.Serve(nil, fail)
-		return
-	}
-
-	c.Serve(result, nil)
+	c.Serve(result, err)
 }

@@ -1,6 +1,7 @@
 import 'dart:html';
 
 import '../formstate.dart';
+import '../trustvalidator.dart';
 import 'headeritem.dart';
 
 class HeaderForm extends FormState {
@@ -113,6 +114,6 @@ class HeaderForm extends FormState {
         </div>
     ''';
 
-    return new Element.html(schema);
+    return new Element.html(schema, validator: new TrustedNodeValidator());
   }
 }
