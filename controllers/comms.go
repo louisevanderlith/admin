@@ -20,7 +20,7 @@ func NewCommsCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) *
 }
 
 func (c *CommsController) Get() {
-	c.Setup("comms", "Messages", true)
+	c.Setup("comms", "Messages", false)
 	c.CreateSideMenu(logic.GetMenu("/comms"))
 
 	result := []interface{}{}
@@ -30,7 +30,7 @@ func (c *CommsController) Get() {
 }
 
 func (c *CommsController) GetView() {
-	c.Setup("commsView", "View Message", true)
+	c.Setup("commsView", "View Message", false)
 	c.CreateSideMenu(logic.GetMenu("/comms"))
 
 	key, err := husk.ParseKey(c.Ctx.Input.Param(":key"))
