@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"log"
+
 	"github.com/louisevanderlith/husk"
 	"github.com/louisevanderlith/mango"
 
@@ -27,7 +29,8 @@ func (c *ProfileController) Get() {
 
 	result := []interface{}{}
 	pagesize := c.Ctx.Input.Param(":pagesize")
-	err := mango.DoGET(&result, c.GetInstanceID(), "Folio.API", "profile", "all", pagesize)
+
+	_, err := mango.DoGET(c.GetMyToken(), &result, c.GetInstanceID(), "Folio.API", "profile", "all", pagesize)
 
 	c.Serve(result, err)
 }
@@ -42,7 +45,11 @@ func (c *ProfileController) GetEdit() {
 	}
 
 	result := make(map[string]interface{})
-	err = mango.DoGET(&result, c.GetInstanceID(), "Folio.API", "profile", key.String())
+	_, err = mango.DoGET(c.GetMyToken(), &result, c.GetInstanceID(), "Folio.API", "profile", key.String())
+
+	if err != nil {
+		log.Println(err)
+	}
 
 	c.Serve(result, err)
 }

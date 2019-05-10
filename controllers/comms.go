@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"log"
+
 	"github.com/louisevanderlith/admin/logic"
 	"github.com/louisevanderlith/husk"
 	"github.com/louisevanderlith/mango"
@@ -20,17 +22,17 @@ func NewCommsCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) *
 }
 
 func (c *CommsController) Get() {
-	c.Setup("comms", "Messages", true)
+	c.Setup("comms", "Messages", false)
 	c.CreateSideMenu(logic.GetMenu("/comms"))
 
 	result := []interface{}{}
-	err := mango.DoGET(&result, c.GetInstanceID(), "Comms.API", "message", "all", "A10")
+	_, err := mango.DoGET(c.GetMyToken(), &result, c.GetInstanceID(), "Comms.API", "message", "all", "A10")
 
 	c.Serve(result, err)
 }
 
 func (c *CommsController) GetView() {
-	c.Setup("commsView", "View Message", true)
+	c.Setup("commsView", "View Message", false)
 	c.CreateSideMenu(logic.GetMenu("/comms"))
 
 	key, err := husk.ParseKey(c.Ctx.Input.Param(":key"))
@@ -40,7 +42,11 @@ func (c *CommsController) GetView() {
 	}
 
 	result := make(map[string]interface{})
-	err = mango.DoGET(&result, c.GetInstanceID(), "Comms.API", "message", key.String())
+	_, err = mango.DoGET(c.GetMyToken(), &result, c.GetInstanceID(), "Comms.API", "message", key.String())
+
+	if err != nil {
+		log.Println(err)
+	}
 
 	c.Serve(result, err)
 }
