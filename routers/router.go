@@ -19,15 +19,25 @@ func Setup(s *mango.Service) {
 		panic(err)
 	}
 
-	commsCtrl := controllers.NewCommsCtrl(ctrlmap, theme)
-	profileCtrl := controllers.NewProfileCtrl(ctrlmap, theme)
-
 	beego.Router("/", controllers.NewDefaultCtrl(ctrlmap, theme))
-	beego.Router("/comms", commsCtrl, "get:Get")
-	beego.Router("/comms/:key", commsCtrl, "get:GetView")
+
+	commsCtrl := controllers.NewCommsCtrl(ctrlmap, theme)
+	beego.Router("/comms/:pagesize", commsCtrl, "get:Get")
+	beego.Router("/comm/:key", commsCtrl, "get:GetView")
+
+	profileCtrl := controllers.NewProfileCtrl(ctrlmap, theme)
 	beego.Router("/profiles/:pagesize", profileCtrl, "get:Get")
 	beego.Router("/profile/:key", profileCtrl, "get:GetEdit")
+
+	uploadsCtrl := controllers.NewUploadsCtrl(ctrlmap, theme)
+	beego.Router("/uploads/:pagesize", uploadsCtrl, "get:Get")
+	beego.Router("/upload/:key", uploadsCtrl, "get:GetView")
+
 	beego.Router("/memory", controllers.NewMemoryCtrl(ctrlmap, theme))
+
+	userCtrl := controllers.NewUserCtrl(ctrlmap, theme)
+	beego.Router("/users/:pagesize", userCtrl, "get:Get")
+	//beego.Router("/profile/:key", profileCtrl, "get:GetEdit")
 }
 
 func EnableFilters(s *mango.Service) *control.ControllerMap {
@@ -38,9 +48,9 @@ func EnableFilters(s *mango.Service) *control.ControllerMap {
 
 	ctrlmap.Add("/", emptyMap)
 	ctrlmap.Add("/comms", emptyMap)
-	ctrlmap.Add("/profiles", emptyMap)
 	ctrlmap.Add("/profile", emptyMap)
 	ctrlmap.Add("/memory", emptyMap)
+	ctrlmap.Add("/user", emptyMap)
 
 	beego.InsertFilter("/*", beego.BeforeRouter, ctrlmap.FilterUI)
 

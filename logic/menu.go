@@ -29,21 +29,21 @@ func getItems(path string) *control.Menu {
 
 func artifactChlidren(path string) *control.Menu {
 	children := control.NewMenu(path)
-	children.AddItem("/uploads", "Uploads", "fa-newspaper-o", nil)
+	children.AddItem("/uploads/A10", "Uploads", "fa-newspaper-o", nil)
 
 	return children
 }
 
 func commentChildren(path string) *control.Menu {
 	children := control.NewMenu(path)
-	children.AddItem("/comment", "Comments", "fa-bath", nil)
+	children.AddItem("/comments/A10", "Comments", "fa-bath", nil)
 
-	return children;
+	return children
 }
 
 func commsChildren(path string) *control.Menu {
 	children := control.NewMenu(path)
-	children.AddItem("/comms", "Messages", "fa-newspaper-o", nil)
+	children.AddItem("/comms/A10", "Messages", "fa-newspaper-o", nil)
 
 	return children
 }
@@ -57,7 +57,7 @@ func folioChildren(path string) *control.Menu {
 
 func gameChildren(path string) *control.Menu {
 	children := control.NewMenu(path)
-	children.AddItem("/heroes", "Heroes", "fa-sword", nil)
+	children.AddItem("/heroes/A10", "Heroes", "fa-sword", nil)
 
 	return children
 }
@@ -68,7 +68,7 @@ func gateChildren(path string) *control.Menu {
 
 func logbookChildren(path string) *control.Menu {
 	children := control.NewMenu(path)
-	children.AddItem("/history", "Service History", "fa-blind", nil)
+	children.AddItem("/history/A10", "Service History", "fa-blind", nil)
 
 	return children
 }
@@ -90,7 +90,7 @@ func themeChildren(path string) *control.Menu {
 
 func secureChildren(path string) *control.Menu {
 	children := control.NewMenu(path)
-	children.AddItem("/user", "Users", "fa-user", nil)
+	children.AddItem("/users/A10", "Users", "fa-user", nil)
 
 	return children
 }
