@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"log"
+
 	"github.com/louisevanderlith/admin/logic"
 	"github.com/louisevanderlith/mango"
 	"github.com/louisevanderlith/mango/control"
@@ -22,8 +24,13 @@ func (c *MemoryController) Get() {
 	c.Setup("memory", "Memory", true)
 	c.CreateSideMenu(logic.GetMenu("/memory"))
 
-	result := []interface{}{}
-	err := mango.DoGET(&result, c.GetInstanceID(), "Router.API", "memory")
+	result := make(map[string]interface{})
+
+	_, err := mango.DoGET(c.GetMyToken(), &result, c.GetInstanceID(), "Router.API", "memory")
+
+	if err != nil {
+		log.Println(err)
+	}
 
 	c.Serve(result, err)
 }

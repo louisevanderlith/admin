@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"log"
+
 	"github.com/louisevanderlith/admin/logic"
 	"github.com/louisevanderlith/husk"
 	"github.com/louisevanderlith/mango"
@@ -24,7 +26,7 @@ func (c *CommsController) Get() {
 	c.CreateSideMenu(logic.GetMenu("/comms"))
 
 	result := []interface{}{}
-	err := mango.DoGET(&result, c.GetInstanceID(), "Comms.API", "message", "all", "A10")
+	_, err := mango.DoGET(c.GetMyToken(), &result, c.GetInstanceID(), "Comms.API", "message", "all", "A10")
 
 	c.Serve(result, err)
 }
@@ -40,7 +42,11 @@ func (c *CommsController) GetView() {
 	}
 
 	result := make(map[string]interface{})
-	err = mango.DoGET(&result, c.GetInstanceID(), "Comms.API", "message", key.String())
+	_, err = mango.DoGET(c.GetMyToken(), &result, c.GetInstanceID(), "Comms.API", "message", key.String())
+
+	if err != nil {
+		log.Println(err)
+	}
 
 	c.Serve(result, err)
 }

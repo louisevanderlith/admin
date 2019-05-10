@@ -1,5 +1,45 @@
-<div class="card">
-    <div class="wrapper">
-        
+<nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+        <li><a href="/">Router.API</a></li>
+        <li><a href="/memory">Memory</a></li>
+    </ul>
+</nav>
+<section class="hero is-info welcome is-small">
+    <div class="hero-body">
+        <div class="container">
+            <h1 class="title">
+                Memory
+            </h1>
+            <p class="sub-title">
+                Shows services registered with the Router.API
+            </p>
+        </div>
     </div>
-</div>
+</section>
+<section class="container cards-container">
+    <div class="columns is-centered is-multiline" id="sectioncontainer">
+        {{range $key, $items := .Data}}
+        <div class="column is-narrow">
+            <article class="message is-info">
+                <div class="message-header">
+                    <p>{{ $key }}</p>
+                    <!--<button class="delete" aria-label="delete" @click="removeCard(yxy)"></button>-->
+                </div>
+                <div class="message-body">
+                    <div class="board-item">
+
+                        {{range $_, $props := $items}}
+                        <div class="board-item-content">
+                            {{range $k, $v := $props}}
+                            <span class="span">{{ $k }}:{{$v}}</p>
+                                {{end}}
+                        </div>
+                        {{end}}
+
+                    </div>
+                </div>
+            </article>
+        </div>
+        {{end}}
+    </div>
+</section>
