@@ -51,3 +51,13 @@ Future<String> buildPath(
 
   return result;
 }
+
+void requestComplete(HttpRequest request, Function callback) {
+  switch (request.status) {
+    case 200:
+      callback(request.responseText);
+      return;
+    default:
+      print(request.status);
+  }
+}

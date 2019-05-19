@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:html';
 import '../formstate.dart';
 import '../profileapi.dart';
@@ -49,8 +50,7 @@ class ProfileForm extends FormState {
 
     _headers = new HeaderForm(frmHeader, submitBtn, addHeader);
     _socialmedia = new SocialmediaForm(frmSocialmedia, submitBtn, addSocial);
-    _portfolios =
-        new PortfolioForm(frmPortfolio, submitBtn, addPortfolio);
+    _portfolios = new PortfolioForm(frmPortfolio, submitBtn, addPortfolio);
 
     querySelector(submitBtn).onClick.listen(onSend);
     registerFormElements([_name, _description, _email, _phone, _url, _image]);
@@ -97,7 +97,9 @@ class ProfileForm extends FormState {
   void onSend(Event e) {
     if (isFormValid()) {
       disableSubmit(true);
-      submitSend().then((obj) => {disableSubmit(false)});
+      submitSend().then((obj) {
+        disableSubmit(false);
+      });
     }
   }
 
@@ -117,6 +119,10 @@ class ProfileForm extends FormState {
       }
     };
 
-    return await updateProfile(obj);
+    return await updateProfile(obj, onSuccess);
   }
+}
+
+void onSuccess(String json) {
+  print(jsonDecode(json));
 }
