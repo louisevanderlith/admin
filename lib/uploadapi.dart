@@ -5,11 +5,19 @@ import 'pathlookup.dart';
 
 String _imageURL;
 
-Future<HttpRequest> createUpload(FormData data) async {
-  var path = await buildPath('Artifact.API', 'upload', new List<String>());
+void createUpload(FormData data, Function callback) async {
+  var url = await buildPath('Artifact.API', 'upload', new List<String>());
+  
+  final request = HttpRequest();
+  request.open("POST", url);
+  //request.withCredentials = true;
+  request.setRequestHeader("Authorization", "Bearer " + window.localStorage['avosession']);
+  request.onLoadEnd.listen((e) => requestComplete(request, callback));
+  request.send(data);
 
+  /*return HttpRequest.requestCrossOrigin(path, method: "POST", sendData: jsonEncode(data));
   return HttpRequest.request(path,
-      method: 'POST', withCredentials: false, sendData: data);
+      method: 'POST', withCredentials: true, sendData: data);*/
 }
 
 void uploadFile(Event e) {
@@ -35,8 +43,8 @@ void doUpload(File file, Map<String, String> infoObj, String ctrlID) {
   formData.appendBlob("file", file);
   formData.append("info", jsonEncode(infoObj));
 
-  createUpload(formData).then((obj) {
-    var resp = jsonDecode(obj.response);
+  createUpload(formData, (obj) {
+    var resp = jsonDecode(obj);
     finishUpload(resp, infoObj, ctrlID);
   });
 }
