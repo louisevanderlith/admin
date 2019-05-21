@@ -41,7 +41,7 @@ class SocialmediaForm extends FormState {
 
     return result;
   }
-
+  
   void addSocial() {
     //add elements
     var indx = items.length;

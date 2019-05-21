@@ -9,12 +9,13 @@ Future<String> createProfile(Object data) async {
       method: "POST", sendData: jsonEncode(data));
 }
 
-Future updateProfile(Object data, Function callback) async {
+void updateProfile(Object data, Function callback) async {
   var url = await buildPath("Folio.API", "profile", new List<String>());
 
   final request = HttpRequest();
   request.open("PUT", url);
-  request.withCredentials = true;
+  //request.withCredentials = true;
+  request.setRequestHeader("Authorization", "Bearer " + window.localStorage['avosession']);
   request.onLoadEnd.listen((e) => requestComplete(request, callback));
   request.send(jsonEncode(data));
 

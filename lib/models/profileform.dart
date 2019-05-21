@@ -53,7 +53,6 @@ class ProfileForm extends FormState {
     _portfolios = new PortfolioForm(frmPortfolio, submitBtn, addPortfolio);
 
     querySelector(submitBtn).onClick.listen(onSend);
-    registerFormElements([_name, _description, _email, _phone, _url, _image]);
 
     _image.onChange.listen(uploadFile);
   }
