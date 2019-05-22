@@ -37,7 +37,7 @@ func Setup(s *mango.Service) {
 
 	userCtrl := controllers.NewUserCtrl(ctrlmap, theme)
 	beego.Router("/users/:pagesize", userCtrl, "get:Get")
-	//beego.Router("/profile/:key", profileCtrl, "get:GetEdit")
+	beego.Router("/user/:key", userCtrl, "get:GetView")
 }
 
 func EnableFilters(s *mango.Service) *control.ControllerMap {
