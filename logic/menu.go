@@ -97,14 +97,14 @@ func secureChildren(path string) *control.Menu {
 
 func vehicleChildren(path string) *control.Menu {
 	children := control.NewMenu(path)
-	children.AddItem("/vehicle", "Vehicles", "fa-car", nil)
+	children.AddItem("/vehicles/A10", "Vehicles", "fa-car", nil)
 
 	return children
 }
 
 func vinChildren(path string) *control.Menu {
 	children := control.NewMenu(path)
-	children.AddItem("/vins", "VIN", "fa-barcode", nil)
+	children.AddItem("/vins/A10", "VIN", "fa-barcode", nil)
 
 	return children
 }
