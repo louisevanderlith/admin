@@ -26,19 +26,17 @@
             </thead>
             <tfoot>
                 <tr>
-                    <th>Upvotes</th>
-                    <th>Downvotes</th>
-                    <th>Text</th>
-                    <th>Comment type</th>
+                    <th>Vehicle Key</th>
+                    <th>Contact</th>
+                    <th>Services</th>
                 </tr>
             </tfoot>
             <tbody>
                 {{range $key, $val := .Data}}
                 <tr>
-                    <td>{{$val.Upvotes}}</td>
-                    <td>{{$val.Downvotes}}</td>
-                    <td>{{$val.Text}}</td>
-                    <td>{{$val.CommentType}}</td>
+                    <td>{{$val.VehicleKey}}</td>
+                    <td>{{$val.Contact}}</td>
+                    <td>{{$val.Services}}</td>
                     <td>
                         <a href="/user/{{$val.Key}}" class="btn btn-primary">View</a>
                     </td>
