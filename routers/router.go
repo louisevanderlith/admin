@@ -38,6 +38,14 @@ func Setup(s *mango.Service) {
 	userCtrl := controllers.NewUserCtrl(ctrlmap, theme)
 	beego.Router("/users/:pagesize", userCtrl, "get:Get")
 	beego.Router("/user/:key", userCtrl, "get:GetView")
+
+	commentsCtrl := controllers.NewCommentCtrl(ctrlmap, theme)
+	beego.Router("/comments/:pagesize", commentsCtrl, "get:Get")
+	beego.Router("/comment/:key", commentsCtrl, "get:GetView")
+
+	vehicleCtrl := controllers.NewVehicleCtrl(ctrlmap, theme)
+	beego.Router("/vehicles/:pagesize", vehicleCtrl, "get:Get")
+	beego.Router("/vehicle/:key", vehicleCtrl, "get:GetView")
 }
 
 func EnableFilters(s *mango.Service) *control.ControllerMap {
@@ -51,6 +59,8 @@ func EnableFilters(s *mango.Service) *control.ControllerMap {
 	ctrlmap.Add("/profile", emptyMap)
 	ctrlmap.Add("/memory", emptyMap)
 	ctrlmap.Add("/user", emptyMap)
+	ctrlmap.Add("/comment", emptyMap)
+	ctrlmap.Add("vehicle", emptyMap)
 
 	beego.InsertFilter("/*", beego.BeforeRouter, ctrlmap.FilterUI)
 

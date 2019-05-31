@@ -15,6 +15,7 @@ services:
         - SecureDEV
         - ArtifactDEV
         - CommsDEV
+        - VehicleDEV
       networks:
         - mango_net
       volumes: 
@@ -161,6 +162,24 @@ services:
       - ../gate/certs:${KEYPATH}:ro
     depends_on:
         - RouterDEV
+    command: ["./wait-for-it.sh", "RouterDEV:8080", "--", "python", "app.py"]
+  
+  VehicleDEV:
+    image: avosa/vehicle:dev
+    environment:
+      - RUNMODE=${RUNMODE}
+      - KEYPATH=${KEYPATH}
+      - PUBLICKEY=${PUBLICKEY}
+      - HOST=${HOST}
+    ports:
+      - "8098:8098"
+    networks:
+      - "mango_net"
+    volumes: 
+      - ../vehicle/db:/db
+      - ../gate/certs:${KEYPATH}:ro
+    depends_on:
+    - "RouterDEV"
     command: ["./wait-for-it.sh", "RouterDEV:8080", "--", "python", "app.py"]
 
 networks:
