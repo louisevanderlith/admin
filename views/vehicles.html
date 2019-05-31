@@ -1,0 +1,58 @@
+<nav class="breadcrumb" aria-label="breadcrumbs">
+        <ul>
+            <li><a href="../">Secure.API</a></li>
+            <li class="is-active"><a href="#" aria-current="page">Users</a></li>
+        </ul>
+    </nav>
+    <section class="hero is-info welcome is-small">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    Users
+                </h1>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <table class="table is-fullwidth is-hoverable" id="dataTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Verified</th>
+                    <th>Created</th>
+                    <th>Last Login</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>Full VIN</th>
+                    <th>Manufacturer</th>
+                    <th>Colour</th>
+                    <th>Year</th>
+                    <th>Engine</th>
+                    <th>Gearbox</th>
+                    <th>Body style</th>
+                    <th>Doors</th>
+
+                </tr>
+            </tfoot>
+            <tbody>
+                {{range $key, $val := .Data}}
+                <tr>
+                    <td>{{$val.FullVIN}}</td>
+                    <td>{{$val.Manufacturer}}</td>
+                    <td>{{$val.Colour}}</td>
+                    <td>{{$val.Year}}</td>
+                    <td>{{$val.Engine}}</td>
+                    <td>{{$val.Gearbox}}</td>
+                    <td>{{$val.BodyStyle}}</td>
+                    <td>{{$val.Doors}}</td>
+                    <td>
+                        <a href="/user/{{$val.Key}}" class="btn btn-primary">View</a>
+                    </td>
+                </tr>
+                {{end}}
+            </tbody>
+        </table>
+    </section>
