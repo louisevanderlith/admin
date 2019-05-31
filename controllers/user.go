@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/louisevanderlith/admin/logic"
+	"github.com/louisevanderlith/husk"
 	"github.com/louisevanderlith/mango"
 	"github.com/louisevanderlith/mango/control"
 )
@@ -34,4 +35,25 @@ func (c *UserController) Get() {
 	}
 
 	c.Serve(result, err)
+}
+
+func (c *UserController) GetView() {
+	c.Setup("userView", "View User", true)
+	c.CreateSideMenu(logic.GetMenu("/user"))
+	key, err := husk.ParseKey(c.Ctx.Input.Param(":key"))
+
+	if err != nil {
+		c.Serve(nil, err)
+	}
+
+	result := make(map[string]interface{})
+	code, err := mango.DoGET(c.GetMyToken(), &result, c.GetInstanceID(), "Secure.API", "user", key.String())
+
+	if err != nil {
+		log.Printf("code %v error: %s\n", code, err.Error())
+		c.Serve(code, err)
+		return
+	}
+
+	c.Serve(result, nil)
 }
