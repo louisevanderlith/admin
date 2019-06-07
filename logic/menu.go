@@ -23,6 +23,7 @@ func getItems(path string) *control.Menu {
 	result.AddItem("#", "Secure API", "fa-user-secret", secureChildren(path))
 	result.AddItem("#", "Vehicle API", "fa-car", vehicleChildren(path))
 	result.AddItem("#", "VIN API", "fa-notepad", vinChildren(path))
+	result.AddItem("#", "Blog API", "fa-pen", blogChildren(path))
 
 	return result
 }
@@ -105,6 +106,13 @@ func vehicleChildren(path string) *control.Menu {
 func vinChildren(path string) *control.Menu {
 	children := control.NewMenu(path)
 	children.AddItem("/vins/A10", "VIN", "fa-barcode", nil)
+
+	return children
+}
+
+func blogChildren(path string) *control.Menu {
+	children := control.NewMenu(path)
+	children.AddItem("/blogs/A10", "Blogs", "fa-notepad", nil)
 
 	return children
 }
