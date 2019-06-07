@@ -24,7 +24,7 @@ func NewBlogCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) *B
 }
 
 func (c *BlogController) Get() {
-	c.Setup("blog", "Blogs", true)
+	c.Setup("blogs", "Blogs", true)
 	c.CreateSideMenu(logic.GetMenu("/blog"))
 
 	result := []interface{}{}

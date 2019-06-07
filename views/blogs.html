@@ -10,7 +10,7 @@
             <h1 class="title">
                 Blogs
             </h1>
-            <button class="button is-primary is-small" type="button" id="btnAddSite">Create new Profile</button>
+            <button class="button is-primary is-small" type="button" id="btnAdd">Write Article</button>
         </div>
     </div>
 </section>
@@ -22,6 +22,7 @@
                 <th>Written by</th>
                 <th>Published</th>
                 <th>Created</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tfoot>
@@ -30,6 +31,7 @@
                 <th>Written by</th>
                 <th>Published</th>
                 <th>Created</th>
+                <th>Actions</th>
             </tr>
         </tfoot>
         <tbody>
@@ -40,7 +42,7 @@
                 <td>{{$val.Published}}</td>
                 <td>{{$val.Created}}</td>
                 <td>
-                    <a href="/user/{{$val.Key}}" class="btn btn-primary">View</a>
+                    <a href="/blog/{{$val.Key}}" class="btn btn-primary">Edit</a>
                 </td>
             </tr>
             {{end}}
