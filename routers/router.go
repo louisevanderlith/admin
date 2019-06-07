@@ -50,6 +50,10 @@ func Setup(s *mango.Service) {
 	vinCtrl := controllers.NewVINCtrl(ctrlmap, theme)
 	beego.Router("/vins/:pagesize", vinCtrl, "get:Get")
 	beego.Router("/vin/:key", vinCtrl, "get:GetView")
+
+	blogCtrl := controllers.NewBlogCtrl(ctrlmap, theme)
+	beego.Router("/blogs/:pagesize", blogCtrl, "get:Get")
+	beego.Router("/blog/:key", blogCtrl, "get:GetCreate")
 }
 
 func EnableFilters(s *mango.Service) *control.ControllerMap {
@@ -66,6 +70,7 @@ func EnableFilters(s *mango.Service) *control.ControllerMap {
 	ctrlmap.Add("/comment", emptyMap)
 	ctrlmap.Add("/vehicle", emptyMap)
 	ctrlmap.Add("/vin", emptyMap)
+	ctrlmap.Add("/blog", emptyMap)
 
 	beego.InsertFilter("/*", beego.BeforeRouter, ctrlmap.FilterUI)
 
