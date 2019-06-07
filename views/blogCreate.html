@@ -1,0 +1,244 @@
+<section class="section">
+    <div class="container">
+        <div class="column is-fullwidth has-text-centered" id='editControls'>
+            <h1 class="is-title">Bulma WYSISYG Inline Editor using dart</h1>
+        </div>
+        <div class="buttons is-centered">
+
+            <div class="field has-addons">
+
+                <p class="control">
+                    <a class="button">
+                        <span class="icon is-small">
+                            <i class="fas fa-undo"></i>
+                        </span>
+                    </a>
+                </p>
+                <p class="control">
+                    <a class="button">
+                        <span class="icon is-small">
+                            <i class="fas fa-redo"></i>
+                        </span>
+                    </a>
+                </p>
+                <p class="control">
+                    <a class="button">
+                        <span class="icon is-small">
+                            <i class="fa fa-bold"></i>
+                        </span>
+                    </a>
+                </p>
+                <p class="control">
+                    <a class="button">
+                        <span class="icon is-small">
+                            <i class="fa fa-italic"></i>
+                        </span>
+                    </a>
+                </p>
+                <p class="control">
+                    <a class="button">
+                        <span class="icon is-small">
+                            <i class="fa fa-underline"></i>
+                        </span>
+                    </a>
+                </p>
+                <p class="control">
+                    <a class="button">
+                        <span class="icon is-small">
+                            <i class="fa fa-strikethrough"></i>
+                        </span>
+                    </a>
+                </p>
+                <p class="control">
+                    <a class="button">
+                        <span class="icon is-small">
+                            <i class="fa fa-align-right"></i>
+                        </span>
+                    </a>
+                </p>
+                <p class="control">
+                    <a class="button">
+                        <span class="icon is-small">
+                            <i class="fa fa-align-center"></i>
+                        </span>
+                    </a>
+                </p>
+                <p class="control">
+                    <a class="button">
+                        <span class="icon is-small">
+                            <i class="fa fa-align-right"></i>
+                        </span>
+                    </a>
+                </p>
+                <p class="control">
+                    <a class="button">
+                        <span class="icon is-small">
+                            <i class="fa fa-align-justify"></i>
+                        </span>
+                    </a>
+                </p>
+                <p class="control">
+                    <a class="button">
+                        <span class="icon is-small">
+                            <i class="fa fa-indent"></i>
+                        </span>
+                    </a>
+                </p>
+                <p class="control">
+                    <a class="button">
+                        <span class="icon is-small">
+                            <i class="fa fa-outdent"></i>
+                        </span>
+                    </a>
+                </p>
+                <p class="control">
+                    <a class="button">
+                        <span class="icon is-small">
+                            <i class="fa fa-list-ol"></i>
+                        </span>
+                    </a>
+                </p>
+                <p class="control">
+                    <a class="button">
+                        <span class="icon is-small">
+                            <i class="fa fa-list-ul"></i>
+                        </span>
+                    </a>
+                </p>
+                <p class="control">
+                    <a class="button">
+                        <b>h<sup>1</sup></b>
+                    </a>
+                </p>
+                <p class="control">
+                    <a class="button">
+                        <b>h<sup>2</sup></b>
+                    </a>
+                </p>
+                <p class="control">
+                    <a class="button">
+                        <b>h<sup>3</sup></b>
+                    </a>
+                </p>
+                <p class="control">
+                    <a class="button">
+                        <b>p</b>
+                    </a>
+                </p>
+                <p class="control">
+                    <a class="button">
+                        <span class="icon is-small">
+                            <i class="fa fa-subscript"></i>
+                        </span>
+                    </a>
+                </p>
+                <p class="control">
+                    <a class="button">
+                        <span class="icon is-small">
+                            <i class="fa fa-superscript"></i>
+                        </span>
+                    </a>
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="container" style="margin-top: 20px;" id='editor' contenteditable>
+        <input class="input" type="text" placeholder="Title">
+        <textarea class="textarea" placeholder="Blog Content"></textarea>
+        <br>
+        <textarea id='output'></textarea>
+</section>
+<section>
+    <div class="container">
+        <div class="columns">
+            <div class="column is-one-third">
+                <div class="file has-name has-addons">
+                    <label class="file-label">
+                        <input class="file-input" type="file" name="resume">
+                        <span class="file-cta">
+                            <span class="file-icon">
+                                <i class="fas fa-upload"></i>
+                            </span>
+                            <span class="file-label">
+                                Choose a file…
+                            </span>
+                        </span>
+                        <span class="file-name">
+                            Screen Shot 2017-07-29 at 15.54.25.png
+                        </span>
+                    </label>
+                </div>
+            </div>
+            <div class="column is-one-third">
+                <div class="file has-name">
+                    <label class="file-label">
+                        <input class="file-input" type="file" name="resume">
+                        <span class="file-cta">
+                            <span class="file-icon">
+                                <i class="fas fa-upload"></i>
+                            </span>
+                            <span class="file-label">
+                                Choose a file…
+                            </span>
+                        </span>
+                        <span class="file-name">
+                            Screen Shot 2017-07-29 at 15.54.25.png
+                        </span>
+                    </label>
+                </div>
+            </div>
+            <div class="column is-one-third">
+                <div class="file has-name">
+                    <label class="file-label">
+                        <input class="file-input" type="file" name="resume">
+                        <span class="file-cta">
+                            <span class="file-icon">
+                                <i class="fas fa-upload"></i>
+                            </span>
+                            <span class="file-label">
+                                Choose a file…
+                            </span>
+                        </span>
+                        <span class="file-name">
+                            Screen Shot 2017-07-29 at 15.54.25.png
+                        </span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--<div class="column is-mobile">
+            <a class="button is-dark" data-role='undo' href='javascript:void(0)'><i class='fa fa-undo'></i></a>
+            <a class="button is-dark" data-role='redo' href='javascript:void(0)'><i class='fa fa-repeat'></i></a>
+            <a class="button is-dark" data-role='bold' href='javascript:void(0)'><i class='fa fa-bold'></i></a>
+            <a class="button is-dark" data-role='italic' href='javascript:void(0)'><i class='fa fa-italic'></i></a>
+            <a class="button is-dark" data-role='underline' href='javascript:void(0)'><i
+                    class='fa fa-underline'></i></a>
+            <a class="button is-dark" data-role='strikeThrough' href='javascript:void(0)'><i
+                    class='fa fa-strikethrough'></i></a>
+            <a class="button is-dark" data-role='justifyLeft' href='javascript:void(0)'><i
+                    class='fa fa-align-left'></i></a>
+            <a class="button is-dark" data-role='justifyCenter' href='javascript:void(0)'><i
+                    class='fa fa-align-center'></i></a>
+            <a class="button is-dark" data-role='justifyRight' href='javascript:void(0)'><i
+                    class='fa fa-align-right'></i></a>
+            <a class="button is-dark" data-role='justifyFull' href='javascript:void(0)'><i
+                    class='fa fa-align-justify'></i></a>
+            <a class="button is-dark" data-role='indent' href='javascript:void(0)'><i class='fa fa-indent'></i></a>
+            <a class="button is-dark" data-role='outdent' href='javascript:void(0)'><i
+                    class='fa fa-outdent'></i></a>
+            <a class="button is-dark" data-role='insertUnorderedList' href='javascript:void(0)'><i
+                    class='fa fa-list-ul'></i></a>
+            <a class="button is-dark" data-role='insertOrderedList' href='javascript:void(0)'><i
+                    class='fa fa-list-ol'></i></a>
+            <a class="button is-dark" data-role='h1' href='javascript:void(0)'>h<sup>1</sup></a>
+            <a class="button is-dark" data-role='h2' href='javascript:void(0)'>h<sup>2</sup></a>
+            <a class="button is-dark" data-role='p' href='javascript:void(0)'>p</a>
+            <a class="button is-dark" data-role='subscript' href='javascript:void(0)'><i
+                    class='fa fa-subscript'></i></a>
+            <a class="button is-dark" data-role='superscript' href='javascript:void(0)'><i
+                    class='fa fa-superscript'></i></a>
+        </div>-->
