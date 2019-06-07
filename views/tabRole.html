@@ -1,4 +1,54 @@
-<section class="section">
+<section class="container">
+
+    <table class="table is-lined is-bordered is-responsive is-fullwidth">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Admin</th>
+                <th>Owner</th>
+                <th>User</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th></th>
+                <th>Admin</th>
+                <th>Owner</th>
+                <th>User</th>
+            </tr>
+        </tfoot>
+        <tbody>
+            {{range $key, $val := .Data.Roles}}
+            <tr>
+                <td>{{$val.ApplicationName}}</td>
+                <td>
+                    <div class="control">
+                        <label class="radio">
+                            <input type="radio" value="Admin" name="answer">
+                        </label>
+                    </div>
+                </td>
+                <td>
+                    <div class="control">
+                        <label class="radio">
+                            <input type="radio" value="Owner" name="answer">
+                        </label>
+                    </div>
+                </td>
+                <td>
+                    <div class="control">
+                        <label class="radio">
+                            <input type="radio" value="User" name="answer">
+                        </label>
+                    </div>
+                </td>
+            </tr>
+            {{end}}
+        </tbody>
+    </table>
+</section>
+
+<!--<section class="section">
     <table class="table is-fullwidth is-hoverable" id="dataTable">
         <thead>
             <tr>
@@ -25,4 +75,4 @@
             {{end}}
         </tbody>
     </table>
-</section>
+</section>-->
