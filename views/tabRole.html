@@ -1,9 +1,9 @@
 <section class="container">
-        <button class="button is-primary is-small" type="button" id="btnSave">Add Role</button>
+    <button class="button is-primary is-small" type="button" id="btnAddRole">Add Role</button>
     <table class="table is-lined is-bordered is-responsive is-fullwidth">
         <thead>
             <tr>
-                <th></th>
+                <th>Application</th>
                 <th>Admin</th>
                 <th>Owner</th>
                 <th>User</th>
@@ -11,34 +11,40 @@
         </thead>
         <tfoot>
             <tr>
-                <th></th>
+                <th>Application</th>
                 <th>Admin</th>
                 <th>Owner</th>
                 <th>User</th>
             </tr>
         </tfoot>
-        <tbody>
-            {{range $key, $val := .Data.Roles}}
+        <tbody id="tblRoles">
+            {{$services := .Data.Router}}
+            {{range $key, $val := .Data.User.Roles}}
             <tr>
-                <td>{{$val.ApplicationName}}</td>
+                <td> 
+                    <label id="lblAppName{{$key}}" class="label">{{$val.ApplicationName}}</label>
+                </td>
                 <td>
                     <div class="control">
                         <label class="radio">
-                            <input type="radio" value="Admin" name="answer">
+                            <input type="radio" value="0" {{ if eq (print $val.Description) "0" }} checked {{end}}
+                                name="answer{{$key}}">
                         </label>
                     </div>
                 </td>
                 <td>
                     <div class="control">
                         <label class="radio">
-                            <input type="radio" value="Owner" name="answer">
+                            <input type="radio" value="1" {{ if eq (print $val.Description) "1" }} checked {{end}}
+                                name="answer{{$key}}">
                         </label>
                     </div>
                 </td>
                 <td>
                     <div class="control">
                         <label class="radio">
-                            <input type="radio" value="User" name="answer">
+                            <input type="radio" value="2" {{ if eq (print $val.Description) "2" }} checked {{end}}
+                                name="answer{{$key}}">
                         </label>
                     </div>
                 </td>
@@ -47,32 +53,4 @@
         </tbody>
     </table>
 </section>
-
-<!--<section class="section">
-    <table class="table is-fullwidth is-hoverable" id="dataTable">
-        <thead>
-            <tr>
-                <th>Application</th>
-                <th>Permission</th>
-            </tr>
-        </thead>
-        <tfoot>
-            <tr>
-                <th>Application</th>
-                <th>Permission</th>
-            </tr>
-        </tfoot>
-        <tbody>
-            {{range $key, $val := .Data.Roles}}
-            <tr>
-                <td>{{$val.ApplicationName}}</td>
-                <td><select id="ddlRoleType">
-                    <option {{if eq (print $val.Description) "0" }} selected {{end}} value="0">Admin</option>
-                    <option {{if eq (print $val.Description) "1" }} selected {{end}} value="1">Owner</option>
-                    <option {{if eq (print $val.Description) "2" }} selected {{end}} value="2">User</option>
-                </select></td>
-            </tr>
-            {{end}}
-        </tbody>
-    </table>
-</section>-->
+{{template "modal/addRole.html" .}}

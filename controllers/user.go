@@ -7,6 +7,7 @@ import (
 	"github.com/louisevanderlith/husk"
 	"github.com/louisevanderlith/mango"
 	"github.com/louisevanderlith/mango/control"
+	secure "github.com/louisevanderlith/secure/core"
 )
 
 type UserController struct {
@@ -47,13 +48,46 @@ func (c *UserController) GetView() {
 	}
 
 	result := make(map[string]interface{})
-	code, err := mango.DoGET(c.GetMyToken(), &result, c.GetInstanceID(), "Secure.API", "user", key.String())
+
+	resultUser := secure.User{}
+	code, err := mango.DoGET(c.GetMyToken(), &resultUser, c.GetInstanceID(), "Secure.API", "user", key.String())
 
 	if err != nil {
 		log.Printf("code %v error: %s\n", code, err.Error())
 		c.Serve(code, err)
 		return
 	}
+
+	result["User"] = resultUser
+
+	resultRouter := make(map[string]struct{})
+	_, err = mango.DoGET(c.GetMyToken(), &resultRouter, c.GetInstanceID(), "Router.API", "memory", "apps")
+
+	if err != nil {
+		log.Println(err)
+		c.Serve(nil, err)
+		return
+	}
+
+	result["Router"] = resultRouter
+
+	resultOpts := make(map[string]struct{})
+
+	for name := range resultRouter {
+		nonItem := ""
+		for _, role := range resultUser.Roles {
+			if role.ApplicationName == name {
+				nonItem = name
+				break
+			}
+		}
+
+		if len(nonItem) == 0 {
+			resultOpts[name] = struct{}{}
+		}
+	}
+
+	result["Options"] = resultOpts
 
 	c.Serve(result, nil)
 }

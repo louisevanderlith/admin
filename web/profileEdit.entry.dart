@@ -1,5 +1,5 @@
 import 'package:Admin.APP/keys.dart';
-import 'package:Admin.APP/models/profileform.dart';
+import 'package:Admin.APP/profileform.dart';
 
 void main() async {
   print('Profile Edit');

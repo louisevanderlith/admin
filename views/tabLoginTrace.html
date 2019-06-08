@@ -17,9 +17,9 @@
             </tr>
         </tfoot>
         <tbody>
-            {{range $key, $val := .Data.LoginTraces}}
+            {{range $key, $val := .Data.User.LoginTraces}}
             <tr>
-                <td>{{$key}}</td>
+                <td>{{$val}}</td>
                 <td>{{$val.Location}}</td>
                 <td>{{$val.IP}}</td>
                 <td>{{$val.Allowed}}</td>

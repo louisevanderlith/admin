@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:html';
 
-import 'pathlookup.dart';
+import '../pathlookup.dart';
 
 Future<HttpRequest> createArticle(String title, String username) async {
   var url = await buildPath("Blog.API", "article", new List<String>());

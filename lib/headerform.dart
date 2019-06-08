@@ -1,8 +1,8 @@
 import 'dart:html';
 
-import '../formstate.dart';
-import '../trustvalidator.dart';
-import 'headeritem.dart';
+import 'formstate.dart';
+import 'trustvalidator.dart';
+import 'models/headeritem.dart';
 
 class HeaderForm extends FormState {
   List<HeaderItem> _items;

@@ -1,8 +1,8 @@
 import 'dart:html';
 
-import '../formstate.dart';
-import '../trustvalidator.dart';
-import 'portfolioitem.dart';
+import 'formstate.dart';
+import 'trustvalidator.dart';
+import 'models/portfolioitem.dart';
 
 class PortfolioForm extends FormState {
   List<PortfolioItem> _items;

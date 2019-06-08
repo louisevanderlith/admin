@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'dart:html';
-import 'keys.dart';
-import 'pathlookup.dart';
+
+import '../keys.dart';
+import '../pathlookup.dart';
 
 String _imageURL;
 

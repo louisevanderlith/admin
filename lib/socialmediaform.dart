@@ -1,8 +1,8 @@
 import 'dart:html';
 
-import '../formstate.dart';
-import '../trustvalidator.dart';
-import 'socialmediaitem.dart';
+import 'formstate.dart';
+import 'trustvalidator.dart';
+import 'models/socialmediaitem.dart';
 
 class SocialmediaForm extends FormState {
   List<SocialmediaItem> _items;

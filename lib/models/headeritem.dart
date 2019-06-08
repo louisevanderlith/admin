@@ -1,5 +1,5 @@
 import 'dart:html';
-import '../uploadapi.dart';
+import '../services/uploadapi.dart';
 
 class HeaderItem {
   FileUploadInputElement _image;

@@ -1,14 +1,14 @@
 import 'dart:convert';
 import 'dart:html';
-import '../formstate.dart';
-import '../profileapi.dart';
+import 'formstate.dart';
+import 'services/profileapi.dart';
 import 'headerform.dart';
-import 'headeritem.dart';
+import 'models/headeritem.dart';
 import 'portfolioform.dart';
-import 'portfolioitem.dart';
+import 'models/portfolioitem.dart';
 import 'socialmediaform.dart';
-import 'socialmediaitem.dart';
-import '../uploadapi.dart';
+import 'models/socialmediaitem.dart';
+import 'services/uploadapi.dart';
 
 class ProfileForm extends FormState {
   String _objKey;

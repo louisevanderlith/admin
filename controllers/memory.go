@@ -25,12 +25,13 @@ func (c *MemoryController) Get() {
 	c.CreateSideMenu(logic.GetMenu("/memory"))
 
 	result := make(map[string]interface{})
-
 	_, err := mango.DoGET(c.GetMyToken(), &result, c.GetInstanceID(), "Router.API", "memory")
 
 	if err != nil {
 		log.Println(err)
+		c.Serve(nil, err)
+		return
 	}
 
-	c.Serve(result, err)
+	c.Serve(result, nil)
 }

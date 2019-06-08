@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:html';
 
-import 'package:Admin.APP/blogapi.dart';
+import 'package:Admin.APP/services/blogapi.dart';
 
 void main() {
   querySelector('#btnAdd').onClick.listen(onAddClick);
