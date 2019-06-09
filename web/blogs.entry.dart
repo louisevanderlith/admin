@@ -12,7 +12,7 @@ void onAddClick(MouseEvent e) async {
   var obj = jsonDecode(result.response);
 
   if (result.status == 200) {
-    final redir = "/create/${obj['Data'].Key}";
+    final redir = "/create/${obj['Data']['Record'].Key}";
     window.location.replace(redir);
   } else {
     print(obj['Error']);

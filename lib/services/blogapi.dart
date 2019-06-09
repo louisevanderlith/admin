@@ -9,7 +9,7 @@ Future<HttpRequest> createArticle(String title, String username) async {
   var data = jsonEncode({
     "Title": title,
     "ImageKey": '0`0',
-    "Content": '',
+    "Content": 'Content here.',
     "WrittenBy": username,
     "Public": false
   });
@@ -17,6 +17,7 @@ Future<HttpRequest> createArticle(String title, String username) async {
   final compltr = new Completer<HttpRequest>();
   final request = HttpRequest();
   request.open("POST", url);
+  request.setRequestHeader("Authorization", "Bearer " + window.localStorage['avosession']);
   request.onLoadEnd
       .listen((e) => compltr.complete(request), onError: compltr.completeError);
   request.onError.listen(compltr.completeError);
@@ -27,7 +28,7 @@ Future<HttpRequest> createArticle(String title, String username) async {
 }
 
 Future<HttpRequest> updateArticle(String title, String content, String imageKey, String username) async {
-  var url = await buildPath("Folio.API", "profile", new List<String>());
+  var url = await buildPath("Blog.API", "article", new List<String>());
   final data = jsonEncode({
     "Title": title,
     "ImageKey": imageKey,
@@ -39,6 +40,7 @@ Future<HttpRequest> updateArticle(String title, String content, String imageKey,
   final compltr = new Completer<HttpRequest>();
   final request = HttpRequest();
   request.open("PUT", url);
+  request.setRequestHeader("Authorization", "Bearer " + window.localStorage['avosession']);
   request.onLoadEnd
       .listen((e) => compltr.complete(request), onError: compltr.completeError);
   request.onError.listen(compltr.completeError);
