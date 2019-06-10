@@ -41,7 +41,13 @@
                 <td>{{$val.DateCreated}}</td>
                 <td>{{$val.Size}}</td>
                 <td>
-                    <a href="/user/{{$val.Key}}" class="btn btn-primary">View</a>
+                    <p class="buttons">
+                        <a href="/user/{{$val.K}}" class="button is-primary">
+                            <span class="icon is-small">
+                                <i class="fas fa-file-alt"></i>
+                            </span>
+                        </a>
+                    </p>
                 </td>
             </tr>
             {{end}}

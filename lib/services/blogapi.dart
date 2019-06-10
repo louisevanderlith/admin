@@ -17,6 +17,7 @@ Future<HttpRequest> createArticle(String title, String username) async {
   final compltr = new Completer<HttpRequest>();
   final request = HttpRequest();
   request.open("POST", url);
+  request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
   request.setRequestHeader("Authorization", "Bearer " + window.localStorage['avosession']);
   request.onLoadEnd
       .listen((e) => compltr.complete(request), onError: compltr.completeError);

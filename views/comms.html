@@ -38,7 +38,13 @@
                 <td>{{$val.V.Email}}</td>
                 <td>{{$val.V.Sent}}</td>
                 <td>
-                    <a href="/comms/{{$val.K}}" class="btn btn-primary">View</a>
+                    <p class="buttons">
+                        <a href="/comms/{{$val.K}}" class="button is-primary fa fa-file-alt">
+                            <span class="icon is-small">
+                                <i class="fas fa-file-alt"></i>
+                            </span>
+                        </a>
+                    </p>
                 </td>
             </tr>
             {{end}}

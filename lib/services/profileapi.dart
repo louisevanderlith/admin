@@ -14,7 +14,6 @@ void updateProfile(Object data, Function callback) async {
 
   final request = HttpRequest();
   request.open("PUT", url);
-  //request.withCredentials = true;
   request.setRequestHeader("Authorization", "Bearer " + window.localStorage['avosession']);
   request.onLoadEnd.listen((e) => requestComplete(request, callback));
   request.send(jsonEncode(data));

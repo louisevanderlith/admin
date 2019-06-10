@@ -37,12 +37,23 @@
         <tbody>
             {{range $key, $val := .Data}}
             <tr>
-                <td>{{$val.Title}}</td>
-                <td>{{$val.WrittenBy}}</td>
-                <td>{{$val.Published}}</td>
-                <td>{{$val.Created}}</td>
+                <td>{{$val.V.Title}}</td>
+                <td>{{$val.V.WrittenBy}}</td>
+                <td>{{$val.V.Public}}</td>
+                <td>{{$val.V.Created}}</td>
                 <td>
-                    <a href="/blog/{{$val.Key}}" class="btn btn-primary">Edit</a>
+                    <p class="buttons">
+                        <a href="/blog/{{$val.K}}" class="button is-primary">
+                            <span class="icon is-small">
+                                <i class="far fa-edit"></i>
+                            </span>
+                        </a>
+                        <a href="#delete" class="button is-danger">
+                            <span class="icon is-small">
+                                <i class="fas fa-ban"></i>
+                            </span>
+                        </a>
+                    </p>
                 </td>
             </tr>
             {{end}}

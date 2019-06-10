@@ -2,7 +2,7 @@
     <ul>
         <li><a href="../">Folio.API</a></li>
         <li class="is-active"><a href="#" aria-current="page">Profiles</a></li>
-    </ul> 
+    </ul>
 </nav>
 <section class="hero is-info welcome is-small">
     <div class="hero-body">
@@ -36,7 +36,18 @@
                 <td>{{$val.V.Title}}</td>
                 <td>{{$val.V.Description}}</td>
                 <td>
-                    <a href="/profile/{{$val.K}}" class="btn btn-primary">Edit</a>
+                    <p class="buttons">
+                        <a href="/profile/{{$val.K}}" class="button is-primary">
+                            <span class="icon is-small">
+                                <i class="far fa-edit"></i>
+                            </span>
+                        </a>
+                        <a href="#delete" class="button is-danger">
+                            <span class="icon is-small">
+                                <i class="fas fa-ban"></i>
+                            </span>
+                        </a>
+                    </p>
                 </td>
             </tr>
             {{end}}

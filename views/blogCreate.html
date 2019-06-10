@@ -1,7 +1,7 @@
 <section class="section">
     <div class="container">
         <div class="column is-fullwidth has-text-centered" id='editControls'>
-            <h1 class="is-title">Bulma WYSISYG Inline Editor using dart</h1>
+            <h1 class="is-title">Blog Article Create</h1>
         </div>
         <div class="buttons is-centered">
 
@@ -145,8 +145,8 @@
 
     </div>
     <div class="container" style="margin-top: 20px;" id='editor'>
-        <input class="input" type="text" placeholder="Title">
-        <textarea class="textarea" placeholder="Blog Content"></textarea>
+        <input class="input" type="text" placeholder="Title" value="{{.Data.Title}}">
+        <textarea class="textarea" placeholder="Blog Content">{{.Data.Content}}</textarea>
         <br>
         <textarea id='output'></textarea>
 </section>

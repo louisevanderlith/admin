@@ -41,7 +41,13 @@
                 <td>{{$val.Serial}}</td>
                 <td>{{$val.WMInfo.Manufacturer}}</td>
                 <td>
-                    <a href="/vin/{{$val.Key}}" class="btn btn-primary">View</a>
+                    <p class="buttons">
+                        <a href="/vin/{{$val.K}}" class="button is-primary">
+                            <span class="icon is-small">
+                                    <i class="fas fa-file-alt"></i>
+                                </span>
+                        </a>
+                    </p>
                 </td>
             </tr>
             {{end}}

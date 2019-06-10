@@ -41,7 +41,13 @@
                 <td>{{$val.V.MimeType}}</td>
                 <td>{{$val.V.Size}}</td>
                 <td>
-                    <a href="/upload/{{$val.K}}" class="btn btn-primary">View</a>
+                    <p class="buttons">
+                        <a href="/upload/{{$val.K}}" class="button is-primary">
+                            <span class="icon is-small">
+                                <i class="fas fa-file-alt"></i>
+                            </span>
+                        </a>
+                    </p>
                 </td>
             </tr>
             {{end}}

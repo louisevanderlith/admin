@@ -30,7 +30,7 @@ func (c *BlogController) Get() {
 	result := []interface{}{}
 	pagesize := c.Ctx.Input.Param(":pagesize")
 
-	_, err := mango.DoGET(c.GetMyToken(), &result, c.GetInstanceID(), "Blog.API", "article", "all", pagesize)
+	_, err := mango.DoGET(c.GetMyToken(), &result, c.GetInstanceID(), "Blog.API", "article", "non", pagesize)
 
 	c.Serve(result, err)
 }
