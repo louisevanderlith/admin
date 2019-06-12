@@ -16,10 +16,11 @@
         </div>
     </div>
 </section>
+<br>
 <section class="container cards-container">
-    <div class="columns is-centered is-multiline" id="sectioncontainer">
+    <div class="columns is-multiline" style="margin-left: 5.5em;" id="sectioncontainer">
         {{range $key, $items := .Data}}
-        <div class="column is-narrow">
+        <div class="column is-narrow is-5">
             <article class="message is-info">
                 <div class="message-header">
                     <p>{{ $key }}</p>
