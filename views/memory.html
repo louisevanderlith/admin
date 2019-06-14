@@ -1,7 +1,7 @@
 <nav class="breadcrumb" aria-label="breadcrumbs">
     <ul>
         <li><a href="/">Router.API</a></li>
-        <li><a href="/memory">Memory</a></li>
+        <li><a class="active" href="/memory">Memory</a></li>
     </ul>
 </nav>
 <section class="hero is-info welcome is-small">
@@ -18,9 +18,9 @@
 </section>
 <br>
 <section class="container cards-container">
-    <div class="columns is-multiline" style="margin-left: 5.5em;" id="sectioncontainer">
+    <div class="columns is-multiline" id="sectioncontainer">
         {{range $key, $items := .Data}}
-        <div class="column is-narrow is-5">
+        <div class="column is-narrow">
             <article class="message is-info">
                 <div class="message-header">
                     <p>{{ $key }}</p>
@@ -36,7 +36,6 @@
                                 {{end}}
                         </div>
                         {{end}}
-
                     </div>
                 </div>
             </article>

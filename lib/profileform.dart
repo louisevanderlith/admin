@@ -93,7 +93,7 @@ class ProfileForm extends FormState {
     return _headers.items;
   }
 
-  void onSend(Event e) {
+  void onSend(MouseEvent e) {
     if (isFormValid()) {
       disableSubmit(true);
       submitSend().then((obj) {

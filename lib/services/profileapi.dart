@@ -17,7 +17,4 @@ void updateProfile(Object data, Function callback) async {
   request.setRequestHeader("Authorization", "Bearer " + window.localStorage['avosession']);
   request.onLoadEnd.listen((e) => requestComplete(request, callback));
   request.send(jsonEncode(data));
-
-  /* return HttpRequest.requestCrossOrigin(url,
-      method: "PUT", sendData: jsonEncode(data));*/
 }
