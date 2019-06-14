@@ -58,9 +58,9 @@ func (c *BlogController) GetCreate() {
 
 func createBlogTopMenu() *control.Menu {
 	result := control.NewMenu("/blog")
-	result.AddItem("#preview", "Preview", "fa-globe", nil)
-	result.AddItem("#save", "Save", "fa-disc", nil)
-	result.AddItem("#publish", "Publish", "fa-bolt", nil)
+	result.AddItem("btnPreview", "#", "Preview", "fa-globe", nil)
+	result.AddItem("btnSave", "#", "Save", "fa-disc", nil)
+	result.AddItem("btnPublish", "#", "Publish", "fa-bolt", nil)
 
 	return result
 }

@@ -93,35 +93,16 @@ class ProfileForm extends FormState {
     return _headers.items;
   }
 
-  void onSend(MouseEvent e) {
+  void onSend(MouseEvent e) async {
     if (isFormValid()) {
       disableSubmit(true);
-      submitSend().then((obj) {
-        disableSubmit(false);
-      });
+
+      var resp = await updateProfile(_objKey, name, description, email, phone, url, imageKey, portfolioItems, socialmediaItems, headerItems);
+      
     }
   }
 
-  Future submitSend() async {
-    var obj = {
-      "Key": _objKey,
-      "Body": {
-        "Title": name,
-        "Description": description,
-        "ContactEmail": email,
-        "ContactPhone": phone,
-        "URL": url,
-        "ImageKey": imageKey,
-        "PortfolioItems": portfolioItems,
-        "SocialLinks": socialmediaItems,
-        "Headers": headerItems
-      }
-    };
-
-    return await updateProfile(obj, onSuccess);
+  void onSuccess(String json) {
+    print(jsonDecode(json));
   }
-}
-
-void onSuccess(String json) {
-  print(jsonDecode(json));
 }
