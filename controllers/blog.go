@@ -38,6 +38,7 @@ func (c *BlogController) Get() {
 func (c *BlogController) GetCreate() {
 	c.Setup("blogCreate", "Create Blog", true)
 	c.CreateSideMenu(logic.GetMenu("/blog"))
+	c.CreateTopMenu(createBlogTopMenu())
 
 	key, err := husk.ParseKey(c.Ctx.Input.Param(":key"))
 
@@ -53,4 +54,13 @@ func (c *BlogController) GetCreate() {
 	}
 
 	c.Serve(result, err)
+}
+
+func createBlogTopMenu() *control.Menu {
+	result := control.NewMenu("/blog")
+	result.AddItem("#preview", "Preview", "fa-globe", nil)
+	result.AddItem("#save", "Save", "fa-disc", nil)
+	result.AddItem("#publish", "Publish", "fa-bolt", nil)
+
+	return result
 }
