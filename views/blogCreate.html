@@ -1,10 +1,25 @@
-<section class="section">
-    <div class="container">
-        <div class="column is-fullwidth has-text-centered" id='editControls'>
-            <h1 class="is-title">Blog Article Create</h1>
+<nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+        <li><a href="../">Blog.API</a></li>
+        <li class="is-active"><a href="#" aria-current="page">blogCreate</a></li>
+    </ul>
+</nav>
+<section class="hero is-info welcome is-small">
+    <div class="hero-body">
+        <div class="container">
+            <h1 class="title">
+                Create a blog
+            </h1>
         </div>
+    </div>
+</section>
+<br>
+<!--<section>
+    <div class="container">
         <div class="buttons is-centered">
+
             <div class="field has-addons">
+
                 <p class="control">
                     <a class="button">
                         <span class="icon is-small">
@@ -138,23 +153,199 @@
                     </a>
                 </p>
             </div>
-
+            <br>
+        </div>
+        <div class="column">
+            <div class="file has-name">
+                <label class="file-label">
+                    <input class="file-input" type="file" name="resume">
+                    <span class="file-cta">
+                        <span class="file-icon">
+                            <i class="fas fa-upload"></i>
+                        </span>
+                        <span class="file-label">
+                            Choose a file…
+                        </span>
+                    </span>
+                    <span class="file-name">
+                        Screen Shot 2017-07-29 at 15.54.25.png
+                    </span>
+                </label>
+            </div>
+        </div>
+        <div class="column is-11" id='editor'>
+            <input class="input" type="text" placeholder="Title" value="{{.Data.Title}}">
+            <textarea class="textarea" placeholder="Blog Content">{{.Data.Content}}</textarea>
+            <br>
         </div>
 
+
     </div>
-    <div class="container" style="margin-top: 20px;" id='editor'>
-        <input class="input" id="txtTitle" type="text" placeholder="Title" value="{{.Data.Title}}">
-        <textarea class="textarea" id="txtContent" placeholder="Blog Content">{{.Data.Content}}</textarea>
+    <br>
+
+</section>-->
+
+
+
+
+<div class="content">
+    <form id="frmBlogCreate" role="form">
+        <div class="buttons is-centered">
+
+            <div class="field has-addons">
+
+                <p class="control">
+                    <a class="button">
+                        <span class="icon is-small">
+                            <i class="fas fa-undo"></i>
+                        </span>
+                    </a>
+                </p>
+                <p class="control">
+                    <a class="button">
+                        <span class="icon is-small">
+                            <i class="fas fa-redo"></i>
+                        </span>
+                    </a>
+                </p>
+                <p class="control">
+                    <a class="button">
+                        <span class="icon is-small">
+                            <i class="fa fa-bold"></i>
+                        </span>
+                    </a>
+                </p>
+                <p class="control">
+                    <a class="button">
+                        <span class="icon is-small">
+                            <i class="fa fa-italic"></i>
+                        </span>
+                    </a>
+                </p>
+                <p class="control">
+                    <a class="button">
+                        <span class="icon is-small">
+                            <i class="fa fa-underline"></i>
+                        </span>
+                    </a>
+                </p>
+                <p class="control">
+                    <a class="button">
+                        <span class="icon is-small">
+                            <i class="fa fa-strikethrough"></i>
+                        </span>
+                    </a>
+                </p>
+                <p class="control">
+                    <a class="button">
+                        <span class="icon is-small">
+                            <i class="fa fa-align-right"></i>
+                        </span>
+                    </a>
+                </p>
+                <p class="control">
+                    <a class="button">
+                        <span class="icon is-small">
+                            <i class="fa fa-align-center"></i>
+                        </span>
+                    </a>
+                </p>
+                <p class="control">
+                    <a class="button">
+                        <span class="icon is-small">
+                            <i class="fa fa-align-right"></i>
+                        </span>
+                    </a>
+                </p>
+                <p class="control">
+                    <a class="button">
+                        <span class="icon is-small">
+                            <i class="fa fa-align-justify"></i>
+                        </span>
+                    </a>
+                </p>
+                <p class="control">
+                    <a class="button">
+                        <span class="icon is-small">
+                            <i class="fa fa-indent"></i>
+                        </span>
+                    </a>
+                </p>
+                <p class="control">
+                    <a class="button">
+                        <span class="icon is-small">
+                            <i class="fa fa-outdent"></i>
+                        </span>
+                    </a>
+                </p>
+                <p class="control">
+                    <a class="button">
+                        <span class="icon is-small">
+                            <i class="fa fa-list-ol"></i>
+                        </span>
+                    </a>
+                </p>
+                <p class="control">
+                    <a class="button">
+                        <span class="icon is-small">
+                            <i class="fa fa-list-ul"></i>
+                        </span>
+                    </a>
+                </p>
+                <p class="control">
+                    <a class="button">
+                        <b>h<sup>1</sup></b>
+                    </a>
+                </p>
+                <p class="control">
+                    <a class="button">
+                        <b>h<sup>2</sup></b>
+                    </a>
+                </p>
+                <p class="control">
+                    <a class="button">
+                        <b>h<sup>3</sup></b>
+                    </a>
+                </p>
+                <p class="control">
+                    <a class="button">
+                        <b>p</b>
+                    </a>
+                </p>
+                <p class="control">
+                    <a class="button">
+                        <span class="icon is-small">
+                            <i class="fa fa-subscript"></i>
+                        </span>
+                    </a>
+                </p>
+                <p class="control">
+                    <a class="button">
+                        <span class="icon is-small">
+                            <i class="fa fa-superscript"></i>
+                        </span>
+                    </a>
+                </p>
+            </div>
+        </div>
+        <div class="field">
+            <div class="control">
+                <label class="label" for="txtTitle">Title</label>
+                <input class="input" type="text" id="txtTitle" placeholder="Title" required value="{{.Data.Title}}" />
+                <p class="help is-danger"></p>
+            </div>
+        </div>
         <br>
-        <textarea id='output'></textarea>
-</section>
-<section>
-    <div class="container">
-        <div class="columns">
-            <div class="column is-one-third">
-                <div class="file has-name has-addons">
+
+        <div class="field">
+            <div class="control">
+                <label class="label" for="uplProfileImg">Header Image</label>
+                <div class="file">
                     <label class="file-label">
-                        <input class="file-input" type="file" name="resume">
+                        <input class="file-input" type="file" multiple="false" data-for="logo" data-name="Profile"
+                            data-id="{{.Data.ImageKey}}" accept=".jpg, .jpeg, .png" id="uplProfileImg"
+                            placeholder="Profile Image" {{if eq .Data.ImageKey "0`0"}} required {{end}} />
+                        <p class="help is-danger"></p>
                         <span class="file-cta">
                             <span class="file-icon">
                                 <i class="fas fa-upload"></i>
@@ -163,51 +354,23 @@
                                 Choose a file…
                             </span>
                         </span>
-                        <span class="file-name">
-                            Screen Shot 2017-07-29 at 15.54.25.png
-                        </span>
-                    </label>
                 </div>
-            </div>
-            <div class="column is-one-third">
-                <div class="file has-name">
-                    <label class="file-label">
-                        <input class="file-input" type="file" name="resume">
-                        <span class="file-cta">
-                            <span class="file-icon">
-                                <i class="fas fa-upload"></i>
-                            </span>
-                            <span class="file-label">
-                                Choose a file…
-                            </span>
-                        </span>
-                        <span class="file-name">
-                            Screen Shot 2017-07-29 at 15.54.25.png
-                        </span>
-                    </label>
-                </div>
-            </div>
-            <div class="column is-one-third">
-                <div class="file has-name">
-                    <label class="file-label">
-                        <input class="file-input" type="file" name="resume">
-                        <span class="file-cta">
-                            <span class="file-icon">
-                                <i class="fas fa-upload"></i>
-                            </span>
-                            <span class="file-label">
-                                Choose a file…
-                            </span>
-                        </span>
-                        <span class="file-name">
-                            Screen Shot 2017-07-29 at 15.54.25.png
-                        </span>
-                    </label>
-                </div>
+                <input type="image" id="uplProfileView" class='image {{if eq .Data.ImageKey "0`0"}} is-hidden {{end}}'
+                    src="https://artifact{{.Host}}v1/upload/file/{{.Data.ImageKey}}" alt="profile image" />
+                <p class="help is-danger"></p>
             </div>
         </div>
-    </div>
-</section>
+        <div class="field">
+            <div class="control">
+                <label class="label" for="txtDescription">Content</label>
+                <textarea class="textarea" id="txtDescription" placeholder="Content" required cols="40"
+                    rows="5">{{.Data.Description}}</textarea>
+                <p class="help is-danger"></p>
+            </div>
+        </div>
+    </form>
+</div>
+
 <!--<div class="column is-mobile">
             <a class="button is-dark" data-role='undo' href='javascript:void(0)'><i class='fa fa-undo'></i></a>
             <a class="button is-dark" data-role='redo' href='javascript:void(0)'><i class='fa fa-repeat'></i></a>

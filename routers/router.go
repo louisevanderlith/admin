@@ -54,6 +54,7 @@ func Setup(s *mango.Service) {
 	blogCtrl := controllers.NewBlogCtrl(ctrlmap, theme)
 	beego.Router("/blogs/:pagesize", blogCtrl, "get:Get")
 	beego.Router("/blog/:key", blogCtrl, "get:GetCreate")
+	beego.Router("/blog/view/:key", blogCtrl, "get:GetView")
 }
 
 func EnableFilters(s *mango.Service) *control.ControllerMap {
