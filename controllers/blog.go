@@ -80,7 +80,6 @@ func (c *BlogController) GetView() {
 func createBlogTopMenu() *control.Menu {
 	result := control.NewMenu("/blog")
 	result.AddItem("btnPreview", "#", "Preview", "fa-globe", nil)
-	result.AddItem("btnSave", "#", "Save", "fa-disc", nil)
 	result.AddItem("btnPublish", "#", "Publish", "fa-bolt", nil)
 
 	return result
