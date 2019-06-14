@@ -55,7 +55,26 @@ func (c *BlogController) GetCreate() {
 
 	c.Serve(result, err)
 }
+func (c *BlogController) GetView() {
+	c.Setup("blogView", "View Blog", true)
+	c.CreateSideMenu(logic.GetMenu("/blog"))
+	c.CreateTopMenu(createBlogTopMenu())
 
+	key, err := husk.ParseKey(c.Ctx.Input.Param(":key"))
+
+	if err != nil {
+		c.Serve(nil, err)
+	}
+
+	result := make(map[string]interface{})
+	_, err = mango.DoGET(c.GetMyToken(), &result, c.GetInstanceID(), "Blog.API", "article", key.String())
+
+	if err != nil {
+		log.Println(err)
+	}
+
+	c.Serve(result, err)
+}
 func createBlogTopMenu() *control.Menu {
 	result := control.NewMenu("/blog")
 	result.AddItem("btnPreview", "#", "Preview", "fa-globe", nil)

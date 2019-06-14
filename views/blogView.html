@@ -1,23 +1,19 @@
-<div class="main-header">
-    <section class="hero is-medium">
-        <div class="hero-body">
-            <div class="container">
-                <div class="columns is-mobile is-centered">
-                    <div class="column is-7 has-text-centered">
-                        <div class="buffer">
-                            <h3 class="title is-3">A blog</h3>
-                        </div>
-                        <div class="buffer">
-                            <h4 class="subtitle is-4">I mean, really</h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+        <li><a href="../">Blog.API</a></li>
+        <li class="is-active"><a href="#" aria-current="page">blogView</a></li>
+    </ul>
+</nav>
+<section class="hero is-info welcome is-small">
+    <div class="hero-body">
+        <div class="container">
+            <h1 class="title">
+                View Blog
+            </h1>
         </div>
-    </section>
-</div>
-<!-- end main header -->
-
+    </div>
+</section>
+<br>
 <!-- main content -->
 <div class="main-content">
     <div class="container">
@@ -27,15 +23,15 @@
                 <div class="section">
                     <div class="sidebar">
                         <!-- side bar header-->
+                        {{range $key, $val := .Data}}
                         <div class="sidebar-header-single">
-                            <h4 class="title is-4">Some Post</h4>
-                            <h5 class="subtitle is-5">A Subtitle</h5>
+                            <h4 class="title is-4">{{$val.Title}}</h4>
                         </div>
                         <!-- end of side bar header -->
                         <!-- side bar content -->
                         <div class="sidebar-list-single">
-                            <p>Posted on July 9th 2018, 10:00am</p>
-                            <p>Written by Dirk</p>
+                            <p>Posted on date</p>
+                            <p>{{$val.WrittenBy}}</p>
                         </div>
                         <!-- end of side bar content -->
                         <!-- side bar footer -->
@@ -52,11 +48,8 @@
                 <div class="section">
                     <div class="post-single">
                         <div class="post-single-content">
-                            <p>Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla</p>
-                            <p>Bla Bla Bla Bla Bla Bla koele Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla</p>
-                            <p>Bla Bla Bla Bla Bla Bla Bla Bla Bla kruis Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla</p>
-                            <p>Bla Bla Bla Bla Bla Bla Bla koeloe Bla kroos Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla</p>
-                            <p>Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla</p>
+                            <p>{{$val.Content}}</p>
+
                         </div>
                     </div>
                 </div>
@@ -65,6 +58,7 @@
         </div>
     </div>
 </div>
+{{end}}
 <!-- end of main content -->
 </div>
 <div class="columns">
