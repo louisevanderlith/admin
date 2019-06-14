@@ -18,7 +18,8 @@ Future<HttpRequest> createArticle(String title, String username) async {
   final request = HttpRequest();
   request.open("POST", url);
   request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
-  request.setRequestHeader("Authorization", "Bearer " + window.localStorage['avosession']);
+  request.setRequestHeader(
+      "Authorization", "Bearer " + window.localStorage['avosession']);
   request.onLoadEnd
       .listen((e) => compltr.complete(request), onError: compltr.completeError);
   request.onError.listen(compltr.completeError);
@@ -28,20 +29,25 @@ Future<HttpRequest> createArticle(String title, String username) async {
   return compltr.future;
 }
 
-Future<HttpRequest> updateArticle(String title, String content, String imageKey, String username) async {
+Future<HttpRequest> updateArticle(String key, String title, String content,
+    String imageKey, String username) async {
   var url = await buildPath("Blog.API", "article", new List<String>());
   final data = jsonEncode({
-    "Title": title,
-    "ImageKey": imageKey,
-    "Content": content,
-    "WrittenBy": username,
-    "Public": false
+    "Key": key,
+    "Body": {
+      "Title": title,
+      "ImageKey": imageKey,
+      "Content": content,
+      "WrittenBy": username,
+      "Public": false
+    }
   });
 
   final compltr = new Completer<HttpRequest>();
   final request = HttpRequest();
   request.open("PUT", url);
-  request.setRequestHeader("Authorization", "Bearer " + window.localStorage['avosession']);
+  request.setRequestHeader(
+      "Authorization", "Bearer " + window.localStorage['avosession']);
   request.onLoadEnd
       .listen((e) => compltr.complete(request), onError: compltr.completeError);
   request.onError.listen(compltr.completeError);
@@ -49,20 +55,25 @@ Future<HttpRequest> updateArticle(String title, String content, String imageKey,
   request.send(data);
 }
 
-Future<HttpRequest> publishArticle(String title, String content, String imageKey, String username) async {
+Future<HttpRequest> publishArticle(String key, String title, String content,
+    String imageKey, String username) async {
   var url = await buildPath("Blog.API", "article", new List<String>());
   final data = jsonEncode({
-    "Title": title,
-    "ImageKey": imageKey,
-    "Content": content,
-    "WrittenBy": username,
-    "Public": true
+    "Key": key,
+    "Body": {
+      "Title": title,
+      "ImageKey": imageKey,
+      "Content": content,
+      "WrittenBy": username,
+      "Public": true
+    }
   });
 
   final compltr = new Completer<HttpRequest>();
   final request = HttpRequest();
   request.open("PUT", url);
-  request.setRequestHeader("Authorization", "Bearer " + window.localStorage['avosession']);
+  request.setRequestHeader(
+      "Authorization", "Bearer " + window.localStorage['avosession']);
   request.onLoadEnd
       .listen((e) => compltr.complete(request), onError: compltr.completeError);
   request.onError.listen(compltr.completeError);

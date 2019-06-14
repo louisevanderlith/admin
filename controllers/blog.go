@@ -55,6 +55,7 @@ func (c *BlogController) GetCreate() {
 
 	c.Serve(result, err)
 }
+
 func (c *BlogController) GetView() {
 	c.Setup("blogView", "View Blog", true)
 	c.CreateSideMenu(logic.GetMenu("/blog"))
@@ -75,6 +76,7 @@ func (c *BlogController) GetView() {
 
 	c.Serve(result, err)
 }
+
 func createBlogTopMenu() *control.Menu {
 	result := control.NewMenu("/blog")
 	result.AddItem("btnPreview", "#", "Preview", "fa-globe", nil)
