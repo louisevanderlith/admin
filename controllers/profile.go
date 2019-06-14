@@ -38,6 +38,8 @@ func (c *ProfileController) Get() {
 func (c *ProfileController) GetEdit() {
 	c.Setup("profileEdit", "Edit Profile", true)
 	c.CreateSideMenu(logic.GetMenu("/profile"))
+	c.EnableSave()
+	
 	key, err := husk.ParseKey(c.Ctx.Input.Param(":key"))
 
 	if err != nil {

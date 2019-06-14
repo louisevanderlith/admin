@@ -41,6 +41,8 @@ func (c *UserController) Get() {
 func (c *UserController) GetView() {
 	c.Setup("userView", "View User", true)
 	c.CreateSideMenu(logic.GetMenu("/user"))
+	c.EnableSave()
+
 	key, err := husk.ParseKey(c.Ctx.Input.Param(":key"))
 
 	if err != nil {
