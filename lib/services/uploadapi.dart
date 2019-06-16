@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:html';
 
@@ -6,19 +7,21 @@ import '../pathlookup.dart';
 
 String _imageURL;
 
-void createUpload(FormData data, Function callback) async {
+Future<HttpRequest> createUpload(FormData data) async {
   var url = await buildPath('Artifact.API', 'upload', new List<String>());
-  
+
+  final compltr = new Completer<HttpRequest>();
   final request = HttpRequest();
   request.open("POST", url);
-  //request.withCredentials = true;
-  request.setRequestHeader("Authorization", "Bearer " + window.localStorage['avosession']);
-  request.onLoadEnd.listen((e) => requestComplete(request, callback));
+  request.setRequestHeader(
+      "Authorization", "Bearer " + window.localStorage['avosession']);
+  request.onLoadEnd
+      .listen((e) => compltr.complete(request), onError: compltr.completeError);
+  request.onError.listen(compltr.completeError);
+  request.onProgress.listen(onProgress);
   request.send(data);
 
-  /*return HttpRequest.requestCrossOrigin(path, method: "POST", sendData: jsonEncode(data));
-  return HttpRequest.request(path,
-      method: 'POST', withCredentials: true, sendData: data);*/
+  return compltr.future;
 }
 
 void uploadFile(Event e) {
@@ -29,7 +32,11 @@ void uploadFile(Event e) {
     var forAttr = fileElem.dataset['for'];
     var nameAttr = fileElem.dataset['name'];
     var ctrlID = fileElem.id;
-    var infoObj = {"For": forAttr, "ItemName": nameAttr, "ItemKey": getObjKey()};
+    var infoObj = {
+      "For": forAttr,
+      "ItemName": nameAttr,
+      "ItemKey": getObjKey()
+    };
 
     if (files.length > 0) {
       File firstFile = files[0];
@@ -39,15 +46,19 @@ void uploadFile(Event e) {
   }
 }
 
-void doUpload(File file, Map<String, String> infoObj, String ctrlID) {
+void doUpload(File file, Map<String, String> infoObj, String ctrlID) async {
   var formData = new FormData();
   formData.appendBlob("file", file);
   formData.append("info", jsonEncode(infoObj));
 
-  createUpload(formData, (obj) {
-    var resp = jsonDecode(obj);
+  var req = await createUpload(formData);
+  final resp = jsonDecode(req.response);
+
+  if (req.status == 200) {
     finishUpload(resp, infoObj, ctrlID);
-  });
+  } else {
+    print(resp);
+  }
 }
 
 void finishUpload(
@@ -73,4 +84,10 @@ void finishUpload(
 
   uploader.dataset['id'] = data;
   uploader.attributes.remove('required');
+}
+
+void onProgress(ProgressEvent e) {
+  if (e.lengthComputable) {
+    print('Progress... ${e.total}/${e.loaded}');
+  }
 }

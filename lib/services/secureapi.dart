@@ -17,7 +17,10 @@ Future<HttpRequest> updateRoles(String key, List<RoleItem> items) async {
       .listen((e) => compltr.complete(request), onError: compltr.completeError);
   request.onError.listen(compltr.completeError);
   request.onProgress.listen(onProgress);
+  
   request.send(data);
+
+  return compltr.future;
 }
 
 void onProgress(ProgressEvent e) {

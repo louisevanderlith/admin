@@ -53,6 +53,8 @@ Future<HttpRequest> updateArticle(String key, String title, String content,
   request.onError.listen(compltr.completeError);
   request.onProgress.listen(onProgress);
   request.send(data);
+
+  return compltr.future;
 }
 
 Future<HttpRequest> publishArticle(String key, String title, String content,
@@ -79,6 +81,25 @@ Future<HttpRequest> publishArticle(String key, String title, String content,
   request.onError.listen(compltr.completeError);
   request.onProgress.listen(onProgress);
   request.send(data);
+
+  return compltr.future;
+}
+
+Future<HttpRequest> removeArticle(String key) async {
+  var url = await buildPath("Blog.API", "article", [key]);
+
+  final compltr = new Completer<HttpRequest>();
+  final request = HttpRequest();
+  request.open("DELETE", url);
+  request.setRequestHeader(
+      "Authorization", "Bearer " + window.localStorage['avosession']);
+  request.onLoadEnd
+      .listen((e) => compltr.complete(request), onError: compltr.completeError);
+  request.onError.listen(compltr.completeError);
+  request.onProgress.listen(onProgress);
+  request.send();
+
+  return compltr.future;
 }
 
 void onProgress(ProgressEvent e) {
