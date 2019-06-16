@@ -8,7 +8,7 @@ import 'package:Admin.APP/services/uploadapi.dart';
 class BlogForm extends FormState {
   String _objKey;
   TextInputElement _title;
-  TextAreaElement _content;
+  DivElement _content;
   FileUploadInputElement _headImage;
 
   BlogForm(String idElem, String objKey, String titleElem, String contentElem,
@@ -24,6 +24,9 @@ class BlogForm extends FormState {
     querySelector(publishBtn).onClick.listen(onPublishClick);
 
     _headImage.onChange.listen(uploadFile);
+
+    //Editor events
+    querySelectorAll('#editCtrls a').onClick.listen(onEditorCtrlClick);
   }
 
   String get title {
@@ -31,7 +34,7 @@ class BlogForm extends FormState {
   }
 
   String get content {
-    return _content.value;
+    return _content.innerHtml;
   }
 
   String get imageKey {
@@ -70,6 +73,25 @@ class BlogForm extends FormState {
       var result = jsonDecode(req.response);
 
       print(result);
+    }
+  }
+
+  void onEditorCtrlClick(MouseEvent e) {
+    final ctrl = e.target;
+
+    if (ctrl is AnchorElement) {
+      final role = ctrl.dataset['role'];
+      print("Got CMD ${role}");
+      switch (role) {
+        case 'h1':
+        case 'h2':
+        case 'p':
+          document.execCommand('formatBlock', false, role);
+          break;
+        default:
+          document.execCommand(role, false, null);
+          break;
+      }
     }
   }
 }
