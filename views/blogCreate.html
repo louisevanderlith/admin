@@ -23,7 +23,17 @@
                 <p class="help is-danger"></p>
             </div>
         </div>
-        <br>
+        <div class="field">
+            <div class="control">
+                <label class="label" for="cboCategories">Categories</label>
+                <select class="select" id="cboCategories">
+                    <option {{if eq .Data.Category "Default"}} selected {{end}} value="Default">Default</option>
+                    <option {{if eq .Data.Category "Motoring"}} selected {{end}} value="Motoring">Motoring</option>
+                    <option {{if eq .Data.Category "Technology"}} selected {{end}} value="Technology">Technology</option>
+                </select>
+                <p class="help is-danger"></p>
+            </div>
+        </div>
 
         <div class="field">
             <div class="control">

@@ -8,6 +8,7 @@ Future<HttpRequest> createArticle(String title, String username) async {
   var url = await buildPath("Blog.API", "article", new List<String>());
   var data = jsonEncode({
     "Title": title,
+    "Category": "Default",
     "ImageKey": '0`0',
     "Content": 'Content here.',
     "WrittenBy": username,
@@ -29,13 +30,14 @@ Future<HttpRequest> createArticle(String title, String username) async {
   return compltr.future;
 }
 
-Future<HttpRequest> updateArticle(String key, String title, String content,
+Future<HttpRequest> updateArticle(String key, String title, String category, String content,
     String imageKey, String username) async {
   var url = await buildPath("Blog.API", "article", new List<String>());
   final data = jsonEncode({
     "Key": key,
     "Body": {
       "Title": title,
+      "Category": category,
       "ImageKey": imageKey,
       "Content": content,
       "WrittenBy": username,
@@ -57,13 +59,14 @@ Future<HttpRequest> updateArticle(String key, String title, String content,
   return compltr.future;
 }
 
-Future<HttpRequest> publishArticle(String key, String title, String content,
+Future<HttpRequest> publishArticle(String key, String title, String category, String content,
     String imageKey, String username) async {
   var url = await buildPath("Blog.API", "article", new List<String>());
   final data = jsonEncode({
     "Key": key,
     "Body": {
       "Title": title,
+      "Category": category,
       "ImageKey": imageKey,
       "Content": content,
       "WrittenBy": username,

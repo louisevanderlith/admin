@@ -11,7 +11,6 @@ class RoleItem {
     _application = querySelector(applicationElem);
     _roletypes = querySelectorAll(roletypeElem);
     _loaded = _application != null && _roletypes.length != 0;
-    print('Loaded ${_loaded}');
   }
   
   String get application {
