@@ -26,7 +26,10 @@ class BlogForm extends FormState {
     _headImage.onChange.listen(uploadFile);
 
     //Editor events
-    querySelectorAll('#editCtrls a').onClick.listen(onEditorCtrlClick);
+    querySelectorAll('#editCtrls')
+        .onClick
+        .matches('span.button')
+        .listen(onEditorCtrlClick);
   }
 
   String get title {
@@ -77,11 +80,11 @@ class BlogForm extends FormState {
   }
 
   void onEditorCtrlClick(MouseEvent e) {
-    final ctrl = e.target;
+    final ctrl = e.matchingTarget;
 
-    if (ctrl is AnchorElement) {
+    if (ctrl is SpanElement) {
       final role = ctrl.dataset['role'];
-      print("Got CMD ${role}");
+      
       switch (role) {
         case 'h1':
         case 'h2':
