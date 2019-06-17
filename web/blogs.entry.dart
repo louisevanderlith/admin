@@ -5,7 +5,7 @@ import 'package:Admin.APP/services/blogapi.dart';
 
 void main() {
   querySelector('#btnAdd').onClick.listen(onAddClick);
-  querySelectorAll('.deleter').onClick.listen(onDeleteClick);
+  document.body.onClick.matches('.deleter').listen(onDeleteClick);
 }
 
 void onAddClick(MouseEvent e) async {
@@ -25,8 +25,8 @@ void onAddClick(MouseEvent e) async {
 }
 
 void onDeleteClick(MouseEvent e) async {
-  final targt = e.target;
-  
+  final targt = e.matchingTarget;
+
   if (targt is ButtonElement) {
     final toDelete = targt.dataset["key"];
     final warn = "Are you sure you want to Delete ${toDelete}?";

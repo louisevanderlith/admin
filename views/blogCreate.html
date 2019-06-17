@@ -114,7 +114,7 @@
                     </span>
                 </div>
                 <div id="txtContent" class="content" contenteditable>
-                    {{.Data.Content}}
+                    {{.Data.Content | str2html}}
                 </div>
                 <p class="help is-danger"></p>
             </div>
