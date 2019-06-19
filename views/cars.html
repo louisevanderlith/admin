@@ -1,0 +1,62 @@
+<nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+        <li><a href="../">Stock.API</a></li>
+        <li class="is-active"><a href="#" aria-current="page">Cars</a></li>
+    </ul>
+</nav>
+<section class="hero is-info welcome is-small">
+    <div class="hero-body">
+        <div class="container">
+            <h1 class="title">
+                Cars stock
+            </h1>
+            <button class="button is-primary is-small" type="button" id="btnAddSite">Create new car</button>
+        </div>
+    </div>
+</section>
+<section class="section">
+    <table class="table is-fullwidth is-hoverable" id="dataTable">
+        <thead>
+            <tr>
+                <th>Car Key</th>
+                <th>Year model</th>
+                <th>Mileage</th>
+                <th>Licence Expiry</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>Car Key</th>
+                <th>Year model</th>
+                <th>Mileage</th>
+                <th>Licence Expiry</th>
+                <th>Actions</th>
+            </tr>
+        </tfoot>
+        <tbody>
+            {{range $key, $val := .Data}}
+            <tr>
+                <td>{{$val.V.Entity.VehicleKey}}</td>
+                <td>{{$val.V.Address.Year}}</td>
+                <td>{{$val.V.Mileage}}</td>
+                <td>{{$val.V.LicenceExpiry}}</td>
+                <td>
+                    <p class="buttons">
+                        <a href="/carsEdit/{{$val.V.K}}" class="button is-primary">
+                            <span class="icon is-small">
+                                <i class="far fa-edit"></i>
+                            </span>
+                        </a>
+                        <button data-key="{{$val.V.K}}" class="button is-danger deleter">
+                            <span class="icon is-small">
+                                <i class="fas fa-ban"></i>
+                            </span>
+                        </button>
+                    </p>
+                </td>
+            </tr>
+            {{end}}
+        </tbody>
+    </table>
+</section>

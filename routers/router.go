@@ -59,6 +59,18 @@ func Setup(s *mango.Service) {
 	entityCtrl := controllers.NewEntityCtrl(ctrlmap, theme)
 	beego.Router("/entities/:pagesize", entityCtrl, "get:Get")
 	beego.Router("/entity/:key", entityCtrl, "get:GetEdit")
+
+	carsCtrl := controllers.NewCarsCtrl(ctrlmap, theme)
+	beego.Router("/cars/:pagesize", carsCtrl, "get:Get")
+	beego.Router("/car/:key", carsCtrl, "get:GetEdit")
+
+	partsCtrl := controllers.NewPartsCtrl(ctrlmap, theme)
+	beego.Router("/parts/:pagesize", partsCtrl, "get:Get")
+	beego.Router("/part/:key", partsCtrl, "get:GetEdit")
+
+	servicesCtrl := controllers.NewServicesCtrl(ctrlmap, theme)
+	beego.Router("/services/:pagesize", servicesCtrl, "get:Get")
+	beego.Router("/service/:key", servicesCtrl, "get:GetEdit")
 }
 
 func EnableFilters(s *mango.Service) *control.ControllerMap {
@@ -78,6 +90,12 @@ func EnableFilters(s *mango.Service) *control.ControllerMap {
 	ctrlmap.Add("/blog", emptyMap)
 	ctrlmap.Add("/entity", emptyMap)
 	ctrlmap.Add("/entities", emptyMap)
+	ctrlmap.Add("/cars", emptyMap)
+	ctrlmap.Add("/car", emptyMap)
+	ctrlmap.Add("/services", emptyMap)
+	ctrlmap.Add("/service", emptyMap)
+	ctrlmap.Add("/parts", emptyMap)
+	ctrlmap.Add("/part", emptyMap)
 
 
 	beego.InsertFilter("/*", beego.BeforeRouter, ctrlmap.FilterUI)
