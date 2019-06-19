@@ -1,80 +1,64 @@
-<nav class="breadcrumb" aria-label="breadcrumbs">
-    <ul>
-        <li><a href="../">Blog.API</a></li>
-        <li class="is-active"><a href="#" aria-current="page">blogView</a></li>
-    </ul>
-</nav>
-<section class="hero is-info welcome is-small">
-    <div class="hero-body">
+<div class="section">
+    <nav class="breadcrumb" aria-label="breadcrumbs">
+        <ul>
+            <li><a href="../">Blog.API</a></li>
+            <li class="is-active"><a href="#" aria-current="page">blogView</a></li>
+        </ul>
+    </nav>
+    <section class="hero is-info welcome is-small">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    View Blog
+                </h1>
+            </div>
+        </div>
+    </section>
+    <br>
+    <!-- main content -->
+    <div class="main-content">
         <div class="container">
-            <h1 class="title">
-                View Blog
-            </h1>
-        </div>
-    </div>
-</section>
-<br>
-<!-- main content -->
-<div class="main-content">
-    <div class="container">
-        <div class="columns is-mobile">
-            <!-- side bar -->
-            <div class="column is-4 is-narrow">
-                <div class="section">
-                    <div class="sidebar">
-                        <!-- side bar header-->
-                        {{range $key, $val := .Data}}
-                        <div class="sidebar-header-single">
-                            <h4 class="title is-4">{{$val.Title}}</h4>
+            <div class="columns is-mobile">
+                <!-- side bar -->
+                <div class="column is-4 is-narrow">
+                    <div class="section">
+                        <div class="sidebar">
+                            <!-- side bar header-->
+                            {{range $key, $val := .Data}}
+                            <div class="sidebar-header-single">
+                                <h4 class="title is-4">{{$val.Title}}</h4>
+                            </div>
+                            <!-- end of side bar header -->
+                            <!-- side bar content -->
+                            <div class="sidebar-list-single">
+                                <p>Posted on date</p>
+                                <p>{{$val.WrittenBy}}</p>
+                            </div>
+                            <!-- end of side bar content -->
+                            <!-- side bar footer -->
+                            <div class="sidebar-footer-single">
+                                <p><a href="index.html">Back to Home</a></p>
+                            </div>
+                            <!-- end of side bar footer -->
                         </div>
-                        <!-- end of side bar header -->
-                        <!-- side bar content -->
-                        <div class="sidebar-list-single">
-                            <p>Posted on date</p>
-                            <p>{{$val.WrittenBy}}</p>
-                        </div>
-                        <!-- end of side bar content -->
-                        <!-- side bar footer -->
-                        <div class="sidebar-footer-single">
-                            <p><a href="index.html">Back to Home</a></p>
-                        </div>
-                        <!-- end of side bar footer -->
                     </div>
                 </div>
-            </div>
-            <!-- end of side bar -->
-            <!-- post -->
-            <div class="column is-8">
-                <div class="section">
-                    <div class="post-single">
-                        <div class="post-single-content">
-                            <p>{{$val.Content}}</p>
+                <!-- end of side bar -->
+                <!-- post -->
+                <div class="column is-8">
+                    <div class="section">
+                        <div class="post-single">
+                            <div class="post-single-content">
+                                <p>{{$val.Content}}</p>
 
+                            </div>
                         </div>
                     </div>
                 </div>
+                <!-- end of post -->
             </div>
-            <!-- end of post -->
         </div>
     </div>
-</div>
-{{end}}
-<!-- end of main content -->
-</div>
-<div class="columns">
-    <div class="column left">
-        <figure class="image is-3x2">
-            <img class="is-square" src="images/road1.jpg">
-        </figure>
-    </div>
-    <div class="column center">
-        <figure class="image is-3x2">
-            <img class="is-square" src="images/BMWlogo1.jpg">
-        </figure>
-    </div>
-    <div class="column right">
-        <figure class="image is-3x2">
-            <img class="is-square" src="images/sign.jpg">
-        </figure>
-    </div>
+    {{end}}
+    <!-- end of main content -->
 </div>

@@ -22,7 +22,7 @@ func NewUploadsCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting)
 }
 
 func (req *UploadsController) Get() {
-	req.Setup("uploads", "Uploads", false)
+	req.Setup("uploads", "Uploads", true)
 	req.CreateSideMenu(logic.GetMenu("/uploads/A10"))
 
 	var result []interface{}

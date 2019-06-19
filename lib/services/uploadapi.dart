@@ -86,6 +86,23 @@ void finishUpload(
   uploader.attributes.remove('required');
 }
 
+Future<HttpRequest> removeUpload(String key) async {
+  var url = await buildPath("Artifact.API", "upload", [key]);
+
+  final compltr = new Completer<HttpRequest>();
+  final request = HttpRequest();
+  request.open("DELETE", url);
+  request.setRequestHeader(
+      "Authorization", "Bearer " + window.localStorage['avosession']);
+  request.onLoadEnd
+      .listen((e) => compltr.complete(request), onError: compltr.completeError);
+  request.onError.listen(compltr.completeError);
+  request.onProgress.listen(onProgress);
+  request.send();
+
+  return compltr.future;
+}
+
 void onProgress(ProgressEvent e) {
   if (e.lengthComputable) {
     print('Progress... ${e.total}/${e.loaded}');

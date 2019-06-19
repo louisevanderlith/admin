@@ -1,16 +1,11 @@
-<nav class="breadcrumb" aria-label="breadcrumbs">
-    <ul>
-        <li><a href="../">Blog.API</a></li>
-        <li class="is-active"><a href="#" aria-current="page">blogCreate</a></li>
-    </ul>
-</nav>
-<section class="hero is-info welcome is-small">
+<section class="hero is-info is-small">
     <div class="hero-body">
-        <div class="container">
-            <h1 class="title">
-                Create a blog
-            </h1>
-        </div>
+        <h2 class="subtitle">
+            {{ template "_shared/breadcrumbs.html" .}}
+        </h2>
+        <h1 class="title">
+            Create a blog
+        </h1>
     </div>
 </section>
 <br>
@@ -29,7 +24,8 @@
                 <select class="select" id="cboCategories">
                     <option {{if eq .Data.Category "Default"}} selected {{end}} value="Default">Default</option>
                     <option {{if eq .Data.Category "Motoring"}} selected {{end}} value="Motoring">Motoring</option>
-                    <option {{if eq .Data.Category "Technology"}} selected {{end}} value="Technology">Technology</option>
+                    <option {{if eq .Data.Category "Technology"}} selected {{end}} value="Technology">Technology
+                    </option>
                 </select>
                 <p class="help is-danger"></p>
             </div>
@@ -69,7 +65,7 @@
                         <i class="icon is-small fas fa-redo"></i>
                     </span>
                     <span class="button" data-role="bold">
-                        <i class=" icon is-small fa fa-bold"></i>
+                        <i class="icon is-small fa fa-bold"></i>
                     </span>
                     <span class="button" data-role="italic">
                         <i class="icon is-small fa fa-italic"></i>

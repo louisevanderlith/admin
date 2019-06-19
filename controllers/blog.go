@@ -26,6 +26,7 @@ func NewBlogCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) *B
 func (c *BlogController) Get() {
 	c.Setup("blogs", "Blogs", true)
 	c.CreateSideMenu(logic.GetMenu("/blog"))
+	c.CreateTopMenu(getBlogsTopMenu())
 
 	result := []interface{}{}
 	pagesize := c.Ctx.Input.Param(":pagesize")
@@ -83,6 +84,13 @@ func createBlogTopMenu() *control.Menu {
 	result := control.NewMenu("/blog")
 	result.AddItemWithID("btnPreview", "#", "Preview", "fa-globe", nil)
 	result.AddItemWithID("btnPublish", "#", "Publish", "fa-bolt", nil)
+
+	return result
+}
+
+func getBlogsTopMenu() *control.Menu {
+	result := control.NewMenu("/blog")
+	result.AddItemWithID("btnAdd", "#", "Add Article", "fa-globe", nil)
 
 	return result
 }
