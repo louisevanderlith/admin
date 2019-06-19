@@ -1,16 +1,16 @@
 <nav class="breadcrumb" aria-label="breadcrumbs">
     <ul>
-        <li><a href="../">Blog.API</a></li>
-        <li class="is-active"><a href="#" aria-current="page">Blogs</a></li>
+        <li><a href="../">Stock.API</a></li>
+        <li class="is-active"><a href="#" aria-current="page">Parts</a></li>
     </ul>
 </nav>
 <section class="hero is-info welcome is-small">
     <div class="hero-body">
         <div class="container">
             <h1 class="title">
-                Blogs
+                Parts
             </h1>
-            <button class="button is-primary is-small" type="button" id="btnAdd">Write Article</button>
+            <button class="button is-primary is-small" type="button" id="btnAddSite">Create new part</button>
         </div>
     </div>
 </section>
@@ -18,40 +18,26 @@
     <table class="table is-fullwidth is-hoverable" id="dataTable">
         <thead>
             <tr>
-                <th>Title</th>
-                <th>Written by</th>
-                <th>Published</th>
-                <th>Created</th>
-                <th>Category</th>
-                <th>Actions</th>
+                <th>Stock Item</th>
             </tr>
         </thead>
         <tfoot>
             <tr>
-                <th>Title</th>
-                <th>Written by</th>
-                <th>Published</th>
-                <th>Created</th>
-                <th>Category</th>
-                <th>Actions</th>
+                <th>Stock Item</th>
             </tr>
         </tfoot>
         <tbody>
             {{range $key, $val := .Data}}
             <tr>
-                <td>{{$val.V.Title}}</td>
-                <td>{{$val.V.WrittenBy}}</td>
-                <td>{{$val.V.Public}}</td>
-                <td>{{$val.V.Created}}</td>
-                <td>{{$val.V.Category}}</td>
+                <td>{{$val.V.StockItem}}</td>
                 <td>
                     <p class="buttons">
-                        <a href="/blog/{{$val.K}}" class="button is-primary">
+                        <a href="/parts/{{$val.V.K}}" class="button is-primary">
                             <span class="icon is-small">
                                 <i class="far fa-edit"></i>
                             </span>
                         </a>
-                        <button data-key="{{$val.K}}" class="button is-danger deleter">
+                        <button data-key="{{$val.V.K}}" class="button is-danger deleter">
                             <span class="icon is-small">
                                 <i class="fas fa-ban"></i>
                             </span>
