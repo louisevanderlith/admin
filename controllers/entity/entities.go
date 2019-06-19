@@ -1,4 +1,4 @@
-package controllers
+package entity
 
 import (
 	"log"
@@ -11,20 +11,20 @@ import (
 	"github.com/louisevanderlith/admin/logic"
 )
 
-type EntityController struct {
+type EntitiesController struct {
 	control.UIController
 }
 
-func NewEntityCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) *EntityController {
-	result := &EntityController{}
+func NewEntitiesCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) *EntitiesController {
+	result := &EntitiesController{}
 	result.SetTheme(settings)
 	result.SetInstanceMap(ctrlMap)
 
 	return result
 }
 
-func (c *EntityController) Get() {
-	c.Setup("entity", "Entity", true)
+func (c *EntitiesController) Get() {
+	c.Setup("entities", "Entity", true)
 	c.CreateSideMenu(logic.GetMenu("/enity"))
 
 	result := []interface{}{}
@@ -35,10 +35,9 @@ func (c *EntityController) Get() {
 	c.Serve(result, err)
 }
 
-func (c *EntityController) GetEdit() {
+func (c *EntitiesController) GetEdit() {
 	c.Setup("entityEdit", "Edit Entity", true)
 	c.CreateSideMenu(logic.GetMenu("/entity"))
-	c.CreateTopMenu(createBlogTopMenu())
 	c.EnableSave()
 
 	key, err := husk.ParseKey(c.Ctx.Input.Param(":key"))

@@ -1,4 +1,4 @@
-package controllers
+package blog
 
 import (
 	"log"
@@ -11,21 +11,21 @@ import (
 	"github.com/louisevanderlith/admin/logic"
 )
 
-type BlogController struct {
+type ArticlesController struct {
 	control.UIController
 }
 
-func NewBlogCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) *BlogController {
-	result := &BlogController{}
+func NewArticlesCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) *ArticlesController {
+	result := &ArticlesController{}
 	result.SetTheme(settings)
 	result.SetInstanceMap(ctrlMap)
 
 	return result
 }
 
-func (c *BlogController) Get() {
-	c.Setup("blogs", "Blogs", true)
-	c.CreateSideMenu(logic.GetMenu("/blog"))
+func (c *ArticlesController) Get() {
+	c.Setup("articles", "Articles", true)
+	c.CreateSideMenu(logic.GetMenu("/articles"))
 	c.CreateTopMenu(getBlogsTopMenu())
 
 	result := []interface{}{}
@@ -36,9 +36,9 @@ func (c *BlogController) Get() {
 	c.Serve(result, err)
 }
 
-func (c *BlogController) GetCreate() {
-	c.Setup("blogCreate", "Create Blog", true)
-	c.CreateSideMenu(logic.GetMenu("/blog"))
+func (c *ArticlesController) GetCreate() {
+	c.Setup("articleCreate", "Create Article", true)
+	c.CreateSideMenu(logic.GetMenu("/articles"))
 	c.CreateTopMenu(createBlogTopMenu())
 	c.EnableSave()
 
@@ -58,9 +58,9 @@ func (c *BlogController) GetCreate() {
 	c.Serve(result, err)
 }
 
-func (c *BlogController) GetView() {
-	c.Setup("blogView", "View Blog", true)
-	c.CreateSideMenu(logic.GetMenu("/blog"))
+func (c *ArticlesController) GetView() {
+	c.Setup("articleView", "View Article", true)
+	c.CreateSideMenu(logic.GetMenu("/articles"))
 	c.CreateTopMenu(createBlogTopMenu())
 	c.EnableSave()
 
@@ -81,7 +81,7 @@ func (c *BlogController) GetView() {
 }
 
 func createBlogTopMenu() *control.Menu {
-	result := control.NewMenu("/blog")
+	result := control.NewMenu("/article")
 	result.AddItemWithID("btnPreview", "#", "Preview", "fa-globe", nil)
 	result.AddItemWithID("btnPublish", "#", "Publish", "fa-bolt", nil)
 
@@ -89,7 +89,7 @@ func createBlogTopMenu() *control.Menu {
 }
 
 func getBlogsTopMenu() *control.Menu {
-	result := control.NewMenu("/blog")
+	result := control.NewMenu("/article")
 	result.AddItemWithID("btnAdd", "#", "Add Article", "fa-globe", nil)
 
 	return result

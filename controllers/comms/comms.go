@@ -1,4 +1,4 @@
-package controllers
+package comms
 
 import (
 	"log"
@@ -9,21 +9,21 @@ import (
 	"github.com/louisevanderlith/mango/control"
 )
 
-type CommsController struct {
+type MessagesController struct {
 	control.UIController
 }
 
-func NewCommsCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) *CommsController {
-	result := &CommsController{}
+func NewMessagesCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) *MessagesController {
+	result := &MessagesController{}
 	result.SetTheme(settings)
 	result.SetInstanceMap(ctrlMap)
 
 	return result
 }
 
-func (c *CommsController) Get() {
-	c.Setup("comms", "Messages", false)
-	c.CreateSideMenu(logic.GetMenu("/comms"))
+func (c *MessagesController) Get() {
+	c.Setup("messages", "Messages", false)
+	c.CreateSideMenu(logic.GetMenu("/messages"))
 
 	result := []interface{}{}
 	_, err := mango.DoGET(c.GetMyToken(), &result, c.GetInstanceID(), "Comms.API", "message", "all", "A10")
@@ -31,9 +31,9 @@ func (c *CommsController) Get() {
 	c.Serve(result, err)
 }
 
-func (c *CommsController) GetView() {
-	c.Setup("commsView", "View Message", false)
-	c.CreateSideMenu(logic.GetMenu("/comms"))
+func (c *MessagesController) GetView() {
+	c.Setup("messageView", "View Message", false)
+	c.CreateSideMenu(logic.GetMenu("/messages"))
 
 	key, err := husk.ParseKey(c.Ctx.Input.Param(":key"))
 

@@ -1,4 +1,4 @@
-package controllers
+package vin
 
 import (
 	"log"
@@ -9,26 +9,26 @@ import (
 	"github.com/louisevanderlith/mango/control"
 )
 
-type CarsController struct {
+type VINController struct {
 	control.UIController
 }
 
-func NewCarsCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) *CarsController {
-	result := &CarsController{}
+func NewVINCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) *VINController {
+	result := &VINController{}
 	result.SetTheme(settings)
 	result.SetInstanceMap(ctrlMap)
 
 	return result
 }
 
-func (c *CarsController) Get() {
-	c.Setup("cars", "Cars", true)
-	c.CreateSideMenu(logic.GetMenu("/cars"))
+func (c *VINController) Get() {
+	c.Setup("vins", "VIN Numbers", true)
+	c.CreateSideMenu(logic.GetMenu("/vin"))
 
 	result := []interface{}{}
 	pagesize := c.Ctx.Input.Param(":pagesize")
 
-	_, err := mango.DoGET(c.GetMyToken(), &result, c.GetInstanceID(), "Stock.API", "car", "all", pagesize)
+	_, err := mango.DoGET(c.GetMyToken(), &result, c.GetInstanceID(), "VIN.API", "admin", "all", pagesize)
 
 	if err != nil {
 		log.Println(err)
@@ -39,9 +39,9 @@ func (c *CarsController) Get() {
 	c.Serve(result, nil)
 }
 
-func (c *CarsController) GetEdit() {
-	c.Setup("carsEdit", "Edit car", false)
-	c.CreateSideMenu(logic.GetMenu("/cars"))
+func (c *VINController) GetView() {
+	c.Setup("vinView", "View VIN", false)
+	c.CreateSideMenu(logic.GetMenu("/vin"))
 	key, err := husk.ParseKey(c.Ctx.Input.Param(":key"))
 
 	if err != nil {
@@ -49,7 +49,7 @@ func (c *CarsController) GetEdit() {
 	}
 
 	result := make(map[string]interface{})
-	_, err = mango.DoGET(c.GetMyToken(), &result, c.GetInstanceID(), "Stock.API", "car", key.String())
+	_, err = mango.DoGET(c.GetMyToken(), &result, c.GetInstanceID(), "VIN.API", "admin", key.String())
 
 	c.Serve(result, err)
 }

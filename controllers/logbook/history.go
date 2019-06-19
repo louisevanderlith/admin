@@ -1,4 +1,4 @@
-package controllers
+package logbook
 
 import (
 	"github.com/louisevanderlith/mango"

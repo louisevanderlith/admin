@@ -3,6 +3,17 @@ package routers
 import (
 	"github.com/astaxie/beego"
 	"github.com/louisevanderlith/admin/controllers"
+	"github.com/louisevanderlith/admin/controllers/artifact"
+	"github.com/louisevanderlith/admin/controllers/blog"
+	"github.com/louisevanderlith/admin/controllers/comment"
+	"github.com/louisevanderlith/admin/controllers/comms"
+	"github.com/louisevanderlith/admin/controllers/entity"
+	"github.com/louisevanderlith/admin/controllers/folio"
+	"github.com/louisevanderlith/admin/controllers/router"
+	secCtrl "github.com/louisevanderlith/admin/controllers/secure"
+	"github.com/louisevanderlith/admin/controllers/stock"
+	"github.com/louisevanderlith/admin/controllers/vehicle"
+	"github.com/louisevanderlith/admin/controllers/vin"
 	"github.com/louisevanderlith/mango"
 	"github.com/louisevanderlith/mango/control"
 	secure "github.com/louisevanderlith/secure/core"
@@ -21,56 +32,82 @@ func Setup(s *mango.Service) {
 
 	beego.Router("/", controllers.NewDefaultCtrl(ctrlmap, theme))
 
-	commsCtrl := controllers.NewCommsCtrl(ctrlmap, theme)
-	beego.Router("/comms/:pagesize", commsCtrl, "get:Get")
-	beego.Router("/comm/:key", commsCtrl, "get:GetView")
+	//Artifact
+	uploadsCtrl := artifact.NewUploadsCtrl(ctrlmap, theme)
+	beego.Router("/artifact/uploads/:pagesize", uploadsCtrl, "get:Get")
+	beego.Router("/artifact/upload/:key", uploadsCtrl, "get:GetView")
 
-	profileCtrl := controllers.NewProfileCtrl(ctrlmap, theme)
-	beego.Router("/profiles/:pagesize", profileCtrl, "get:Get")
-	beego.Router("/profile/:key", profileCtrl, "get:GetEdit")
+	//Blog
+	articlesCtrl := blog.NewArticlesCtrl(ctrlmap, theme)
+	beego.Router("/blog/articles/:pagesize", articlesCtrl, "get:Get")
+	beego.Router("/blog/article/:key", articlesCtrl, "get:GetCreate")
+	beego.Router("/blog/view/:key", articlesCtrl, "get:GetView")
 
-	uploadsCtrl := controllers.NewUploadsCtrl(ctrlmap, theme)
-	beego.Router("/uploads/:pagesize", uploadsCtrl, "get:Get")
-	beego.Router("/upload/:key", uploadsCtrl, "get:GetView")
+	//Comment
+	commentsCtrl := comment.NewCommentCtrl(ctrlmap, theme)
+	beego.Router("/comment/comments/:pagesize", commentsCtrl, "get:Get")
+	beego.Router("/comment/comment/:key", commentsCtrl, "get:GetView")
 
-	beego.Router("/memory", controllers.NewMemoryCtrl(ctrlmap, theme))
+	//Comms
+	commsCtrl := comms.NewMessagesCtrl(ctrlmap, theme)
+	beego.Router("/comms/messages/:pagesize", commsCtrl, "get:Get")
+	beego.Router("/comms/message/:key", commsCtrl, "get:GetView")
 
-	userCtrl := controllers.NewUserCtrl(ctrlmap, theme)
-	beego.Router("/users/:pagesize", userCtrl, "get:Get")
-	beego.Router("/user/:key", userCtrl, "get:GetView")
+	//Entity
+	entityCtrl := entity.NewEntitiesCtrl(ctrlmap, theme)
+	beego.Router("/entity/entities/:pagesize", entityCtrl, "get:Get")
+	beego.Router("/entity/view/:key", entityCtrl, "get:GetEdit")
 
-	commentsCtrl := controllers.NewCommentCtrl(ctrlmap, theme)
-	beego.Router("/comments/:pagesize", commentsCtrl, "get:Get")
-	beego.Router("/comment/:key", commentsCtrl, "get:GetView")
+	//Folio
+	profileCtrl := folio.NewProfileCtrl(ctrlmap, theme)
+	beego.Router("/folio/profiles/:pagesize", profileCtrl, "get:Get")
+	beego.Router("/folio/profile/:key", profileCtrl, "get:GetEdit")
 
-	vehicleCtrl := controllers.NewVehicleCtrl(ctrlmap, theme)
+	//Funds
+
+	//Game
+
+	//Gate
+
+	//Logbook
+
+	//Notify
+
+	//Router
+	beego.Router("/router/memory", router.NewMemoryCtrl(ctrlmap, theme))
+
+	//Secure
+	userCtrl := secCtrl.NewUserCtrl(ctrlmap, theme)
+	beego.Router("/secure/users/:pagesize", userCtrl, "get:Get")
+	beego.Router("/secure/user/:key", userCtrl, "get:GetView")
+
+	//Stock
+	carsCtrl := stock.NewCarsCtrl(ctrlmap, theme)
+	beego.Router("/stock/cars/:pagesize", carsCtrl, "get:Get")
+	beego.Router("/stock/car/:key", carsCtrl, "get:GetEdit")
+
+	partsCtrl := stock.NewPartsCtrl(ctrlmap, theme)
+	beego.Router("/stock/parts/:pagesize", partsCtrl, "get:Get")
+	beego.Router("/stock/part/:key", partsCtrl, "get:GetEdit")
+
+	servicesCtrl := stock.NewServicesCtrl(ctrlmap, theme)
+	beego.Router("/stock/services/:pagesize", servicesCtrl, "get:Get")
+	beego.Router("/stock/service/:key", servicesCtrl, "get:GetEdit")
+
+	//Theme
+
+	//Vehicle
+	vehicleCtrl := vehicle.NewVehiclesCtrl(ctrlmap, theme)
 	beego.Router("/vehicles/:pagesize", vehicleCtrl, "get:Get")
 	beego.Router("/vehicle/:key", vehicleCtrl, "get:GetView")
 
-	vinCtrl := controllers.NewVINCtrl(ctrlmap, theme)
+	//Vin
+	vinCtrl := vin.NewVINCtrl(ctrlmap, theme)
 	beego.Router("/vins/:pagesize", vinCtrl, "get:Get")
 	beego.Router("/vin/:key", vinCtrl, "get:GetView")
 
-	blogCtrl := controllers.NewBlogCtrl(ctrlmap, theme)
-	beego.Router("/blogs/:pagesize", blogCtrl, "get:Get")
-	beego.Router("/blog/:key", blogCtrl, "get:GetCreate")
-	beego.Router("/blog/view/:key", blogCtrl, "get:GetView")
+	//XChange
 
-	entityCtrl := controllers.NewEntityCtrl(ctrlmap, theme)
-	beego.Router("/entities/:pagesize", entityCtrl, "get:Get")
-	beego.Router("/entity/:key", entityCtrl, "get:GetEdit")
-
-	carsCtrl := controllers.NewCarsCtrl(ctrlmap, theme)
-	beego.Router("/cars/:pagesize", carsCtrl, "get:Get")
-	beego.Router("/car/:key", carsCtrl, "get:GetEdit")
-
-	partsCtrl := controllers.NewPartsCtrl(ctrlmap, theme)
-	beego.Router("/parts/:pagesize", partsCtrl, "get:Get")
-	beego.Router("/part/:key", partsCtrl, "get:GetEdit")
-
-	servicesCtrl := controllers.NewServicesCtrl(ctrlmap, theme)
-	beego.Router("/services/:pagesize", servicesCtrl, "get:Get")
-	beego.Router("/service/:key", servicesCtrl, "get:GetEdit")
 }
 
 func EnableFilters(s *mango.Service) *control.ControllerMap {
@@ -80,23 +117,26 @@ func EnableFilters(s *mango.Service) *control.ControllerMap {
 	emptyMap["GET"] = roletype.Admin
 
 	ctrlmap.Add("/", emptyMap)
-	ctrlmap.Add("/comms", emptyMap)
+	ctrlmap.Add("/artifact/upload", emptyMap)
+	ctrlmap.Add("/blog/article", emptyMap)
+	ctrlmap.Add("/blog/view", emptyMap)
+	ctrlmap.Add("/comment/comment", emptyMap)
+	ctrlmap.Add("/comms/message", emptyMap)
+	ctrlmap.Add("/entity/entities", emptyMap)
+	ctrlmap.Add("/entity/entity", emptyMap)
 	ctrlmap.Add("/profile", emptyMap)
 	ctrlmap.Add("/memory", emptyMap)
 	ctrlmap.Add("/user", emptyMap)
 	ctrlmap.Add("/comment", emptyMap)
 	ctrlmap.Add("/vehicle", emptyMap)
 	ctrlmap.Add("/vin", emptyMap)
-	ctrlmap.Add("/blog", emptyMap)
-	ctrlmap.Add("/entity", emptyMap)
-	ctrlmap.Add("/entities", emptyMap)
+
 	ctrlmap.Add("/cars", emptyMap)
 	ctrlmap.Add("/car", emptyMap)
 	ctrlmap.Add("/services", emptyMap)
 	ctrlmap.Add("/service", emptyMap)
 	ctrlmap.Add("/parts", emptyMap)
 	ctrlmap.Add("/part", emptyMap)
-
 
 	beego.InsertFilter("/*", beego.BeforeRouter, ctrlmap.FilterUI)
 

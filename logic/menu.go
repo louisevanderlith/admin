@@ -39,49 +39,49 @@ func getItems(path string) *control.Menu {
 
 func artifactChlidren(path string) *control.Menu {
 	children := control.NewMenu(path)
-	children.AddItem("/uploads/A10", "Uploads", "fa-newspaper-o", nil)
+	children.AddItem("/artifact/uploads/A10", "Uploads", "fa-newspaper-o", nil)
 
 	return children
 }
 
 func commentChildren(path string) *control.Menu {
 	children := control.NewMenu(path)
-	children.AddItem("/comments/A10", "Comments", "fa-bath", nil)
+	children.AddItem("/comment/comments/A10", "Comments", "fa-bath", nil)
 
 	return children
 }
 
 func commsChildren(path string) *control.Menu {
 	children := control.NewMenu(path)
-	children.AddItem("/comms/A10", "Messages", "fa-newspaper-o", nil)
+	children.AddItem("/comms/messages/A10", "Messages", "fa-newspaper-o", nil)
 
 	return children
 }
 
 func entityChildren(path string) *control.Menu {
 	children := control.NewMenu(path)
-	children.AddItem("/entities/A10", "Entities", "fa-newspaper-o", nil)
+	children.AddItem("/entity/entities/A10", "Entities", "fa-newspaper-o", nil)
 
 	return children
 }
 
 func folioChildren(path string) *control.Menu {
 	children := control.NewMenu(path)
-	children.AddItem("/profiles/A10", "Profiles", "fa-user", nil)
+	children.AddItem("/folio/profiles/A10", "Profiles", "fa-user", nil)
 
 	return children
 }
 
 func fundsChildren(path string) *control.Menu {
 	children := control.NewMenu(path)
-	children.AddItem("/accounts/A10", "Accounts", "fa-newspaper-o", nil)
+	children.AddItem("/funds/accounts/A10", "Accounts", "fa-newspaper-o", nil)
 
 	return children
 }
 
 func gameChildren(path string) *control.Menu {
 	children := control.NewMenu(path)
-	children.AddItem("/heroes/A10", "Heroes", "fa-sword", nil)
+	children.AddItem("/game/heroes/A10", "Heroes", "fa-sword", nil)
 
 	return children
 }
@@ -92,66 +92,66 @@ func gateChildren(path string) *control.Menu {
 
 func logbookChildren(path string) *control.Menu {
 	children := control.NewMenu(path)
-	children.AddItem("/history/A10", "Service History", "fa-blind", nil)
+	children.AddItem("/logbook/history/A10", "Service History", "fa-blind", nil)
 
 	return children
 }
 
 func notifyChildren(path string) *control.Menu {
 	children := control.NewMenu(path)
-	children.AddItem("/notifications/A10", "Notifications", "fa-newspaper-o", nil)
+	children.AddItem("/notify/notifications/A10", "Notifications", "fa-newspaper-o", nil)
 
 	return children
 }
 
 func quoteChildren(path string) *control.Menu {
 	children := control.NewMenu(path)
-	children.AddItem("/invoices/A10", "Invoices", "fa-newspaper-o", nil)
+	children.AddItem("/quote/invoices/A10", "Invoices", "fa-newspaper-o", nil)
 
 	return children
 }
 
 func stockChildren(path string) *control.Menu {
 	children := control.NewMenu(path)
-	children.AddItem("/cars/A10", "Cars", "fa-newspaper-o", nil)
-	children.AddItem("/parts/A10", "Parts", "fa-newspaper-o", nil)
-	children.AddItem("/services/A10", "Services", "fa-newspaper-o", nil)
+	children.AddItem("/stock/cars/A10", "Cars", "fa-car", nil)
+	children.AddItem("/stock/parts/A10", "Parts", "fa-gear", nil)
+	children.AddItem("/stock/services/A10", "Services", "fa-screen", nil)
 
 	return children
 }
 
 func routerChildren(path string) *control.Menu {
 	children := control.NewMenu(path)
-	children.AddItem("/memory", "Memory", "fa-memory", nil)
+	children.AddItem("/router/memory", "Memory", "fa-memory", nil)
 
 	return children
 }
 
 func themeChildren(path string) *control.Menu {
 	children := control.NewMenu(path)
-	children.AddItem("/templates", "Templates", "fa-camera", nil)
-	children.AddItem("/css", "Stylesheets", "fa-blind", nil)
+	children.AddItem("/theme/templates", "Templates", "fa-camera", nil)
+	children.AddItem("/theme/css", "Stylesheets", "fa-blind", nil)
 
 	return children
 }
 
 func secureChildren(path string) *control.Menu {
 	children := control.NewMenu(path)
-	children.AddItem("/users/A10", "Users", "fa-user", nil)
+	children.AddItem("/secure/users/A10", "Users", "fa-user", nil)
 
 	return children
 }
 
 func vehicleChildren(path string) *control.Menu {
 	children := control.NewMenu(path)
-	children.AddItem("/vehicles/A10", "Vehicles", "fa-car", nil)
+	children.AddItem("/vehicle/vehicles/A10", "Vehicles", "fa-car", nil)
 
 	return children
 }
 
 func xchangeChildren(path string) *control.Menu {
 	children := control.NewMenu(path)
-	children.AddItem("/currency/A10", "Currency", "fa-money", nil)
+	children.AddItem("/xchange/currency/A10", "Currency", "fa-money", nil)
 
 	return children
 }
@@ -165,7 +165,7 @@ func vinChildren(path string) *control.Menu {
 
 func blogChildren(path string) *control.Menu {
 	children := control.NewMenu(path)
-	children.AddItem("/blogs/A10", "Blogs", "fa-notepad", nil)
+	children.AddItem("/blog/articles/A10", "Blogs", "fa-notepad", nil)
 
 	return children
 }

@@ -1,4 +1,4 @@
-package controllers
+package vehicle
 
 import (
 	"log"
@@ -9,19 +9,19 @@ import (
 	"github.com/louisevanderlith/mango/control"
 )
 
-type VehicleController struct {
+type VehiclesController struct {
 	control.UIController
 }
 
-func NewVehicleCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) *VehicleController {
-	result := &VehicleController{}
+func NewVehiclesCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) *VehiclesController {
+	result := &VehiclesController{}
 	result.SetTheme(settings)
 	result.SetInstanceMap(ctrlMap)
 
 	return result
 }
 
-func (c *VehicleController) Get() {
+func (c *VehiclesController) Get() {
 	c.Setup("vehicles", "Vehicles", true)
 	c.CreateSideMenu(logic.GetMenu("/vehicle"))
 
@@ -39,7 +39,7 @@ func (c *VehicleController) Get() {
 	c.Serve(result, nil)
 }
 
-func (c *VehicleController) GetView() {
+func (c *VehiclesController) GetView() {
 	c.Setup("vehicleView", "View Vehicle", false)
 	c.CreateSideMenu(logic.GetMenu("/vehicle"))
 	key, err := husk.ParseKey(c.Ctx.Input.Param(":key"))
