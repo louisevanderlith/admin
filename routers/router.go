@@ -9,6 +9,7 @@ import (
 	"github.com/louisevanderlith/admin/controllers/comms"
 	"github.com/louisevanderlith/admin/controllers/entity"
 	"github.com/louisevanderlith/admin/controllers/folio"
+	"github.com/louisevanderlith/admin/controllers/funds"
 	"github.com/louisevanderlith/admin/controllers/router"
 	secCtrl "github.com/louisevanderlith/admin/controllers/secure"
 	"github.com/louisevanderlith/admin/controllers/stock"
@@ -64,6 +65,9 @@ func Setup(s *mango.Service) {
 	beego.Router("/folio/profile/:key", profileCtrl, "get:GetEdit")
 
 	//Funds
+	accCtrl := funds.NewAccountsCtrl(ctrlmap, theme)
+	beego.Router("/funds/accounts/:pagesize", accCtrl, "get:Get")
+	beego.Router("/funds/account/:key", accCtrl, "get:GetEdit")
 
 	//Game
 
