@@ -74,9 +74,7 @@ func Setup(s *mango.Service) {
 	//Gate
 
 	//Logbook
-	historyCtrl := secCtrl.NewHistory1Ctrl(ctrlmap, theme)
-	beego.Router("/history/:pagesize", historyCtrl, "get:Get")
-	beego.Router("/history/user/:key", historyCtrl, "get:GetView")
+
 
 	//Notify
 
