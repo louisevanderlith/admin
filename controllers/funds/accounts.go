@@ -36,7 +36,7 @@ func (c *AccountsController) Get() {
 }
 
 func (c *AccountsController) GetEdit() {
-	c.Setup("accountView", "View Account", true)
+	c.Setup("accountEdit", "Edit Account", true)
 	c.CreateSideMenu(logic.GetMenu("/accounts"))
 	c.EnableSave()
 

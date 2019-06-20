@@ -10,7 +10,7 @@ import (
 
 	"github.com/louisevanderlith/admin/logic"
 )
-
+ 
 type EntitiesController struct {
 	control.UIController
 }
@@ -24,7 +24,7 @@ func NewEntitiesCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting
 }
 
 func (c *EntitiesController) Get() {
-	c.Setup("entities", "Entity", true)
+	c.Setup("entity", "Entity", true)
 	c.CreateSideMenu(logic.GetMenu("/enity"))
 
 	result := []interface{}{}
@@ -47,7 +47,7 @@ func (c *EntitiesController) GetEdit() {
 	}
 
 	result := make(map[string]interface{})
-	_, err = mango.DoGET(c.GetMyToken(), &result, c.GetInstanceID(), "Entity.API", "article", key.String())
+	_, err = mango.DoGET(c.GetMyToken(), &result, c.GetInstanceID(), "Entity.API", "info", key.String())
 
 	if err != nil {
 		log.Println(err)

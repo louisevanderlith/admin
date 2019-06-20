@@ -65,15 +65,18 @@ func Setup(s *mango.Service) {
 	beego.Router("/folio/profile/:key", profileCtrl, "get:GetEdit")
 
 	//Funds
-	accCtrl := funds.NewAccountsCtrl(ctrlmap, theme)
-	beego.Router("/funds/accounts/:pagesize", accCtrl, "get:Get")
-	beego.Router("/funds/account/:key", accCtrl, "get:GetEdit")
+	accountCtrl := funds.NewAccountsCtrl(ctrlmap, theme)
+	beego.Router("/funds/accounts/:pagesize", accountCtrl, "get:Get")
+	beego.Router("/funds/account/:key", accountCtrl, "get:GetEdit")
 
 	//Game
 
 	//Gate
 
 	//Logbook
+	historyCtrl := secCtrl.NewHistory1Ctrl(ctrlmap, theme)
+	beego.Router("/history/:pagesize", historyCtrl, "get:Get")
+	beego.Router("/history/user/:key", historyCtrl, "get:GetView")
 
 	//Notify
 
@@ -134,6 +137,11 @@ func EnableFilters(s *mango.Service) *control.ControllerMap {
 	ctrlmap.Add("/comment", emptyMap)
 	ctrlmap.Add("/vehicle", emptyMap)
 	ctrlmap.Add("/vin", emptyMap)
+
+	ctrlmap.Add("/accounts", emptyMap)
+	ctrlmap.Add("/account", emptyMap)
+
+	ctrlmap.Add("/history", emptyMap)
 
 	ctrlmap.Add("/cars", emptyMap)
 	ctrlmap.Add("/car", emptyMap)

@@ -22,7 +22,7 @@ func NewMessagesCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting
 }
 
 func (c *MessagesController) Get() {
-	c.Setup("messages", "Messages", false)
+	c.Setup("messages", "Messages", true)
 	c.CreateSideMenu(logic.GetMenu("/messages"))
 
 	result := []interface{}{}
