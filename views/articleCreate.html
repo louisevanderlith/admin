@@ -4,7 +4,7 @@
             {{ template "_shared/breadcrumbs.html" .}}
         </h2>
         <h1 class="title">
-            Create a blog
+            Create an Article
         </h1>
     </div>
 </section>
@@ -18,6 +18,13 @@
                 <p class="help is-danger"></p>
             </div>
         </div>
+        <div class="field">
+                <div class="control">
+                    <label class="label" for="txtIntro">Introduction</label>
+                    <input class="input" type="text" id="txtIntro" placeholder="Intro" required value="{{.Data.Intro}}" />
+                    <p class="help is-danger"></p>
+                </div>
+            </div>
         <div class="field">
             <div class="control">
                 <label class="label" for="cboCategories">Categories</label>

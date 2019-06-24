@@ -1,7 +1,9 @@
-{{ template "_shared/breadcrumbs.html" .}}
 <section class="hero is-info welcome is-small">
     <div class="hero-body">
         <div class="container">
+            <h2 class="subtitle">
+                {{ template "_shared/breadcrumbs.html" .}}
+            </h2>
             <h1 class="title">
                 Profile {{.Data.Title}}
             </h1>

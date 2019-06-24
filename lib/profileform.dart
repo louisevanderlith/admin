@@ -17,11 +17,14 @@ class ProfileForm extends FormState {
   EmailInputElement _email;
   TelephoneInputElement _phone;
   TextInputElement _url;
+  TextInputElement _gtag;
   FileUploadInputElement _image;
 
   HeaderForm _headers;
   PortfolioForm _portfolios;
   SocialmediaForm _socialmedia;
+
+  ParagraphElement _error;
 
   ProfileForm(
       String idElem,
@@ -31,6 +34,7 @@ class ProfileForm extends FormState {
       String emailElem,
       String phoneElem,
       String urlElem,
+      String gtagElem,
       String imageElem,
       String frmHeader,
       String addHeader,
@@ -47,6 +51,8 @@ class ProfileForm extends FormState {
     _phone = querySelector(phoneElem);
     _url = querySelector(urlElem);
     _image = querySelector(imageElem);
+    _gtag = querySelector(gtagElem);
+    _error = querySelector("${idElem}Err");
 
     _headers = new HeaderForm(frmHeader, submitBtn, addHeader);
     _socialmedia = new SocialmediaForm(frmSocialmedia, submitBtn, addSocial);
@@ -77,6 +83,10 @@ class ProfileForm extends FormState {
     return _url.value;
   }
 
+  String get gtag {
+    return _gtag.value;
+  }
+
   String get imageKey {
     return _image.dataset["id"];
   }
@@ -97,12 +107,16 @@ class ProfileForm extends FormState {
     if (isFormValid()) {
       disableSubmit(true);
 
-      var resp = await updateProfile(_objKey, name, description, email, phone, url, imageKey, portfolioItems, socialmediaItems, headerItems);
-      
-    }
-  }
+      var req = await updateProfile(_objKey, name, description, email, phone,
+          url, gtag, imageKey, portfolioItems, socialmediaItems, headerItems);
 
-  void onSuccess(String json) {
-    print(jsonDecode(json));
+      final resp = jsonDecode(req.response);
+
+      if (req.status == 200) {
+        window.alert(resp['Data']);
+      } else {
+        _error.text = resp['Error'];
+      }
+    }
   }
 }

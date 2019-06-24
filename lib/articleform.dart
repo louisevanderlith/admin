@@ -5,18 +5,20 @@ import 'package:Admin.APP/formstate.dart';
 import 'package:Admin.APP/services/blogapi.dart';
 import 'package:Admin.APP/services/uploadapi.dart';
 
-class BlogForm extends FormState {
+class ArticleForm extends FormState {
   String _objKey;
   TextInputElement _title;
+  TextInputElement _intro;
   SelectElement _categories;
   DivElement _content;
   FileUploadInputElement _headImage;
 
-  BlogForm(String idElem, String objKey, String titleElem, String categoriesElem, String contentElem,
+  ArticleForm(String idElem, String objKey, String titleElem, String introElem, String categoriesElem, String contentElem,
       String imageElem, String previewBtn, String publishBtn, String submitBtn)
       : super(idElem, submitBtn) {
     _objKey = objKey;
     _title = querySelector(titleElem);
+    _intro = querySelector(introElem);
     _categories = querySelector(categoriesElem);
     _content = querySelector(contentElem);
     _headImage = querySelector(imageElem);
@@ -38,6 +40,10 @@ class BlogForm extends FormState {
     return _title.value;
   }
 
+  String get intro {
+    return _intro.value;
+  }
+
   String get category {
     return _categories.value;
   }
@@ -54,7 +60,7 @@ class BlogForm extends FormState {
     if (isFormValid()) {
       disableSubmit(true);
       final req =
-          await updateArticle(_objKey, title, category, content, imageKey, 'System');
+          await updateArticle(_objKey, title, intro, category, content, imageKey, 'System');
       var result = jsonDecode(req.response);
 
       print(result);
@@ -65,12 +71,12 @@ class BlogForm extends FormState {
     if (isFormValid()) {
       disableSubmit(true);
       final req =
-          await updateArticle(_objKey, title, category, content, imageKey, 'System');
+          await updateArticle(_objKey, title, intro, category, content, imageKey, 'System');
       var result = jsonDecode(req.response);
 
       print(result);
 
-      window.open("/blog/view/${_objKey}", '_blank');
+      window.open("/blog/article/view/${_objKey}", '_blank');
     }
   }
 
@@ -78,7 +84,7 @@ class BlogForm extends FormState {
     if (isFormValid()) {
       disableSubmit(true);
       final req =
-          await publishArticle(_objKey, title, category, content, imageKey, 'System');
+          await publishArticle(_objKey, title, intro, category, content, imageKey, 'System');
       var result = jsonDecode(req.response);
 
       print(result);

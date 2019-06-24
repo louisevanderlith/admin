@@ -12,6 +12,7 @@ void main() async {
       '#txtEmail',
       '#txtPhone',
       '#txtURL',
+      '#txtGTag',
       '#uplProfileImg',
       '#frmHeader',
       '#btnAddHeader',

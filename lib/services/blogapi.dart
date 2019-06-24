@@ -8,6 +8,7 @@ Future<HttpRequest> createArticle(String title, String username) async {
   var url = await buildPath("Blog.API", "article", new List<String>());
   var data = jsonEncode({
     "Title": title,
+    "Intro": "Provide a 128 character description of the article.",
     "Category": "Default",
     "ImageKey": '0`0',
     "Content": 'Content here.',
@@ -30,13 +31,14 @@ Future<HttpRequest> createArticle(String title, String username) async {
   return compltr.future;
 }
 
-Future<HttpRequest> updateArticle(String key, String title, String category, String content,
-    String imageKey, String username) async {
+Future<HttpRequest> updateArticle(String key, String title, String intro,
+    String category, String content, String imageKey, String username) async {
   var url = await buildPath("Blog.API", "article", new List<String>());
   final data = jsonEncode({
     "Key": key,
     "Body": {
       "Title": title,
+      "Intro": intro,
       "Category": category,
       "ImageKey": imageKey,
       "Content": content,
@@ -59,13 +61,14 @@ Future<HttpRequest> updateArticle(String key, String title, String category, Str
   return compltr.future;
 }
 
-Future<HttpRequest> publishArticle(String key, String title, String category, String content,
-    String imageKey, String username) async {
+Future<HttpRequest> publishArticle(String key, String title, String intro,
+    String category, String content, String imageKey, String username) async {
   var url = await buildPath("Blog.API", "article", new List<String>());
   final data = jsonEncode({
     "Key": key,
     "Body": {
       "Title": title,
+      "Intro": intro,
       "Category": category,
       "ImageKey": imageKey,
       "Content": content,
