@@ -1,5 +1,7 @@
 import 'dart:html';
 
+import 'package:mango_ui/bodies/sociallink.dart';
+
 class SocialmediaItem {
   TextInputElement _icon;
   UrlInputElement _url;
@@ -24,7 +26,7 @@ class SocialmediaItem {
     return _loaded;
   }
 
-  Object toJson() {
-    return {"Icon": icon, "URL": url};
+  Sociallink toDTO() {
+    return new Sociallink(icon, url);
   }
 }

@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:html';
 
-import 'package:Admin.APP/services/uploadapi.dart';
+import 'package:mango_ui/services/uploadapi.dart';
 
 void main() {
   document.body.onClick.matches('.deleter').listen(onDeleteClick);

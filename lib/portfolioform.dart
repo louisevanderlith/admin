@@ -1,11 +1,12 @@
 import 'dart:html';
 
-import 'formstate.dart';
-import 'trustvalidator.dart';
+import 'package:mango_ui/bodies/portfolio.dart';
+import 'package:mango_ui/formstate.dart';
+import 'package:mango_ui/trustvalidator.dart';
 import 'models/portfolioitem.dart';
 
 class PortfolioForm extends FormState {
-  List<PortfolioItem> _items;
+  List<Portfolio> _items;
 
   PortfolioForm(String idElem, String btnSubmit, String btnAdd)
       : super(idElem, btnSubmit) {
@@ -18,13 +19,13 @@ class PortfolioForm extends FormState {
     addPortfolio();
   }
 
-  List<PortfolioItem> get items {
+  List<Portfolio> get items {
     return _items;
   }
-
-  List<PortfolioItem> findPortfolios() {
+  
+  List<Portfolio> findPortfolios() {
     var hasPortf = false;
-    var result = new List<PortfolioItem>();
+    var result = new List<Portfolio>();
     var indx = 0;
 
     do {
@@ -34,7 +35,7 @@ class PortfolioForm extends FormState {
       hasPortf = portf.loaded();
 
       if (hasPortf) {
-        result.add(portf);
+        result.add(portf.toDTO());
       }
 
       indx++;
@@ -53,7 +54,7 @@ class PortfolioForm extends FormState {
     var item = new PortfolioItem('#uplPortfolioImg${indx}',
         '#txtPortfolioName${indx}', '#txtPortfolioURL${indx}');
 
-    _items.add(item);
+    _items.add(item.toDTO());
   }
 
   //returns HTML for a Portfolio Item

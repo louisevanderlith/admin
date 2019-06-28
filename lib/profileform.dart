@@ -1,17 +1,23 @@
 import 'dart:convert';
 import 'dart:html';
-import 'formstate.dart';
-import 'services/profileapi.dart';
+import 'package:mango_ui/bodies/header.dart';
+import 'package:mango_ui/bodies/key.dart';
+import 'package:mango_ui/bodies/portfolio.dart';
+import 'package:mango_ui/bodies/profile.dart';
+import 'package:mango_ui/bodies/sociallink.dart';
+import 'package:mango_ui/formstate.dart';
+
+import 'package:mango_ui/services/profileapi.dart';
 import 'headerform.dart';
 import 'models/headeritem.dart';
 import 'portfolioform.dart';
 import 'models/portfolioitem.dart';
 import 'socialmediaform.dart';
 import 'models/socialmediaitem.dart';
-import 'services/uploadapi.dart';
+import 'package:mango_ui/services/uploadapi.dart';
 
 class ProfileForm extends FormState {
-  String _objKey;
+  Key _objKey;
   TextInputElement _name;
   TextAreaElement _description;
   EmailInputElement _email;
@@ -28,7 +34,7 @@ class ProfileForm extends FormState {
 
   ProfileForm(
       String idElem,
-      String objKey,
+      Key objKey,
       String nameElem,
       String descElem,
       String emailElem,
@@ -86,20 +92,20 @@ class ProfileForm extends FormState {
   String get gtag {
     return _gtag.value;
   }
-
-  String get imageKey {
-    return _image.dataset["id"];
+  
+  Key get imageKey {
+    return new Key(_image.dataset["id"]);
   }
 
-  List<PortfolioItem> get portfolioItems {
+  List<Portfolio> get portfolioItems {
     return _portfolios.items;
   }
 
-  List<SocialmediaItem> get socialmediaItems {
+  List<Sociallink> get socialmediaItems {
     return _socialmedia.items;
   }
 
-  List<HeaderItem> get headerItems {
+  List<Header> get headerItems {
     return _headers.items;
   }
 
@@ -107,8 +113,9 @@ class ProfileForm extends FormState {
     if (isFormValid()) {
       disableSubmit(true);
 
-      var req = await updateProfile(_objKey, name, description, email, phone,
-          url, gtag, imageKey, portfolioItems, socialmediaItems, headerItems);
+      final data = new Profile(name, description, email, phone, url, gtag,
+          imageKey, portfolioItems, socialmediaItems, headerItems);
+      var req = await updateProfile(_objKey, data);
 
       final resp = jsonDecode(req.response);
 

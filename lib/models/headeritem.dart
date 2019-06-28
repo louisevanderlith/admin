@@ -1,5 +1,7 @@
 import 'dart:html';
-import '../services/uploadapi.dart';
+import 'package:mango_ui/bodies/header.dart';
+import 'package:mango_ui/bodies/key.dart';
+import 'package:mango_ui/services/uploadapi.dart';
 
 class HeaderItem {
   FileUploadInputElement _image;
@@ -19,8 +21,8 @@ class HeaderItem {
     }
   }
 
-  String get imageKey {
-    return _image.dataset["id"];
+  Key get imageKey {
+    return new Key(_image.dataset["id"]);
   }
 
   String get heading {
@@ -34,8 +36,8 @@ class HeaderItem {
   bool loaded() {
     return _loaded;
   }
-  
-  Object toJson() {
-    return {"ImageKey": imageKey, "Heading": heading, "Text": text};
+
+  Header toDTO() {
+    return new Header(heading, text, imageKey);
   }
 }

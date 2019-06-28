@@ -1,5 +1,7 @@
 import 'dart:html';
 
+import 'package:mango_ui/bodies/role.dart';
+
 //RoleItem is used within tables to display data in a row.
 class RoleItem {
   LabelElement _application;
@@ -43,7 +45,7 @@ class RoleItem {
     return _loaded;
   }
 
-  Object toJson() {
-    return {"ApplicationName": application, "Description": roletype};
+  Role toDTO() {
+    return new Role(application, roletype);
   }
 }

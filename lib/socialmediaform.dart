@@ -1,11 +1,12 @@
 import 'dart:html';
 
-import 'formstate.dart';
-import 'trustvalidator.dart';
+import 'package:mango_ui/bodies/sociallink.dart';
+import 'package:mango_ui/formstate.dart';
+import 'package:mango_ui/trustvalidator.dart';
 import 'models/socialmediaitem.dart';
 
 class SocialmediaForm extends FormState {
-  List<SocialmediaItem> _items;
+  List<Sociallink> _items;
 
   SocialmediaForm(String idElem, String btnSubmit, String btnAdd)
       : super(idElem, btnSubmit) {
@@ -18,13 +19,13 @@ class SocialmediaForm extends FormState {
     addSocial();
   }
 
-  List<SocialmediaItem> get items {
+  List<Sociallink> get items {
     return _items;
   }
 
-  List<SocialmediaItem> findSocials() {
+  List<Sociallink> findSocials() {
     var hasSocial = false;
-    var result = new List<SocialmediaItem>();
+    var result = new List<Sociallink>();
     var indx = 0;
 
     do {
@@ -33,7 +34,7 @@ class SocialmediaForm extends FormState {
       hasSocial = social.loaded();
 
       if (hasSocial) {
-        result.add(social);
+        result.add(social.toDTO());
       }
 
       indx++;
@@ -41,18 +42,18 @@ class SocialmediaForm extends FormState {
 
     return result;
   }
-  
+
   void addSocial() {
     //add elements
     var indx = items.length;
 
     var schema = buildElement(indx);
     form.children.add(schema);
-  
+
     var item =
         new SocialmediaItem('#txtSocialIcon${indx}', '#txtSocialURL${indx}');
 
-    _items.add(item);
+    _items.add(item.toDTO());
   }
 
   //returns HTML for a SocialMedia Item

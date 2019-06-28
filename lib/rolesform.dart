@@ -2,17 +2,19 @@ import 'dart:convert';
 import 'dart:html';
 
 import 'package:Admin.APP/models/createroleitem.dart';
-import 'package:Admin.APP/services/secureapi.dart';
+import 'package:mango_ui/bodies/key.dart';
+import 'package:mango_ui/bodies/role.dart';
+import 'package:mango_ui/formstate.dart';
+import 'package:mango_ui/services/secureapi.dart';
 
-import 'formstate.dart';
 import 'models/roleitem.dart';
 
 class RolesForm extends FormState {
   Element _tblRoles;
-  List<RoleItem> _items;
-  String _objKey;
+  List<Role> _items;
+  Key _objKey;
 
-  RolesForm(String idElem, String objKey, String btnSubmit, String btnAdd, String tblRoles)
+  RolesForm(String idElem, Key objKey, String btnSubmit, String btnAdd, String tblRoles)
       : super(idElem, btnSubmit) {
     _items = findRoles();
     _tblRoles = querySelector(tblRoles);
@@ -38,13 +40,13 @@ class RolesForm extends FormState {
     }
   }
 
-  List<RoleItem> get items {
+  List<Role> get items {
     return _items;
   }
 
-  List<RoleItem> findRoles() {
+  List<Role> findRoles() {
     var hasItem = false;
-    var result = new List<RoleItem>();
+    var result = new List<Role>();
     var indx = 0;
 
     do {
@@ -53,7 +55,7 @@ class RolesForm extends FormState {
       hasItem = item.loaded();
 
       if (hasItem) {
-        result.add(item);
+        result.add(item.toDTO());
       }
 
       indx++;
@@ -69,6 +71,6 @@ class RolesForm extends FormState {
     _tblRoles.children.add(obj.toHtml(indx));
 
     var item = new RoleItem('#lblAppName${indx}', 'input[name=answer${indx}]');
-    _items.add(item);
+    _items.add(item.toDTO());
   }
 }

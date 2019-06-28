@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:html';
 
-import 'package:Admin.APP/trustvalidator.dart';
+import 'package:mango_ui/trustvalidator.dart';
 
 class CreateRoleItem {
   Completer _compltr;

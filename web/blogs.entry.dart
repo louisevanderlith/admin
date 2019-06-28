@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:html';
 
-import 'package:Admin.APP/services/blogapi.dart';
+import 'package:mango_ui/bodies/key.dart';
+import 'package:mango_ui/services/blogapi.dart';
+import 'package:mango_ui/bodies/article.dart';
 
 void main() {
   querySelector('#btnAdd').onClick.listen(onAddClick);
@@ -9,7 +11,8 @@ void main() {
 }
 
 void onAddClick(MouseEvent e) async {
-  final result = await createArticle('New Article', 'System');
+  final data = new Article('New Article', 'Short introduction', 'Default', new Key('0`0'), 'Content', 'System', false);
+  final result = await createArticle(data);
   var obj = jsonDecode(result.response);
 
   if (result.status == 200) {
@@ -31,7 +34,7 @@ void onDeleteClick(MouseEvent e) async {
     final toDelete = targt.dataset["key"];
     final warn = "Are you sure you want to Delete ${toDelete}?";
     if (window.confirm(warn)) {
-      final req = await removeArticle(toDelete);
+      final req = await deleteArticle(new Key(toDelete));
       final resp = jsonDecode(req.response);
 
       if (req.status == 200) {

@@ -1,5 +1,7 @@
 import 'dart:html';
-import '../services/uploadapi.dart';
+import 'package:mango_ui/bodies/key.dart';
+import 'package:mango_ui/bodies/portfolio.dart';
+import 'package:mango_ui/services/uploadapi.dart';
 
 class PortfolioItem {
   FileUploadInputElement _image;
@@ -20,8 +22,8 @@ class PortfolioItem {
     }
   }
 
-  String get imageKey {
-    return _image.dataset["id"];
+  Key get imageKey {
+    return new Key(_image.dataset["id"]);
   }
 
   String get name {
@@ -36,7 +38,7 @@ class PortfolioItem {
     return _loaded;
   }
 
-  Object toJson() {
-    return {"ImageKey": imageKey, "Name": name, "URL": url};
+  Portfolio toDTO() {
+    return new Portfolio(imageKey, url, name);
   }
 }
