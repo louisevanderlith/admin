@@ -158,7 +158,8 @@ func xchangeChildren(path string) *control.Menu {
 
 func vinChildren(path string) *control.Menu {
 	children := control.NewMenu(path)
-	children.AddItem("/vins/A10", "VIN", "fa-barcode", nil)
+	children.AddItem("/vin/vins/A10", "VIN", "fa-barcode", nil)
+	children.AddItem("/vin/regions/A10", "Regions", "fa-world", nil)
 
 	return children
 }

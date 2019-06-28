@@ -75,7 +75,6 @@ func Setup(s *mango.Service) {
 
 	//Logbook
 
-
 	//Notify
 
 	//Router
@@ -108,8 +107,12 @@ func Setup(s *mango.Service) {
 
 	//Vin
 	vinCtrl := vin.NewVINCtrl(ctrlmap, theme)
-	beego.Router("/vins/:pagesize", vinCtrl, "get:Get")
-	beego.Router("/vin/:key", vinCtrl, "get:GetView")
+	beego.Router("/vin/vins/:pagesize", vinCtrl, "get:Get")
+	beego.Router("/vin/vin/:key", vinCtrl, "get:GetView")
+
+	regnCtrl := vin.NewRegionsCtrl(ctrlmap, theme)
+	beego.Router("/vin/regions/:pagesize", regnCtrl, "get:Get")
+	beego.Router("/vin/region/:key", regnCtrl, "get:GetEdit")
 
 	//XChange
 
