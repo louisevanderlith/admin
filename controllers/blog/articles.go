@@ -3,19 +3,19 @@ package blog
 import (
 	"log"
 
+	"github.com/astaxie/beego"
+
 	"github.com/louisevanderlith/husk"
 	"github.com/louisevanderlith/mango"
 
 	"github.com/louisevanderlith/mango/control"
-
-	"github.com/louisevanderlith/admin/logic"
 )
 
 type ArticlesController struct {
 	control.UIController
 }
 
-func NewArticlesCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) *ArticlesController {
+func NewArticlesCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) beego.ControllerInterface {
 	result := &ArticlesController{}
 	result.SetTheme(settings)
 	result.SetInstanceMap(ctrlMap)
@@ -25,7 +25,7 @@ func NewArticlesCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting
 
 func (c *ArticlesController) Get() {
 	c.Setup("articles", "Articles", true)
-	c.CreateSideMenu(logic.GetMenu("/articles"))
+
 	c.CreateTopMenu(getBlogsTopMenu())
 
 	result := []interface{}{}
@@ -38,7 +38,7 @@ func (c *ArticlesController) Get() {
 
 func (c *ArticlesController) GetCreate() {
 	c.Setup("articleCreate", "Create Article", true)
-	c.CreateSideMenu(logic.GetMenu("/articles"))
+
 	c.CreateTopMenu(createBlogTopMenu())
 	c.EnableSave()
 
@@ -60,7 +60,7 @@ func (c *ArticlesController) GetCreate() {
 
 func (c *ArticlesController) GetView() {
 	c.Setup("articleView", "View Article", true)
-	c.CreateSideMenu(logic.GetMenu("/articles"))
+
 	c.CreateTopMenu(createBlogTopMenu())
 	c.EnableSave()
 

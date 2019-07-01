@@ -3,7 +3,7 @@ package secure
 import (
 	"log"
 
-	"github.com/louisevanderlith/admin/logic"
+	"github.com/astaxie/beego"
 	"github.com/louisevanderlith/husk"
 	"github.com/louisevanderlith/mango"
 	"github.com/louisevanderlith/mango/control"
@@ -14,7 +14,7 @@ type UserController struct {
 	control.UIController
 }
 
-func NewUserCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) *UserController {
+func NewUserCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) beego.ControllerInterface {
 	result := &UserController{}
 	result.SetTheme(settings)
 	result.SetInstanceMap(ctrlMap)
@@ -24,7 +24,6 @@ func NewUserCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) *U
 
 func (c *UserController) Get() {
 	c.Setup("users", "Users", false)
-	c.CreateSideMenu(logic.GetMenu("/user"))
 
 	result := []interface{}{}
 	pagesize := c.Ctx.Input.Param(":pagesize")
@@ -40,7 +39,6 @@ func (c *UserController) Get() {
 
 func (c *UserController) GetView() {
 	c.Setup("userView", "View User", true)
-	c.CreateSideMenu(logic.GetMenu("/user"))
 	c.EnableSave()
 
 	key, err := husk.ParseKey(c.Ctx.Input.Param(":key"))

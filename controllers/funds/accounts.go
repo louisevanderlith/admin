@@ -3,19 +3,18 @@ package funds
 import (
 	"log"
 
+	"github.com/astaxie/beego"
 	"github.com/louisevanderlith/husk"
 	"github.com/louisevanderlith/mango"
 
 	"github.com/louisevanderlith/mango/control"
-
-	"github.com/louisevanderlith/admin/logic"
 )
 
 type AccountsController struct {
 	control.UIController
 }
 
-func NewAccountsCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) *AccountsController {
+func NewAccountsCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) beego.ControllerInterface {
 	result := &AccountsController{}
 	result.SetTheme(settings)
 	result.SetInstanceMap(ctrlMap)
@@ -25,7 +24,6 @@ func NewAccountsCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting
 
 func (c *AccountsController) Get() {
 	c.Setup("accounts", "Accounts", true)
-	c.CreateSideMenu(logic.GetMenu("/accounts"))
 
 	result := []interface{}{}
 	pagesize := c.Ctx.Input.Param(":pagesize")
@@ -37,7 +35,6 @@ func (c *AccountsController) Get() {
 
 func (c *AccountsController) GetEdit() {
 	c.Setup("accountEdit", "Edit Account", true)
-	c.CreateSideMenu(logic.GetMenu("/accounts"))
 	c.EnableSave()
 
 	key, err := husk.ParseKey(c.Ctx.Input.Param(":key"))

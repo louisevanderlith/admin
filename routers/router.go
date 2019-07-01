@@ -15,59 +15,174 @@ import (
 	"github.com/louisevanderlith/admin/controllers/stock"
 	"github.com/louisevanderlith/admin/controllers/vehicle"
 	"github.com/louisevanderlith/admin/controllers/vin"
+	"github.com/louisevanderlith/admin/controllers/xchange"
+	"github.com/louisevanderlith/admin/logic"
 	"github.com/louisevanderlith/mango"
-	"github.com/louisevanderlith/mango/control"
-	secure "github.com/louisevanderlith/secure/core"
 	"github.com/louisevanderlith/secure/core/roletype"
 )
 
 func Setup(s *mango.Service) {
-	ctrlmap := EnableFilters(s)
+	siteProfile := beego.AppConfig.String("defaultsite")
+	routes := logic.NewControlRouter(s, siteProfile)
 
-	siteName := beego.AppConfig.String("defaultsite")
-	theme, err := mango.GetDefaultTheme(ctrlmap.GetInstanceID(), siteName)
-
-	if err != nil {
-		panic(err)
-	}
-
-	beego.Router("/", controllers.NewDefaultCtrl(ctrlmap, theme))
+	routes.IdentifyCtrl(controllers.NewDefaultCtrl, "", []logic.ControlOption{
+		{
+			Method:       "GET",
+			RequiredRole: roletype.Admin,
+			Function:     "Get",
+			Path:         "/",
+			Name:         "Home",
+			Icon:         "fa-home",
+		},
+	})
 
 	//Artifact
-	uploadsCtrl := artifact.NewUploadsCtrl(ctrlmap, theme)
-	beego.Router("/artifact/uploads/:pagesize", uploadsCtrl, "get:Get")
-	beego.Router("/artifact/upload/:key", uploadsCtrl, "get:GetView")
+	routes.IdentifyCtrl(artifact.NewUploadsCtrl, "Artifact", []logic.ControlOption{
+		{
+			Method:       "GET",
+			RequiredRole: roletype.Admin,
+			Function:     "Get",
+			Path:         "uploads/:pagesize",
+			Name:         "Get Uploads",
+			Icon:         "fa-box",
+		},
+		{
+			Method:       "GET",
+			RequiredRole: roletype.Admin,
+			Function:     "GetView",
+			Path:         "upload/:key",
+			Name:         "View Upload",
+			Icon:         "fa-image",
+		},
+	})
 
 	//Blog
-	articlesCtrl := blog.NewArticlesCtrl(ctrlmap, theme)
-	beego.Router("/blog/articles/:pagesize", articlesCtrl, "get:Get")
-	beego.Router("/blog/article/:key", articlesCtrl, "get:GetCreate")
-	beego.Router("/blog/view/:key", articlesCtrl, "get:GetView")
+	routes.IdentifyCtrl(blog.NewArticlesCtrl, "Blog", []logic.ControlOption{
+		{
+			Method:       "GET",
+			RequiredRole: roletype.Admin,
+			Function:     "Get",
+			Path:         "articles/:pagesize",
+			Name:         "Get Articles",
+			Icon:         "fa-box",
+		},
+		{
+			Method:       "GET",
+			RequiredRole: roletype.Admin,
+			Function:     "GetView",
+			Path:         "view/:key",
+			Name:         "View Article",
+			Icon:         "fa-image",
+		},
+		{
+			Method:       "GET",
+			RequiredRole: roletype.Admin,
+			Function:     "GetCreate",
+			Path:         "article/:key",
+			Name:         "Edit Article",
+			Icon:         "fa-image",
+		},
+	})
 
 	//Comment
-	commentsCtrl := comment.NewCommentCtrl(ctrlmap, theme)
-	beego.Router("/comment/comments/:pagesize", commentsCtrl, "get:Get")
-	beego.Router("/comment/comment/:key", commentsCtrl, "get:GetView")
+	routes.IdentifyCtrl(comment.NewCommentCtrl, "Comment", []logic.ControlOption{
+		{
+			Method:       "GET",
+			RequiredRole: roletype.Admin,
+			Function:     "Get",
+			Path:         "comments/:pagesize",
+			Name:         "Get Comments",
+			Icon:         "fa-box",
+		},
+		{
+			Method:       "GET",
+			RequiredRole: roletype.Admin,
+			Function:     "GetView",
+			Path:         "view/:key",
+			Name:         "View Comment",
+			Icon:         "fa-image",
+		},
+	})
 
 	//Comms
-	commsCtrl := comms.NewMessagesCtrl(ctrlmap, theme)
-	beego.Router("/comms/messages/:pagesize", commsCtrl, "get:Get")
-	beego.Router("/comms/message/:key", commsCtrl, "get:GetView")
+	routes.IdentifyCtrl(comms.NewMessagesCtrl, "Communication", []logic.ControlOption{
+		{
+			Method:       "GET",
+			RequiredRole: roletype.Admin,
+			Function:     "Get",
+			Path:         "message/:pagesize",
+			Name:         "Get Messages",
+			Icon:         "fa-box",
+		},
+		{
+			Method:       "GET",
+			RequiredRole: roletype.Admin,
+			Function:     "GetView",
+			Path:         "view/:key",
+			Name:         "View Message",
+			Icon:         "fa-image",
+		},
+	})
 
 	//Entity
-	entityCtrl := entity.NewEntitiesCtrl(ctrlmap, theme)
-	beego.Router("/entity/entities/:pagesize", entityCtrl, "get:Get")
-	beego.Router("/entity/view/:key", entityCtrl, "get:GetEdit")
+	routes.IdentifyCtrl(entity.NewEntitiesCtrl, "Entity", []logic.ControlOption{
+		{
+			Method:       "GET",
+			RequiredRole: roletype.Admin,
+			Function:     "Get",
+			Path:         "entities/:pagesize",
+			Name:         "Get Entities",
+			Icon:         "fa-box",
+		},
+		{
+			Method:       "GET",
+			RequiredRole: roletype.Admin,
+			Function:     "GetEdit",
+			Path:         "entity/:key",
+			Name:         "Edit Entity",
+			Icon:         "fa-image",
+		},
+	})
 
 	//Folio
-	profileCtrl := folio.NewProfileCtrl(ctrlmap, theme)
-	beego.Router("/folio/profiles/:pagesize", profileCtrl, "get:Get")
-	beego.Router("/folio/profile/:key", profileCtrl, "get:GetEdit")
+	routes.IdentifyCtrl(folio.NewProfileCtrl, "Folio", []logic.ControlOption{
+		{
+			Method:       "GET",
+			RequiredRole: roletype.Admin,
+			Function:     "Get",
+			Path:         "profiles/:pagesize",
+			Name:         "Get Entities",
+			Icon:         "fa-box",
+		},
+		{
+			Method:       "GET",
+			RequiredRole: roletype.Admin,
+			Function:     "GetEdit",
+			Path:         "profile/:key",
+			Name:         "Edit Profile",
+			Icon:         "fa-image",
+		},
+	})
 
 	//Funds
-	accountCtrl := funds.NewAccountsCtrl(ctrlmap, theme)
-	beego.Router("/funds/accounts/:pagesize", accountCtrl, "get:Get")
-	beego.Router("/funds/account/:key", accountCtrl, "get:GetEdit")
+	routes.IdentifyCtrl(funds.NewAccountsCtrl, "Funds", []logic.ControlOption{
+		{
+			Method:       "GET",
+			RequiredRole: roletype.Admin,
+			Function:     "Get",
+			Path:         "accounts/:pagesize",
+			Name:         "Get Entities",
+			Icon:         "fa-box",
+		},
+		{
+			Method:       "GET",
+			RequiredRole: roletype.Admin,
+			Function:     "GetEdit",
+			Path:         "account/:key",
+			Name:         "Edit Account",
+			Icon:         "fa-image",
+		},
+	})
 
 	//Game
 
@@ -78,80 +193,165 @@ func Setup(s *mango.Service) {
 	//Notify
 
 	//Router
-	beego.Router("/router/memory", router.NewMemoryCtrl(ctrlmap, theme))
+	routes.IdentifyCtrl(router.NewMemoryCtrl, "Router", []logic.ControlOption{
+		{
+			Method:       "GET",
+			RequiredRole: roletype.Admin,
+			Function:     "Get",
+			Path:         "memory",
+			Name:         "Get Memory",
+			Icon:         "fa-microchip",
+		},
+	})
 
 	//Secure
-	userCtrl := secCtrl.NewUserCtrl(ctrlmap, theme)
-	beego.Router("/secure/users/:pagesize", userCtrl, "get:Get")
-	beego.Router("/secure/user/:key", userCtrl, "get:GetView")
+	routes.IdentifyCtrl(secCtrl.NewUserCtrl, "Secure", []logic.ControlOption{
+		{
+			Method:       "GET",
+			RequiredRole: roletype.Admin,
+			Function:     "Get",
+			Path:         "users/:pagesize",
+			Name:         "Get Users",
+			Icon:         "fa-group",
+		},
+		{
+			Method:       "GET",
+			RequiredRole: roletype.Admin,
+			Function:     "GetView",
+			Path:         "user/:key",
+			Name:         "Get User",
+			Icon:         "fa-user",
+		},
+	})
 
 	//Stock
-	carsCtrl := stock.NewCarsCtrl(ctrlmap, theme)
-	beego.Router("/stock/cars/:pagesize", carsCtrl, "get:Get")
-	beego.Router("/stock/car/:key", carsCtrl, "get:GetEdit")
+	routes.IdentifyCtrl(stock.NewCarsCtrl, "Stock", []logic.ControlOption{
+		{
+			Method:       "GET",
+			RequiredRole: roletype.Admin,
+			Function:     "Get",
+			Path:         "cars/:pagesize",
+			Name:         "Get Cars",
+			Icon:         "fa-fleet",
+		},
+		{
+			Method:       "GET",
+			RequiredRole: roletype.Admin,
+			Function:     "GetEdit",
+			Path:         "car/:key",
+			Name:         "Get Car",
+			Icon:         "fa-car",
+		},
+	})
 
-	partsCtrl := stock.NewPartsCtrl(ctrlmap, theme)
-	beego.Router("/stock/parts/:pagesize", partsCtrl, "get:Get")
-	beego.Router("/stock/part/:key", partsCtrl, "get:GetEdit")
+	routes.IdentifyCtrl(stock.NewPartsCtrl, "Stock", []logic.ControlOption{
+		{
+			Method:       "GET",
+			RequiredRole: roletype.Admin,
+			Function:     "Get",
+			Path:         "parts/:pagesize",
+			Name:         "Get Parts",
+			Icon:         "fa-group",
+		},
+		{
+			Method:       "GET",
+			RequiredRole: roletype.Admin,
+			Function:     "GetEdit",
+			Path:         "part/:key",
+			Name:         "Get Part",
+			Icon:         "fa-user",
+		},
+	})
 
-	servicesCtrl := stock.NewServicesCtrl(ctrlmap, theme)
-	beego.Router("/stock/services/:pagesize", servicesCtrl, "get:Get")
-	beego.Router("/stock/service/:key", servicesCtrl, "get:GetEdit")
+	routes.IdentifyCtrl(stock.NewServicesCtrl, "Secure", []logic.ControlOption{
+		{
+			Method:       "GET",
+			RequiredRole: roletype.Admin,
+			Function:     "Get",
+			Path:         "services/:pagesize",
+			Name:         "Get Services",
+			Icon:         "fa-group",
+		},
+		{
+			Method:       "GET",
+			RequiredRole: roletype.Admin,
+			Function:     "GetEdit",
+			Path:         "service/:key",
+			Name:         "Get Service",
+			Icon:         "fa-user",
+		},
+	})
 
 	//Theme
 
 	//Vehicle
-	vehicleCtrl := vehicle.NewVehiclesCtrl(ctrlmap, theme)
-	beego.Router("/vehicles/:pagesize", vehicleCtrl, "get:Get")
-	beego.Router("/vehicle/:key", vehicleCtrl, "get:GetView")
+	routes.IdentifyCtrl(vehicle.NewVehiclesCtrl, "Vehicle", []logic.ControlOption{
+		{
+			Method:       "GET",
+			RequiredRole: roletype.Admin,
+			Function:     "Get",
+			Path:         "vehicles/:pagesize",
+			Name:         "Get Vehicles",
+			Icon:         "fa-group",
+		},
+		{
+			Method:       "GET",
+			RequiredRole: roletype.Admin,
+			Function:     "GetView",
+			Path:         "vehicle/:key",
+			Name:         "Get Vehicle",
+			Icon:         "fa-car",
+		},
+	})
 
 	//Vin
-	vinCtrl := vin.NewVINCtrl(ctrlmap, theme)
-	beego.Router("/vin/vins/:pagesize", vinCtrl, "get:Get")
-	beego.Router("/vin/vin/:key", vinCtrl, "get:GetView")
+	routes.IdentifyCtrl(vin.NewVINCtrl, "VIN", []logic.ControlOption{
+		{
+			Method:       "GET",
+			RequiredRole: roletype.Admin,
+			Function:     "Get",
+			Path:         "vins/:pagesize",
+			Name:         "Get VINs",
+			Icon:         "fa-group",
+		},
+		{
+			Method:       "GET",
+			RequiredRole: roletype.Admin,
+			Function:     "GetView",
+			Path:         "vin/:key",
+			Name:         "Get VIN",
+			Icon:         "fa-car",
+		},
+	})
 
-	regnCtrl := vin.NewRegionsCtrl(ctrlmap, theme)
-	beego.Router("/vin/regions/:pagesize", regnCtrl, "get:Get")
-	beego.Router("/vin/region/:key", regnCtrl, "get:GetEdit")
+	routes.IdentifyCtrl(vin.NewRegionsCtrl, "VIN", []logic.ControlOption{
+		{
+			Method:       "GET",
+			RequiredRole: roletype.Admin,
+			Function:     "Get",
+			Path:         "regions/:pagesize",
+			Name:         "Get Regions",
+			Icon:         "fa-group",
+		},
+		{
+			Method:       "GET",
+			RequiredRole: roletype.Admin,
+			Function:     "GetEdit",
+			Path:         "region/:key",
+			Name:         "Get Region",
+			Icon:         "fa-country",
+		},
+	})
 
 	//XChange
-
-}
-
-func EnableFilters(s *mango.Service) *control.ControllerMap {
-	ctrlmap := control.CreateControlMap(s)
-	emptyMap := make(secure.ActionMap)
-	emptyMap["POST"] = roletype.Admin
-	emptyMap["GET"] = roletype.Admin
-
-	ctrlmap.Add("/", emptyMap)
-	ctrlmap.Add("/artifact/upload", emptyMap)
-	ctrlmap.Add("/blog/article", emptyMap)
-	ctrlmap.Add("/blog/view", emptyMap)
-	ctrlmap.Add("/comment/comment", emptyMap)
-	ctrlmap.Add("/comms/message", emptyMap)
-	ctrlmap.Add("/entity/entities", emptyMap)
-	ctrlmap.Add("/entity/entity", emptyMap)
-	ctrlmap.Add("/profile", emptyMap)
-	ctrlmap.Add("/memory", emptyMap)
-	ctrlmap.Add("/user", emptyMap)
-	ctrlmap.Add("/comment", emptyMap)
-	ctrlmap.Add("/vehicle", emptyMap)
-	ctrlmap.Add("/vin", emptyMap)
-
-	ctrlmap.Add("/accounts", emptyMap)
-	ctrlmap.Add("/account", emptyMap)
-
-	ctrlmap.Add("/history", emptyMap)
-
-	ctrlmap.Add("/cars", emptyMap)
-	ctrlmap.Add("/car", emptyMap)
-	ctrlmap.Add("/services", emptyMap)
-	ctrlmap.Add("/service", emptyMap)
-	ctrlmap.Add("/parts", emptyMap)
-	ctrlmap.Add("/part", emptyMap)
-
-	beego.InsertFilter("/*", beego.BeforeRouter, ctrlmap.FilterUI)
-
-	return ctrlmap
+	routes.IdentifyCtrl(xchange.NewCreditCtrl, "XChange", []logic.ControlOption{
+		{
+			Method:       "GET",
+			RequiredRole: roletype.Admin,
+			Function:     "Get",
+			Path:         "credit",
+			Name:         "Get Credits",
+			Icon:         "fa-money",
+		},
+	})
 }

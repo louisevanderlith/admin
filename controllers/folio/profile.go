@@ -3,19 +3,18 @@ package folio
 import (
 	"log"
 
+	"github.com/astaxie/beego"
 	"github.com/louisevanderlith/husk"
 	"github.com/louisevanderlith/mango"
 
 	"github.com/louisevanderlith/mango/control"
-
-	"github.com/louisevanderlith/admin/logic"
 )
 
 type ProfileController struct {
 	control.UIController
 }
 
-func NewProfileCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) *ProfileController {
+func NewProfileCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) beego.ControllerInterface {
 	result := &ProfileController{}
 	result.SetTheme(settings)
 	result.SetInstanceMap(ctrlMap)
@@ -25,7 +24,6 @@ func NewProfileCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting)
 
 func (c *ProfileController) Get() {
 	c.Setup("profile", "Profiles", true)
-	c.CreateSideMenu(logic.GetMenu("/profile"))
 
 	result := []interface{}{}
 	pagesize := c.Ctx.Input.Param(":pagesize")
@@ -37,7 +35,6 @@ func (c *ProfileController) Get() {
 
 func (c *ProfileController) GetEdit() {
 	c.Setup("profileEdit", "Edit Profile", true)
-	c.CreateSideMenu(logic.GetMenu("/profile"))
 	c.EnableSave()
 
 	key, err := husk.ParseKey(c.Ctx.Input.Param(":key"))

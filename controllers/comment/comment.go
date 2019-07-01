@@ -1,7 +1,7 @@
 package comment
 
 import (
-	"github.com/louisevanderlith/admin/logic"
+	"github.com/astaxie/beego"
 	"github.com/louisevanderlith/husk"
 	"github.com/louisevanderlith/mango"
 	"github.com/louisevanderlith/mango/control"
@@ -11,7 +11,7 @@ type CommentController struct {
 	control.UIController
 }
 
-func NewCommentCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) *CommentController {
+func NewCommentCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) beego.ControllerInterface {
 	result := &CommentController{}
 	result.SetTheme(settings)
 	result.SetInstanceMap(ctrlMap)
@@ -21,7 +21,6 @@ func NewCommentCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting)
 
 func (c *CommentController) Get() {
 	c.Setup("comments", "Comments", true)
-	c.CreateSideMenu(logic.GetMenu("/comment"))
 
 	result := []interface{}{}
 	pagesize := c.Ctx.Input.Param(":pagesize")
@@ -33,7 +32,7 @@ func (c *CommentController) Get() {
 
 func (c *CommentController) GetView() {
 	c.Setup("commentView", "View Comment", false)
-	c.CreateSideMenu(logic.GetMenu("/comment"))
+
 	key, err := husk.ParseKey(c.Ctx.Input.Param(":key"))
 
 	if err != nil {

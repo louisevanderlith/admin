@@ -3,7 +3,7 @@ package theme
 import (
 	"log"
 
-	"github.com/louisevanderlith/admin/logic"
+	"github.com/astaxie/beego"
 	"github.com/louisevanderlith/husk"
 	"github.com/louisevanderlith/mango"
 	"github.com/louisevanderlith/mango/control"
@@ -13,7 +13,7 @@ type TemplatesController struct {
 	control.UIController
 }
 
-func NewTemplatesCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) *TemplatesController {
+func NewTemplatesCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) beego.ControllerInterface {
 	result := &TemplatesController{}
 	result.SetTheme(settings)
 	result.SetInstanceMap(ctrlMap)
@@ -23,7 +23,6 @@ func NewTemplatesCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSettin
 
 func (c *TemplatesController) Get() {
 	c.Setup("templates", "Templates", false)
-	c.CreateSideMenu(logic.GetMenu("/templates"))
 
 	result := []interface{}{}
 	_, err := mango.DoGET(c.GetMyToken(), &result, c.GetInstanceID(), "Theme.API", "asset", "html")
@@ -39,7 +38,6 @@ func (c *TemplatesController) Get() {
 
 func (c *TemplatesController) GetView() {
 	c.Setup("templateView", "View Template", false)
-	c.CreateSideMenu(logic.GetMenu("/templates"))
 
 	key, err := husk.ParseKey(c.Ctx.Input.Param(":key"))
 

@@ -3,7 +3,7 @@ package vin
 import (
 	"log"
 
-	"github.com/louisevanderlith/admin/logic"
+	"github.com/astaxie/beego"
 	"github.com/louisevanderlith/husk"
 	"github.com/louisevanderlith/mango"
 	"github.com/louisevanderlith/mango/control"
@@ -13,7 +13,7 @@ type VINController struct {
 	control.UIController
 }
 
-func NewVINCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) *VINController {
+func NewVINCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) beego.ControllerInterface {
 	result := &VINController{}
 	result.SetTheme(settings)
 	result.SetInstanceMap(ctrlMap)
@@ -23,7 +23,6 @@ func NewVINCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) *VI
 
 func (c *VINController) Get() {
 	c.Setup("vins", "VIN Numbers", true)
-	c.CreateSideMenu(logic.GetMenu("/vin"))
 
 	result := []interface{}{}
 	pagesize := c.Ctx.Input.Param(":pagesize")
@@ -41,7 +40,7 @@ func (c *VINController) Get() {
 
 func (c *VINController) GetView() {
 	c.Setup("vinView", "View VIN", false)
-	c.CreateSideMenu(logic.GetMenu("/vin"))
+
 	key, err := husk.ParseKey(c.Ctx.Input.Param(":key"))
 
 	if err != nil {

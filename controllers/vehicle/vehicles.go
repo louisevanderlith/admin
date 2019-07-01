@@ -3,7 +3,7 @@ package vehicle
 import (
 	"log"
 
-	"github.com/louisevanderlith/admin/logic"
+	"github.com/astaxie/beego"
 	"github.com/louisevanderlith/husk"
 	"github.com/louisevanderlith/mango"
 	"github.com/louisevanderlith/mango/control"
@@ -13,7 +13,7 @@ type VehiclesController struct {
 	control.UIController
 }
 
-func NewVehiclesCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) *VehiclesController {
+func NewVehiclesCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) beego.ControllerInterface {
 	result := &VehiclesController{}
 	result.SetTheme(settings)
 	result.SetInstanceMap(ctrlMap)
@@ -23,7 +23,6 @@ func NewVehiclesCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting
 
 func (c *VehiclesController) Get() {
 	c.Setup("vehicles", "Vehicles", true)
-	c.CreateSideMenu(logic.GetMenu("/vehicle"))
 
 	result := []interface{}{}
 	pagesize := c.Ctx.Input.Param(":pagesize")
@@ -41,7 +40,6 @@ func (c *VehiclesController) Get() {
 
 func (c *VehiclesController) GetView() {
 	c.Setup("vehicleView", "View Vehicle", false)
-	c.CreateSideMenu(logic.GetMenu("/vehicle"))
 	key, err := husk.ParseKey(c.Ctx.Input.Param(":key"))
 
 	if err != nil {

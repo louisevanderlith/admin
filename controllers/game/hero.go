@@ -3,7 +3,7 @@ package game
 import (
 	"log"
 
-	"github.com/louisevanderlith/admin/logic"
+	"github.com/astaxie/beego"
 	"github.com/louisevanderlith/husk"
 	"github.com/louisevanderlith/mango"
 	"github.com/louisevanderlith/mango/control"
@@ -13,7 +13,7 @@ type HeroController struct {
 	control.UIController
 }
 
-func NewHeroCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) *HeroController {
+func NewHeroCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) beego.ControllerInterface {
 	result := &HeroController{}
 	result.SetTheme(settings)
 	result.SetInstanceMap(ctrlMap)
@@ -23,7 +23,6 @@ func NewHeroCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) *H
 
 func (c *HeroController) Get() {
 	c.Setup("heroes", "Heroes", true)
-	c.CreateSideMenu(logic.GetMenu("/heroes"))
 
 	result := []interface{}{}
 	pagesize := c.Ctx.Input.Param(":pagesize")
@@ -35,7 +34,6 @@ func (c *HeroController) Get() {
 
 func (c *HeroController) GetEdit() {
 	c.Setup("heroView", "View Hero", true)
-	c.CreateSideMenu(logic.GetMenu("/heroes"))
 	c.EnableSave()
 
 	key, err := husk.ParseKey(c.Ctx.Input.Param(":key"))

@@ -3,7 +3,8 @@ package artifact
 import (
 	"fmt"
 
-	"github.com/louisevanderlith/admin/logic"
+	"github.com/astaxie/beego"
+
 	"github.com/louisevanderlith/husk"
 	"github.com/louisevanderlith/mango"
 	"github.com/louisevanderlith/mango/control"
@@ -13,7 +14,7 @@ type UploadsController struct {
 	control.UIController
 }
 
-func NewUploadsCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) *UploadsController {
+func NewUploadsCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) beego.ControllerInterface {
 	result := &UploadsController{}
 	result.SetTheme(settings)
 	result.SetInstanceMap(ctrlMap)
@@ -23,7 +24,6 @@ func NewUploadsCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting)
 
 func (req *UploadsController) Get() {
 	req.Setup("uploads", "Uploads", true)
-	req.CreateSideMenu(logic.GetMenu("/uploads/A10"))
 
 	var result []interface{}
 	pagesize := req.Ctx.Input.Param(":pagesize")
@@ -40,7 +40,7 @@ func (req *UploadsController) Get() {
 
 func (c *UploadsController) GetView() {
 	c.Setup("uploadView", "View Upload", false)
-	c.CreateSideMenu(logic.GetMenu("/uploads"))
+
 	key, err := husk.ParseKey(c.Ctx.Input.Param(":key"))
 
 	if err != nil {

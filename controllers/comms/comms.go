@@ -3,7 +3,7 @@ package comms
 import (
 	"log"
 
-	"github.com/louisevanderlith/admin/logic"
+	"github.com/astaxie/beego"
 	"github.com/louisevanderlith/husk"
 	"github.com/louisevanderlith/mango"
 	"github.com/louisevanderlith/mango/control"
@@ -13,7 +13,7 @@ type MessagesController struct {
 	control.UIController
 }
 
-func NewMessagesCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) *MessagesController {
+func NewMessagesCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) beego.ControllerInterface {
 	result := &MessagesController{}
 	result.SetTheme(settings)
 	result.SetInstanceMap(ctrlMap)
@@ -23,7 +23,6 @@ func NewMessagesCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting
 
 func (c *MessagesController) Get() {
 	c.Setup("messages", "Messages", true)
-	c.CreateSideMenu(logic.GetMenu("/messages"))
 
 	result := []interface{}{}
 	_, err := mango.DoGET(c.GetMyToken(), &result, c.GetInstanceID(), "Comms.API", "message", "all", "A10")
@@ -33,7 +32,6 @@ func (c *MessagesController) Get() {
 
 func (c *MessagesController) GetView() {
 	c.Setup("messageView", "View Message", false)
-	c.CreateSideMenu(logic.GetMenu("/messages"))
 
 	key, err := husk.ParseKey(c.Ctx.Input.Param(":key"))
 

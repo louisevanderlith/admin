@@ -3,7 +3,7 @@ package vin
 import (
 	"log"
 
-	"github.com/louisevanderlith/admin/logic"
+	"github.com/astaxie/beego"
 	"github.com/louisevanderlith/husk"
 	"github.com/louisevanderlith/mango"
 	"github.com/louisevanderlith/mango/control"
@@ -13,7 +13,7 @@ type RegionsController struct {
 	control.UIController
 }
 
-func NewRegionsCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) *RegionsController {
+func NewRegionsCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) beego.ControllerInterface {
 	result := &RegionsController{}
 	result.SetTheme(settings)
 	result.SetInstanceMap(ctrlMap)
@@ -23,8 +23,6 @@ func NewRegionsCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting)
 
 func (c *RegionsController) Get() {
 	c.Setup("regions", "VIN Regions", true)
-	c.CreateSideMenu(logic.GetMenu("/regions"))
-
 	result := []interface{}{}
 	pagesize := c.Ctx.Input.Param(":pagesize")
 
@@ -41,7 +39,6 @@ func (c *RegionsController) Get() {
 
 func (c *RegionsController) GetEdit() {
 	c.Setup("regionEdit", "Edit Region", false)
-	c.CreateSideMenu(logic.GetMenu("/region"))
 	key, err := husk.ParseKey(c.Ctx.Input.Param(":key"))
 
 	if err != nil {

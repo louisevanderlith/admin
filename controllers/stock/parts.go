@@ -3,7 +3,7 @@ package stock
 import (
 	"log"
 
-	"github.com/louisevanderlith/admin/logic"
+	"github.com/astaxie/beego"
 	"github.com/louisevanderlith/husk"
 	"github.com/louisevanderlith/mango"
 	"github.com/louisevanderlith/mango/control"
@@ -13,7 +13,7 @@ type PartsController struct {
 	control.UIController
 }
 
-func NewPartsCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) *PartsController {
+func NewPartsCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) beego.ControllerInterface {
 	result := &PartsController{}
 	result.SetTheme(settings)
 	result.SetInstanceMap(ctrlMap)
@@ -23,7 +23,6 @@ func NewPartsCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) *
 
 func (c *PartsController) Get() {
 	c.Setup("parts", "Parts", true)
-	c.CreateSideMenu(logic.GetMenu("/parts"))
 
 	result := []interface{}{}
 	pagesize := c.Ctx.Input.Param(":pagesize")
@@ -41,7 +40,7 @@ func (c *PartsController) Get() {
 
 func (c *PartsController) GetEdit() {
 	c.Setup("partsEdit", "Edit parts", false)
-	c.CreateSideMenu(logic.GetMenu("/parts"))
+
 	key, err := husk.ParseKey(c.Ctx.Input.Param(":key"))
 
 	if err != nil {

@@ -3,19 +3,18 @@ package entity
 import (
 	"log"
 
+	"github.com/astaxie/beego"
 	"github.com/louisevanderlith/husk"
 	"github.com/louisevanderlith/mango"
 
 	"github.com/louisevanderlith/mango/control"
-
-	"github.com/louisevanderlith/admin/logic"
 )
- 
+
 type EntitiesController struct {
 	control.UIController
 }
 
-func NewEntitiesCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) *EntitiesController {
+func NewEntitiesCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) beego.ControllerInterface {
 	result := &EntitiesController{}
 	result.SetTheme(settings)
 	result.SetInstanceMap(ctrlMap)
@@ -25,7 +24,6 @@ func NewEntitiesCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting
 
 func (c *EntitiesController) Get() {
 	c.Setup("entity", "Entity", true)
-	c.CreateSideMenu(logic.GetMenu("/enity"))
 
 	result := []interface{}{}
 	pagesize := c.Ctx.Input.Param(":pagesize")
@@ -37,7 +35,6 @@ func (c *EntitiesController) Get() {
 
 func (c *EntitiesController) GetEdit() {
 	c.Setup("entityEdit", "Edit Entity", true)
-	c.CreateSideMenu(logic.GetMenu("/entity"))
 	c.EnableSave()
 
 	key, err := husk.ParseKey(c.Ctx.Input.Param(":key"))

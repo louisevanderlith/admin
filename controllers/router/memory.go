@@ -3,7 +3,7 @@ package router
 import (
 	"log"
 
-	"github.com/louisevanderlith/admin/logic"
+	"github.com/astaxie/beego"
 	"github.com/louisevanderlith/mango"
 	"github.com/louisevanderlith/mango/control"
 )
@@ -12,7 +12,7 @@ type MemoryController struct {
 	control.UIController
 }
 
-func NewMemoryCtrl(ctrlMap *control.ControllerMap, setting mango.ThemeSetting) *MemoryController {
+func NewMemoryCtrl(ctrlMap *control.ControllerMap, setting mango.ThemeSetting) beego.ControllerInterface {
 	result := &MemoryController{}
 	result.SetTheme(setting)
 	result.SetInstanceMap(ctrlMap)
@@ -22,7 +22,6 @@ func NewMemoryCtrl(ctrlMap *control.ControllerMap, setting mango.ThemeSetting) *
 
 func (c *MemoryController) Get() {
 	c.Setup("memory", "Memory", true)
-	c.CreateSideMenu(logic.GetMenu("/memory"))
 
 	result := make(map[string]interface{})
 	_, err := mango.DoGET(c.GetMyToken(), &result, c.GetInstanceID(), "Router.API", "memory")

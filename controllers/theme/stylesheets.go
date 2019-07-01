@@ -3,7 +3,7 @@ package theme
 import (
 	"log"
 
-	"github.com/louisevanderlith/admin/logic"
+	"github.com/astaxie/beego"
 	"github.com/louisevanderlith/husk"
 	"github.com/louisevanderlith/mango"
 	"github.com/louisevanderlith/mango/control"
@@ -13,7 +13,7 @@ type StylesheetController struct {
 	control.UIController
 }
 
-func NewStylesheetCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) *StylesheetController {
+func NewStylesheetCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) beego.ControllerInterface {
 	result := &StylesheetController{}
 	result.SetTheme(settings)
 	result.SetInstanceMap(ctrlMap)
@@ -23,7 +23,6 @@ func NewStylesheetCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetti
 
 func (c *StylesheetController) Get() {
 	c.Setup("stylesheets", "Stylesheets", false)
-	c.CreateSideMenu(logic.GetMenu("/stylesheets"))
 
 	result := []interface{}{}
 	_, err := mango.DoGET(c.GetMyToken(), &result, c.GetInstanceID(), "Theme.API", "asset", "css")
@@ -39,7 +38,6 @@ func (c *StylesheetController) Get() {
 
 func (c *StylesheetController) GetView() {
 	c.Setup("stylesheetView", "View Stylesheet", false)
-	c.CreateSideMenu(logic.GetMenu("/stylesheet"))
 
 	key, err := husk.ParseKey(c.Ctx.Input.Param(":key"))
 
