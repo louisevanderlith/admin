@@ -49,7 +49,6 @@ func NewControlRouter(servc *mango.Service, siteProfile string) *ControlRouter {
 }
 
 type ControlOption struct {
-	Method       string
 	RequiredRole roletype.Enum
 	Function     string
 	Path         string
@@ -87,18 +86,18 @@ func (r *ControlRouter) IdentifyCtrl(ctor ControlConstructor, name string, optio
 	children := control.NewMenu(basePath)
 
 	for _, v := range options {
-		actMap[v.Method] = v.RequiredRole
-		funcPath := basePath + v.Path
+		actMap["GET"] = v.RequiredRole
+		funcPath := basePath + strings.ToLower(v.Path)
 
 		r.Mapping.Add(funcPath, actMap)
 
 		realPath := strings.Replace(funcPath, ":pagesize", "A10", 1)
 
-		if !strings.Contains(v.Path, ":key") {
+		if !strings.Contains(strings.ToLower(v.Path), ":key") {
 			children.AddItem(realPath, v.Name, v.Icon, nil)
 		}
 
-		actFunc := fmt.Sprintf("%s:%s", strings.ToLower(v.Method), v.Function)
+		actFunc := fmt.Sprintf("get:%s", v.Function)
 		beego.Router(funcPath, ctrllr, actFunc)
 	}
 

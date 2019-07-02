@@ -27,7 +27,6 @@ func Setup(s *mango.Service) {
 
 	routes.IdentifyCtrl(controllers.NewDefaultCtrl, "", []logic.ControlOption{
 		{
-			Method:       "GET",
 			RequiredRole: roletype.Admin,
 			Function:     "Get",
 			Path:         "/",
@@ -39,7 +38,6 @@ func Setup(s *mango.Service) {
 	//Artifact
 	routes.IdentifyCtrl(artifact.NewUploadsCtrl, "Artifact", []logic.ControlOption{
 		{
-			Method:       "GET",
 			RequiredRole: roletype.Admin,
 			Function:     "Get",
 			Path:         "/uploads/:pagesize",
@@ -47,7 +45,6 @@ func Setup(s *mango.Service) {
 			Icon:         "fa-box",
 		},
 		{
-			Method:       "GET",
 			RequiredRole: roletype.Admin,
 			Function:     "GetView",
 			Path:         "/upload/:key",
@@ -59,7 +56,6 @@ func Setup(s *mango.Service) {
 	//Blog
 	routes.IdentifyCtrl(blog.NewArticlesCtrl, "Blog", []logic.ControlOption{
 		{
-			Method:       "GET",
 			RequiredRole: roletype.Admin,
 			Function:     "Get",
 			Path:         "/articles/:pagesize",
@@ -67,7 +63,6 @@ func Setup(s *mango.Service) {
 			Icon:         "fa-box",
 		},
 		{
-			Method:       "GET",
 			RequiredRole: roletype.Admin,
 			Function:     "GetView",
 			Path:         "/view/:key",
@@ -75,7 +70,6 @@ func Setup(s *mango.Service) {
 			Icon:         "fa-image",
 		},
 		{
-			Method:       "GET",
 			RequiredRole: roletype.Admin,
 			Function:     "GetCreate",
 			Path:         "/article/:key",
@@ -87,7 +81,6 @@ func Setup(s *mango.Service) {
 	//Comment
 	routes.IdentifyCtrl(comment.NewCommentCtrl, "Comment", []logic.ControlOption{
 		{
-			Method:       "GET",
 			RequiredRole: roletype.Admin,
 			Function:     "Get",
 			Path:         "/comments/:pagesize",
@@ -95,7 +88,6 @@ func Setup(s *mango.Service) {
 			Icon:         "fa-box",
 		},
 		{
-			Method:       "GET",
 			RequiredRole: roletype.Admin,
 			Function:     "GetView",
 			Path:         "/view/:key",
@@ -105,17 +97,15 @@ func Setup(s *mango.Service) {
 	})
 
 	//Comms
-	routes.IdentifyCtrl(comms.NewMessagesCtrl, "Communication", []logic.ControlOption{
+	routes.IdentifyCtrl(comms.NewMessagesCtrl, "Comms", []logic.ControlOption{
 		{
-			Method:       "GET",
 			RequiredRole: roletype.Admin,
 			Function:     "Get",
-			Path:         "message/:pagesize",
+			Path:         "/message/:pagesize",
 			Name:         "Get Messages",
 			Icon:         "fa-box",
 		},
 		{
-			Method:       "GET",
 			RequiredRole: roletype.Admin,
 			Function:     "GetView",
 			Path:         "/view/:key",
@@ -127,7 +117,6 @@ func Setup(s *mango.Service) {
 	//Entity
 	routes.IdentifyCtrl(entity.NewEntitiesCtrl, "Entity", []logic.ControlOption{
 		{
-			Method:       "GET",
 			RequiredRole: roletype.Admin,
 			Function:     "Get",
 			Path:         "/entities/:pagesize",
@@ -135,7 +124,6 @@ func Setup(s *mango.Service) {
 			Icon:         "fa-box",
 		},
 		{
-			Method:       "GET",
 			RequiredRole: roletype.Admin,
 			Function:     "GetEdit",
 			Path:         "/entity/:key",
@@ -147,7 +135,6 @@ func Setup(s *mango.Service) {
 	//Folio
 	routes.IdentifyCtrl(folio.NewProfileCtrl, "Folio", []logic.ControlOption{
 		{
-			Method:       "GET",
 			RequiredRole: roletype.Admin,
 			Function:     "Get",
 			Path:         "/profiles/:pagesize",
@@ -155,7 +142,6 @@ func Setup(s *mango.Service) {
 			Icon:         "fa-box",
 		},
 		{
-			Method:       "GET",
 			RequiredRole: roletype.Admin,
 			Function:     "GetEdit",
 			Path:         "/profile/:key",
@@ -167,7 +153,6 @@ func Setup(s *mango.Service) {
 	//Funds
 	routes.IdentifyCtrl(funds.NewAccountsCtrl, "Funds", []logic.ControlOption{
 		{
-			Method:       "GET",
 			RequiredRole: roletype.Admin,
 			Function:     "Get",
 			Path:         "/accounts/:pagesize",
@@ -175,7 +160,6 @@ func Setup(s *mango.Service) {
 			Icon:         "fa-box",
 		},
 		{
-			Method:       "GET",
 			RequiredRole: roletype.Admin,
 			Function:     "GetEdit",
 			Path:         "/account/:key",
@@ -195,7 +179,6 @@ func Setup(s *mango.Service) {
 	//Router
 	routes.IdentifyCtrl(router.NewMemoryCtrl, "Router", []logic.ControlOption{
 		{
-			Method:       "GET",
 			RequiredRole: roletype.Admin,
 			Function:     "Get",
 			Path:         "/memory",
@@ -207,15 +190,13 @@ func Setup(s *mango.Service) {
 	//Secure
 	routes.IdentifyCtrl(secCtrl.NewUserCtrl, "Secure", []logic.ControlOption{
 		{
-			Method:       "GET",
 			RequiredRole: roletype.Admin,
 			Function:     "Get",
 			Path:         "/users/:pagesize",
-			Name:         "Get Users",
+			Name:         "Users",
 			Icon:         "fa-group",
 		},
 		{
-			Method:       "GET",
 			RequiredRole: roletype.Admin,
 			Function:     "GetView",
 			Path:         "/user/:key",
@@ -227,15 +208,13 @@ func Setup(s *mango.Service) {
 	//Stock
 	routes.IdentifyCtrl(stock.NewCarsCtrl, "Stock", []logic.ControlOption{
 		{
-			Method:       "GET",
 			RequiredRole: roletype.Admin,
 			Function:     "Get",
 			Path:         "/cars/:pagesize",
-			Name:         "Get Cars",
+			Name:         "Cars",
 			Icon:         "fa-fleet",
 		},
 		{
-			Method:       "GET",
 			RequiredRole: roletype.Admin,
 			Function:     "GetEdit",
 			Path:         "/car/:key",
@@ -246,7 +225,6 @@ func Setup(s *mango.Service) {
 
 	routes.IdentifyCtrl(stock.NewPartsCtrl, "Stock", []logic.ControlOption{
 		{
-			Method:       "GET",
 			RequiredRole: roletype.Admin,
 			Function:     "Get",
 			Path:         "/parts/:pagesize",
@@ -254,7 +232,6 @@ func Setup(s *mango.Service) {
 			Icon:         "fa-group",
 		},
 		{
-			Method:       "GET",
 			RequiredRole: roletype.Admin,
 			Function:     "GetEdit",
 			Path:         "/part/:key",
@@ -265,7 +242,6 @@ func Setup(s *mango.Service) {
 
 	routes.IdentifyCtrl(stock.NewServicesCtrl, "Secure", []logic.ControlOption{
 		{
-			Method:       "GET",
 			RequiredRole: roletype.Admin,
 			Function:     "Get",
 			Path:         "/services/:pagesize",
@@ -273,7 +249,6 @@ func Setup(s *mango.Service) {
 			Icon:         "fa-group",
 		},
 		{
-			Method:       "GET",
 			RequiredRole: roletype.Admin,
 			Function:     "GetEdit",
 			Path:         "/service/:key",
@@ -287,7 +262,6 @@ func Setup(s *mango.Service) {
 	//Vehicle
 	routes.IdentifyCtrl(vehicle.NewVehiclesCtrl, "Vehicle", []logic.ControlOption{
 		{
-			Method:       "GET",
 			RequiredRole: roletype.Admin,
 			Function:     "Get",
 			Path:         "/vehicles/:pagesize",
@@ -295,7 +269,6 @@ func Setup(s *mango.Service) {
 			Icon:         "fa-group",
 		},
 		{
-			Method:       "GET",
 			RequiredRole: roletype.Admin,
 			Function:     "GetView",
 			Path:         "/vehicle/:key",
@@ -307,7 +280,6 @@ func Setup(s *mango.Service) {
 	//Vin
 	routes.IdentifyCtrl(vin.NewVINCtrl, "VIN", []logic.ControlOption{
 		{
-			Method:       "GET",
 			RequiredRole: roletype.Admin,
 			Function:     "Get",
 			Path:         "/vins/:pagesize",
@@ -315,7 +287,6 @@ func Setup(s *mango.Service) {
 			Icon:         "fa-group",
 		},
 		{
-			Method:       "GET",
 			RequiredRole: roletype.Admin,
 			Function:     "GetView",
 			Path:         "/vin/:key",
@@ -326,7 +297,6 @@ func Setup(s *mango.Service) {
 
 	routes.IdentifyCtrl(vin.NewRegionsCtrl, "VIN", []logic.ControlOption{
 		{
-			Method:       "GET",
 			RequiredRole: roletype.Admin,
 			Function:     "Get",
 			Path:         "/regions/:pagesize",
@@ -334,7 +304,6 @@ func Setup(s *mango.Service) {
 			Icon:         "fa-group",
 		},
 		{
-			Method:       "GET",
 			RequiredRole: roletype.Admin,
 			Function:     "GetEdit",
 			Path:         "/region/:key",
@@ -346,7 +315,6 @@ func Setup(s *mango.Service) {
 	//XChange
 	routes.IdentifyCtrl(xchange.NewCreditCtrl, "XChange", []logic.ControlOption{
 		{
-			Method:       "GET",
 			RequiredRole: roletype.Admin,
 			Function:     "Get",
 			Path:         "/credit",
