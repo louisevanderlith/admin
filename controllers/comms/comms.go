@@ -3,7 +3,7 @@ package comms
 import (
 	"log"
 
-	"github.com/astaxie/beego"
+	"github.com/louisevanderlith/admin/logic"
 	"github.com/louisevanderlith/husk"
 	"github.com/louisevanderlith/mango"
 	"github.com/louisevanderlith/mango/control"
@@ -13,7 +13,7 @@ type MessagesController struct {
 	control.UIController
 }
 
-func NewMessagesCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) beego.ControllerInterface {
+func NewMessagesCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) logic.PageUI {
 	result := &MessagesController{}
 	result.SetTheme(settings)
 	result.SetInstanceMap(ctrlMap)

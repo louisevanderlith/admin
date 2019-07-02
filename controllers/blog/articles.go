@@ -3,8 +3,7 @@ package blog
 import (
 	"log"
 
-	"github.com/astaxie/beego"
-
+	"github.com/louisevanderlith/admin/logic"
 	"github.com/louisevanderlith/husk"
 	"github.com/louisevanderlith/mango"
 
@@ -15,7 +14,7 @@ type ArticlesController struct {
 	control.UIController
 }
 
-func NewArticlesCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) beego.ControllerInterface {
+func NewArticlesCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) logic.PageUI {
 	result := &ArticlesController{}
 	result.SetTheme(settings)
 	result.SetInstanceMap(ctrlMap)
@@ -26,7 +25,7 @@ func NewArticlesCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting
 func (c *ArticlesController) Get() {
 	c.Setup("articles", "Articles", true)
 
-	c.CreateTopMenu(getBlogsTopMenu())
+	c.CreateTopMenu(c.Ctx, getBlogsTopMenu())
 
 	result := []interface{}{}
 	pagesize := c.Ctx.Input.Param(":pagesize")
@@ -39,7 +38,7 @@ func (c *ArticlesController) Get() {
 func (c *ArticlesController) GetCreate() {
 	c.Setup("articleCreate", "Create Article", true)
 
-	c.CreateTopMenu(createBlogTopMenu())
+	c.CreateTopMenu(c.Ctx, createBlogTopMenu())
 	c.EnableSave()
 
 	key, err := husk.ParseKey(c.Ctx.Input.Param(":key"))
@@ -61,7 +60,7 @@ func (c *ArticlesController) GetCreate() {
 func (c *ArticlesController) GetView() {
 	c.Setup("articleView", "View Article", true)
 
-	c.CreateTopMenu(createBlogTopMenu())
+	c.CreateTopMenu(c.Ctx, createBlogTopMenu())
 	c.EnableSave()
 
 	key, err := husk.ParseKey(c.Ctx.Input.Param(":key"))

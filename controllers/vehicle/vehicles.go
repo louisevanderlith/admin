@@ -3,7 +3,7 @@ package vehicle
 import (
 	"log"
 
-	"github.com/astaxie/beego"
+	"github.com/louisevanderlith/admin/logic"
 	"github.com/louisevanderlith/husk"
 	"github.com/louisevanderlith/mango"
 	"github.com/louisevanderlith/mango/control"
@@ -13,7 +13,7 @@ type VehiclesController struct {
 	control.UIController
 }
 
-func NewVehiclesCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) beego.ControllerInterface {
+func NewVehiclesCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) logic.PageUI {
 	result := &VehiclesController{}
 	result.SetTheme(settings)
 	result.SetInstanceMap(ctrlMap)

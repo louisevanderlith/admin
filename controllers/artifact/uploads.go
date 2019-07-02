@@ -3,8 +3,7 @@ package artifact
 import (
 	"fmt"
 
-	"github.com/astaxie/beego"
-
+	"github.com/louisevanderlith/admin/logic"
 	"github.com/louisevanderlith/husk"
 	"github.com/louisevanderlith/mango"
 	"github.com/louisevanderlith/mango/control"
@@ -14,7 +13,7 @@ type UploadsController struct {
 	control.UIController
 }
 
-func NewUploadsCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) beego.ControllerInterface {
+func NewUploadsCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) logic.PageUI {
 	result := &UploadsController{}
 	result.SetTheme(settings)
 	result.SetInstanceMap(ctrlMap)

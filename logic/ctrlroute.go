@@ -2,6 +2,7 @@ package logic
 
 import (
 	"fmt"
+	"log"
 	"strings"
 
 	"github.com/astaxie/beego"
@@ -13,11 +14,17 @@ import (
 	"github.com/louisevanderlith/secure/core/roletype"
 )
 
+type PageUI interface {
+	beego.ControllerInterface
+	CreateTopMenu(ctx *context.Context, menu *control.Menu)
+	CreateSideMenu(ctx *context.Context, menu *control.Menu)
+}
+
 type ControlRouter struct {
 	Menu        *control.Menu
 	Settings    mango.ThemeSetting
 	Mapping     *control.ControllerMap
-	Controllers map[string]*control.UIController
+	Controllers map[string]PageUI
 }
 
 func NewControlRouter(servc *mango.Service, siteProfile string) *ControlRouter {
@@ -29,13 +36,14 @@ func NewControlRouter(servc *mango.Service, siteProfile string) *ControlRouter {
 	}
 
 	routes := &ControlRouter{
-		Menu:     control.NewMenu("/"),
-		Settings: setting,
-		Mapping:  mapping,
+		Menu:        control.NewMenu("/"),
+		Settings:    setting,
+		Mapping:     mapping,
+		Controllers: make(map[string]PageUI),
 	}
 
-	beego.InsertFilter("/*", beego.BeforeRouter, routes.SetActivePath)
 	beego.InsertFilter("/*", beego.BeforeRouter, mapping.FilterUI)
+	beego.InsertFilter("/*", beego.BeforeExec, routes.SetActivePath)
 
 	return routes
 }
@@ -49,15 +57,17 @@ type ControlOption struct {
 	Icon         string
 }
 
-type ControlConstructor func(ctrlMap *control.ControllerMap, setting mango.ThemeSetting) beego.ControllerInterface
+type ControlConstructor func(ctrlMap *control.ControllerMap, setting mango.ThemeSetting) PageUI
 
 func (r *ControlRouter) SetActivePath(ctx *context.Context) {
 	path := ctx.Request.URL.RequestURI()
 	r.Menu.SetActive(path)
-
+	log.Print("Setting Active Path")
 	for p, ctrl := range r.Controllers {
+		log.Printf("Matching %s vs %s\n", path, p)
 		if strings.HasPrefix(path, p) {
-			ctrl.CreateSideMenu(r.Menu)
+			log.Print("passed")
+			ctrl.CreateSideMenu(ctx, r.Menu)
 		}
 	}
 }
@@ -66,9 +76,13 @@ func (r *ControlRouter) IdentifyCtrl(ctor ControlConstructor, name string, optio
 	ctrllr := ctor(r.Mapping, r.Settings)
 
 	actMap := make(secure.ActionMap)
-	basePath := fmt.Sprintf("/%s/", name)
+	basePath := ""
 
-	r.Controllers[basePath] = ctrllr.(*control.UIController)
+	if len(name) != 0 {
+		basePath = fmt.Sprintf("/%s", name)
+	}
+
+	r.Controllers[basePath] = ctrllr
 
 	children := control.NewMenu(basePath)
 

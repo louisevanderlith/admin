@@ -3,7 +3,7 @@ package secure
 import (
 	"log"
 
-	"github.com/astaxie/beego"
+	"github.com/louisevanderlith/admin/logic"
 	"github.com/louisevanderlith/husk"
 	"github.com/louisevanderlith/mango"
 	"github.com/louisevanderlith/mango/control"
@@ -14,7 +14,7 @@ type UserController struct {
 	control.UIController
 }
 
-func NewUserCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) beego.ControllerInterface {
+func NewUserCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) logic.PageUI {
 	result := &UserController{}
 	result.SetTheme(settings)
 	result.SetInstanceMap(ctrlMap)

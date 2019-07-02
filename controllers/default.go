@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"github.com/astaxie/beego"
+	"github.com/louisevanderlith/admin/logic"
 	"github.com/louisevanderlith/mango"
 	"github.com/louisevanderlith/mango/control"
 )
@@ -10,7 +10,7 @@ type DefaultController struct {
 	control.UIController
 }
 
-func NewDefaultCtrl(ctrlMap *control.ControllerMap, setting mango.ThemeSetting) beego.ControllerInterface {
+func NewDefaultCtrl(ctrlMap *control.ControllerMap, setting mango.ThemeSetting) logic.PageUI {
 	result := &DefaultController{}
 	result.SetTheme(setting)
 	result.SetInstanceMap(ctrlMap)

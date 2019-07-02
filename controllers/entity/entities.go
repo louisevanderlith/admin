@@ -3,7 +3,7 @@ package entity
 import (
 	"log"
 
-	"github.com/astaxie/beego"
+	"github.com/louisevanderlith/admin/logic"
 	"github.com/louisevanderlith/husk"
 	"github.com/louisevanderlith/mango"
 
@@ -14,7 +14,7 @@ type EntitiesController struct {
 	control.UIController
 }
 
-func NewEntitiesCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) beego.ControllerInterface {
+func NewEntitiesCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) logic.PageUI {
 	result := &EntitiesController{}
 	result.SetTheme(settings)
 	result.SetInstanceMap(ctrlMap)

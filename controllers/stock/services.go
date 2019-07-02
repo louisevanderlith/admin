@@ -3,7 +3,7 @@ package stock
 import (
 	"log"
 
-	"github.com/astaxie/beego"
+	"github.com/louisevanderlith/admin/logic"
 	"github.com/louisevanderlith/husk"
 	"github.com/louisevanderlith/mango"
 	"github.com/louisevanderlith/mango/control"
@@ -13,7 +13,7 @@ type ServicesController struct {
 	control.UIController
 }
 
-func NewServicesCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) beego.ControllerInterface {
+func NewServicesCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) logic.PageUI {
 	result := &ServicesController{}
 	result.SetTheme(settings)
 	result.SetInstanceMap(ctrlMap)

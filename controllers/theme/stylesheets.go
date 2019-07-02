@@ -3,7 +3,7 @@ package theme
 import (
 	"log"
 
-	"github.com/astaxie/beego"
+	"github.com/louisevanderlith/admin/logic"
 	"github.com/louisevanderlith/husk"
 	"github.com/louisevanderlith/mango"
 	"github.com/louisevanderlith/mango/control"
@@ -13,7 +13,7 @@ type StylesheetController struct {
 	control.UIController
 }
 
-func NewStylesheetCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) beego.ControllerInterface {
+func NewStylesheetCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) logic.PageUI {
 	result := &StylesheetController{}
 	result.SetTheme(settings)
 	result.SetInstanceMap(ctrlMap)

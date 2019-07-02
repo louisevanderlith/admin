@@ -1,7 +1,7 @@
 package comment
 
 import (
-	"github.com/astaxie/beego"
+	"github.com/louisevanderlith/admin/logic"
 	"github.com/louisevanderlith/husk"
 	"github.com/louisevanderlith/mango"
 	"github.com/louisevanderlith/mango/control"
@@ -11,7 +11,7 @@ type CommentController struct {
 	control.UIController
 }
 
-func NewCommentCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) beego.ControllerInterface {
+func NewCommentCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) logic.PageUI {
 	result := &CommentController{}
 	result.SetTheme(settings)
 	result.SetInstanceMap(ctrlMap)

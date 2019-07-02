@@ -3,7 +3,7 @@ package funds
 import (
 	"log"
 
-	"github.com/astaxie/beego"
+	"github.com/louisevanderlith/admin/logic"
 	"github.com/louisevanderlith/husk"
 	"github.com/louisevanderlith/mango"
 
@@ -14,7 +14,7 @@ type AccountsController struct {
 	control.UIController
 }
 
-func NewAccountsCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) beego.ControllerInterface {
+func NewAccountsCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) logic.PageUI {
 	result := &AccountsController{}
 	result.SetTheme(settings)
 	result.SetInstanceMap(ctrlMap)

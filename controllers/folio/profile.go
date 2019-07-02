@@ -3,7 +3,7 @@ package folio
 import (
 	"log"
 
-	"github.com/astaxie/beego"
+	"github.com/louisevanderlith/admin/logic"
 	"github.com/louisevanderlith/husk"
 	"github.com/louisevanderlith/mango"
 
@@ -14,7 +14,7 @@ type ProfileController struct {
 	control.UIController
 }
 
-func NewProfileCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) beego.ControllerInterface {
+func NewProfileCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) logic.PageUI {
 	result := &ProfileController{}
 	result.SetTheme(settings)
 	result.SetInstanceMap(ctrlMap)

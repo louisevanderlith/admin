@@ -1,7 +1,7 @@
 package xchange
 
 import (
-	"github.com/astaxie/beego"
+	"github.com/louisevanderlith/admin/logic"
 	"github.com/louisevanderlith/husk"
 	"github.com/louisevanderlith/mango"
 	"github.com/louisevanderlith/mango/control"
@@ -11,7 +11,7 @@ type CreditsController struct {
 	control.UIController
 }
 
-func NewCreditCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) beego.ControllerInterface {
+func NewCreditCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) logic.PageUI {
 	result := &CreditsController{}
 	result.SetTheme(settings)
 	result.SetInstanceMap(ctrlMap)
