@@ -31,7 +31,7 @@ func Setup(s *mango.Service) {
 			Function:     "Get",
 			Path:         "/",
 			Name:         "Home",
-			Icon:         "fa-home",
+			Icon:         "fas fa-home",
 		},
 	})
 
@@ -41,15 +41,15 @@ func Setup(s *mango.Service) {
 			RequiredRole: roletype.Admin,
 			Function:     "Get",
 			Path:         "/uploads/:pagesize",
-			Name:         "Get Uploads",
-			Icon:         "fa-box",
+			Name:         "Uploads",
+			Icon:         "fas fa-box-open",
 		},
 		{
 			RequiredRole: roletype.Admin,
 			Function:     "GetView",
 			Path:         "/upload/:key",
 			Name:         "View Upload",
-			Icon:         "fa-image",
+			Icon:         "fas fa-images",
 		},
 	})
 
@@ -59,22 +59,22 @@ func Setup(s *mango.Service) {
 			RequiredRole: roletype.Admin,
 			Function:     "Get",
 			Path:         "/articles/:pagesize",
-			Name:         "Get Articles",
-			Icon:         "fa-box",
+			Name:         "Articles",
+			Icon:         "fas fa-box-open",
 		},
 		{
 			RequiredRole: roletype.Admin,
 			Function:     "GetView",
 			Path:         "/view/:key",
 			Name:         "View Article",
-			Icon:         "fa-image",
+			Icon:         "fas fa-images",
 		},
 		{
 			RequiredRole: roletype.Admin,
 			Function:     "GetCreate",
 			Path:         "/article/:key",
 			Name:         "Edit Article",
-			Icon:         "fa-image",
+			Icon:         "fas fa-edit",
 		},
 	})
 
@@ -84,15 +84,15 @@ func Setup(s *mango.Service) {
 			RequiredRole: roletype.Admin,
 			Function:     "Get",
 			Path:         "/comments/:pagesize",
-			Name:         "Get Comments",
-			Icon:         "fa-box",
+			Name:         "Comments",
+			Icon:         "fas fa-inbox",
 		},
 		{
 			RequiredRole: roletype.Admin,
 			Function:     "GetView",
 			Path:         "/view/:key",
 			Name:         "View Comment",
-			Icon:         "fa-image",
+			Icon:         "fas fa-comments",
 		},
 	})
 
@@ -101,16 +101,22 @@ func Setup(s *mango.Service) {
 		{
 			RequiredRole: roletype.Admin,
 			Function:     "Get",
+<<<<<<< HEAD
+			Path:         "message/:pagesize",
+			Name:         "Messages",
+			Icon:         "fas fa-envelope-square",
+=======
 			Path:         "/message/:pagesize",
 			Name:         "Get Messages",
 			Icon:         "fa-box",
+>>>>>>> essential_pages
 		},
 		{
 			RequiredRole: roletype.Admin,
 			Function:     "GetView",
 			Path:         "/view/:key",
 			Name:         "View Message",
-			Icon:         "fa-image",
+			Icon:         "fas fa-envelope-open-text",
 		},
 	})
 
@@ -120,15 +126,15 @@ func Setup(s *mango.Service) {
 			RequiredRole: roletype.Admin,
 			Function:     "Get",
 			Path:         "/entities/:pagesize",
-			Name:         "Get Entities",
-			Icon:         "fa-box",
+			Name:         "Entities",
+			Icon:         "fas fa-users",
 		},
 		{
 			RequiredRole: roletype.Admin,
 			Function:     "GetEdit",
 			Path:         "/entity/:key",
 			Name:         "Edit Entity",
-			Icon:         "fa-image",
+			Icon:         "fas fa-house-damage",
 		},
 	})
 
@@ -138,15 +144,15 @@ func Setup(s *mango.Service) {
 			RequiredRole: roletype.Admin,
 			Function:     "Get",
 			Path:         "/profiles/:pagesize",
-			Name:         "Get Entities",
-			Icon:         "fa-box",
+			Name:         "Profiles",
+			Icon:         "fas fa-id-card-alt",
 		},
 		{
 			RequiredRole: roletype.Admin,
 			Function:     "GetEdit",
 			Path:         "/profile/:key",
 			Name:         "Edit Profile",
-			Icon:         "fa-image",
+			Icon:         "fas fa-user-circle",
 		},
 	})
 
@@ -156,15 +162,15 @@ func Setup(s *mango.Service) {
 			RequiredRole: roletype.Admin,
 			Function:     "Get",
 			Path:         "/accounts/:pagesize",
-			Name:         "Get Entities",
-			Icon:         "fa-box",
+			Name:         "Accounts",
+			Icon:         "fas fa-file-invoice",
 		},
 		{
 			RequiredRole: roletype.Admin,
 			Function:     "GetEdit",
 			Path:         "/account/:key",
 			Name:         "Edit Account",
-			Icon:         "fa-image",
+			Icon:         "fas fa-file-invoice",
 		},
 	})
 
@@ -182,8 +188,8 @@ func Setup(s *mango.Service) {
 			RequiredRole: roletype.Admin,
 			Function:     "Get",
 			Path:         "/memory",
-			Name:         "Get Memory",
-			Icon:         "fa-microchip",
+			Name:         "Memory",
+			Icon:         "fas fa-microchip",
 		},
 	})
 
@@ -194,14 +200,18 @@ func Setup(s *mango.Service) {
 			Function:     "Get",
 			Path:         "/users/:pagesize",
 			Name:         "Users",
+<<<<<<< HEAD
+			Icon:         "fas fa-user-friends",
+=======
 			Icon:         "fa-group",
+>>>>>>> essential_pages
 		},
 		{
 			RequiredRole: roletype.Admin,
 			Function:     "GetView",
 			Path:         "/user/:key",
-			Name:         "Get User",
-			Icon:         "fa-user",
+			Name:         "View User",
+			Icon:         "fas fa-street-view",
 		},
 	})
 
@@ -212,14 +222,18 @@ func Setup(s *mango.Service) {
 			Function:     "Get",
 			Path:         "/cars/:pagesize",
 			Name:         "Cars",
+<<<<<<< HEAD
+			Icon:         "fas fa-car-side",
+=======
 			Icon:         "fa-fleet",
+>>>>>>> essential_pages
 		},
 		{
 			RequiredRole: roletype.Admin,
 			Function:     "GetEdit",
 			Path:         "/car/:key",
-			Name:         "Get Car",
-			Icon:         "fa-car",
+			Name:         "Car",
+			Icon:         "fas fa-car-crash",
 		},
 	})
 
@@ -228,15 +242,15 @@ func Setup(s *mango.Service) {
 			RequiredRole: roletype.Admin,
 			Function:     "Get",
 			Path:         "/parts/:pagesize",
-			Name:         "Get Parts",
-			Icon:         "fa-group",
+			Name:         "Parts",
+			Icon:         "fas fa-wrench",
 		},
 		{
 			RequiredRole: roletype.Admin,
 			Function:     "GetEdit",
 			Path:         "/part/:key",
-			Name:         "Get Part",
-			Icon:         "fa-user",
+			Name:         "Edit Part",
+			Icon:         "fas fa-cog",
 		},
 	})
 
@@ -245,15 +259,15 @@ func Setup(s *mango.Service) {
 			RequiredRole: roletype.Admin,
 			Function:     "Get",
 			Path:         "/services/:pagesize",
-			Name:         "Get Services",
-			Icon:         "fa-group",
+			Name:         "Services",
+			Icon:         "fas fa-layer-group",
 		},
 		{
 			RequiredRole: roletype.Admin,
 			Function:     "GetEdit",
 			Path:         "/service/:key",
-			Name:         "Get Service",
-			Icon:         "fa-user",
+			Name:         "Edit Service",
+			Icon:         "fas fa-edit",
 		},
 	})
 
@@ -265,15 +279,15 @@ func Setup(s *mango.Service) {
 			RequiredRole: roletype.Admin,
 			Function:     "Get",
 			Path:         "/vehicles/:pagesize",
-			Name:         "Get Vehicles",
-			Icon:         "fa-group",
+			Name:         "Vehicles",
+			Icon:         "fas fa-truck-pickup",
 		},
 		{
 			RequiredRole: roletype.Admin,
 			Function:     "GetView",
 			Path:         "/vehicle/:key",
-			Name:         "Get Vehicle",
-			Icon:         "fa-car",
+			Name:         "View Vehicle",
+			Icon:         "fas fa-car",
 		},
 	})
 
@@ -283,15 +297,15 @@ func Setup(s *mango.Service) {
 			RequiredRole: roletype.Admin,
 			Function:     "Get",
 			Path:         "/vins/:pagesize",
-			Name:         "Get VINs",
-			Icon:         "fa-group",
+			Name:         "VINs",
+			Icon:         "fas fa-barcode",
 		},
 		{
 			RequiredRole: roletype.Admin,
 			Function:     "GetView",
 			Path:         "/vin/:key",
-			Name:         "Get VIN",
-			Icon:         "fa-car",
+			Name:         "View VIN",
+			Icon:         "fa-binoculers",
 		},
 	})
 
@@ -300,15 +314,15 @@ func Setup(s *mango.Service) {
 			RequiredRole: roletype.Admin,
 			Function:     "Get",
 			Path:         "/regions/:pagesize",
-			Name:         "Get Regions",
-			Icon:         "fa-group",
+			Name:         "Regions",
+			Icon:         "fas fa-globe-africa",
 		},
 		{
 			RequiredRole: roletype.Admin,
 			Function:     "GetEdit",
 			Path:         "/region/:key",
-			Name:         "Get Region",
-			Icon:         "fa-country",
+			Name:         "Region",
+			Icon:         "fas fa-flag",
 		},
 	})
 
@@ -318,8 +332,8 @@ func Setup(s *mango.Service) {
 			RequiredRole: roletype.Admin,
 			Function:     "Get",
 			Path:         "/credit",
-			Name:         "Get Credits",
-			Icon:         "fa-money",
+			Name:         "Credits",
+			Icon:         "fas fa-hand-holding-usd",
 		},
 	})
 }
