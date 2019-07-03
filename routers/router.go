@@ -102,11 +102,17 @@ func Setup(s *mango.Service) {
 			RequiredRole: roletype.Admin,
 			Function:     "Get",
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
 <<<<<<< HEAD
 			Path:         "message/:pagesize",
 			Name:         "Messages",
 			Icon:         "fas fa-envelope-square",
+=======
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 			Path:         "/message/:pagesize",
@@ -204,6 +210,12 @@ func Setup(s *mango.Service) {
 			Path:         "/users/:pagesize",
 			Name:         "Users",
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+			Icon:         "fas fa-user-friends",
+=======
+>>>>>>> Stashed changes
 =======
 <<<<<<< HEAD
 			Icon:         "fas fa-user-friends",
@@ -229,6 +241,12 @@ func Setup(s *mango.Service) {
 			Path:         "/cars/:pagesize",
 			Name:         "Cars",
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+			Icon:         "fas fa-car-side",
+=======
+>>>>>>> Stashed changes
 =======
 <<<<<<< HEAD
 			Icon:         "fas fa-car-side",
