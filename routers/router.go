@@ -104,9 +104,6 @@ func Setup(s *mango.Service) {
 			Path:         "message/:pagesize",
 			Name:         "Messages",
 			Icon:         "fas fa-envelope-square",
-			Path:         "/message/:pagesize",
-			Name:         "Get Messages",
-			Icon:         "fa-box",
 		},
 		{
 			RequiredRole: roletype.Admin,
