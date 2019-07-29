@@ -1,9 +1,8 @@
 module github.com/louisevanderlith/admin
 
 require (
-	github.com/louisevanderlith/droxolite v1.0.1
+	github.com/louisevanderlith/droxolite v1.0.4
 	github.com/louisevanderlith/husk v0.6.25
-	github.com/louisevanderlith/secure v0.1.16
-	gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127 // indirect
-	gopkg.in/yaml.v2 v2.2.2 // indirect
+	github.com/louisevanderlith/secure v1.0.0
+	golang.org/x/crypto v0.0.0-20190701094942-4def268fd1a4 // indirect
 )
