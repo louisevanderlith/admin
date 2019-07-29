@@ -1,4 +1,4 @@
-package theme
+package comment
 
 import (
 	"log"
@@ -9,15 +9,17 @@ import (
 	"github.com/louisevanderlith/husk"
 )
 
-type StylesheetController struct {
+type MessagesController struct {
 	xontrols.UICtrl
 }
 
-func (c *StylesheetController) Get() {
-	c.Setup("stylesheets", "Stylesheets", false)
+func (c *MessagesController) Get() {
+	c.Setup("comments", "Comments", true)
 
 	result := []interface{}{}
-	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Theme.API", "asset", "css")
+	pagesize := c.FindParam("pagesize")
+
+	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Comment.API", "message", "all", pagesize)
 
 	if err != nil {
 		log.Println(err)
@@ -28,18 +30,17 @@ func (c *StylesheetController) Get() {
 	c.Serve(http.StatusOK, nil, result)
 }
 
-func (c *StylesheetController) GetView() {
-	c.Setup("stylesheetView", "View Stylesheet", false)
+func (c *MessagesController) GetView() {
+	c.Setup("commentView", "View Comment", false)
 
 	key, err := husk.ParseKey(c.FindParam("key"))
 
 	if err != nil {
 		c.Serve(http.StatusBadRequest, err, nil)
-		return
 	}
 
 	result := make(map[string]interface{})
-	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Theme.API", "???", key.String())
+	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Comment.API", "message", key.String())
 
 	if err != nil {
 		log.Println(err)

@@ -1,71 +1,65 @@
-package secure
+package curity
 
 import (
 	"log"
+	"net/http"
 
-	"github.com/louisevanderlith/admin/logic"
+	"github.com/louisevanderlith/droxolite"
+	"github.com/louisevanderlith/droxolite/xontrols"
 	"github.com/louisevanderlith/husk"
-	"github.com/louisevanderlith/mango"
-	"github.com/louisevanderlith/mango/control"
 	secure "github.com/louisevanderlith/secure/core"
 )
 
 type UserController struct {
-	control.UIController
-}
-
-func NewUserCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) logic.PageUI {
-	result := &UserController{}
-	result.SetTheme(settings)
-	result.SetInstanceMap(ctrlMap)
-
-	return result
+	xontrols.UICtrl
 }
 
 func (c *UserController) Get() {
 	c.Setup("users", "Users", false)
 
 	result := []interface{}{}
-	pagesize := c.Ctx.Input.Param(":pagesize")
+	pagesize := c.FindParam("pagesize")
 
-	_, err := mango.DoGET(c.GetMyToken(), &result, c.GetInstanceID(), "Secure.API", "user", "all", pagesize)
+	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Secure.API", "user", "all", pagesize)
 
 	if err != nil {
 		log.Println(err)
+		c.Serve(code, err, nil)
+		return
 	}
 
-	c.Serve(result, err)
+	c.Serve(http.StatusOK, nil, result)
 }
 
 func (c *UserController) GetView() {
 	c.Setup("userView", "View User", true)
 	c.EnableSave()
 
-	key, err := husk.ParseKey(c.Ctx.Input.Param(":key"))
+	key, err := husk.ParseKey(c.FindParam("key"))
 
 	if err != nil {
-		c.Serve(nil, err)
+		c.Serve(http.StatusBadRequest, err, nil)
 	}
 
 	result := make(map[string]interface{})
 
 	resultUser := secure.User{}
-	code, err := mango.DoGET(c.GetMyToken(), &resultUser, c.GetInstanceID(), "Secure.API", "user", key.String())
+	code, err := droxolite.DoGET(c.GetMyToken(), &resultUser, c.Settings.InstanceID, "Secure.API", "user", key.String())
 
 	if err != nil {
-		log.Printf("code %v error: %s\n", code, err.Error())
-		c.Serve(code, err)
+		log.Println(err)
+		c.Serve(code, err, nil)
 		return
 	}
 
 	result["User"] = resultUser
 
 	resultRouter := make(map[string]struct{})
-	_, err = mango.DoGET(c.GetMyToken(), &resultRouter, c.GetInstanceID(), "Router.API", "memory", "apps")
+	code, err = droxolite.DoGET(c.GetMyToken(), &resultRouter, c.Settings.InstanceID, "Router.API", "memory", "apps")
 
 	if err != nil {
 		log.Println(err)
-		c.Serve(nil, err)
+		c.Serve(code, err, nil)
 		return
 	}
 
@@ -89,5 +83,5 @@ func (c *UserController) GetView() {
 
 	result["Options"] = resultOpts
 
-	c.Serve(result, nil)
+	c.Serve(http.StatusOK, nil, result)
 }

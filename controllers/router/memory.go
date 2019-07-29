@@ -2,35 +2,27 @@ package router
 
 import (
 	"log"
+	"net/http"
 
-	"github.com/louisevanderlith/admin/logic"
-	"github.com/louisevanderlith/mango"
-	"github.com/louisevanderlith/mango/control"
+	"github.com/louisevanderlith/droxolite"
+	"github.com/louisevanderlith/droxolite/xontrols"
 )
 
 type MemoryController struct {
-	control.UIController
-}
-
-func NewMemoryCtrl(ctrlMap *control.ControllerMap, setting mango.ThemeSetting) logic.PageUI {
-	result := &MemoryController{}
-	result.SetTheme(setting)
-	result.SetInstanceMap(ctrlMap)
-
-	return result
+	xontrols.UICtrl
 }
 
 func (c *MemoryController) Get() {
 	c.Setup("memory", "Memory", true)
 
 	result := make(map[string]interface{})
-	_, err := mango.DoGET(c.GetMyToken(), &result, c.GetInstanceID(), "Router.API", "memory")
+	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Router.API", "memory")
 
 	if err != nil {
 		log.Println(err)
-		c.Serve(nil, err)
+		c.Serve(code, err, nil)
 		return
 	}
 
-	c.Serve(result, nil)
+	c.Serve(http.StatusOK, nil, result)
 }

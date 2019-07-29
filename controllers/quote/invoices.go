@@ -1,7 +1,7 @@
 package quote
 
-import "github.com/louisevanderlith/mango/control"
+import "github.com/louisevanderlith/droxolite/xontrols"
 
 type InvoiceController struct {
-	control.UIController
+	xontrols.UICtrl
 }

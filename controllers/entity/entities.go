@@ -2,53 +2,53 @@ package entity
 
 import (
 	"log"
+	"net/http"
 
-	"github.com/louisevanderlith/admin/logic"
+	"github.com/louisevanderlith/droxolite"
+	"github.com/louisevanderlith/droxolite/xontrols"
 	"github.com/louisevanderlith/husk"
-	"github.com/louisevanderlith/mango"
-
-	"github.com/louisevanderlith/mango/control"
 )
 
 type EntitiesController struct {
-	control.UIController
-}
-
-func NewEntitiesCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) logic.PageUI {
-	result := &EntitiesController{}
-	result.SetTheme(settings)
-	result.SetInstanceMap(ctrlMap)
-
-	return result
+	xontrols.UICtrl
 }
 
 func (c *EntitiesController) Get() {
 	c.Setup("entity", "Entity", true)
 
 	result := []interface{}{}
-	pagesize := c.Ctx.Input.Param(":pagesize")
+	pagesize := c.FindParam("pagesize")
 
-	_, err := mango.DoGET(c.GetMyToken(), &result, c.GetInstanceID(), "Entity.API", "info", "all", pagesize)
+	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Entity.API", "info", "all", pagesize)
 
-	c.Serve(result, err)
+	if err != nil {
+		log.Println(err)
+		c.Serve(code, err, nil)
+		return
+	}
+
+	c.Serve(http.StatusOK, nil, result)
 }
 
 func (c *EntitiesController) GetEdit() {
 	c.Setup("entityEdit", "Edit Entity", true)
 	c.EnableSave()
 
-	key, err := husk.ParseKey(c.Ctx.Input.Param(":key"))
+	key, err := husk.ParseKey(c.FindParam("key"))
 
 	if err != nil {
-		c.Serve(nil, err)
+		c.Serve(http.StatusBadRequest, err, nil)
+		return
 	}
 
 	result := make(map[string]interface{})
-	_, err = mango.DoGET(c.GetMyToken(), &result, c.GetInstanceID(), "Entity.API", "info", key.String())
+	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Entity.API", "info", key.String())
 
 	if err != nil {
 		log.Println(err)
+		c.Serve(code, err, nil)
+		return
 	}
 
-	c.Serve(result, err)
+	c.Serve(http.StatusOK, nil, err)
 }

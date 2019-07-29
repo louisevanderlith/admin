@@ -1,4 +1,4 @@
-package theme
+package comms
 
 import (
 	"log"
@@ -9,15 +9,15 @@ import (
 	"github.com/louisevanderlith/husk"
 )
 
-type StylesheetController struct {
+type MessagesController struct {
 	xontrols.UICtrl
 }
 
-func (c *StylesheetController) Get() {
-	c.Setup("stylesheets", "Stylesheets", false)
+func (c *MessagesController) Get() {
+	c.Setup("messages", "Messages", true)
 
 	result := []interface{}{}
-	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Theme.API", "asset", "css")
+	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Comms.API", "message", "all", "A10")
 
 	if err != nil {
 		log.Println(err)
@@ -28,18 +28,17 @@ func (c *StylesheetController) Get() {
 	c.Serve(http.StatusOK, nil, result)
 }
 
-func (c *StylesheetController) GetView() {
-	c.Setup("stylesheetView", "View Stylesheet", false)
+func (c *MessagesController) GetView() {
+	c.Setup("messageView", "View Message", false)
 
-	key, err := husk.ParseKey(c.FindParam("key"))
+	key, err := husk.ParseKey(c.FindParam(":key"))
 
 	if err != nil {
 		c.Serve(http.StatusBadRequest, err, nil)
-		return
 	}
 
 	result := make(map[string]interface{})
-	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Theme.API", "???", key.String())
+	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Comms.API", "message", key.String())
 
 	if err != nil {
 		log.Println(err)

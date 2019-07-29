@@ -11,20 +11,25 @@ import (
 	"github.com/louisevanderlith/mango"
 	"github.com/louisevanderlith/mango/control"
 	secure "github.com/louisevanderlith/secure/core"
-	"github.com/louisevanderlith/secure/core/roletype"
+	"github.com/louisevanderlith/droxolite/roletype"
 )
 
 type PageUI interface {
-	beego.ControllerInterface
-	CreateTopMenu(ctx *context.Context, menu *control.Menu)
-	CreateSideMenu(ctx *context.Context, menu *control.Menu)
+	xontrols.Controller
+	CreateTopMenu(menu *bodies.Menu)
+	CreateSideMenu(menu *bodies.Menu)
+}
+
+type CtrlSet struct {
+	UI   PageUI
+	Path string
 }
 
 type ControlRouter struct {
-	Menu        *control.Menu
-	Settings    mango.ThemeSetting
+	Menu        *bodies.Menu
+	Settings    droxolite.ThemeSetting
 	Mapping     *control.ControllerMap
-	Controllers map[string]PageUI
+	Controllers []CtrlSet
 }
 
 func NewControlRouter(servc *mango.Service, siteProfile string) *ControlRouter {
@@ -36,10 +41,9 @@ func NewControlRouter(servc *mango.Service, siteProfile string) *ControlRouter {
 	}
 
 	routes := &ControlRouter{
-		Menu:        control.NewMenu("/"),
-		Settings:    setting,
-		Mapping:     mapping,
-		Controllers: make(map[string]PageUI),
+		Menu:     control.NewMenu("/"),
+		Settings: setting,
+		Mapping:  mapping,
 	}
 
 	beego.InsertFilter("/*", beego.BeforeRouter, mapping.FilterUI)
@@ -59,35 +63,42 @@ type ControlOption struct {
 type ControlConstructor func(ctrlMap *control.ControllerMap, setting mango.ThemeSetting) PageUI
 
 func (r *ControlRouter) SetActivePath(ctx *context.Context) {
-	path := ctx.Request.URL.RequestURI()
+	path := strings.ToLower(ctx.Request.URL.RequestURI())
 	r.Menu.SetActive(path)
-	log.Print("Setting Active Path")
-	for p, ctrl := range r.Controllers {
-		log.Printf("Matching %s vs %s\n", path, p)
-		if strings.HasPrefix(path, p) {
+	
+	for _, ctrl := range r.Controllers {
+
+		log.Printf("Matching %s vs %s\n", path, ctrl.Path)
+
+		if ctrl.Path == "" && path == "/" {
+			ctrl.UI.CreateSideMenu(ctx, r.Menu)
+			return
+		}
+
+		if len(ctrl.Path) > 1 && strings.HasPrefix(path, ctrl.Path) {
 			log.Print("passed")
-			ctrl.CreateSideMenu(ctx, r.Menu)
+			ctrl.UI.CreateSideMenu(ctx, r.Menu)
 		}
 	}
 }
 
 func (r *ControlRouter) IdentifyCtrl(ctor ControlConstructor, name string, options []ControlOption) {
-	ctrllr := ctor(r.Mapping, r.Settings)
+	instance := ctor(r.Mapping, r.Settings)
 
 	actMap := make(secure.ActionMap)
 	basePath := ""
 
 	if len(name) != 0 {
-		basePath = fmt.Sprintf("/%s", name)
+		basePath = strings.ToLower(fmt.Sprintf("/%s", name))
 	}
 
-	r.Controllers[basePath] = ctrllr
+	r.Controllers = append(r.Controllers, CtrlSet{UI: instance, Path: basePath})
 
 	children := control.NewMenu(basePath)
 
 	for _, v := range options {
 		actMap["GET"] = v.RequiredRole
-		funcPath := basePath + strings.ToLower(v.Path)
+		funcPath := strings.ToLower(basePath + v.Path)
 
 		r.Mapping.Add(funcPath, actMap)
 
@@ -98,7 +109,8 @@ func (r *ControlRouter) IdentifyCtrl(ctor ControlConstructor, name string, optio
 		}
 
 		actFunc := fmt.Sprintf("get:%s", v.Function)
-		beego.Router(funcPath, ctrllr, actFunc)
+		log.Println(funcPath)
+		beego.Router(funcPath, instance, actFunc)
 	}
 
 	r.Menu.AddItem(basePath, name, "", children)

@@ -1,53 +1,51 @@
 package artifact
 
 import (
-	"fmt"
+	"log"
+	"net/http"
 
-	"github.com/louisevanderlith/admin/logic"
+	"github.com/louisevanderlith/droxolite"
+	"github.com/louisevanderlith/droxolite/xontrols"
 	"github.com/louisevanderlith/husk"
-	"github.com/louisevanderlith/mango"
-	"github.com/louisevanderlith/mango/control"
 )
 
 type UploadsController struct {
-	control.UIController
-}
-
-func NewUploadsCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) logic.PageUI {
-	result := &UploadsController{}
-	result.SetTheme(settings)
-	result.SetInstanceMap(ctrlMap)
-
-	return result
+	xontrols.UICtrl
 }
 
 func (req *UploadsController) Get() {
 	req.Setup("uploads", "Uploads", true)
 
 	var result []interface{}
-	pagesize := req.Ctx.Input.Param(":pagesize")
-	_, err := mango.DoGET(req.GetMyToken(), &result, req.GetInstanceID(), "Artifact.API", "upload", "all", pagesize)
+	pagesize := req.FindParam("pagesize")
+	code, err := droxolite.DoGET(req.GetMyToken(), &result, req.Settings.InstanceID, "Artifact.API", "upload", "all", pagesize)
 
 	if err != nil {
-		fmt.Println(err)
-		req.Serve(nil, err)
+		log.Println(err)
+		req.Serve(code, err, nil)
 		return
 	}
 
-	req.Serve(result, nil)
+	req.Serve(http.StatusOK, nil, result)
 }
 
 func (c *UploadsController) GetView() {
 	c.Setup("uploadView", "View Upload", false)
 
-	key, err := husk.ParseKey(c.Ctx.Input.Param(":key"))
+	key, err := husk.ParseKey(c.FindParam("key"))
 
 	if err != nil {
-		c.Serve(nil, err)
+		c.Serve(http.StatusBadRequest, err, nil)
 	}
 
 	result := make(map[string]interface{})
-	_, err = mango.DoGET(c.GetMyToken(), &result, c.GetInstanceID(), "Artifact.API", "upload", key.String())
+	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Artifact.API", "upload", key.String())
 
-	c.Serve(result, err)
+	if err != nil {
+		log.Println(err)
+		c.Serve(code, err, nil)
+		return
+	}
+
+	c.Serve(http.StatusOK, nil, result)
 }

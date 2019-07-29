@@ -1,21 +1,13 @@
 package controllers
 
 import (
-	"github.com/louisevanderlith/admin/logic"
-	"github.com/louisevanderlith/mango"
-	"github.com/louisevanderlith/mango/control"
+	"net/http"
+
+	"github.com/louisevanderlith/droxolite/xontrols"
 )
 
 type DefaultController struct {
-	control.UIController
-}
-
-func NewDefaultCtrl(ctrlMap *control.ControllerMap, setting mango.ThemeSetting) logic.PageUI {
-	result := &DefaultController{}
-	result.SetTheme(setting)
-	result.SetInstanceMap(ctrlMap)
-
-	return result
+	xontrols.UICtrl
 }
 
 func (c *DefaultController) Get() {
@@ -25,6 +17,6 @@ func (c *DefaultController) Get() {
 	result["Comms.API"] = "/comms"
 	result["Router.API"] = "/memory"
 	result["Folio.API"] = "/profiles/A10"
-	//result[]
-	c.Serve(result, nil)
+
+	c.Serve(http.StatusOK, nil, result)
 }
