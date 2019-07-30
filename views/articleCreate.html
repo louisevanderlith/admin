@@ -57,7 +57,7 @@
                         </span>
                 </div>
                 <input type="image" id="uplHeaderView" class='image {{if eq .Data.ImageKey "0`0"}} is-hidden {{end}}'
-                    src="https://artifact{{.Host}}v1/upload/file/{{.Data.ImageKey}}" alt="blog head image" />
+                    src="https://artifact{{.Host}}upload/file/{{.Data.ImageKey}}" alt="blog head image" />
                 <p class="help is-danger"></p>
             </div>
         </div>
@@ -127,7 +127,7 @@
                     </span>
                 </div>
                 <div id="txtContent" class="content" contenteditable>
-                    {{.Data.Content | str2html}}
+                    {{.Data.Content | html}}
                 </div>
                 <p class="help is-danger"></p>
             </div>
