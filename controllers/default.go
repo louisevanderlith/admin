@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/louisevanderlith/droxolite/xontrols"
@@ -18,5 +19,9 @@ func (c *DefaultController) Get() {
 	result["Router.API"] = "/memory"
 	result["Folio.API"] = "/profiles/A10"
 
-	c.Serve(http.StatusOK, nil, result)
+	err := c.Serve(http.StatusOK, nil, result)
+
+	if err != nil {
+		log.Println(err)
+	}
 }

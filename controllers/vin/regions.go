@@ -16,7 +16,7 @@ type RegionsController struct {
 func (c *RegionsController) Get() {
 	c.Setup("regions", "VIN Regions", true)
 	result := []interface{}{}
-	pagesize := c.FindParam(":pagesize")
+	pagesize := c.FindParam("pagesize")
 
 	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "VIN.API", "region", "all", pagesize)
 

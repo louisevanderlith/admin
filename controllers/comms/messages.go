@@ -31,7 +31,7 @@ func (c *MessagesController) Get() {
 func (c *MessagesController) GetView() {
 	c.Setup("messageView", "View Message", false)
 
-	key, err := husk.ParseKey(c.FindParam(":key"))
+	key, err := husk.ParseKey(c.FindParam("key"))
 
 	if err != nil {
 		c.Serve(http.StatusBadRequest, err, nil)
