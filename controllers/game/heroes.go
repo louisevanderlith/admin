@@ -9,14 +9,31 @@ import (
 	"github.com/louisevanderlith/husk"
 )
 
-type HeroController struct {
+type Heroes struct {
 	xontrols.UICtrl
 }
 
-func (c *HeroController) Get() {
+func (c *Heroes) Default() {
 	c.Setup("heroes", "Heroes", true)
 
-	result := []interface{}{}
+	var result []interface{}
+	pagesize := "A10"
+
+	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Game.API", "hero", "all", pagesize)
+
+	if err != nil {
+		log.Println(err)
+		c.Serve(code, err, nil)
+		return
+	}
+
+	c.Serve(http.StatusOK, nil, result)
+}
+
+func (c *Heroes) Search() {
+	c.Setup("heroes", "Heroes", true)
+
+	var result []interface{}
 	pagesize := c.FindParam("pagesize")
 
 	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Game.API", "hero", "all", pagesize)
@@ -30,7 +47,7 @@ func (c *HeroController) Get() {
 	c.Serve(http.StatusOK, nil, result)
 }
 
-func (c *HeroController) GetEdit() {
+func (c *Heroes) View() {
 	c.Setup("heroView", "View Hero", true)
 	c.EnableSave()
 

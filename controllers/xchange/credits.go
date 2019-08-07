@@ -9,17 +9,23 @@ import (
 	"github.com/louisevanderlith/husk"
 )
 
-type CreditsController struct {
+type Credits struct {
 	xontrols.UICtrl
 }
 
-func (c *CreditsController) Get() {
+func (c *Credits) Default() {
 	c.Setup("credits", "Credits", true)
 
 	c.Serve(http.StatusNotImplemented, nil, nil)
 }
 
-func (c *CreditsController) GetView() {
+func (c *Credits) Search() {
+	c.Setup("credits", "Credits", true)
+
+	c.Serve(http.StatusNotImplemented, nil, nil)
+}
+
+func (c *Credits) View() {
 	c.Setup("creditView", "View Credit", false)
 
 	key, err := husk.ParseKey(c.FindParam("key"))

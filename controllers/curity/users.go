@@ -10,14 +10,31 @@ import (
 	secure "github.com/louisevanderlith/secure/core"
 )
 
-type UserController struct {
+type Users struct {
 	xontrols.UICtrl
 }
 
-func (c *UserController) Get() {
+func (c *Users) Default() {
 	c.Setup("users", "Users", false)
 
-	result := []interface{}{}
+	var result []interface{}
+	pagesize := "A10"
+
+	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Secure.API", "user", "all", pagesize)
+
+	if err != nil {
+		log.Println(err)
+		c.Serve(code, err, nil)
+		return
+	}
+
+	c.Serve(http.StatusOK, nil, result)
+}
+
+func (c *Users) Search() {
+	c.Setup("users", "Users", false)
+
+	var result []interface{}
 	pagesize := c.FindParam("pagesize")
 
 	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Secure.API", "user", "all", pagesize)
@@ -31,7 +48,7 @@ func (c *UserController) Get() {
 	c.Serve(http.StatusOK, nil, result)
 }
 
-func (c *UserController) GetView() {
+func (c *Users) View() {
 	c.Setup("userView", "View User", true)
 	c.EnableSave()
 

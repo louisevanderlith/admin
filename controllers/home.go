@@ -7,17 +7,17 @@ import (
 	"github.com/louisevanderlith/droxolite/xontrols"
 )
 
-type DefaultController struct {
+type Home struct {
 	xontrols.UICtrl
 }
 
-func (c *DefaultController) Get() {
+func (c *Home) Default() {
 	c.Setup("default", "Admin", false)
 
 	result := make(map[string]string)
-	result["Comms.API"] = "/comms"
-	result["Router.API"] = "/memory"
-	result["Folio.API"] = "/profiles/A10"
+	result["Comms.API"] = "/comms/messages/A10"
+	result["Router.API"] = "/router/memory"
+	result["Folio.API"] = "/folio/profiles/A10"
 
 	err := c.Serve(http.StatusOK, nil, result)
 

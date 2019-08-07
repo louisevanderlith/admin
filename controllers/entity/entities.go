@@ -9,14 +9,31 @@ import (
 	"github.com/louisevanderlith/husk"
 )
 
-type EntitiesController struct {
+type Entities struct {
 	xontrols.UICtrl
 }
 
-func (c *EntitiesController) Get() {
+func (c *Entities) Default() {
 	c.Setup("entity", "Entity", true)
 
-	result := []interface{}{}
+	var result []interface{}
+	pagesize := "A10"
+
+	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Entity.API", "info", "all", pagesize)
+
+	if err != nil {
+		log.Println(err)
+		c.Serve(code, err, nil)
+		return
+	}
+
+	c.Serve(http.StatusOK, nil, result)
+}
+
+func (c *Entities) Search() {
+	c.Setup("entity", "Entity", true)
+
+	var result []interface{}
 	pagesize := c.FindParam("pagesize")
 
 	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Entity.API", "info", "all", pagesize)
@@ -30,7 +47,7 @@ func (c *EntitiesController) Get() {
 	c.Serve(http.StatusOK, nil, result)
 }
 
-func (c *EntitiesController) GetEdit() {
+func (c *Entities) View() {
 	c.Setup("entityEdit", "Edit Entity", true)
 	c.EnableSave()
 

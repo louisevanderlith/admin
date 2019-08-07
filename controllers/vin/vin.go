@@ -9,14 +9,31 @@ import (
 	"github.com/louisevanderlith/husk"
 )
 
-type VINController struct {
+type VIN struct {
 	xontrols.UICtrl
 }
 
-func (c *VINController) Get() {
+func (c *VIN) Default() {
 	c.Setup("vins", "VIN Numbers", true)
 
-	result := []interface{}{}
+	var result []interface{}
+	pagesize := "A10"
+
+	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "VIN.API", "admin", "all", pagesize)
+
+	if err != nil {
+		log.Println(err)
+		c.Serve(code, err, nil)
+		return
+	}
+
+	c.Serve(http.StatusOK, nil, result)
+}
+
+func (c *VIN) Search() {
+	c.Setup("vins", "VIN Numbers", true)
+
+	var result []interface{}
 	pagesize := c.FindParam("pagesize")
 
 	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "VIN.API", "admin", "all", pagesize)
@@ -30,7 +47,7 @@ func (c *VINController) Get() {
 	c.Serve(http.StatusOK, nil, result)
 }
 
-func (c *VINController) GetView() {
+func (c *VIN) View() {
 	c.Setup("vinView", "View VIN", false)
 
 	key, err := husk.ParseKey(c.FindParam("key"))

@@ -9,14 +9,31 @@ import (
 	"github.com/louisevanderlith/husk"
 )
 
-type ServicesController struct {
+type Services struct {
 	xontrols.UICtrl
 }
 
-func (c *ServicesController) Get() {
+func (c *Services) Default() {
 	c.Setup("services", "Services", true)
 
-	result := []interface{}{}
+	var result []interface{}
+	pagesize := "A10"
+
+	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Stock.API", "service", "all", pagesize)
+
+	if err != nil {
+		log.Println(err)
+		c.Serve(code, err, nil)
+		return
+	}
+
+	c.Serve(http.StatusOK, nil, result)
+}
+
+func (c *Services) Search() {
+	c.Setup("services", "Services", true)
+
+	var result []interface{}
 	pagesize := c.FindParam("pagesize")
 
 	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Stock.API", "service", "all", pagesize)
@@ -30,7 +47,7 @@ func (c *ServicesController) Get() {
 	c.Serve(http.StatusOK, nil, result)
 }
 
-func (c *ServicesController) GetEdit() {
+func (c *Services) View() {
 	c.Setup("servicesEdit", "Edit services", false)
 
 	key, err := husk.ParseKey(c.FindParam("key"))

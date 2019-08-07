@@ -9,14 +9,14 @@ import (
 	"github.com/louisevanderlith/husk"
 )
 
-type StylesheetController struct {
+type Stylesheets struct {
 	xontrols.UICtrl
 }
 
-func (c *StylesheetController) Get() {
+func (c *Stylesheets) Default() {
 	c.Setup("stylesheets", "Stylesheets", false)
 
-	result := []interface{}{}
+	var result []interface{}
 	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Theme.API", "asset", "css")
 
 	if err != nil {
@@ -28,7 +28,22 @@ func (c *StylesheetController) Get() {
 	c.Serve(http.StatusOK, nil, result)
 }
 
-func (c *StylesheetController) GetView() {
+func (c *Stylesheets) Search() {
+	c.Setup("stylesheets", "Stylesheets", false)
+
+	var result []interface{}
+	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Theme.API", "asset", "css")
+
+	if err != nil {
+		log.Println(err)
+		c.Serve(code, err, nil)
+		return
+	}
+
+	c.Serve(http.StatusOK, nil, result)
+}
+
+func (c *Stylesheets) View() {
 	c.Setup("stylesheetView", "View Stylesheet", false)
 
 	key, err := husk.ParseKey(c.FindParam("key"))

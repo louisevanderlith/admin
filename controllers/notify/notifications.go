@@ -1,7 +1,17 @@
 package logbook
 
-import "github.com/louisevanderlith/droxolite/xontrols"
+import (
+	"net/http"
 
-type NotificationsController struct {
+	"github.com/louisevanderlith/droxolite/xontrols"
+)
+
+type Notifications struct {
 	xontrols.UICtrl
+}
+
+func (req *Notifications) Default() {
+	req.Setup("notifications", "Notifications", false)
+
+	req.Serve(http.StatusNotImplemented, nil, nil)
 }

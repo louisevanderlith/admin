@@ -9,14 +9,31 @@ import (
 	"github.com/louisevanderlith/husk"
 )
 
-type VehiclesController struct {
+type Vehicles struct {
 	xontrols.UICtrl
 }
 
-func (c *VehiclesController) Get() {
+func (c *Vehicles) Default() {
 	c.Setup("vehicles", "Vehicles", true)
 
-	result := []interface{}{}
+	var result []interface{}
+	pagesize := "A10"
+
+	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Vehicle.API", "vehicle", "all", pagesize)
+
+	if err != nil {
+		log.Println(err)
+		c.Serve(code, err, nil)
+		return
+	}
+
+	c.Serve(http.StatusOK, nil, result)
+}
+
+func (c *Vehicles) Search() {
+	c.Setup("vehicles", "Vehicles", true)
+
+	var result []interface{}
 	pagesize := c.FindParam("pagesize")
 
 	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Vehicle.API", "vehicle", "all", pagesize)
@@ -30,7 +47,7 @@ func (c *VehiclesController) Get() {
 	c.Serve(http.StatusOK, nil, result)
 }
 
-func (c *VehiclesController) GetView() {
+func (c *Vehicles) View() {
 	c.Setup("vehicleView", "View Vehicle", false)
 	key, err := husk.ParseKey(c.FindParam("key"))
 

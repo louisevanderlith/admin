@@ -10,16 +10,35 @@ import (
 	"github.com/louisevanderlith/husk"
 )
 
-type ArticlesController struct {
+type Articles struct {
 	xontrols.UICtrl
 }
 
-func (c *ArticlesController) Get() {
+func (c *Articles) Default() {
 	c.Setup("articles", "Articles", true)
 
 	c.CreateTopMenu(getBlogsTopMenu())
 
-	result := []interface{}{}
+	var result []interface{}
+	pagesize := "A10"
+
+	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Blog.API", "article", "non", pagesize)
+
+	if err != nil {
+		log.Println(err)
+		c.Serve(code, err, nil)
+		return
+	}
+
+	c.Serve(http.StatusOK, nil, result)
+}
+
+func (c *Articles) Search() {
+	c.Setup("articles", "Articles", true)
+
+	c.CreateTopMenu(getBlogsTopMenu())
+
+	var result []interface{}
 	pagesize := c.FindParam("pagesize")
 
 	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Blog.API", "article", "non", pagesize)
@@ -33,32 +52,7 @@ func (c *ArticlesController) Get() {
 	c.Serve(http.StatusOK, nil, result)
 }
 
-func (c *ArticlesController) GetEdit() {
-	c.Setup("articleCreate", "Edit Article", true)
-
-	c.CreateTopMenu(createBlogTopMenu())
-	c.EnableSave()
-
-	key, err := husk.ParseKey(c.FindParam("key"))
-
-	if err != nil {
-		c.Serve(http.StatusBadRequest, err, nil)
-		return
-	}
-
-	result := make(map[string]interface{})
-	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Blog.API", "article", key.String())
-
-	if err != nil {
-		log.Println(err)
-		c.Serve(code, err, nil)
-		return
-	}
-
-	c.Serve(http.StatusOK, nil, result)
-}
-
-func (c *ArticlesController) GetView() {
+func (c *Articles) View() {
 	c.Setup("articleView", "View Article", true)
 
 	c.CreateTopMenu(createBlogTopMenu())
@@ -71,7 +65,7 @@ func (c *ArticlesController) GetView() {
 		return
 	}
 
-	result := make(map[string]interface{})
+	var result []interface{}
 	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Blog.API", "article", key.String())
 
 	if err != nil {
@@ -83,17 +77,32 @@ func (c *ArticlesController) GetView() {
 	c.Serve(http.StatusOK, nil, result)
 }
 
-func createBlogTopMenu() *bodies.Menu {
-	result := bodies.NewMenu()
-	result.AddItemWithID("btnPreview", "#", "Preview", "fa-globe", nil)
-	result.AddItemWithID("btnPublish", "#", "Publish", "fa-bolt", nil)
+func (c *Articles) Create() {
+	c.Setup("articleCreate", "Create Article", true)
 
-	return result
+	c.CreateTopMenu(createBlogTopMenu())
+	c.EnableSave()
+
+	c.Serve(http.StatusOK, nil, nil)
 }
 
-func getBlogsTopMenu() *bodies.Menu {
+func createBlogTopMenu() bodies.Menu {
 	result := bodies.NewMenu()
-	result.AddItemWithID("btnAdd", "#", "Add Article", "fa-globe", nil)
 
-	return result
+	items := []bodies.MenuItem{
+		bodies.NewItem("btnPreview", "#", "Preview", nil),
+		bodies.NewItem("btnPublish", "#", "Publish", nil),
+	}
+
+	result.AddGroup("Buttons", items)
+
+	return *result
+}
+
+func getBlogsTopMenu() bodies.Menu {
+	result := bodies.NewMenu()
+	item := bodies.NewItem("btnAdd", "#", "Add Article", nil)
+	result.AddGroup("Buttons", []bodies.MenuItem{item})
+
+	return *result
 }

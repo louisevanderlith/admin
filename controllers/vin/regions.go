@@ -9,13 +9,29 @@ import (
 	"github.com/louisevanderlith/husk"
 )
 
-type RegionsController struct {
+type Regions struct {
 	xontrols.UICtrl
 }
 
-func (c *RegionsController) Get() {
+func (c *Regions) Default() {
 	c.Setup("regions", "VIN Regions", true)
-	result := []interface{}{}
+	var result []interface{}
+	pagesize := "A10"
+
+	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "VIN.API", "region", "all", pagesize)
+
+	if err != nil {
+		log.Println(err)
+		c.Serve(code, err, nil)
+		return
+	}
+
+	c.Serve(http.StatusOK, nil, result)
+}
+
+func (c *Regions) Search() {
+	c.Setup("regions", "VIN Regions", true)
+	var result []interface{}
 	pagesize := c.FindParam("pagesize")
 
 	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "VIN.API", "region", "all", pagesize)
@@ -29,7 +45,7 @@ func (c *RegionsController) Get() {
 	c.Serve(http.StatusOK, nil, result)
 }
 
-func (c *RegionsController) GetEdit() {
+func (c *Regions) View() {
 	c.Setup("regionEdit", "Edit Region", false)
 	key, err := husk.ParseKey(c.FindParam("key"))
 

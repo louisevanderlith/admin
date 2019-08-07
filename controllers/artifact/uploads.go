@@ -9,11 +9,27 @@ import (
 	"github.com/louisevanderlith/husk"
 )
 
-type UploadsController struct {
+type Uploads struct {
 	xontrols.UICtrl
 }
 
-func (req *UploadsController) Get() {
+func (req *Uploads) Default() {
+	req.Setup("uploads", "Uploads", true)
+
+	var result []interface{}
+	pagesize := "A10"
+	code, err := droxolite.DoGET(req.GetMyToken(), &result, req.Settings.InstanceID, "Artifact.API", "upload", "all", pagesize)
+
+	if err != nil {
+		log.Println(err)
+		req.Serve(code, err, nil)
+		return
+	}
+
+	req.Serve(http.StatusOK, nil, result)
+}
+
+func (req *Uploads) Search() {
 	req.Setup("uploads", "Uploads", true)
 
 	var result []interface{}
@@ -29,7 +45,7 @@ func (req *UploadsController) Get() {
 	req.Serve(http.StatusOK, nil, result)
 }
 
-func (c *UploadsController) GetView() {
+func (c *Uploads) View() {
 	c.Setup("uploadView", "View Upload", false)
 
 	key, err := husk.ParseKey(c.FindParam("key"))

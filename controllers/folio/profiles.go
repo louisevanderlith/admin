@@ -9,14 +9,31 @@ import (
 	"github.com/louisevanderlith/husk"
 )
 
-type ProfileController struct {
+type Profiles struct {
 	xontrols.UICtrl
 }
 
-func (c *ProfileController) Get() {
+func (c *Profiles) Default() {
 	c.Setup("profile", "Profiles", true)
 
-	result := []interface{}{}
+	var result []interface{}
+	pagesize := "A10"
+
+	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Folio.API", "profile", "all", pagesize)
+
+	if err != nil {
+		log.Println(err)
+		c.Serve(code, err, nil)
+		return
+	}
+
+	c.Serve(http.StatusOK, nil, result)
+}
+
+func (c *Profiles) Search() {
+	c.Setup("profile", "Profiles", true)
+
+	var result []interface{}
 	pagesize := c.FindParam("pagesize")
 
 	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Folio.API", "profile", "all", pagesize)
@@ -30,7 +47,7 @@ func (c *ProfileController) Get() {
 	c.Serve(http.StatusOK, nil, result)
 }
 
-func (c *ProfileController) GetEdit() {
+func (c *Profiles) View() {
 	c.Setup("profileEdit", "Edit Profile", true)
 	c.EnableSave()
 

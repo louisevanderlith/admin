@@ -8,11 +8,11 @@ import (
 	"github.com/louisevanderlith/droxolite/xontrols"
 )
 
-type MemoryController struct {
+type Memory struct {
 	xontrols.UICtrl
 }
 
-func (c *MemoryController) Get() {
+func (c *Memory) Default() {
 	c.Setup("memory", "Memory", true)
 
 	result := make(map[string]interface{})

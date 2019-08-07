@@ -9,14 +9,31 @@ import (
 	"github.com/louisevanderlith/husk"
 )
 
-type AccountsController struct {
+type Accounts struct {
 	xontrols.UICtrl
 }
 
-func (c *AccountsController) Get() {
+func (c *Accounts) Default() {
 	c.Setup("accounts", "Accounts", true)
 
-	result := []interface{}{}
+	var result []interface{}
+	pagesize := "A10"
+
+	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Funds.API", "account", "all", pagesize)
+
+	if err != nil {
+		log.Println(err)
+		c.Serve(code, err, nil)
+		return
+	}
+
+	c.Serve(http.StatusOK, nil, result)
+}
+
+func (c *Accounts) Search() {
+	c.Setup("accounts", "Accounts", true)
+
+	var result []interface{}
 	pagesize := c.FindParam("pagesize")
 
 	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Funds.API", "account", "all", pagesize)
@@ -30,7 +47,7 @@ func (c *AccountsController) Get() {
 	c.Serve(http.StatusOK, nil, result)
 }
 
-func (c *AccountsController) GetEdit() {
+func (c *Accounts) View() {
 	c.Setup("accountEdit", "Edit Account", true)
 	c.EnableSave()
 

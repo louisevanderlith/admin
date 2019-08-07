@@ -9,14 +9,14 @@ import (
 	"github.com/louisevanderlith/husk"
 )
 
-type MessagesController struct {
+type Messages struct {
 	xontrols.UICtrl
 }
 
-func (c *MessagesController) Get() {
+func (c *Messages) Default() {
 	c.Setup("messages", "Messages", true)
 
-	result := []interface{}{}
+	var result []interface{}
 	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Comms.API", "message", "all", "A10")
 
 	if err != nil {
@@ -28,7 +28,23 @@ func (c *MessagesController) Get() {
 	c.Serve(http.StatusOK, nil, result)
 }
 
-func (c *MessagesController) GetView() {
+func (c *Messages) Search() {
+	c.Setup("messages", "Messages", true)
+
+	var result []interface{}
+	pagesize := c.FindParam("pagesize")
+	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Comms.API", "message", "all", pagesize)
+
+	if err != nil {
+		log.Println(err)
+		c.Serve(code, err, nil)
+		return
+	}
+
+	c.Serve(http.StatusOK, nil, result)
+}
+
+func (c *Messages) View() {
 	c.Setup("messageView", "View Message", false)
 
 	key, err := husk.ParseKey(c.FindParam("key"))

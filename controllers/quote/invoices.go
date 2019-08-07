@@ -1,7 +1,17 @@
 package quote
 
-import "github.com/louisevanderlith/droxolite/xontrols"
+import (
+	"net/http"
 
-type InvoiceController struct {
+	"github.com/louisevanderlith/droxolite/xontrols"
+)
+
+type Invoices struct {
 	xontrols.UICtrl
+}
+
+func (req *Invoices) Default() {
+	req.Setup("invoice", "Invoice", false)
+
+	req.Serve(http.StatusNotImplemented, nil, nil)
 }

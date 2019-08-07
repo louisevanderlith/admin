@@ -1,7 +1,17 @@
 package logbook
 
-import "github.com/louisevanderlith/droxolite/xontrols"
+import (
+	"net/http"
 
-type HistoryController struct {
+	"github.com/louisevanderlith/droxolite/xontrols"
+)
+
+type History struct {
 	xontrols.UICtrl
+}
+
+func (req *History) Default() {
+	req.Setup("history", "History", false)
+
+	req.Serve(http.StatusNotImplemented, nil, nil)
 }

@@ -9,14 +9,14 @@ import (
 	"github.com/louisevanderlith/husk"
 )
 
-type TemplatesController struct {
+type Templates struct {
 	xontrols.UICtrl
 }
 
-func (c *TemplatesController) Get() {
+func (c *Templates) Default() {
 	c.Setup("templates", "Templates", false)
 
-	result := []interface{}{}
+	var result []interface{}
 	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Theme.API", "asset", "html")
 
 	if err != nil {
@@ -28,7 +28,22 @@ func (c *TemplatesController) Get() {
 	c.Serve(http.StatusOK, nil, result)
 }
 
-func (c *TemplatesController) GetView() {
+func (c *Templates) Search() {
+	c.Setup("templates", "Templates", false)
+
+	var result []interface{}
+	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Theme.API", "asset", "html")
+
+	if err != nil {
+		log.Println(err)
+		c.Serve(code, err, nil)
+		return
+	}
+
+	c.Serve(http.StatusOK, nil, result)
+}
+
+func (c *Templates) View() {
 	c.Setup("templateView", "View Template", false)
 
 	key, err := husk.ParseKey(c.FindParam("key"))
