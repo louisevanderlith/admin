@@ -8,7 +8,7 @@ We should be able to control and monitor every application and it's data from th
 ```
 >$ docker build -t avosa/admin:dev .
 >$ docker rm AdminDEV
->$ docker run -d -e RUNMODE=DEV -p 8088:8088 --network mango_net --name AdminDEV avosa/admin:dev 
+>$ docker run -d -p 8088:8088 --network mango_net --name AdminDEV avosa/admin:dev 
 >$ docker logs AdminDEV
 ```
 

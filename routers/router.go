@@ -1,58 +1,99 @@
 package routers
 
 import (
-	"github.com/astaxie/beego"
 	"github.com/louisevanderlith/admin/controllers"
-	"github.com/louisevanderlith/mango"
-	"github.com/louisevanderlith/mango/control"
-	secure "github.com/louisevanderlith/secure/core"
-	"github.com/louisevanderlith/secure/core/roletype"
+	"github.com/louisevanderlith/admin/controllers/artifact"
+	"github.com/louisevanderlith/admin/controllers/blog"
+	"github.com/louisevanderlith/admin/controllers/comment"
+	"github.com/louisevanderlith/admin/controllers/comms"
+	"github.com/louisevanderlith/admin/controllers/curity"
+	"github.com/louisevanderlith/admin/controllers/entity"
+	"github.com/louisevanderlith/admin/controllers/folio"
+	"github.com/louisevanderlith/admin/controllers/funds"
+	"github.com/louisevanderlith/admin/controllers/game"
+	"github.com/louisevanderlith/admin/controllers/router"
+	"github.com/louisevanderlith/admin/controllers/stock"
+	"github.com/louisevanderlith/admin/controllers/vehicle"
+	"github.com/louisevanderlith/admin/controllers/vin"
+	"github.com/louisevanderlith/admin/controllers/xchange"
+	"github.com/louisevanderlith/droxolite"
+	"github.com/louisevanderlith/droxolite/roletype"
+	"github.com/louisevanderlith/droxolite/routing"
 )
 
-func Setup(s *mango.Service) {
-	ctrlmap := EnableFilters(s)
+func Setup(e *droxolite.Epoxy) {
+	//Home
+	homeCtrl := &controllers.Home{}
+	homeGroup := routing.NewInterfaceBundle("", roletype.Admin, homeCtrl)
 
-	siteName := beego.AppConfig.String("defaultsite")
-	theme, err := mango.GetDefaultTheme(ctrlmap.GetInstanceID(), siteName)
+	q := make(map[string]string)
+	q["access_token"] = "{access_token}"
+	homeGroup.AddRouteWithQueries("Home", "/", "GET", roletype.Admin, q, homeCtrl.Default)
+	e.AddGroup(homeGroup)
 
-	if err != nil {
-		panic(err)
-	}
+	//Artifact
+	artifactGroup := routing.NewInterfaceBundle("Artifact", roletype.Admin, &artifact.Uploads{})
+	e.AddNamedGroup("Artifact.API", artifactGroup)
 
-	beego.Router("/", controllers.NewDefaultCtrl(ctrlmap, theme))
+	//Blog
+	blogGroup := routing.NewInterfaceBundle("Blog", roletype.Admin, &blog.Articles{})
+	e.AddNamedGroup("Blog.API", blogGroup)
 
-	commsCtrl := controllers.NewCommsCtrl(ctrlmap, theme)
-	beego.Router("/comms/:pagesize", commsCtrl, "get:Get")
-	beego.Router("/comm/:key", commsCtrl, "get:GetView")
+	//Comment
+	commentGroup := routing.NewInterfaceBundle("Comment", roletype.Admin, &comment.Messages{})
+	e.AddNamedGroup("Comment.API", commentGroup)
 
-	profileCtrl := controllers.NewProfileCtrl(ctrlmap, theme)
-	beego.Router("/profiles/:pagesize", profileCtrl, "get:Get")
-	beego.Router("/profile/:key", profileCtrl, "get:GetEdit")
+	//Comms
+	commsGroup := routing.NewInterfaceBundle("Comms", roletype.Admin, &comms.Messages{})
+	e.AddNamedGroup("Comms.API", commsGroup)
 
-	uploadsCtrl := controllers.NewUploadsCtrl(ctrlmap, theme)
-	beego.Router("/uploads/:pagesize", uploadsCtrl, "get:Get")
-	beego.Router("/upload/:key", uploadsCtrl, "get:GetView")
+	//Entity
+	entityGroup := routing.NewInterfaceBundle("Entity", roletype.Admin, &entity.Entities{})
+	e.AddNamedGroup("Entity.API", entityGroup)
 
-	beego.Router("/memory", controllers.NewMemoryCtrl(ctrlmap, theme))
+	//Folio
+	folioGroup := routing.NewInterfaceBundle("Folio", roletype.Admin, &folio.Profiles{})
+	e.AddNamedGroup("Folio.API", folioGroup)
 
-	userCtrl := controllers.NewUserCtrl(ctrlmap, theme)
-	beego.Router("/users/:pagesize", userCtrl, "get:Get")
-	//beego.Router("/profile/:key", profileCtrl, "get:GetEdit")
-}
+	//subGroup.AddSubGroup(complxGroup)
+	//e.AddGroup(subGroup)
 
-func EnableFilters(s *mango.Service) *control.ControllerMap {
-	ctrlmap := control.CreateControlMap(s)
-	emptyMap := make(secure.ActionMap)
-	emptyMap["POST"] = roletype.Admin
-	emptyMap["GET"] = roletype.Admin
+	//Funds
+	fundsGroup := routing.NewInterfaceBundle("Funds", roletype.Admin, &funds.Accounts{})
+	e.AddNamedGroup("Funds.API", fundsGroup)
 
-	ctrlmap.Add("/", emptyMap)
-	ctrlmap.Add("/comms", emptyMap)
-	ctrlmap.Add("/profile", emptyMap)
-	ctrlmap.Add("/memory", emptyMap)
-	ctrlmap.Add("/user", emptyMap)
+	//Game
+	gameGroup := routing.NewInterfaceBundle("Game", roletype.Admin, &game.Heroes{})
+	e.AddNamedGroup("Game.API", gameGroup)
 
-	beego.InsertFilter("/*", beego.BeforeRouter, ctrlmap.FilterUI)
+	//Gate
 
-	return ctrlmap
+	//Logbook
+
+	//Notify
+
+	//Router
+	routerGroup := routing.NewInterfaceBundle("Router", roletype.Admin, &router.Memory{})
+	e.AddNamedGroup("Router.API", routerGroup)
+
+	//Secure
+	secureGroup := routing.NewInterfaceBundle("Secure", roletype.Admin, &curity.Users{})
+	e.AddNamedGroup("Secure.API", secureGroup)
+
+	//Stock
+	stockGroup := routing.NewInterfaceBundle("Stock", roletype.Admin, &stock.Stock{}, &stock.Cars{}, &stock.Parts{}, &stock.Services{})
+	e.AddNamedGroup("Stock.API", stockGroup)
+	//Theme
+
+	//Vehicle
+	vehicleGroup := routing.NewInterfaceBundle("Vehicle", roletype.Admin, &vehicle.Vehicles{})
+	e.AddNamedGroup("Vehicle.API", vehicleGroup)
+
+	//Vin
+	vinGroup := routing.NewInterfaceBundle("VIN", roletype.Admin, &vin.VIN{}, &vin.Regions{})
+	e.AddNamedGroup("VIN.API", vinGroup)
+
+	//XChange
+	xchangeGroup := routing.NewInterfaceBundle("XChange", roletype.Admin, &xchange.Credits{})
+	e.AddNamedGroup("XChange.API", xchangeGroup)
 }

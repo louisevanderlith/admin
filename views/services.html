@@ -1,0 +1,47 @@
+<section class="hero is-info welcome is-small">
+    <div class="hero-body">
+        <div class="container">
+            <h2 class="subtitle">
+                {{ template "breadcrumbs.html" .}}
+            </h2>
+            <h1 class="title">
+                Services
+            </h1>
+        </div>
+    </div>
+</section>
+<section class="section">
+    <table class="table is-fullwidth is-hoverable" id="dataTable">
+        <thead>
+            <tr>
+                <th>Stock item</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>Stock item</th>
+            </tr>
+        </tfoot>
+        <tbody>
+            {{range $key, $val := .Data}}
+            <tr>
+                <td>{{$val.V.StockItem}}</td>
+                <td>
+                    <p class="buttons">
+                        <a href="/stock/services/{{$val.V.K}}" class="button is-primary">
+                            <span class="icon is-small">
+                                <i class="far fa-edit"></i>
+                            </span>
+                        </a>
+                        <button data-key="{{$val.V.K}}" class="button is-danger deleter">
+                            <span class="icon is-small">
+                                <i class="fas fa-ban"></i>
+                            </span>
+                        </button>
+                    </p>
+                </td>
+            </tr>
+            {{end}}
+        </tbody>
+    </table>
+</section>

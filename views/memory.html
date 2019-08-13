@@ -1,23 +1,18 @@
-<nav class="breadcrumb" aria-label="breadcrumbs">
-    <ul>
-        <li><a href="/">Router.API</a></li>
-        <li><a href="/memory">Memory</a></li>
-    </ul>
-</nav>
 <section class="hero is-info welcome is-small">
     <div class="hero-body">
         <div class="container">
+            <h2 class="subtitle">
+                {{ template "breadcrumbs.html" .}}
+            </h2>
             <h1 class="title">
                 Memory
             </h1>
-            <p class="sub-title">
-                Shows services registered with the Router.API
-            </p>
         </div>
     </div>
 </section>
+<br>
 <section class="container cards-container">
-    <div class="columns is-centered is-multiline" id="sectioncontainer">
+    <div class="columns is-multiline" id="sectioncontainer">
         {{range $key, $items := .Data}}
         <div class="column is-narrow">
             <article class="message is-info">
@@ -35,7 +30,6 @@
                                 {{end}}
                         </div>
                         {{end}}
-
                     </div>
                 </div>
             </article>

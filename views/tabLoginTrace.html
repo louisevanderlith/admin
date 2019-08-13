@@ -1,0 +1,33 @@
+<section class="section">
+    <table class="table is-fullwidth is-hoverable" id="tblLoginTrace">
+        <thead>
+            <tr>
+                <th>Time</th>
+                <th>Location</th>
+                <th>IP</th>
+                <th>Allowed</th>
+                <th>InstanceID</th>
+                <th>ApplicationName</th>
+                <th>Trace Type</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+
+            </tr>
+        </tfoot>
+        <tbody>
+            {{range $key, $val := .Data.User.LoginTraces}}
+            <tr>
+                <td>{{$val}}</td>
+                <td>{{$val.Location}}</td>
+                <td>{{$val.IP}}</td>
+                <td>{{$val.Allowed}}</td>
+                <td>{{$val.InstanceID}}</td>
+                <td>{{$val.ApplicationName}}</td>
+                <td>{{$val.TraceEnv}}</td>
+            </tr>
+            {{end}}
+        </tbody>
+    </table>
+</section>

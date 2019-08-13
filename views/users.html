@@ -1,12 +1,9 @@
-<nav class="breadcrumb" aria-label="breadcrumbs">
-    <ul>
-        <li><a href="../">Secure.API</a></li>
-        <li class="is-active"><a href="#" aria-current="page">Users</a></li>
-    </ul>
-</nav>
 <section class="hero is-info welcome is-small">
     <div class="hero-body">
         <div class="container">
+            <h2 class="subtitle">
+                {{ template "breadcrumbs.html" .}}
+            </h2>
             <h1 class="title">
                 Users
             </h1>
@@ -41,7 +38,13 @@
                 <td>{{$val.DateCreated}}</td>
                 <td>{{$val.Size}}</td>
                 <td>
-                    <a href="/upload/{{$val.Key}}" class="btn btn-primary">View</a>
+                    <p class="buttons">
+                        <a href="/secure/user/{{$val.Key}}" class="button is-primary">
+                            <span class="icon is-small">
+                                <i class="fas fa-file-alt"></i>
+                            </span>
+                        </a>
+                    </p>
                 </td>
             </tr>
             {{end}}

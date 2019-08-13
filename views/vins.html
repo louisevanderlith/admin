@@ -1,0 +1,53 @@
+<section class="hero is-info welcome is-small">
+    <div class="hero-body">
+        <div class="container">
+            <h2 class="subtitle">
+                {{ template "breadcrumbs.html" .}}
+            </h2>
+            <h1 class="title">
+                VIN Admin
+            </h1>
+        </div>
+    </div>
+</section>
+<section class="section">
+    <table class="table is-fullwidth is-hoverable" id="dataTable">
+        <thead>
+            <tr>
+                <th>Full</th>
+                <th>Unique</th>
+                <th>Serial</th>
+                <th>Manufacturer</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>Full</th>
+                <th>Unique</th>
+                <th>Serial</th>
+                <th>Manufacturer</th>
+                <th>Actions</th>
+            </tr>
+        </tfoot>
+        <tbody>
+            {{range $key, $val := .Data}}
+            <tr>
+                <td>{{$val.Full}}</td>
+                <td>{{$val.Unique}}</td>
+                <td>{{$val.Serial}}</td>
+                <td>{{$val.WMInfo.Manufacturer}}</td>
+                <td>
+                    <p class="buttons">
+                        <a href="/vin/vin/{{$val.K}}" class="button is-primary">
+                            <span class="icon is-small">
+                                <i class="fas fa-file-alt"></i>
+                            </span>
+                        </a>
+                    </p>
+                </td>
+            </tr>
+            {{end}}
+        </tbody>
+    </table>
+</section>
