@@ -1,5 +1,5 @@
-import 'package:Admin.APP/keys.dart';
-import 'package:Admin.APP/models/profileform.dart';
+import 'package:mango_ui/keys.dart';
+import 'package:Admin.APP/profileform.dart';
 
 void main() async {
   print('Profile Edit');
@@ -12,6 +12,7 @@ void main() async {
       '#txtEmail',
       '#txtPhone',
       '#txtURL',
+      '#txtGTag',
       '#uplProfileImg',
       '#frmHeader',
       '#btnAddHeader',

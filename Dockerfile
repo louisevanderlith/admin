@@ -1,4 +1,4 @@
-FROM golang:1.11 as build_base
+FROM golang:1.12 as build_base
 
 WORKDIR /box
 
@@ -11,7 +11,6 @@ FROM build_base as builder
 
 COPY main.go .
 COPY controllers ./controllers
-COPY logic ./logic
 COPY routers ./routers
 
 RUN CGO_ENABLED="0" go build
@@ -20,8 +19,9 @@ FROM google/dart AS pyltjie
 ENV PATH="$PATH:/root/.pub-cache/bin"
 
 WORKDIR /arrow
-COPY pubspec.yaml pubspec.yaml
 RUN pub global activate webdev
+
+COPY pubspec.yaml pubspec.yaml
 RUN pub get
 
 COPY web ./web

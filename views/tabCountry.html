@@ -1,0 +1,24 @@
+<table class="table is-fullwidth is-hoverable" id="dataTable">
+    <thead>
+        <tr>
+            <th>Country</th>
+        </tr>
+    </thead>
+    <tbody> 
+        {{range $key, $val := .}}
+        <tr>
+            <td>{{$val.Name}}</td>
+            <td>
+                <p class="buttons">
+                    <a href="#" class="button is-primary">
+                        <span class="icon is-small">
+                            <i class="far fa-edit"></i>
+                        </span>
+                    </a>
+                </p>
+            </td>
+        </tr>
+        {{template "tabManufacturer.html" $val.Manufacturers}}
+        {{end}}
+    </tbody>
+</table>

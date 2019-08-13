@@ -1,0 +1,58 @@
+<div class="container">
+        {{ template "breadcrumbs.html" .}}
+    <section class="hero is-info welcome is-small">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    {{.Name}}
+                </h1>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <table class="table is-fullwidth is-hoverable" id="dataTable">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Written by</th>
+                    <th>Published</th>
+                    <th>Created</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>Title</th>
+                    <th>Written by</th>
+                    <th>Published</th>
+                    <th>Created</th>
+                    <th>Actions</th>
+                </tr>
+            </tfoot>
+            <tbody>
+                {{range $key, $val := .Data}}
+                <tr>
+                    <td>{{$val.V.Title}}</td>
+                    <td>{{$val.V.WrittenBy}}</td>
+                    <td>{{$val.V.Public}}</td>
+                    <td>{{$val.V.Created}}</td>
+                    <td>
+                        <p class="buttons">
+                            <a href="/blog/{{$val.K}}" class="button is-primary">
+                                <span class="icon is-small">
+                                    <i class="far fa-edit"></i>
+                                </span>
+                            </a>
+                            <button data-key="{{$val.K}}" class="button is-danger deleter">
+                                <span class="icon is-small">
+                                    <i class="fas fa-ban"></i>
+                                </span>
+                            </button>
+                        </p>
+                    </td>
+                </tr>
+                {{end}}
+            </tbody>
+        </table>
+    </section>
+</div>

@@ -1,0 +1,50 @@
+<section class="hero is-info welcome is-small">
+    <div class="hero-body">
+        <div class="container">
+            <h2 class="subtitle">
+                {{ template "breadcrumbs.html" .}}
+            </h2>
+            <h1 class="title">
+                Messages
+            </h1>
+        </div>
+    </div>
+</section>
+<section class="section">
+    <table class="table is-fullwidth is-hoverable" id="dataTable">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Sent</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Sent</th>
+                <th>Actions</th>
+            </tr>
+        </tfoot>
+        <tbody>
+            {{range $key, $val := .Data}}
+            <tr>
+                <td>{{$val.V.Name}}</td>
+                <td>{{$val.V.Email}}</td>
+                <td>{{$val.V.Sent}}</td>
+                <td>
+                    <p class="buttons">
+                        <a href="/comms/message/{{$val.K}}" class="button is-primary">
+                            <span class="icon is-small">
+                                <i class="far fa-edit"></i>
+                            </span>
+                        </a>
+                    </p>
+                </td>
+            </tr>
+            {{end}}
+        </tbody>
+    </table>
+</section>

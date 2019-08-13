@@ -1,12 +1,9 @@
-<nav class="breadcrumb" aria-label="breadcrumbs">
-    <ul>
-        <li><a href="../">Artifact.API</a></li>
-        <li class="is-active"><a href="#" aria-current="page">Uploads</a></li>
-    </ul>
-</nav>
 <section class="hero is-info welcome is-small">
     <div class="hero-body">
         <div class="container">
+            <h2 class="subtitle">
+                {{ template "breadcrumbs.html" .}}
+            </h2>
             <h1 class="title">
                 Uploads
             </h1>
@@ -41,7 +38,18 @@
                 <td>{{$val.V.MimeType}}</td>
                 <td>{{$val.V.Size}}</td>
                 <td>
-                    <a href="/upload/{{$val.K}}" class="btn btn-primary">View</a>
+                    <p class="buttons">
+                        <a href="/artifact/upload/{{$val.K}}" class="button is-primary">
+                            <span class="icon is-small">
+                                <i class="fas fa-file-alt"></i>
+                            </span>
+                        </a>
+                        <button data-key="{{$val.K}}" class="button is-danger deleter">
+                            <span class="icon is-small">
+                                <i class="fas fa-ban"></i>
+                            </span>
+                        </button>
+                    </p>
                 </td>
             </tr>
             {{end}}
