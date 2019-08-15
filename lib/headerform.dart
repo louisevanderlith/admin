@@ -8,7 +8,7 @@ import 'models/headeritem.dart';
 
 class HeaderForm extends FormState {
   List<Header> _items;
-
+  
   HeaderForm(String idElem, String btnSubmit, String btnAdd)
       : super(idElem, btnSubmit) {
     _items = findHeaders();

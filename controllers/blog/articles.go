@@ -22,7 +22,7 @@ func (c *Articles) Default() {
 	var result []interface{}
 	pagesize := "A10"
 
-	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Blog.API", "article", "non", pagesize)
+	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Blog.API", "article", "all", "non", pagesize)
 
 	if err != nil {
 		log.Println(err)
@@ -41,7 +41,7 @@ func (c *Articles) Search() {
 	var result []interface{}
 	pagesize := c.FindParam("pagesize")
 
-	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Blog.API", "article", "non", pagesize)
+	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Blog.API", "article", "all", "non", pagesize)
 
 	if err != nil {
 		log.Println(err)
@@ -77,14 +77,19 @@ func (c *Articles) View() {
 	c.Serve(http.StatusOK, nil, result)
 }
 
+/*
 func (c *Articles) Create() {
 	c.Setup("articleCreate", "Create Article", true)
 
 	c.CreateTopMenu(createBlogTopMenu())
 	c.EnableSave()
 
-	c.Serve(http.StatusOK, nil, nil)
-}
+	err := c.Serve(http.StatusOK, nil, nil)
+
+	if err != nil {
+		log.Println(err)
+	}
+}*/
 
 func createBlogTopMenu() bodies.Menu {
 	result := bodies.NewMenu()
@@ -101,7 +106,7 @@ func createBlogTopMenu() bodies.Menu {
 
 func getBlogsTopMenu() bodies.Menu {
 	result := bodies.NewMenu()
-	item := bodies.NewItem("btnAdd", "#", "Add Article", nil)
+	item := bodies.NewItem("btnAdd", "", "Add Article", nil)
 	result.AddGroup("Buttons", []bodies.MenuItem{item})
 
 	return *result

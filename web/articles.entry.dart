@@ -20,7 +20,7 @@ void onAddClick(MouseEvent e) async {
     final rec = data['Record'];
     final key = rec['K'];
 
-    final redir = "/blog/article/${key}";
+    final redir = "/blog/articles/${key}";
     window.location.replace(redir);
   } else {
     print(obj['Error']);

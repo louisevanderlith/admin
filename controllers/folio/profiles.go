@@ -68,3 +68,7 @@ func (c *Profiles) View() {
 
 	c.Serve(http.StatusOK, nil, result)
 }
+
+func (c *Profiles) Create() {
+	c.Serve(http.StatusNotImplemented, nil, nil)
+}

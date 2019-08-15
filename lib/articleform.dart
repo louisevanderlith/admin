@@ -87,11 +87,23 @@ class ArticleForm extends FormState {
       final obj = new Article(
           title, intro, category, imageKey, content, writtenby, public);
 
-      final req = await updateArticle(_objKey, obj);
+      HttpRequest req;
+      if (_objKey != null) {
+        req = await updateArticle(_objKey, obj);
+      } else {
+        req = await createArticle(obj);
+      }
       var result = jsonDecode(req.response);
 
       if (req.status == 200) {
-        window.alert(result['Data']);
+        final data = result['Data'];
+        final rec = data['Record'];
+
+        if (rec != null) {
+          final key = rec['K'];
+
+          _objKey = key;
+        }
       }
     }
   }
@@ -104,7 +116,7 @@ class ArticleForm extends FormState {
       final req = await updateArticle(_objKey, obj);
 
       if (req.status == 200) {
-        window.open("/blog/article/view/${_objKey}", '_blank');
+        window.open("/blog/articles/${_objKey}", '_blank');
       }
     }
   }

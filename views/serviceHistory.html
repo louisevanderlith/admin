@@ -1,9 +1,6 @@
 <section class="hero is-info welcome is-small">
     <div class="hero-body">
         <div class="container">
-            <h2 class="subtitle">
-                {{ template "breadcrumbs.html" .}}
-            </h2>
             <h1 class="title">
                 Users
             </h1>
@@ -33,7 +30,7 @@
                 <td>{{$val.Contact}}</td>
                 <td>{{$val.Services}}</td>
                 <td>
-                    <a href="/user/{{$val.Key}}" class="btn btn-primary">View</a>
+                    <a href="/secure/users/{{$val.Key}}" class="btn btn-primary">View</a>
                 </td>
             </tr>
             {{end}}

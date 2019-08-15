@@ -100,5 +100,9 @@ func (c *Users) View() {
 
 	result["Options"] = resultOpts
 
-	c.Serve(http.StatusOK, nil, result)
+	err = c.Serve(http.StatusOK, nil, result)
+
+	if err != nil {
+		log.Println(err)
+	}
 }

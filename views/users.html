@@ -1,9 +1,6 @@
 <section class="hero is-info welcome is-small">
     <div class="hero-body">
         <div class="container">
-            <h2 class="subtitle">
-                {{ template "breadcrumbs.html" .}}
-            </h2>
             <h1 class="title">
                 Users
             </h1>
@@ -39,7 +36,7 @@
                 <td>{{$val.Size}}</td>
                 <td>
                     <p class="buttons">
-                        <a href="/secure/user/{{$val.Key}}" class="button is-primary">
+                        <a href="/secure/users/{{$val.Key}}" class="button is-primary">
                             <span class="icon is-small">
                                 <i class="fas fa-file-alt"></i>
                             </span>
