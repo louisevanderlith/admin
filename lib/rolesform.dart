@@ -14,7 +14,8 @@ class RolesForm extends FormState {
   List<Role> _items;
   Key _objKey;
 
-  RolesForm(String idElem, Key objKey, String btnSubmit, String btnAdd, String tblRoles)
+  RolesForm(String idElem, Key objKey, String btnSubmit, String btnAdd,
+      String tblRoles)
       : super(idElem, btnSubmit) {
     _items = findRoles();
     _tblRoles = querySelector(tblRoles);
@@ -55,7 +56,7 @@ class RolesForm extends FormState {
       hasItem = item.loaded();
 
       if (hasItem) {
-        result.add(item.toDTO());
+        result.add(item.role);
       }
 
       indx++;
@@ -71,6 +72,6 @@ class RolesForm extends FormState {
     _tblRoles.children.add(obj.toHtml(indx));
 
     var item = new RoleItem('#lblAppName${indx}', 'input[name=answer${indx}]');
-    _items.add(item.toDTO());
+    _items.add(item.role);
   }
 }

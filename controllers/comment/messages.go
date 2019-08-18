@@ -56,7 +56,7 @@ func (c *Messages) View() {
 		c.Serve(http.StatusBadRequest, err, nil)
 	}
 
-	var result []interface{}
+	result := make(map[string]interface{})
 	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Comment.API", "message", key.String())
 
 	if err != nil {

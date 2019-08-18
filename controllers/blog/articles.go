@@ -53,7 +53,7 @@ func (c *Articles) Search() {
 }
 
 func (c *Articles) View() {
-	c.Setup("articleView", "View Article", true)
+	c.Setup("articleEdit", "Edit Article", true)
 
 	c.CreateTopMenu(createBlogTopMenu())
 	c.EnableSave()
@@ -65,7 +65,7 @@ func (c *Articles) View() {
 		return
 	}
 
-	var result []interface{}
+	result := make(map[string]interface{})
 	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Blog.API", "article", key.String())
 
 	if err != nil {
@@ -74,7 +74,11 @@ func (c *Articles) View() {
 		return
 	}
 
-	c.Serve(http.StatusOK, nil, result)
+	err = c.Serve(http.StatusOK, nil, result)
+
+	if err != nil {
+		log.Println(err)
+	}
 }
 
 /*

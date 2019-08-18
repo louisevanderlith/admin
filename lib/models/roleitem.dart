@@ -41,11 +41,11 @@ class RoleItem {
     }
   }
 
+  Role get role {
+    return new Role(application, roletype);
+  }
+  
   bool loaded() {
     return _loaded;
-  }
-
-  Role toDTO() {
-    return new Role(application, roletype);
   }
 }
