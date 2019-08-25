@@ -5,62 +5,53 @@ import (
 	"net/http"
 
 	"github.com/louisevanderlith/droxolite"
-	"github.com/louisevanderlith/droxolite/xontrols"
+	"github.com/louisevanderlith/droxolite/context"
 	"github.com/louisevanderlith/husk"
 )
 
 type Templates struct {
-	xontrols.UICtrl
 }
 
-func (c *Templates) Default() {
-	c.Setup("templates", "Templates", false)
+func (c *Templates) Default(ctx context.Contexer) (int, interface{}) {
+	//c.Setup("templates", "Templates", false)
 
 	var result []interface{}
-	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Theme.API", "asset", "html")
+	code, err := droxolite.DoGET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Theme.API", "asset", "html")
 
 	if err != nil {
 		log.Println(err)
-		c.Serve(code, err, nil)
-		return
+		return code, err
 	}
 
-	c.Serve(http.StatusOK, nil, result)
+	return http.StatusOK, result
 }
 
-func (c *Templates) Search() {
-	c.Setup("templates", "Templates", false)
-
+func (c *Templates) Search(ctx context.Contexer) (int, interface{}) {
 	var result []interface{}
-	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Theme.API", "asset", "html")
+	code, err := droxolite.DoGET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Theme.API", "asset", "html")
 
 	if err != nil {
 		log.Println(err)
-		c.Serve(code, err, nil)
-		return
+		return code, err
 	}
 
-	c.Serve(http.StatusOK, nil, result)
+	return http.StatusOK, result
 }
 
-func (c *Templates) View() {
-	c.Setup("templateView", "View Template", false)
-
-	key, err := husk.ParseKey(c.FindParam("key"))
+func (c *Templates) View(ctx context.Contexer) (int, interface{}) {
+	key, err := husk.ParseKey(ctx.FindParam("key"))
 
 	if err != nil {
-		c.Serve(http.StatusBadRequest, err, nil)
-		return
+		return http.StatusBadRequest, err
 	}
 
 	result := make(map[string]interface{})
-	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Theme.API", "???", key.String())
+	code, err := droxolite.DoGET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Theme.API", "???", key.String())
 
 	if err != nil {
 		log.Println(err)
-		c.Serve(code, err, nil)
-		return
+		return code, err
 	}
 
-	c.Serve(http.StatusOK, nil, result)
+	return http.StatusOK, result
 }

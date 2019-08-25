@@ -5,63 +5,59 @@ import (
 	"net/http"
 
 	"github.com/louisevanderlith/droxolite"
-	"github.com/louisevanderlith/droxolite/xontrols"
+	"github.com/louisevanderlith/droxolite/context"
 	"github.com/louisevanderlith/husk"
 )
 
 type Uploads struct {
-	xontrols.UICtrl
 }
 
-func (req *Uploads) Default() {
-	req.Setup("uploads", "Uploads", true)
+func (req *Uploads) Default(ctx context.Contexer) (int, interface{}) {
+	//ctx.Setup("uploads", "Uploads", true)
 
 	var result []interface{}
 	pagesize := "A10"
-	code, err := droxolite.DoGET(req.GetMyToken(), &result, req.Settings.InstanceID, "Artifact.API", "upload", "all", pagesize)
+	code, err := droxolite.DoGET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Artifact.API", "upload", "all", pagesize)
 
 	if err != nil {
 		log.Println(err)
-		req.Serve(code, err, nil)
-		return
+		return code, err
 	}
 
-	req.Serve(http.StatusOK, nil, result)
+	return http.StatusOK, result
 }
 
-func (req *Uploads) Search() {
-	req.Setup("uploads", "Uploads", true)
+func (req *Uploads) Search(ctx context.Contexer) (int, interface{}) {
+	//req.Setup("uploads", "Uploads", true)
 
 	var result []interface{}
-	pagesize := req.FindParam("pagesize")
-	code, err := droxolite.DoGET(req.GetMyToken(), &result, req.Settings.InstanceID, "Artifact.API", "upload", "all", pagesize)
+	pagesize := ctx.FindParam("pagesize")
+	code, err := droxolite.DoGET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Artifact.API", "upload", "all", pagesize)
 
 	if err != nil {
 		log.Println(err)
-		req.Serve(code, err, nil)
-		return
+		return code, err
 	}
 
-	req.Serve(http.StatusOK, nil, result)
+	return http.StatusOK, result
 }
 
-func (c *Uploads) View() {
-	c.Setup("uploadView", "View Upload", false)
+func (c *Uploads) View(ctx context.Contexer) (int, interface{}) {
+	//c.Setup("uploadView", "View Upload", false)
 
-	key, err := husk.ParseKey(c.FindParam("key"))
+	key, err := husk.ParseKey(ctx.FindParam("key"))
 
 	if err != nil {
-		c.Serve(http.StatusBadRequest, err, nil)
+		return http.StatusBadRequest, err
 	}
 
 	result := make(map[string]interface{})
-	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Artifact.API", "upload", key.String())
+	code, err := droxolite.DoGET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Artifact.API", "upload", key.String())
 
 	if err != nil {
 		log.Println(err)
-		c.Serve(code, err, nil)
-		return
+		return code, err
 	}
 
-	c.Serve(http.StatusOK, nil, result)
+	return http.StatusOK, result
 }

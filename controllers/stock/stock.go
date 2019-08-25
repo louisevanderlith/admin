@@ -3,15 +3,14 @@ package stock
 import (
 	"net/http"
 
-	"github.com/louisevanderlith/droxolite/xontrols"
+	"github.com/louisevanderlith/droxolite/context"
 )
 
 type Stock struct {
-	xontrols.UICtrl
 }
 
-func (req *Stock) Default() {
-	req.Setup("stockhome", "Stock Home", false)
+func (req *Stock) Default(ctx context.Contexer) (int, interface{}) {
+	//req.Setup("stockhome", "Stock Home", false)
 
 	stocks := []string{
 		"Parts",
@@ -19,5 +18,5 @@ func (req *Stock) Default() {
 		"Cars",
 	}
 
-	req.Serve(http.StatusOK, nil, stocks)
+	return http.StatusOK, stocks
 }

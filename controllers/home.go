@@ -1,27 +1,28 @@
 package controllers
 
 import (
-	"log"
 	"net/http"
 
-	"github.com/louisevanderlith/droxolite/xontrols"
+	"github.com/louisevanderlith/droxolite/context"
 )
 
 type Home struct {
-	xontrols.UICtrl
 }
 
-func (c *Home) Default() {
-	c.Setup("default", "Admin", false)
+func (c *Home) AcceptsQuery() map[string]string {
+	q := make(map[string]string)
+	q["access_token"] = "{access_token}"
+
+	return q
+}
+
+func (c *Home) Default(ctx context.Contexer) (int, interface{}) {
+	//c.Setup("default", "Admin", false)
 
 	result := make(map[string]string)
 	result["Comms.API"] = "/comms/messages/A10"
 	result["Router.API"] = "/router/memory"
 	result["Folio.API"] = "/folio/profiles/A10"
 
-	err := c.Serve(http.StatusOK, nil, result)
-
-	if err != nil {
-		log.Println(err)
-	}
+	return http.StatusOK, result
 }

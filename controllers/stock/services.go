@@ -5,65 +5,61 @@ import (
 	"net/http"
 
 	"github.com/louisevanderlith/droxolite"
-	"github.com/louisevanderlith/droxolite/xontrols"
+	"github.com/louisevanderlith/droxolite/context"
 	"github.com/louisevanderlith/husk"
 )
 
 type Services struct {
-	xontrols.UICtrl
 }
 
-func (c *Services) Default() {
-	c.Setup("services", "Services", true)
+func (c *Services) Default(ctx context.Contexer) (int, interface{}) {
+	//c.Setup("services", "Services", true)
 
 	var result []interface{}
 	pagesize := "A10"
 
-	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Stock.API", "service", "all", pagesize)
+	code, err := droxolite.DoGET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Stock.API", "service", "all", pagesize)
 
 	if err != nil {
 		log.Println(err)
-		c.Serve(code, err, nil)
-		return
+		return code, err
 	}
 
-	c.Serve(http.StatusOK, nil, result)
+	return http.StatusOK, result
 }
 
-func (c *Services) Search() {
-	c.Setup("services", "Services", true)
+func (c *Services) Search(ctx context.Contexer) (int, interface{}) {
+	//c.Setup("services", "Services", true)
 
 	var result []interface{}
-	pagesize := c.FindParam("pagesize")
+	pagesize := ctx.FindParam("pagesize")
 
-	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Stock.API", "service", "all", pagesize)
+	code, err := droxolite.DoGET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Stock.API", "service", "all", pagesize)
 
 	if err != nil {
 		log.Println(err)
-		c.Serve(code, err, nil)
-		return
+		return code, err
 	}
 
-	c.Serve(http.StatusOK, nil, result)
+	return http.StatusOK, result
 }
 
-func (c *Services) View() {
-	c.Setup("servicesEdit", "Edit services", false)
+func (c *Services) View(ctx context.Contexer) (int, interface{}) {
+	//c.Setup("servicesEdit", "Edit services", false)
 
-	key, err := husk.ParseKey(c.FindParam("key"))
+	key, err := husk.ParseKey(ctx.FindParam("key"))
 
 	if err != nil {
-		c.Serve(http.StatusBadRequest, err, nil)
+		return http.StatusBadRequest, err
 	}
 
 	result := make(map[string]interface{})
-	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Stock.API", "service", key.String())
+	code, err := droxolite.DoGET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Stock.API", "service", key.String())
 
 	if err != nil {
 		log.Println(err)
-		c.Serve(code, err, nil)
-		return
+		return code, err
 	}
 
-	c.Serve(http.StatusOK, nil, result)
+	return http.StatusOK, result
 }

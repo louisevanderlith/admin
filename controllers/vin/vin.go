@@ -5,65 +5,61 @@ import (
 	"net/http"
 
 	"github.com/louisevanderlith/droxolite"
-	"github.com/louisevanderlith/droxolite/xontrols"
+	"github.com/louisevanderlith/droxolite/context"
 	"github.com/louisevanderlith/husk"
 )
 
 type VIN struct {
-	xontrols.UICtrl
 }
 
-func (c *VIN) Default() {
-	c.Setup("vins", "VIN Numbers", true)
+func (c *VIN) Default(ctx context.Contexer) (int, interface{}) {
+	//c.Setup("vins", "VIN Numbers", true)
 
 	var result []interface{}
 	pagesize := "A10"
 
-	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "VIN.API", "admin", "all", pagesize)
+	code, err := droxolite.DoGET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "VIN.API", "admin", "all", pagesize)
 
 	if err != nil {
 		log.Println(err)
-		c.Serve(code, err, nil)
-		return
+		return code, err
 	}
 
-	c.Serve(http.StatusOK, nil, result)
+	return http.StatusOK, result
 }
 
-func (c *VIN) Search() {
-	c.Setup("vins", "VIN Numbers", true)
+func (c *VIN) Search(ctx context.Contexer) (int, interface{}) {
+	//c.Setup("vins", "VIN Numbers", true)
 
 	var result []interface{}
-	pagesize := c.FindParam("pagesize")
+	pagesize := ctx.FindParam("pagesize")
 
-	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "VIN.API", "admin", "all", pagesize)
+	code, err := droxolite.DoGET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "VIN.API", "admin", "all", pagesize)
 
 	if err != nil {
 		log.Println(err)
-		c.Serve(code, err, nil)
-		return
+		return code, err
 	}
 
-	c.Serve(http.StatusOK, nil, result)
+	return http.StatusOK, result
 }
 
-func (c *VIN) View() {
-	c.Setup("vinView", "View VIN", false)
+func (c *VIN) View(ctx context.Contexer) (int, interface{}) {
+	//c.Setup("vinView", "View VIN", false)
 
-	key, err := husk.ParseKey(c.FindParam("key"))
+	key, err := husk.ParseKey(ctx.FindParam("key"))
 
 	if err != nil {
-		c.Serve(http.StatusBadRequest, err, nil)
+		return http.StatusBadRequest, err
 	}
 
 	result := make(map[string]interface{})
-	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "VIN.API", "admin", key.String())
+	code, err := droxolite.DoGET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "VIN.API", "admin", key.String())
 
 	if err != nil {
 		log.Println(err)
-		c.Serve(code, err, nil)
-		return
+		return code, err
 	}
 
-	c.Serve(http.StatusOK, nil, result)
+	return http.StatusOK, result
 }

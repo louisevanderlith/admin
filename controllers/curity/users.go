@@ -5,79 +5,74 @@ import (
 	"net/http"
 
 	"github.com/louisevanderlith/droxolite"
-	"github.com/louisevanderlith/droxolite/xontrols"
+	"github.com/louisevanderlith/droxolite/context"
 	"github.com/louisevanderlith/husk"
 	secure "github.com/louisevanderlith/secure/core"
 )
 
 type Users struct {
-	xontrols.UICtrl
 }
 
-func (c *Users) Default() {
-	c.Setup("users", "Users", false)
+func (c *Users) Default(ctx context.Contexer) (int, interface{}) {
+	//.Setup("users", "Users", false)
 
 	var result []interface{}
 	pagesize := "A10"
 
-	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Secure.API", "user", "all", pagesize)
+	code, err := droxolite.DoGET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Secure.API", "user", "all", pagesize)
 
 	if err != nil {
 		log.Println(err)
-		c.Serve(code, err, nil)
-		return
+		return code, err
 	}
 
-	c.Serve(http.StatusOK, nil, result)
+	return http.StatusOK, result
 }
 
-func (c *Users) Search() {
-	c.Setup("users", "Users", false)
+func (c *Users) Search(ctx context.Contexer) (int, interface{}) {
+	//c.Setup("users", "Users", false)
 
 	var result []interface{}
-	pagesize := c.FindParam("pagesize")
+	pagesize := ctx.FindParam("pagesize")
 
-	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Secure.API", "user", "all", pagesize)
+	code, err := droxolite.DoGET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Secure.API", "user", "all", pagesize)
 
 	if err != nil {
 		log.Println(err)
-		c.Serve(code, err, nil)
-		return
+		return code, err
 	}
 
-	c.Serve(http.StatusOK, nil, result)
+	return http.StatusOK, result
 }
 
-func (c *Users) View() {
-	c.Setup("userView", "View User", true)
-	c.EnableSave()
+func (c *Users) View(ctx context.Contexer) (int, interface{}) {
+	//c.Setup("userView", "View User", true)
+	//c.EnableSave()
 
-	key, err := husk.ParseKey(c.FindParam("key"))
+	key, err := husk.ParseKey(ctx.FindParam("key"))
 
 	if err != nil {
-		c.Serve(http.StatusBadRequest, err, nil)
+		return http.StatusBadRequest, err
 	}
 
 	result := make(map[string]interface{})
 
 	resultUser := secure.User{}
-	code, err := droxolite.DoGET(c.GetMyToken(), &resultUser, c.Settings.InstanceID, "Secure.API", "user", key.String())
+	code, err := droxolite.DoGET(ctx.GetMyToken(), &resultUser, ctx.GetInstanceID(), "Secure.API", "user", key.String())
 
 	if err != nil {
 		log.Println(err)
-		c.Serve(code, err, nil)
-		return
+		return code, err
 	}
 
 	result["User"] = resultUser
 
 	resultRouter := make(map[string]struct{})
-	code, err = droxolite.DoGET(c.GetMyToken(), &resultRouter, c.Settings.InstanceID, "Router.API", "memory", "apps")
+	code, err = droxolite.DoGET(ctx.GetMyToken(), &resultRouter, ctx.GetInstanceID(), "Router.API", "memory", "apps")
 
 	if err != nil {
 		log.Println(err)
-		c.Serve(code, err, nil)
-		return
+		return code, err
 	}
 
 	result["Router"] = resultRouter
@@ -100,9 +95,5 @@ func (c *Users) View() {
 
 	result["Options"] = resultOpts
 
-	err = c.Serve(http.StatusOK, nil, result)
-
-	if err != nil {
-		log.Println(err)
-	}
+	return http.StatusOK, result
 }

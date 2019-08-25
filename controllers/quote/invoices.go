@@ -3,15 +3,14 @@ package quote
 import (
 	"net/http"
 
-	"github.com/louisevanderlith/droxolite/xontrols"
+	"github.com/louisevanderlith/droxolite/context"
 )
 
 type Invoices struct {
-	xontrols.UICtrl
 }
 
-func (req *Invoices) Default() {
-	req.Setup("invoice", "Invoice", false)
+func (req *Invoices) Default(ctx context.Contexer) (int, interface{}) {
+	//req.Setup("invoice", "Invoice", false)
 
-	req.Serve(http.StatusNotImplemented, nil, nil)
+	return http.StatusNotImplemented, nil
 }

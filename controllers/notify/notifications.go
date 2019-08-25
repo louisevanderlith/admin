@@ -3,15 +3,14 @@ package logbook
 import (
 	"net/http"
 
-	"github.com/louisevanderlith/droxolite/xontrols"
+	"github.com/louisevanderlith/droxolite/context"
 )
 
 type Notifications struct {
-	xontrols.UICtrl
 }
 
-func (req *Notifications) Default() {
-	req.Setup("notifications", "Notifications", false)
+func (req *Notifications) Default(ctx context.Contexer) (int, interface{}) {
+	//req.Setup("notifications", "Notifications", false)
 
-	req.Serve(http.StatusNotImplemented, nil, nil)
+	return http.StatusNotImplemented, nil
 }

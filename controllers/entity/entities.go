@@ -5,67 +5,62 @@ import (
 	"net/http"
 
 	"github.com/louisevanderlith/droxolite"
-	"github.com/louisevanderlith/droxolite/xontrols"
+	"github.com/louisevanderlith/droxolite/context"
 	"github.com/louisevanderlith/husk"
 )
 
 type Entities struct {
-	xontrols.UICtrl
 }
 
-func (c *Entities) Default() {
-	c.Setup("entity", "Entity", true)
+func (c *Entities) Default(ctx context.Contexer) (int, interface{}) {
+	//c.Setup("entity", "Entity", true)
 
 	var result []interface{}
 	pagesize := "A10"
 
-	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Entity.API", "info", "all", pagesize)
+	code, err := droxolite.DoGET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Entity.API", "info", "all", pagesize)
 
 	if err != nil {
 		log.Println(err)
-		c.Serve(code, err, nil)
-		return
+		return code, err
 	}
 
-	c.Serve(http.StatusOK, nil, result)
+	return http.StatusOK, result
 }
 
-func (c *Entities) Search() {
-	c.Setup("entity", "Entity", true)
+func (c *Entities) Search(ctx context.Contexer) (int, interface{}) {
+	//c.Setup("entity", "Entity", true)
 
 	var result []interface{}
-	pagesize := c.FindParam("pagesize")
+	pagesize := ctx.FindParam("pagesize")
 
-	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Entity.API", "info", "all", pagesize)
+	code, err := droxolite.DoGET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Entity.API", "info", "all", pagesize)
 
 	if err != nil {
 		log.Println(err)
-		c.Serve(code, err, nil)
-		return
+		return code, err
 	}
 
-	c.Serve(http.StatusOK, nil, result)
+	return http.StatusOK, result
 }
 
-func (c *Entities) View() {
-	c.Setup("entityEdit", "Edit Entity", true)
-	c.EnableSave()
+func (c *Entities) View(ctx context.Contexer) (int, interface{}) {
+	//c.Setup("entityEdit", "Edit Entity", true)
+	//c.EnableSave()
 
-	key, err := husk.ParseKey(c.FindParam("key"))
+	key, err := husk.ParseKey(ctx.FindParam("key"))
 
 	if err != nil {
-		c.Serve(http.StatusBadRequest, err, nil)
-		return
+		return http.StatusBadRequest, err
 	}
 
 	result := make(map[string]interface{})
-	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Entity.API", "info", key.String())
+	code, err := droxolite.DoGET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Entity.API", "info", key.String())
 
 	if err != nil {
 		log.Println(err)
-		c.Serve(code, err, nil)
-		return
+		return code, err
 	}
 
-	c.Serve(http.StatusOK, nil, err)
+	return http.StatusOK, err
 }

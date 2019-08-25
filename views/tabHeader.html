@@ -20,8 +20,8 @@
             </header>
             <div class="card-image">
                 <figure class="image">
-                    <img id="uplHeaderView{{$key}}" class='{{if eq .Data.ImageKey "0`0"}} is-hidden {{end}}'
-                        src="https://artifact{{$host}}upload/file/{{$val.ImageKey}}" alt="{{$val.Heading}}">
+                    <img id="uplHeaderView{{$key}}" {{if eq $val.ImageKey "0`0" }}class="is-hidden" {{end}}
+                        src="https://artifact{{$host}}download/{{$val.ImageKey}}" alt="{{$val.Heading}}">
                 </figure>
             </div>
             <div class="card-content">
@@ -34,7 +34,7 @@
                                     <input class="file-input" type="file" multiple="false" data-for="banner"
                                         data-name="Header" data-id="{{$val.ImageKey}}" accept=".jpg, .jpeg, .png"
                                         id="uplHeaderImg{{$key}}" placeholder="Header Banner"
-                                        {{if eq .Data.ImageKey "0`0"}} required {{end}} />
+                                        {{if eq $val.ImageKey "0`0" }} required {{end}} />
                                     <p class="help is-danger"></p>
                                     <span class="file-cta">
                                         <span class="file-icon">
@@ -45,7 +45,7 @@
                                         </span>
                                     </span>
                                 </label>
-                            </div> 
+                            </div>
                         </div>
                     </div>
                     <div class="field">
@@ -58,7 +58,7 @@
                     </div>
                 </div>
             </div>
-        </div> 
+        </div>
         {{end}}
     </form>
 </div>

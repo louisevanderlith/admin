@@ -6,79 +6,70 @@ import (
 
 	"github.com/louisevanderlith/droxolite"
 	"github.com/louisevanderlith/droxolite/bodies"
-	"github.com/louisevanderlith/droxolite/xontrols"
+	"github.com/louisevanderlith/droxolite/context"
 	"github.com/louisevanderlith/husk"
 )
 
 type Articles struct {
-	xontrols.UICtrl
 }
 
-func (c *Articles) Default() {
-	c.Setup("articles", "Articles", true)
+func (c *Articles) Default(ctx context.Contexer) (int, interface{}) {
+	//c.Setup("articles", "Articles", true)
 
-	c.CreateTopMenu(getBlogsTopMenu())
+	//ctx.CreateTopMenu(getBlogsTopMenu())
 
 	var result []interface{}
 	pagesize := "A10"
 
-	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Blog.API", "article", "all", "non", pagesize)
+	code, err := droxolite.DoGET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Blog.API", "article", "all", "non", pagesize)
 
 	if err != nil {
 		log.Println(err)
-		c.Serve(code, err, nil)
-		return
+		return code, err
 	}
 
-	c.Serve(http.StatusOK, nil, result)
+	return http.StatusOK, result
 }
 
-func (c *Articles) Search() {
-	c.Setup("articles", "Articles", true)
+func (c *Articles) Search(ctx context.Contexer) (int, interface{}) {
+	//c.Setup("articles", "Articles", true)
 
-	c.CreateTopMenu(getBlogsTopMenu())
+	//c.CreateTopMenu(getBlogsTopMenu())
 
 	var result []interface{}
-	pagesize := c.FindParam("pagesize")
+	pagesize := ctx.FindParam("pagesize")
 
-	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Blog.API", "article", "all", "non", pagesize)
+	code, err := droxolite.DoGET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Blog.API", "article", "all", "non", pagesize)
 
 	if err != nil {
 		log.Println(err)
-		c.Serve(code, err, nil)
-		return
+		return code, err
 	}
 
-	c.Serve(http.StatusOK, nil, result)
+	return http.StatusOK, result
 }
 
-func (c *Articles) View() {
-	c.Setup("articleEdit", "Edit Article", true)
+func (c *Articles) View(ctx context.Contexer) (int, interface{}) {
+	//c.Setup("articleEdit", "Edit Article", true)
 
-	c.CreateTopMenu(createBlogTopMenu())
-	c.EnableSave()
+	//c.CreateTopMenu(createBlogTopMenu())
+	//c.EnableSave()
 
-	key, err := husk.ParseKey(c.FindParam("key"))
+	key, err := husk.ParseKey(ctx.FindParam("key"))
 
 	if err != nil {
-		c.Serve(http.StatusBadRequest, err, nil)
-		return
+		return http.StatusBadRequest, err
 	}
 
 	result := make(map[string]interface{})
-	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Blog.API", "article", key.String())
+	code, err := droxolite.DoGET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Blog.API", "article", key.String())
 
 	if err != nil {
 		log.Println(err)
-		c.Serve(code, err, nil)
-		return
+		return code, err
 	}
 
-	err = c.Serve(http.StatusOK, nil, result)
-
-	if err != nil {
-		log.Println(err)
-	}
+	return http.StatusOK, result
 }
 
 /*

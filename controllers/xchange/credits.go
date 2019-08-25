@@ -5,43 +5,41 @@ import (
 	"net/http"
 
 	"github.com/louisevanderlith/droxolite"
-	"github.com/louisevanderlith/droxolite/xontrols"
+	"github.com/louisevanderlith/droxolite/context"
 	"github.com/louisevanderlith/husk"
 )
 
 type Credits struct {
-	xontrols.UICtrl
 }
 
-func (c *Credits) Default() {
-	c.Setup("credits", "Credits", true)
+func (c *Credits) Default(ctx context.Contexer) (int, interface{}) {
+	//c.Setup("credits", "Credits", true)
 
-	c.Serve(http.StatusNotImplemented, nil, nil)
+	return http.StatusNotImplemented, nil
 }
 
-func (c *Credits) Search() {
-	c.Setup("credits", "Credits", true)
+func (c *Credits) Search(ctx context.Contexer) (int, interface{}) {
+	//c.Setup("credits", "Credits", true)
 
-	c.Serve(http.StatusNotImplemented, nil, nil)
+	return http.StatusNotImplemented, nil
 }
 
-func (c *Credits) View() {
-	c.Setup("creditView", "View Credit", false)
+func (c *Credits) View(ctx context.Contexer) (int, interface{}) {
+	//c.Setup("creditView", "View Credit", false)
 
-	key, err := husk.ParseKey(c.FindParam("key"))
+	key, err := husk.ParseKey(ctx.FindParam("key"))
 
 	if err != nil {
-		c.Serve(http.StatusBadRequest, err, nil)
+		return http.StatusBadRequest, err
 	}
 
 	result := make(map[string]interface{})
-	code, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "XChange.API", "???", key.String())
+	code, err := droxolite.DoGET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "XChange.API", "???", key.String())
 
 	if err != nil {
 		log.Println(err)
-		c.Serve(code, err, nil)
-		return
+		return code, err
 	}
 
-	c.Serve(http.StatusOK, nil, result)
+	return http.StatusOK, result
 }

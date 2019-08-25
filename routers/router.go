@@ -16,55 +16,47 @@ import (
 	"github.com/louisevanderlith/admin/controllers/vehicle"
 	"github.com/louisevanderlith/admin/controllers/vin"
 	"github.com/louisevanderlith/admin/controllers/xchange"
-	"github.com/louisevanderlith/droxolite"
+	"github.com/louisevanderlith/droxolite/resins"
 	"github.com/louisevanderlith/droxolite/roletype"
 	"github.com/louisevanderlith/droxolite/routing"
 )
 
-func Setup(e *droxolite.Epoxy) {
+func Setup(e resins.Epoxi) {
 	//Home
-	homeCtrl := &controllers.Home{}
-	homeGroup := routing.NewInterfaceBundle("", roletype.Admin, homeCtrl)
-
-	q := make(map[string]string)
-	q["access_token"] = "{access_token}"
-	homeGroup.AddRouteWithQueries("Home", "/", "GET", roletype.Admin, q, homeCtrl.Default)
+	homeGroup := routing.NewInterfaceBundle("", roletype.Admin, &controllers.Home{})
 	e.AddGroup(homeGroup)
 
 	//Artifact
 	artifactGroup := routing.NewInterfaceBundle("Artifact", roletype.Admin, &artifact.Uploads{})
-	e.AddNamedGroup("Artifact.API", artifactGroup)
+	e.AddGroup(artifactGroup)
 
 	//Blog
 	blogGroup := routing.NewInterfaceBundle("Blog", roletype.Admin, &blog.Articles{})
-	e.AddNamedGroup("Blog.API", blogGroup)
+	e.AddGroup(blogGroup)
 
 	//Comment
 	commentGroup := routing.NewInterfaceBundle("Comment", roletype.Admin, &comment.Messages{})
-	e.AddNamedGroup("Comment.API", commentGroup)
+	e.AddGroup(commentGroup)
 
 	//Comms
 	commsGroup := routing.NewInterfaceBundle("Comms", roletype.Admin, &comms.Messages{})
-	e.AddNamedGroup("Comms.API", commsGroup)
+	e.AddGroup(commsGroup)
 
 	//Entity
 	entityGroup := routing.NewInterfaceBundle("Entity", roletype.Admin, &entity.Entities{})
-	e.AddNamedGroup("Entity.API", entityGroup)
+	e.AddGroup(entityGroup)
 
 	//Folio
 	folioGroup := routing.NewInterfaceBundle("Folio", roletype.Admin, &folio.Profiles{})
-	e.AddNamedGroup("Folio.API", folioGroup)
-
-	//subGroup.AddSubGroup(complxGroup)
-	//e.AddGroup(subGroup)
+	e.AddGroup(folioGroup)
 
 	//Funds
 	fundsGroup := routing.NewInterfaceBundle("Funds", roletype.Admin, &funds.Accounts{})
-	e.AddNamedGroup("Funds.API", fundsGroup)
+	e.AddGroup(fundsGroup)
 
 	//Game
 	gameGroup := routing.NewInterfaceBundle("Game", roletype.Admin, &game.Heroes{})
-	e.AddNamedGroup("Game.API", gameGroup)
+	e.AddGroup(gameGroup)
 
 	//Gate
 
@@ -74,26 +66,26 @@ func Setup(e *droxolite.Epoxy) {
 
 	//Router
 	routerGroup := routing.NewInterfaceBundle("Router", roletype.Admin, &router.Memory{})
-	e.AddNamedGroup("Router.API", routerGroup)
+	e.AddGroup(routerGroup)
 
 	//Secure
 	secureGroup := routing.NewInterfaceBundle("Secure", roletype.Admin, &curity.Users{})
-	e.AddNamedGroup("Secure.API", secureGroup)
+	e.AddGroup(secureGroup)
 
 	//Stock
 	stockGroup := routing.NewInterfaceBundle("Stock", roletype.Admin, &stock.Stock{}, &stock.Cars{}, &stock.Parts{}, &stock.Services{})
-	e.AddNamedGroup("Stock.API", stockGroup)
+	e.AddGroup(stockGroup)
 	//Theme
 
 	//Vehicle
 	vehicleGroup := routing.NewInterfaceBundle("Vehicle", roletype.Admin, &vehicle.Vehicles{})
-	e.AddNamedGroup("Vehicle.API", vehicleGroup)
+	e.AddGroup(vehicleGroup)
 
 	//Vin
 	vinGroup := routing.NewInterfaceBundle("VIN", roletype.Admin, &vin.VIN{}, &vin.Regions{})
-	e.AddNamedGroup("VIN.API", vinGroup)
+	e.AddGroup(vinGroup)
 
 	//XChange
 	xchangeGroup := routing.NewInterfaceBundle("XChange", roletype.Admin, &xchange.Credits{})
-	e.AddNamedGroup("XChange.API", xchangeGroup)
+	e.AddGroup(xchangeGroup)
 }

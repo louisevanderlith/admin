@@ -20,7 +20,7 @@
             </header>
             <div {{if eq $val.ImageKey "0`0"}} hidden {{end}} class="card-image">
                 <figure class="image">
-                    <img id="uplPortfolioView{{$key}}" src="https://artifact{{$host}}upload/file/{{$val.ImageKey}}"
+                    <img id="uplPortfolioView{{$key}}" src="https://artifact{{$host}}download/{{$val.ImageKey}}"
                         class='{{if eq $val.ImageKey "0`0"}}is-hidden{{end}}' alt="{{$val.Heading}}">
                 </figure>
             </div>
