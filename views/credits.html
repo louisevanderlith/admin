@@ -1,0 +1,45 @@
+<section class="hero is-info welcome is-small">
+    <div class="hero-body">
+        <div class="container">
+            <h1 class="title">
+                Regions
+            </h1>
+        </div>
+    </div>
+</section>
+<section class="section">
+    <table class="table is-fullwidth is-hoverable" id="dataTable">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Start</th>
+                <th>End</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>Name</th>
+                <th>Start</th>
+                <th>End</th>
+            </tr>
+        </tfoot>
+        <tbody>
+            {{range $key, $val := .Data}}
+            <tr>
+                <td>{{$val.V.Name}}</td>
+                <td>{{$val.V.StartChar}}</td>
+                <td>{{$val.V.EndChar}}</td>
+                <td>
+                    <p class="buttons">
+                        <a href="/vin/region/{{$val.K}}" class="button is-primary">
+                            <span class="icon is-small">
+                                <i class="far fa-edit"></i>
+                            </span>
+                        </a>
+                    </p>
+                </td>
+            </tr>
+            {{end}}
+        </tbody>
+    </table>
+</section>

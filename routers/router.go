@@ -15,7 +15,6 @@ import (
 	"github.com/louisevanderlith/admin/controllers/stock"
 	"github.com/louisevanderlith/admin/controllers/vehicle"
 	"github.com/louisevanderlith/admin/controllers/vin"
-	"github.com/louisevanderlith/admin/controllers/xchange"
 	"github.com/louisevanderlith/droxolite/resins"
 	"github.com/louisevanderlith/droxolite/roletype"
 	"github.com/louisevanderlith/droxolite/routing"
@@ -73,7 +72,7 @@ func Setup(e resins.Epoxi) {
 	e.AddGroup(secureGroup)
 
 	//Stock
-	stockGroup := routing.NewInterfaceBundle("Stock", roletype.Admin, &stock.Stock{}, &stock.Cars{}, &stock.Parts{}, &stock.Services{})
+	stockGroup := routing.NewInterfaceBundle("Stock", roletype.Admin, &stock.Cars{}, &stock.Parts{}, &stock.Services{})
 	e.AddGroup(stockGroup)
 	//Theme
 
@@ -85,7 +84,7 @@ func Setup(e resins.Epoxi) {
 	vinGroup := routing.NewInterfaceBundle("VIN", roletype.Admin, &vin.VIN{}, &vin.Regions{})
 	e.AddGroup(vinGroup)
 
-	//XChange
-	xchangeGroup := routing.NewInterfaceBundle("XChange", roletype.Admin, &xchange.Credits{})
-	e.AddGroup(xchangeGroup)
+	//XChange -- Needs more development
+	//xchangeGroup := routing.NewInterfaceBundle("XChange", roletype.Admin, &xchange.Credits{})
+	//e.AddGroup(xchangeGroup)
 }
