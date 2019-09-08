@@ -4,8 +4,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/louisevanderlith/droxolite"
 	"github.com/louisevanderlith/droxolite/context"
+	"github.com/louisevanderlith/droxolite/do"
 	"github.com/louisevanderlith/husk"
 	secure "github.com/louisevanderlith/secure/core"
 )
@@ -13,13 +13,13 @@ import (
 type Users struct {
 }
 
-func (c *Users) Default(ctx context.Contexer) (int, interface{}) {
+func (c *Users) Get(ctx context.Requester) (int, interface{}) {
 	//.Setup("users", "Users", false)
 
 	var result []interface{}
 	pagesize := "A10"
 
-	code, err := droxolite.DoGET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Secure.API", "user", "all", pagesize)
+	code, err := do.GET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Secure.API", "user", pagesize)
 
 	if err != nil {
 		log.Println(err)
@@ -29,13 +29,13 @@ func (c *Users) Default(ctx context.Contexer) (int, interface{}) {
 	return http.StatusOK, result
 }
 
-func (c *Users) Search(ctx context.Contexer) (int, interface{}) {
+func (c *Users) Search(ctx context.Requester) (int, interface{}) {
 	//c.Setup("users", "Users", false)
 
 	var result []interface{}
 	pagesize := ctx.FindParam("pagesize")
 
-	code, err := droxolite.DoGET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Secure.API", "user", "all", pagesize)
+	code, err := do.GET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Secure.API", "user", pagesize)
 
 	if err != nil {
 		log.Println(err)
@@ -45,7 +45,7 @@ func (c *Users) Search(ctx context.Contexer) (int, interface{}) {
 	return http.StatusOK, result
 }
 
-func (c *Users) View(ctx context.Contexer) (int, interface{}) {
+func (c *Users) View(ctx context.Requester) (int, interface{}) {
 	//c.Setup("userView", "View User", true)
 	//c.EnableSave()
 
@@ -58,7 +58,7 @@ func (c *Users) View(ctx context.Contexer) (int, interface{}) {
 	result := make(map[string]interface{})
 
 	resultUser := secure.User{}
-	code, err := droxolite.DoGET(ctx.GetMyToken(), &resultUser, ctx.GetInstanceID(), "Secure.API", "user", key.String())
+	code, err := do.GET(ctx.GetMyToken(), &resultUser, ctx.GetInstanceID(), "Secure.API", "user", key.String())
 
 	if err != nil {
 		log.Println(err)
@@ -68,7 +68,7 @@ func (c *Users) View(ctx context.Contexer) (int, interface{}) {
 	result["User"] = resultUser
 
 	resultRouter := make(map[string]struct{})
-	code, err = droxolite.DoGET(ctx.GetMyToken(), &resultRouter, ctx.GetInstanceID(), "Router.API", "memory", "apps")
+	code, err = do.GET(ctx.GetMyToken(), &resultRouter, ctx.GetInstanceID(), "Router.API", "memory", "apps")
 
 	if err != nil {
 		log.Println(err)

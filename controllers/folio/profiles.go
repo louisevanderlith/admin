@@ -4,21 +4,19 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/louisevanderlith/droxolite"
 	"github.com/louisevanderlith/droxolite/context"
+	"github.com/louisevanderlith/droxolite/do"
 	"github.com/louisevanderlith/husk"
 )
 
 type Profiles struct {
 }
 
-func (c *Profiles) Default(ctx context.Contexer) (int, interface{}) {
-	//c.Setup("profile", "Profiles", true)
-
+func (c *Profiles) Get(ctx context.Requester) (int, interface{}) {
 	var result []interface{}
 	pagesize := "A10"
 
-	code, err := droxolite.DoGET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Folio.API", "profile", "all", pagesize)
+	code, err := do.GET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Folio.API", "profile", pagesize)
 
 	if err != nil {
 		log.Println(err)
@@ -28,13 +26,11 @@ func (c *Profiles) Default(ctx context.Contexer) (int, interface{}) {
 	return http.StatusOK, result
 }
 
-func (c *Profiles) Search(ctx context.Contexer) (int, interface{}) {
-	//c.Setup("profile", "Profiles", true)
-
+func (c *Profiles) Search(ctx context.Requester) (int, interface{}) {
 	var result []interface{}
 	pagesize := ctx.FindParam("pagesize")
 
-	code, err := droxolite.DoGET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Folio.API", "profile", "all", pagesize)
+	code, err := do.GET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Folio.API", "profile", pagesize)
 
 	if err != nil {
 		log.Println(err)
@@ -44,10 +40,7 @@ func (c *Profiles) Search(ctx context.Contexer) (int, interface{}) {
 	return http.StatusOK, result
 }
 
-func (c *Profiles) View(ctx context.Contexer) (int, interface{}) {
-	//c.Setup("profileEdit", "Edit Profile", true)
-	//c.EnableSave()
-
+func (c *Profiles) View(ctx context.Requester) (int, interface{}) {
 	key, err := husk.ParseKey(ctx.FindParam("key"))
 
 	if err != nil {
@@ -55,7 +48,7 @@ func (c *Profiles) View(ctx context.Contexer) (int, interface{}) {
 	}
 
 	result := make(map[string]interface{})
-	code, err := droxolite.DoGET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Folio.API", "profile", key.String())
+	code, err := do.GET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Folio.API", "profile", key.String())
 
 	if err != nil {
 		log.Println(err)
@@ -65,6 +58,6 @@ func (c *Profiles) View(ctx context.Contexer) (int, interface{}) {
 	return http.StatusOK, result
 }
 
-func (c *Profiles) Create(ctx context.Contexer) (int, interface{}) {
-	return http.StatusNotImplemented, nil
+func (c *Profiles) Create(ctx context.Requester) (int, interface{}) {
+	return http.StatusOK, nil
 }

@@ -4,21 +4,21 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/louisevanderlith/droxolite"
 	"github.com/louisevanderlith/droxolite/context"
+	"github.com/louisevanderlith/droxolite/do"
 	"github.com/louisevanderlith/husk"
 )
 
 type VIN struct {
 }
 
-func (c *VIN) Default(ctx context.Contexer) (int, interface{}) {
+func (c *VIN) Get(ctx context.Requester) (int, interface{}) {
 	//c.Setup("vins", "VIN Numbers", true)
 
 	var result []interface{}
 	pagesize := "A10"
 
-	code, err := droxolite.DoGET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "VIN.API", "admin", "all", pagesize)
+	code, err := do.GET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "VIN.API", "admin", pagesize)
 
 	if err != nil {
 		log.Println(err)
@@ -28,13 +28,13 @@ func (c *VIN) Default(ctx context.Contexer) (int, interface{}) {
 	return http.StatusOK, result
 }
 
-func (c *VIN) Search(ctx context.Contexer) (int, interface{}) {
+func (c *VIN) Search(ctx context.Requester) (int, interface{}) {
 	//c.Setup("vins", "VIN Numbers", true)
 
 	var result []interface{}
 	pagesize := ctx.FindParam("pagesize")
 
-	code, err := droxolite.DoGET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "VIN.API", "admin", "all", pagesize)
+	code, err := do.GET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "VIN.API", "admin", pagesize)
 
 	if err != nil {
 		log.Println(err)
@@ -44,7 +44,7 @@ func (c *VIN) Search(ctx context.Contexer) (int, interface{}) {
 	return http.StatusOK, result
 }
 
-func (c *VIN) View(ctx context.Contexer) (int, interface{}) {
+func (c *VIN) View(ctx context.Requester) (int, interface{}) {
 	//c.Setup("vinView", "View VIN", false)
 
 	key, err := husk.ParseKey(ctx.FindParam("key"))
@@ -54,7 +54,7 @@ func (c *VIN) View(ctx context.Contexer) (int, interface{}) {
 	}
 
 	result := make(map[string]interface{})
-	code, err := droxolite.DoGET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "VIN.API", "admin", key.String())
+	code, err := do.GET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "VIN.API", "admin", key.String())
 
 	if err != nil {
 		log.Println(err)

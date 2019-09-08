@@ -4,21 +4,21 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/louisevanderlith/droxolite"
 	"github.com/louisevanderlith/droxolite/context"
+	"github.com/louisevanderlith/droxolite/do"
 	"github.com/louisevanderlith/husk"
 )
 
 type Vehicles struct {
 }
 
-func (c *Vehicles) Default(ctx context.Contexer) (int, interface{}) {
+func (c *Vehicles) Get(ctx context.Requester) (int, interface{}) {
 	//c.Setup("vehicles", "Vehicles", true)
 
 	var result []interface{}
 	pagesize := "A10"
 
-	code, err := droxolite.DoGET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Vehicle.API", "vehicle", "all", pagesize)
+	code, err := do.GET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Vehicle.API", "vehicle", pagesize)
 
 	if err != nil {
 		log.Println(err)
@@ -28,13 +28,13 @@ func (c *Vehicles) Default(ctx context.Contexer) (int, interface{}) {
 	return http.StatusOK, result
 }
 
-func (c *Vehicles) Search(ctx context.Contexer) (int, interface{}) {
+func (c *Vehicles) Search(ctx context.Requester) (int, interface{}) {
 	//c.Setup("vehicles", "Vehicles", true)
 
 	var result []interface{}
 	pagesize := ctx.FindParam("pagesize")
 
-	code, err := droxolite.DoGET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Vehicle.API", "vehicle", "all", pagesize)
+	code, err := do.GET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Vehicle.API", "vehicle", pagesize)
 
 	if err != nil {
 		log.Println(err)
@@ -44,7 +44,7 @@ func (c *Vehicles) Search(ctx context.Contexer) (int, interface{}) {
 	return http.StatusOK, result
 }
 
-func (c *Vehicles) View(ctx context.Contexer) (int, interface{}) {
+func (c *Vehicles) View(ctx context.Requester) (int, interface{}) {
 	//c.Setup("vehicleView", "View Vehicle", false)
 	key, err := husk.ParseKey(ctx.FindParam("key"))
 
@@ -53,7 +53,7 @@ func (c *Vehicles) View(ctx context.Contexer) (int, interface{}) {
 	}
 
 	result := make(map[string]interface{})
-	code, err := droxolite.DoGET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Vehicle.API", "vehicle", key.String())
+	code, err := do.GET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Vehicle.API", "vehicle", key.String())
 
 	if err != nil {
 		log.Println(err)

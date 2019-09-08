@@ -9,7 +9,7 @@ import (
 type Notifications struct {
 }
 
-func (req *Notifications) Default(ctx context.Contexer) (int, interface{}) {
+func (req *Notifications) Get(ctx context.Requester) (int, interface{}) {
 	//req.Setup("notifications", "Notifications", false)
 
 	return http.StatusNotImplemented, nil

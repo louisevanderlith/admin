@@ -4,19 +4,19 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/louisevanderlith/droxolite"
 	"github.com/louisevanderlith/droxolite/context"
+	"github.com/louisevanderlith/droxolite/do"
 	"github.com/louisevanderlith/husk"
 )
 
 type Messages struct {
 }
 
-func (c *Messages) Default(ctx context.Contexer) (int, interface{}) {
+func (c *Messages) Get(ctx context.Requester) (int, interface{}) {
 	//c.Setup("messages", "Messages", true)
 
 	var result []interface{}
-	code, err := droxolite.DoGET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Comms.API", "message", "all", "A10")
+	code, err := do.GET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Comms.API", "message", "A10")
 
 	if err != nil {
 		log.Println(err)
@@ -26,12 +26,12 @@ func (c *Messages) Default(ctx context.Contexer) (int, interface{}) {
 	return http.StatusOK, result
 }
 
-func (c *Messages) Search(ctx context.Contexer) (int, interface{}) {
+func (c *Messages) Search(ctx context.Requester) (int, interface{}) {
 	//c.Setup("messages", "Messages", true)
 
 	var result []interface{}
 	pagesize := ctx.FindParam("pagesize")
-	code, err := droxolite.DoGET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Comms.API", "message", "all", pagesize)
+	code, err := do.GET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Comms.API", "message", pagesize)
 
 	if err != nil {
 		log.Println(err)
@@ -41,7 +41,7 @@ func (c *Messages) Search(ctx context.Contexer) (int, interface{}) {
 	return http.StatusOK, result
 }
 
-func (c *Messages) View(ctx context.Contexer) (int, interface{}) {
+func (c *Messages) View(ctx context.Requester) (int, interface{}) {
 	//c.Setup("messageView", "View Message", false)
 
 	key, err := husk.ParseKey(ctx.FindParam("key"))
@@ -51,7 +51,7 @@ func (c *Messages) View(ctx context.Contexer) (int, interface{}) {
 	}
 
 	result := make(map[string]interface{})
-	code, err := droxolite.DoGET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Comms.API", "message", key.String())
+	code, err := do.GET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Comms.API", "message", key.String())
 
 	if err != nil {
 		log.Println(err)

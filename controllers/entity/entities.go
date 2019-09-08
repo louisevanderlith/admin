@@ -4,21 +4,21 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/louisevanderlith/droxolite"
 	"github.com/louisevanderlith/droxolite/context"
+	"github.com/louisevanderlith/droxolite/do"
 	"github.com/louisevanderlith/husk"
 )
 
 type Entities struct {
 }
 
-func (c *Entities) Default(ctx context.Contexer) (int, interface{}) {
+func (c *Entities) Get(ctx context.Requester) (int, interface{}) {
 	//c.Setup("entity", "Entity", true)
 
 	var result []interface{}
 	pagesize := "A10"
 
-	code, err := droxolite.DoGET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Entity.API", "info", "all", pagesize)
+	code, err := do.GET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Entity.API", "info", pagesize)
 
 	if err != nil {
 		log.Println(err)
@@ -28,13 +28,13 @@ func (c *Entities) Default(ctx context.Contexer) (int, interface{}) {
 	return http.StatusOK, result
 }
 
-func (c *Entities) Search(ctx context.Contexer) (int, interface{}) {
+func (c *Entities) Search(ctx context.Requester) (int, interface{}) {
 	//c.Setup("entity", "Entity", true)
 
 	var result []interface{}
 	pagesize := ctx.FindParam("pagesize")
 
-	code, err := droxolite.DoGET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Entity.API", "info", "all", pagesize)
+	code, err := do.GET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Entity.API", "info", pagesize)
 
 	if err != nil {
 		log.Println(err)
@@ -44,7 +44,7 @@ func (c *Entities) Search(ctx context.Contexer) (int, interface{}) {
 	return http.StatusOK, result
 }
 
-func (c *Entities) View(ctx context.Contexer) (int, interface{}) {
+func (c *Entities) View(ctx context.Requester) (int, interface{}) {
 	//c.Setup("entityEdit", "Edit Entity", true)
 	//c.EnableSave()
 
@@ -55,7 +55,7 @@ func (c *Entities) View(ctx context.Contexer) (int, interface{}) {
 	}
 
 	result := make(map[string]interface{})
-	code, err := droxolite.DoGET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Entity.API", "info", key.String())
+	code, err := do.GET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Entity.API", "info", key.String())
 
 	if err != nil {
 		log.Println(err)

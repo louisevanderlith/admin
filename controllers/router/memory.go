@@ -4,18 +4,18 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/louisevanderlith/droxolite"
 	"github.com/louisevanderlith/droxolite/context"
+	"github.com/louisevanderlith/droxolite/do"
 )
 
 type Memory struct {
 }
 
-func (c *Memory) Default(ctx context.Contexer) (int, interface{}) {
+func (c *Memory) Get(ctx context.Requester) (int, interface{}) {
 	//c.Setup("memory", "Memory", true)
 
 	result := make(map[string]interface{})
-	code, err := droxolite.DoGET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Router.API", "memory")
+	code, err := do.GET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Router.API", "memory")
 
 	if err != nil {
 		log.Println(err)

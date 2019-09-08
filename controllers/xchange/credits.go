@@ -4,27 +4,27 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/louisevanderlith/droxolite"
 	"github.com/louisevanderlith/droxolite/context"
+	"github.com/louisevanderlith/droxolite/do"
 	"github.com/louisevanderlith/husk"
 )
 
 type Credits struct {
 }
 
-func (c *Credits) Default(ctx context.Contexer) (int, interface{}) {
+func (c *Credits) Get(ctx context.Requester) (int, interface{}) {
 	//c.Setup("credits", "Credits", true)
 
 	return http.StatusNotImplemented, nil
 }
 
-func (c *Credits) Search(ctx context.Contexer) (int, interface{}) {
+func (c *Credits) Search(ctx context.Requester) (int, interface{}) {
 	//c.Setup("credits", "Credits", true)
 
 	return http.StatusNotImplemented, nil
 }
 
-func (c *Credits) View(ctx context.Contexer) (int, interface{}) {
+func (c *Credits) View(ctx context.Requester) (int, interface{}) {
 	//c.Setup("creditView", "View Credit", false)
 
 	key, err := husk.ParseKey(ctx.FindParam("key"))
@@ -34,7 +34,7 @@ func (c *Credits) View(ctx context.Contexer) (int, interface{}) {
 	}
 
 	result := make(map[string]interface{})
-	code, err := droxolite.DoGET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "XChange.API", "???", key.String())
+	code, err := do.GET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "XChange.API", "???", key.String())
 
 	if err != nil {
 		log.Println(err)

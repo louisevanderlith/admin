@@ -9,7 +9,7 @@ import (
 type History struct {
 }
 
-func (req *History) Default(ctx context.Contexer) (int, interface{}) {
+func (req *History) Get(ctx context.Requester) (int, interface{}) {
 	//req.Setup("history", "History", false)
 
 	return http.StatusOK, nil

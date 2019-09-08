@@ -4,21 +4,21 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/louisevanderlith/droxolite"
 	"github.com/louisevanderlith/droxolite/context"
+	"github.com/louisevanderlith/droxolite/do"
 	"github.com/louisevanderlith/husk"
 )
 
 type Accounts struct {
 }
 
-func (c *Accounts) Default(ctx context.Contexer) (int, interface{}) {
+func (c *Accounts) Get(ctx context.Requester) (int, interface{}) {
 	//c.Setup("accounts", "Accounts", true)
 
 	var result []interface{}
 	pagesize := "A10"
 
-	code, err := droxolite.DoGET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Funds.API", "account", "all", pagesize)
+	code, err := do.GET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Funds.API", "account", pagesize)
 
 	if err != nil {
 		log.Println(err)
@@ -28,13 +28,13 @@ func (c *Accounts) Default(ctx context.Contexer) (int, interface{}) {
 	return http.StatusOK, result
 }
 
-func (c *Accounts) Search(ctx context.Contexer) (int, interface{}) {
+func (c *Accounts) Search(ctx context.Requester) (int, interface{}) {
 	//c.Setup("accounts", "Accounts", true)
 
 	var result []interface{}
 	pagesize := ctx.FindParam("pagesize")
 
-	code, err := droxolite.DoGET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Funds.API", "account", "all", pagesize)
+	code, err := do.GET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Funds.API", "account", pagesize)
 
 	if err != nil {
 		log.Println(err)
@@ -44,7 +44,7 @@ func (c *Accounts) Search(ctx context.Contexer) (int, interface{}) {
 	return http.StatusOK, result
 }
 
-func (c *Accounts) View(ctx context.Contexer) (int, interface{}) {
+func (c *Accounts) View(ctx context.Requester) (int, interface{}) {
 	//c.Setup("accountEdit", "Edit Account", true)
 	//c.EnableSave()
 
@@ -55,7 +55,7 @@ func (c *Accounts) View(ctx context.Contexer) (int, interface{}) {
 	}
 
 	result := make(map[string]interface{})
-	code, err := droxolite.DoGET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Funds.API", "account", key.String())
+	code, err := do.GET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Funds.API", "account", key.String())
 
 	if err != nil {
 		log.Println(err)
