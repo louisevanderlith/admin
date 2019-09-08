@@ -57,7 +57,7 @@
                     <label class="file-label">
                         <input class="file-input" type="file" multiple="false" data-for="logo" data-name="Profile"
                             data-id="{{.Data.ImageKey}}" accept=".jpg, .jpeg, .png" id="uplProfileImg"
-                            placeholder="Profile Image" {{if eq .Data.ImageKey 0`0}} required {{end}} />
+                            placeholder="Profile Image" {{if eq (print .Data.ImageKey) "0`0" }} required {{end}} />
                         <p class="help is-danger"></p>
                         <span class="file-cta">
                             <span class="file-icon">
@@ -68,7 +68,7 @@
                             </span>
                         </span>
                 </div>
-                <input type="image" id="uplProfileView" class='image {{if eq .Data.ImageKey "0`0"}} is-hidden {{end}}'
+                <input type="image" id="uplProfileView" class='image {{if eq (print .Data.ImageKey) "0`0"}} is-hidden {{end}}'
                     src="https://artifact{{.Identity.Host}}download/{{.Data.ImageKey}}" alt="profile image" />
                 <p class="help is-danger"></p>
             </div>
