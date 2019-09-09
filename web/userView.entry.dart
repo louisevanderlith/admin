@@ -5,5 +5,5 @@ void main() {
   print('Running User View');
 
   new RolesForm(
-      "#frmRoleCreate", getObjKey(), "#btnSave", "#btnAddRole", "#tblRoles");
+      "#frmRoleCreate", getObjKey(), "#btnSubmit", "#btnAddRole", "#tblRoles");
 }
