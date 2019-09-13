@@ -9,11 +9,8 @@ import 'package:mango_ui/formstate.dart';
 
 import 'package:mango_ui/services/profileapi.dart';
 import 'headerform.dart';
-import 'models/headeritem.dart';
 import 'portfolioform.dart';
-import 'models/portfolioitem.dart';
 import 'socialmediaform.dart';
-import 'models/socialmediaitem.dart';
 import 'package:mango_ui/services/uploadapi.dart';
 
 class ProfileForm extends FormState {
@@ -118,7 +115,7 @@ class ProfileForm extends FormState {
       var req = await updateProfile(_objKey, data);
 
       final resp = jsonDecode(req.response);
-
+      
       if (req.status == 200) {
         window.alert(resp['Data']);
       } else {

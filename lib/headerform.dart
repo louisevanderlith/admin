@@ -6,13 +6,10 @@ import 'package:mango_ui/formstate.dart';
 import 'package:mango_ui/trustvalidator.dart';
 import 'models/headeritem.dart';
 
-class HeaderForm extends FormState {
-  List<Header> _items;
-  
+class HeaderForm extends FormState {  
   HeaderForm(String idElem, String btnSubmit, String btnAdd)
       : super(idElem, btnSubmit) {
-    _items = findHeaders();
-
+        findHeaders();
     querySelector(btnAdd).onClick.listen(onAddClick);
   }
 
@@ -21,7 +18,7 @@ class HeaderForm extends FormState {
   }
 
   List<Header> get items {
-    return _items;
+    return findHeaders();
   }
 
   void addHeader() {
@@ -31,10 +28,10 @@ class HeaderForm extends FormState {
     var schema = buildElement(indx);
     form.children.add(schema);
 
-    var item = new HeaderItem("#uplHeaderImg${indx}",
+    /*var item = new HeaderItem("#uplHeaderImg${indx}",
         "#txtHeaderHeading${indx}", "#txtHeaderText${indx}");
 
-    _items.add(item.toDTO());
+    _items.add(item.toDTO());*/
   }
 
   List<Header> findHeaders() {
