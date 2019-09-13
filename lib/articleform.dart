@@ -27,8 +27,6 @@ class ArticleForm extends FormState {
       String imageElem,
       String authorElem,
       String publicElem,
-      String previewBtn,
-      String publishBtn,
       String submitBtn)
       : super(idElem, submitBtn) {
     _objKey = objKey;
@@ -41,8 +39,8 @@ class ArticleForm extends FormState {
     _public = querySelector(publicElem);
 
     querySelector(submitBtn).onClick.listen(onSubmitClick);
-    querySelector(previewBtn).onClick.listen(onPreviewClick);
-    querySelector(publishBtn).onClick.listen(onPublishClick);
+    //querySelector(previewBtn).onClick.listen(onPreviewClick);
+    //querySelector(publishBtn).onClick.listen(onPublishClick);
 
     _headImage.onChange.listen(uploadFile);
 
@@ -88,7 +86,7 @@ class ArticleForm extends FormState {
           title, intro, category, imageKey, content, writtenby, public);
 
       HttpRequest req;
-      if (_objKey != null) {
+      if (_objKey.toJson() != "0`0") {
         req = await updateArticle(_objKey, obj);
       } else {
         req = await createArticle(obj);
