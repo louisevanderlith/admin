@@ -48,10 +48,7 @@ class PortfolioForm extends FormState {
     var schema = buildElement(indx);
     form.children.add(schema);
 
-   /* var item = new PortfolioItem('#uplPortfolioImg${indx}',
-        '#txtPortfolioName${indx}', '#txtPortfolioURL${indx}');
-
-    _items.add(item.toDTO());*/
+    findPortfolios();
   }
 
   //returns HTML for a Portfolio Item
@@ -59,13 +56,6 @@ class PortfolioForm extends FormState {
     var schema = '''
       <div class="card">
             <header class="card-header">
-                <p class="card-header-title">
-                    <div class="control">
-                        <input type="text" class="input" id="txtHeaderHeading${index}" required placeholder="Heading"
-                            value="" />
-                        <p class="help is-danger"></p>
-                    </div>
-                </p>
                 <a href="#" data-liID="liPortfolio${index}" class="card-header-icon" aria-label="more options">
                     <span class="icon">
                         <i class="fa fa-close" aria-hidden="true"></i>

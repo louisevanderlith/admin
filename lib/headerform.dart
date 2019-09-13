@@ -27,11 +27,6 @@ class HeaderForm extends FormState {
 
     var schema = buildElement(indx);
     form.children.add(schema);
-
-    /*var item = new HeaderItem("#uplHeaderImg${indx}",
-        "#txtHeaderHeading${indx}", "#txtHeaderText${indx}");
-
-    _items.add(item.toDTO());*/
   }
 
   List<Header> findHeaders() {

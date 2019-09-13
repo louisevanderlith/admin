@@ -5,13 +5,6 @@
         {{range $key, $val := .Data.PortfolioItems}}
         <div class="card">
             <header class="card-header">
-                <p class="card-header-title">
-                    <div class="control">
-                        <input type="text" class="input" id="txtHeaderHeading{{$key}}" required placeholder="Heading"
-                            value="{{$val.Heading}}" />
-                        <p class="help is-danger"></p>
-                    </div>
-                </p>
                 <a href="#" data-liID="liPortfolio{{$key}}" class="card-header-icon" aria-label="more options">
                     <span class="icon">
                         <i class="fa fa-close" aria-hidden="true"></i>
