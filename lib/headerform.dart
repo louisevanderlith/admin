@@ -27,6 +27,8 @@ class HeaderForm extends FormState {
 
     var schema = buildElement(indx);
     form.children.add(schema);
+
+    findHeaders();
   }
 
   List<Header> findHeaders() {

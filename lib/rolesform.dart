@@ -11,13 +11,12 @@ import 'models/roleitem.dart';
 
 class RolesForm extends FormState {
   Element _tblRoles;
-  List<Role> _items;
   Key _objKey;
 
   RolesForm(String idElem, Key objKey, String btnSubmit, String btnAdd,
       String tblRoles)
       : super(idElem, btnSubmit) {
-    _items = findRoles();
+    findRoles();
     _tblRoles = querySelector(tblRoles);
     _objKey = objKey;
 
@@ -36,13 +35,18 @@ class RolesForm extends FormState {
     if (isFormValid()) {
       disableSubmit(true);
       final req = await updateRoles(_objKey, items);
+
+      if(req.status == 200){
       var result = jsonDecode(req.response);
       window.alert(result);
+      } else {
+        window.alert(req.response);
+      }
     }
   }
 
   List<Role> get items {
-    return _items;
+    return findRoles();
   }
 
   List<Role> findRoles() {
@@ -71,7 +75,6 @@ class RolesForm extends FormState {
 
     _tblRoles.children.add(obj.toHtml(indx));
 
-    var item = new RoleItem('#lblAppName${indx}', 'input[name=answer${indx}]');
-    _items.add(item.role);
+    findRoles();
   }
 }

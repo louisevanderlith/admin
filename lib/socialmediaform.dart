@@ -47,10 +47,7 @@ class SocialmediaForm extends FormState {
     var schema = buildElement(indx);
     form.children.add(schema);
 
- /*   var item =
-        new SocialmediaItem('#txtSocialIcon${indx}', '#txtSocialURL${indx}');
-
-    _items.add(item.toDTO());*/
+    findSocials();
   }
 
   //returns HTML for a SocialMedia Item
