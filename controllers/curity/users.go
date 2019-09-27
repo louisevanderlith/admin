@@ -97,3 +97,28 @@ func (c *Users) View(ctx context.Requester) (int, interface{}) {
 
 	return http.StatusOK, result
 }
+
+func (c *Users) Create(ctx context.Requester) (int, interface{}) {
+	result := make(map[string]interface{})
+
+	resultRouter := make(map[string]struct{})
+	code, err := do.GET(ctx.GetMyToken(), &resultRouter, ctx.GetInstanceID(), "Router.API", "memory", "apps")
+
+	if err != nil {
+		log.Println(err)
+		return code, err
+	}
+
+	result["Router"] = resultRouter
+
+	resultOpts := make(map[string]struct{})
+
+	for name := range resultRouter {
+		resultOpts[name] = struct{}{}
+	}
+
+	result["Options"] = resultOpts
+
+	return http.StatusOK, result
+}
+

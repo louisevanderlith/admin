@@ -50,7 +50,7 @@ func (c *Articles) View(ctx context.Requester) (int, interface{}) {
 	result := make(map[string]interface{})
 	code, err := do.GET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Blog.API", "article", key.String())
 
-	if err != nil {
+	if err != nil { 
 		log.Println(err)
 		return code, err
 	}
