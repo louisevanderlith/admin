@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:html';
+import 'package:dart_toast/dart_toast.dart';
 import 'package:mango_ui/bodies/header.dart';
 import 'package:mango_ui/bodies/key.dart';
 import 'package:mango_ui/bodies/portfolio.dart';
@@ -89,7 +90,7 @@ class ProfileForm extends FormState {
   String get gtag {
     return _gtag.value;
   }
-  
+
   Key get imageKey {
     return new Key(_image.dataset["id"]);
   }
@@ -110,16 +111,27 @@ class ProfileForm extends FormState {
     if (isFormValid()) {
       disableSubmit(true);
 
-      final data = new Profile(name, description, email, phone, url, gtag,
+      final obj = new Profile(name, description, email, phone, url, gtag,
           imageKey, portfolioItems, socialmediaItems, headerItems);
-      var req = await updateProfile(_objKey, data);
 
-      final resp = jsonDecode(req.response);
-      
-      if (req.status == 200) {
-        window.alert(resp['Data']);
+      HttpRequest req;
+      if (_objKey.toJson() != "0`0") {
+        req = await updateProfile(_objKey, obj);
       } else {
-        _error.text = resp['Error'];
+        req = await createProfile(obj);
+      }
+      var content = jsonDecode(req.response);
+
+      if (req.status == 200) {
+        new Toast.success(
+            title: "Success!",
+            message: content['Data'],
+            position: ToastPos.bottomLeft);
+      } else {
+        new Toast.error(
+            title: "Error!",
+            message: content['Error'],
+            position: ToastPos.bottomLeft);
       }
     }
   }
