@@ -1,7 +1,7 @@
 <div class="content">
     <button type="button" class="button is-info is-small" id="btnAddHeader">Add Row</button>
     <form id="frmHeader" role="form">
-        {{$host := .Identity.Host}}
+        {{$host := .Oper.Host}}
         {{range $key, $val := .Data.Headers}}
         <div class="card">
             <header class="card-header">

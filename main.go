@@ -15,6 +15,8 @@ import (
 	"github.com/louisevanderlith/droxolite/servicetype"
 )
 
+
+/*
 func main() {
 	keyPath := os.Getenv("KEYPATH")
 	pubName := os.Getenv("PUBLICKEY")
@@ -72,3 +74,4 @@ func main() {
 		panic(err)
 	}
 }
+*/
