@@ -2,8 +2,8 @@ import 'dart:html';
 
 import 'package:mango_ui/bodies/header.dart';
 import 'package:mango_ui/formstate.dart';
-
 import 'package:mango_ui/trustvalidator.dart';
+
 import 'models/headeritem.dart';
 
 class HeaderForm extends FormState {  

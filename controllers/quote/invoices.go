@@ -2,8 +2,6 @@ package quote
 
 import (
 	"net/http"
-
-	"github.com/louisevanderlith/droxolite/context"
 )
 
 type Invoices struct {

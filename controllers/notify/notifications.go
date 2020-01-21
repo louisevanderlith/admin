@@ -2,8 +2,6 @@ package logbook
 
 import (
 	"net/http"
-
-	"github.com/louisevanderlith/droxolite/context"
 )
 
 type Notifications struct {

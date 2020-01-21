@@ -1,21 +1,5 @@
 package main
 
-import (
-	"os"
-	"path"
-	"strconv"
-
-	"github.com/louisevanderlith/admin/controllers"
-	"github.com/louisevanderlith/admin/routers"
-	"github.com/louisevanderlith/droxolite"
-	"github.com/louisevanderlith/droxolite/bodies"
-	"github.com/louisevanderlith/droxolite/do"
-	"github.com/louisevanderlith/droxolite/element"
-	"github.com/louisevanderlith/droxolite/resins"
-	"github.com/louisevanderlith/droxolite/servicetype"
-)
-
-
 /*
 func main() {
 	keyPath := os.Getenv("KEYPATH")
