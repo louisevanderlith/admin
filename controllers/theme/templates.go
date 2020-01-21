@@ -12,7 +12,7 @@ import (
 type Templates struct {
 }
 
-func (c *Templates) Get(ctx context.Requester) (int, interface{}) {
+func (c *Templates) Get(c *gin.Context) {
 	//c.Setup("templates", "Templates", false)
 
 	var result []interface{}
@@ -26,7 +26,7 @@ func (c *Templates) Get(ctx context.Requester) (int, interface{}) {
 	return http.StatusOK, result
 }
 
-func (c *Templates) Search(ctx context.Requester) (int, interface{}) {
+func (c *Templates) Search(c *gin.Context) {
 	var result []interface{}
 	code, err := do.GET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Theme.API", "asset", "html")
 
@@ -38,8 +38,8 @@ func (c *Templates) Search(ctx context.Requester) (int, interface{}) {
 	return http.StatusOK, result
 }
 
-func (c *Templates) View(ctx context.Requester) (int, interface{}) {
-	key, err := husk.ParseKey(ctx.FindParam("key"))
+func (c *Templates) View(c *gin.Context) {
+	key, err := husk.ParseKey(c.Param("key"))
 
 	if err != nil {
 		return http.StatusBadRequest, err

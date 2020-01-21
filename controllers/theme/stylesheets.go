@@ -12,7 +12,7 @@ import (
 type Stylesheets struct {
 }
 
-func (c *Stylesheets) Get(ctx context.Requester) (int, interface{}) {
+func (c *Stylesheets) Get(c *gin.Context) {
 	//c.Setup("stylesheets", "Stylesheets", false)
 
 	var result []interface{}
@@ -26,7 +26,7 @@ func (c *Stylesheets) Get(ctx context.Requester) (int, interface{}) {
 	return http.StatusOK, result
 }
 
-func (c *Stylesheets) Search(ctx context.Requester) (int, interface{}) {
+func (c *Stylesheets) Search(c *gin.Context) {
 	//c.Setup("stylesheets", "Stylesheets", false)
 
 	var result []interface{}
@@ -40,8 +40,8 @@ func (c *Stylesheets) Search(ctx context.Requester) (int, interface{}) {
 	return http.StatusOK, result
 }
 
-func (c *Stylesheets) View(ctx context.Requester) (int, interface{}) {
-	key, err := husk.ParseKey(ctx.FindParam("key"))
+func (c *Stylesheets) View(c *gin.Context) {
+	key, err := husk.ParseKey(c.Param("key"))
 
 	if err != nil {
 		return http.StatusBadRequest, err

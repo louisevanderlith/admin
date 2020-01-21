@@ -12,7 +12,7 @@ import (
 type VIN struct {
 }
 
-func (c *VIN) Get(ctx context.Requester) (int, interface{}) {
+func (c *VIN) Get(c *gin.Context) {
 	//c.Setup("vins", "VIN Numbers", true)
 
 	var result []interface{}
@@ -28,11 +28,11 @@ func (c *VIN) Get(ctx context.Requester) (int, interface{}) {
 	return http.StatusOK, result
 }
 
-func (c *VIN) Search(ctx context.Requester) (int, interface{}) {
+func (c *VIN) Search(c *gin.Context) {
 	//c.Setup("vins", "VIN Numbers", true)
 
 	var result []interface{}
-	pagesize := ctx.FindParam("pagesize")
+	pagesize := c.Param("pagesize")
 
 	code, err := do.GET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "VIN.API", "admin", pagesize)
 
@@ -44,10 +44,10 @@ func (c *VIN) Search(ctx context.Requester) (int, interface{}) {
 	return http.StatusOK, result
 }
 
-func (c *VIN) View(ctx context.Requester) (int, interface{}) {
+func (c *VIN) View(c *gin.Context) {
 	//c.Setup("vinView", "View VIN", false)
 
-	key, err := husk.ParseKey(ctx.FindParam("key"))
+	key, err := husk.ParseKey(c.Param("key"))
 
 	if err != nil {
 		return http.StatusBadRequest, err

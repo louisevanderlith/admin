@@ -12,7 +12,7 @@ import (
 type Profiles struct {
 }
 
-func (c *Profiles) Get(ctx context.Requester) (int, interface{}) {
+func (c *Profiles) Get(c *gin.Context) {
 	var result []interface{}
 	pagesize := "A10"
 
@@ -26,9 +26,9 @@ func (c *Profiles) Get(ctx context.Requester) (int, interface{}) {
 	return http.StatusOK, result
 }
 
-func (c *Profiles) Search(ctx context.Requester) (int, interface{}) {
+func (c *Profiles) Search(c *gin.Context) {
 	var result []interface{}
-	pagesize := ctx.FindParam("pagesize")
+	pagesize := c.Param("pagesize")
 
 	code, err := do.GET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Folio.API", "profile", pagesize)
 
@@ -40,8 +40,8 @@ func (c *Profiles) Search(ctx context.Requester) (int, interface{}) {
 	return http.StatusOK, result
 }
 
-func (c *Profiles) View(ctx context.Requester) (int, interface{}) {
-	key, err := husk.ParseKey(ctx.FindParam("key"))
+func (c *Profiles) View(c *gin.Context) {
+	key, err := husk.ParseKey(c.Param("key"))
 
 	if err != nil {
 		return http.StatusBadRequest, err
@@ -58,6 +58,6 @@ func (c *Profiles) View(ctx context.Requester) (int, interface{}) {
 	return http.StatusOK, result
 }
 
-func (c *Profiles) Create(ctx context.Requester) (int, interface{}) {
+func (c *Profiles) Create(c *gin.Context) {
 	return http.StatusOK, nil
 }

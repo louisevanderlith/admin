@@ -12,22 +12,22 @@ import (
 type Credits struct {
 }
 
-func (c *Credits) Get(ctx context.Requester) (int, interface{}) {
+func (c *Credits) Get(c *gin.Context) {
 	//c.Setup("credits", "Credits", true)
 
 	return http.StatusNotImplemented, nil
 }
 
-func (c *Credits) Search(ctx context.Requester) (int, interface{}) {
+func (c *Credits) Search(c *gin.Context) {
 	//c.Setup("credits", "Credits", true)
 
 	return http.StatusNotImplemented, nil
 }
 
-func (c *Credits) View(ctx context.Requester) (int, interface{}) {
+func (c *Credits) View(c *gin.Context) {
 	//c.Setup("creditView", "View Credit", false)
 
-	key, err := husk.ParseKey(ctx.FindParam("key"))
+	key, err := husk.ParseKey(c.Param("key"))
 
 	if err != nil {
 		return http.StatusBadRequest, err

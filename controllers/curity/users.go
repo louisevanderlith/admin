@@ -13,7 +13,7 @@ import (
 type Users struct {
 }
 
-func (c *Users) Get(ctx context.Requester) (int, interface{}) {
+func (c *Users) Get(c *gin.Context) {
 	//.Setup("users", "Users", false)
 
 	var result []interface{}
@@ -29,11 +29,11 @@ func (c *Users) Get(ctx context.Requester) (int, interface{}) {
 	return http.StatusOK, result
 }
 
-func (c *Users) Search(ctx context.Requester) (int, interface{}) {
+func (c *Users) Search(c *gin.Context) {
 	//c.Setup("users", "Users", false)
 
 	var result []interface{}
-	pagesize := ctx.FindParam("pagesize")
+	pagesize := c.Param("pagesize")
 
 	code, err := do.GET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Secure.API", "user", pagesize)
 
@@ -45,11 +45,11 @@ func (c *Users) Search(ctx context.Requester) (int, interface{}) {
 	return http.StatusOK, result
 }
 
-func (c *Users) View(ctx context.Requester) (int, interface{}) {
+func (c *Users) View(c *gin.Context) {
 	//c.Setup("userView", "View User", true)
 	//c.EnableSave()
 
-	key, err := husk.ParseKey(ctx.FindParam("key"))
+	key, err := husk.ParseKey(c.Param("key"))
 
 	if err != nil {
 		return http.StatusBadRequest, err
@@ -98,7 +98,7 @@ func (c *Users) View(ctx context.Requester) (int, interface{}) {
 	return http.StatusOK, result
 }
 
-func (c *Users) Create(ctx context.Requester) (int, interface{}) {
+func (c *Users) Create(c *gin.Context) {
 	result := make(map[string]interface{})
 
 	resultRouter := make(map[string]struct{})

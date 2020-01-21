@@ -12,7 +12,7 @@ import (
 type Heroes struct {
 }
 
-func (c *Heroes) Get(ctx context.Requester) (int, interface{}) {
+func (c *Heroes) Get(c *gin.Context) {
 	//c.Setup("heroes", "Heroes", true)
 
 	var result []interface{}
@@ -28,11 +28,11 @@ func (c *Heroes) Get(ctx context.Requester) (int, interface{}) {
 	return http.StatusOK, result
 }
 
-func (c *Heroes) Search(ctx context.Requester) (int, interface{}) {
+func (c *Heroes) Search(c *gin.Context) {
 	//c.Setup("heroes", "Heroes", true)
 
 	var result []interface{}
-	pagesize := ctx.FindParam("pagesize")
+	pagesize := c.Param("pagesize")
 
 	code, err := do.GET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Game.API", "hero", pagesize)
 
@@ -44,11 +44,11 @@ func (c *Heroes) Search(ctx context.Requester) (int, interface{}) {
 	return http.StatusOK, result
 }
 
-func (c *Heroes) View(ctx context.Requester) (int, interface{}) {
+func (c *Heroes) View(c *gin.Context) {
 	//c.Setup("heroView", "View Hero", true)
 	//c.EnableSave()
 
-	key, err := husk.ParseKey(ctx.FindParam("key"))
+	key, err := husk.ParseKey(c.Param("key"))
 
 	if err != nil {
 		return http.StatusBadRequest, err

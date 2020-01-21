@@ -12,7 +12,7 @@ import (
 type Messages struct {
 }
 
-func (c *Messages) Get(ctx context.Requester) (int, interface{}) {
+func (c *Messages) Get(c *gin.Context) {
 	var result []interface{}
 	code, err := do.GET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Comms.API", "messages", "A10")
 
@@ -24,9 +24,9 @@ func (c *Messages) Get(ctx context.Requester) (int, interface{}) {
 	return http.StatusOK, result
 }
 
-func (c *Messages) Search(ctx context.Requester) (int, interface{}) {
+func (c *Messages) Search(c *gin.Context) {
 	var result []interface{}
-	pagesize := ctx.FindParam("pagesize")
+	pagesize := c.Param("pagesize")
 	code, err := do.GET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Comms.API", "messages", pagesize)
 
 	if err != nil {
@@ -37,8 +37,8 @@ func (c *Messages) Search(ctx context.Requester) (int, interface{}) {
 	return http.StatusOK, result
 }
 
-func (c *Messages) View(ctx context.Requester) (int, interface{}) {
-	key, err := husk.ParseKey(ctx.FindParam("key"))
+func (c *Messages) View(c *gin.Context) {
+	key, err := husk.ParseKey(c.Param("key"))
 
 	if err != nil {
 		return http.StatusBadRequest, err

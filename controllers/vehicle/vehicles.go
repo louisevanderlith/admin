@@ -12,7 +12,7 @@ import (
 type Vehicles struct {
 }
 
-func (c *Vehicles) Get(ctx context.Requester) (int, interface{}) {
+func (c *Vehicles) Get(c *gin.Context) {
 	//c.Setup("vehicles", "Vehicles", true)
 
 	var result []interface{}
@@ -28,11 +28,11 @@ func (c *Vehicles) Get(ctx context.Requester) (int, interface{}) {
 	return http.StatusOK, result
 }
 
-func (c *Vehicles) Search(ctx context.Requester) (int, interface{}) {
+func (c *Vehicles) Search(c *gin.Context) {
 	//c.Setup("vehicles", "Vehicles", true)
 
 	var result []interface{}
-	pagesize := ctx.FindParam("pagesize")
+	pagesize := c.Param("pagesize")
 
 	code, err := do.GET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Vehicle.API", "vehicle", pagesize)
 
@@ -44,9 +44,9 @@ func (c *Vehicles) Search(ctx context.Requester) (int, interface{}) {
 	return http.StatusOK, result
 }
 
-func (c *Vehicles) View(ctx context.Requester) (int, interface{}) {
+func (c *Vehicles) View(c *gin.Context) {
 	//c.Setup("vehicleView", "View Vehicle", false)
-	key, err := husk.ParseKey(ctx.FindParam("key"))
+	key, err := husk.ParseKey(c.Param("key"))
 
 	if err != nil {
 		return http.StatusBadRequest, err

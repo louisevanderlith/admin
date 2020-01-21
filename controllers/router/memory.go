@@ -11,7 +11,7 @@ import (
 type Memory struct {
 }
 
-func (c *Memory) Get(ctx context.Requester) (int, interface{}) {
+func (c *Memory) Get(c *gin.Context) {
 	//c.Setup("memory", "Memory", true)
 
 	result := make(map[string]interface{})

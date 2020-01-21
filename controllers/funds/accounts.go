@@ -12,7 +12,7 @@ import (
 type Accounts struct {
 }
 
-func (c *Accounts) Get(ctx context.Requester) (int, interface{}) {
+func (c *Accounts) Get(c *gin.Context) {
 	//c.Setup("accounts", "Accounts", true)
 
 	var result []interface{}
@@ -28,11 +28,11 @@ func (c *Accounts) Get(ctx context.Requester) (int, interface{}) {
 	return http.StatusOK, result
 }
 
-func (c *Accounts) Search(ctx context.Requester) (int, interface{}) {
+func (c *Accounts) Search(c *gin.Context) {
 	//c.Setup("accounts", "Accounts", true)
 
 	var result []interface{}
-	pagesize := ctx.FindParam("pagesize")
+	pagesize := c.Param("pagesize")
 
 	code, err := do.GET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Funds.API", "account", pagesize)
 
@@ -44,11 +44,11 @@ func (c *Accounts) Search(ctx context.Requester) (int, interface{}) {
 	return http.StatusOK, result
 }
 
-func (c *Accounts) View(ctx context.Requester) (int, interface{}) {
+func (c *Accounts) View(c *gin.Context) {
 	//c.Setup("accountEdit", "Edit Account", true)
 	//c.EnableSave()
 
-	key, err := husk.ParseKey(ctx.FindParam("key"))
+	key, err := husk.ParseKey(c.Param("key"))
 
 	if err != nil {
 		return http.StatusBadRequest, err

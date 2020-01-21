@@ -12,7 +12,7 @@ import (
 type Entities struct {
 }
 
-func (c *Entities) Get(ctx context.Requester) (int, interface{}) {
+func (c *Entities) Get(c *gin.Context) {
 	//c.Setup("entity", "Entity", true)
 
 	var result []interface{}
@@ -28,11 +28,11 @@ func (c *Entities) Get(ctx context.Requester) (int, interface{}) {
 	return http.StatusOK, result
 }
 
-func (c *Entities) Search(ctx context.Requester) (int, interface{}) {
+func (c *Entities) Search(c *gin.Context) {
 	//c.Setup("entity", "Entity", true)
 
 	var result []interface{}
-	pagesize := ctx.FindParam("pagesize")
+	pagesize := c.Param("pagesize")
 
 	code, err := do.GET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Entity.API", "info", pagesize)
 
@@ -44,11 +44,11 @@ func (c *Entities) Search(ctx context.Requester) (int, interface{}) {
 	return http.StatusOK, result
 }
 
-func (c *Entities) View(ctx context.Requester) (int, interface{}) {
+func (c *Entities) View(c *gin.Context) {
 	//c.Setup("entityEdit", "Edit Entity", true)
 	//c.EnableSave()
 
-	key, err := husk.ParseKey(ctx.FindParam("key"))
+	key, err := husk.ParseKey(c.Param("key"))
 
 	if err != nil {
 		return http.StatusBadRequest, err

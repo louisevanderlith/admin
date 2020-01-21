@@ -12,7 +12,7 @@ import (
 type Regions struct {
 }
 
-func (c *Regions) Get(ctx context.Requester) (int, interface{}) {
+func (c *Regions) Get(c *gin.Context) {
 	//c.Setup("regions", "VIN Regions", true)
 	var result []interface{}
 	pagesize := "A10"
@@ -27,10 +27,10 @@ func (c *Regions) Get(ctx context.Requester) (int, interface{}) {
 	return http.StatusOK, result
 }
 
-func (c *Regions) Search(ctx context.Requester) (int, interface{}) {
+func (c *Regions) Search(c *gin.Context) {
 	//c.Setup("regions", "VIN Regions", true)
 	var result []interface{}
-	pagesize := ctx.FindParam("pagesize")
+	pagesize := c.Param("pagesize")
 
 	code, err := do.GET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "VIN.API", "region", pagesize)
 
@@ -42,9 +42,9 @@ func (c *Regions) Search(ctx context.Requester) (int, interface{}) {
 	return http.StatusOK, result
 }
 
-func (c *Regions) View(ctx context.Requester) (int, interface{}) {
+func (c *Regions) View(c *gin.Context) {
 	//c.Setup("regionEdit", "Edit Region", false)
-	key, err := husk.ParseKey(ctx.FindParam("key"))
+	key, err := husk.ParseKey(c.Param("key"))
 
 	if err != nil {
 		return http.StatusBadRequest, err
