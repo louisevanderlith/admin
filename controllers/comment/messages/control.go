@@ -1,13 +1,12 @@
-package comment
+package messages
 
 import (
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/louisevanderlith/droxo"
-	"net/http"
-
 	"github.com/louisevanderlith/husk"
+	"net/http"
 )
 
 func Get(c *gin.Context) {
@@ -90,3 +89,4 @@ func View(c *gin.Context) {
 
 	c.HTML(http.StatusOK, "commentView.html", droxo.Wrap("CommentView", result))
 }
+

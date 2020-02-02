@@ -1,16 +1,16 @@
 package controllers
 
 import (
+	"github.com/gin-gonic/gin"
+	"github.com/louisevanderlith/droxo"
 	"net/http"
-
-	"github.com/louisevanderlith/droxolite/context"
 )
 
-func Index(ctx context.Requester) (int, interface{}) {
+func Index(c *gin.Context) {
 	result := make(map[string]string)
 	result["Comms.API"] = "/comms/messages/A10"
 	result["Router.API"] = "/router/memory"
 	result["Folio.API"] = "/folio/profiles/A10"
 
-	return http.StatusOK, result
+	c.HTML(http.StatusOK, "index.html", droxo.Wrap("Index", result))
 }

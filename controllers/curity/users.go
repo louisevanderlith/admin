@@ -1,12 +1,12 @@
 package curity
 
 import (
+	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
 
 	"github.com/louisevanderlith/droxolite/do"
 	"github.com/louisevanderlith/husk"
-	secure "github.com/louisevanderlith/secure/core"
 )
 
 type Users struct {

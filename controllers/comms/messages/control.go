@@ -1,19 +1,18 @@
-package articles
+package messages
 
 import (
 	"encoding/json"
 	"fmt"
-	"net/http"
-
 	"github.com/gin-gonic/gin"
 	"github.com/louisevanderlith/droxo"
 	"github.com/louisevanderlith/husk"
+	"net/http"
 )
 
 func Get(c *gin.Context) {
 	pagesize := "A10"
 
-	uplURL := fmt.Sprintf("%sarticles/%s/", droxo.UriBlog, pagesize)
+	uplURL := fmt.Sprintf("%smessages/%s/", droxo.UriComms, pagesize)
 	resp, err := http.Get(uplURL)
 
 	if err != nil {
@@ -32,13 +31,14 @@ func Get(c *gin.Context) {
 		return
 	}
 
-	c.HTML(http.StatusOK, "articles", droxo.Wrap("Articles", result))
+	c.HTML(http.StatusOK, "comms.html", droxo.Wrap("Comms", result))
 }
 
 func Search(c *gin.Context) {
 	pagesize := c.Param("pagesize")
-	hash := c.Param("hash")
-	uplURL := fmt.Sprintf("%sarticles/%s/%s", droxo.UriBlog, pagesize, hash)
+	hsh := c.Param("hash")
+
+	uplURL := fmt.Sprintf("%smessages/%s/%s", droxo.UriComms, pagesize, hsh)
 	resp, err := http.Get(uplURL)
 
 	if err != nil {
@@ -57,7 +57,7 @@ func Search(c *gin.Context) {
 		return
 	}
 
-	c.HTML(http.StatusOK, "articles.html", droxo.Wrap("Articles", result))
+	c.HTML(http.StatusOK, "comms.html", droxo.Wrap("Comms", result))
 }
 
 func View(c *gin.Context) {
@@ -68,7 +68,7 @@ func View(c *gin.Context) {
 		return
 	}
 
-	uplURL := fmt.Sprintf("%sarticle/%s", droxo.UriBlog, key)
+	uplURL := fmt.Sprintf("%smessage/%s", droxo.UriComms, key)
 	resp, err := http.Get(uplURL)
 
 	if err != nil {
@@ -87,9 +87,6 @@ func View(c *gin.Context) {
 		return
 	}
 
-	c.HTML(http.StatusOK, "articleView.html", droxo.Wrap("ArticleView", result))
+	c.HTML(http.StatusOK, "commsView.html", droxo.Wrap("CommsView", result))
 }
 
-func Create(c *gin.Context) {
-	c.HTML(http.StatusOK, "articleCreate.html", droxo.Wrap("ArticleCreate", nil))
-}

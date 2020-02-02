@@ -1,61 +1,78 @@
 package main
 
-/*
+import (
+	"fmt"
+	"github.com/gin-contrib/sessions"
+	"github.com/gin-contrib/sessions/memstore"
+	"github.com/gin-gonic/gin"
+	"github.com/louisevanderlith/admin/controllers"
+	"github.com/louisevanderlith/droxo"
+	"os"
+)
+
 func main() {
-	keyPath := os.Getenv("KEYPATH")
-	pubName := os.Getenv("PUBLICKEY")
+	prof := os.Getenv("PROFILE")
+
+	if len(prof) == 0 {
+		panic("invalid profile")
+	}
+
 	host := os.Getenv("HOST")
-	profile := os.Getenv("PROFILE")
-	httpport, _ := strconv.Atoi(os.Getenv("HTTPPORT"))
-	appName := os.Getenv("APPNAME")
-	pubPath := path.Join(keyPath, pubName)
+	authority := fmt.Sprintf("https://oauth2.%s", host)
 
-	// Register with router
-	srv := bodies.NewService(appName, profile, pubPath, host, httpport, servicetype.APP)
-
-	routr, err := do.GetServiceURL("", "Router.API", false)
+	droxo.AssignOperator(prof, host)
+	droxo.DefineClient("admin", "adminsecret", host, authority)
+	//Download latest Theme
+	err := droxo.UpdateTheme("http://theme:8093")
 
 	if err != nil {
 		panic(err)
 	}
 
-	err = srv.Register(routr)
+	r := gin.Default()
+
+	tmpl, err := droxo.LoadTemplates("./views")
 
 	if err != nil {
 		panic(err)
 	}
 
-	err = droxolite.UpdateTheme(srv.ID)
+	r.HTMLRender = tmpl
 
-	if err != nil {
-		panic(err)
-	}
+	store := memstore.NewStore([]byte("secret"))
+	r.Use(sessions.Sessions("auth-session", store))
+	r.Use(droxo.AuthorizeClient())
+	r.GET("/", controllers.Index)
 
-	theme, err := element.GetDefaultTheme(host, srv.ID, profile)
+	/*
+	e.JoinBundle("/artifact", roletype.Admin, mix.Page, &artifact.Uploads{})
+		e.JoinBundle("/blog", roletype.Admin, mix.Page, &blog.Articles{})
+		e.JoinBundle("/comment", roletype.Admin, mix.Page, &comment.Messages{})
+		e.JoinBundle("/comms", roletype.Admin, mix.Page, &comms.Messages{})
+		e.JoinBundle("/entity", roletype.Admin, mix.Page, &entity.Entities{})
+		e.JoinBundle("/folio", roletype.Admin, mix.Page, &folio.Profiles{})
+		e.JoinBundle("/funds", roletype.Admin, mix.Page, &funds.Accounts{})
+		e.JoinBundle("/game", roletype.Admin, mix.Page, &game.Heroes{})
+		//Gate
+		//Logbook
+		//Notify
+		e.JoinBundle("/router", roletype.Admin, mix.Page, &router.Memory{})
+		e.JoinBundle("/secure", roletype.Admin, mix.Page, &curity.Users{})
+		e.JoinBundle("/stock", roletype.Admin, mix.Page, &stock.Cars{}, &stock.Parts{}, &stock.Services{})
+		//Theme
+		e.JoinBundle("/vehicle", roletype.Admin, mix.Page, &vehicle.Vehicles{})
+		e.JoinBundle("/vin", roletype.Admin, mix.Page, &vin.VIN{}, &vin.Regions{})
 
-	if err != nil {
-		panic(err)
-	}
+		//XChange -- Needs more development
+		//xchangeGroup := routing.NewInterfaceBundle("XChange", roletype.Admin, &xchange.Credits{})
+		//e.AddBundle(xchangeGroup)
+	*/
 
-	secur, err := do.GetServiceURL(srv.ID, "Auth.APP", true)
+	r.POST("/oauth2", droxo.AuthCallback)
 
-	if err != nil {
-		panic(err)
-	}
-
-	err = theme.LoadTemplate("./views", "master.html")
-
-	if err != nil {
-		panic(err)
-	}
-
-	poxy := resins.NewColourEpoxy(srv, theme, secur, controllers.Index)
-	routers.Setup(poxy)
-
-	err = droxolite.Boot(poxy)
+	err = r.Run(":8088")
 
 	if err != nil {
 		panic(err)
 	}
 }
-*/
