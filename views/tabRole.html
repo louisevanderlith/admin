@@ -2,33 +2,33 @@
     <button class="button is-primary is-small" type="button" id="btnAddRole">Add Role</button>
     <table class="table is-lined is-bordered is-responsive is-fullwidth">
         <thead>
-            <tr>
-                <th>Application</th>
-                <th>Admin</th>
-                <th>Owner</th>
-                <th>User</th>
-            </tr>
+        <tr>
+            <th>Application</th>
+            <th>Admin</th>
+            <th>Owner</th>
+            <th>User</th>
+        </tr>
         </thead>
         <tfoot>
-            <tr>
-                <th>Application</th>
-                <th>Admin</th>
-                <th>Owner</th>
-                <th>User</th>
-            </tr>
+        <tr>
+            <th>Application</th>
+            <th>Admin</th>
+            <th>Owner</th>
+            <th>User</th>
+        </tr>
         </tfoot>
         <tbody id="tblRoles">
-            {{$services := .Data.Router}}
-            {{range $key, $val := .Data.User.Roles}}
+        {{$services := .Data.Router}}
+        {{range $key, $val := .Data.User.Roles}}
             <tr>
-                <td> 
+                <td>
                     <label id="lblAppName{{$key}}" class="label">{{$val.ApplicationName}}</label>
                 </td>
                 <td>
                     <div class="control">
                         <label class="radio">
                             <input type="radio" value="0" {{ if eq (print $val.Description) "0" }} checked {{end}}
-                                name="answer{{$key}}">
+                                   name="answer{{$key}}">
                         </label>
                     </div>
                 </td>
@@ -36,7 +36,7 @@
                     <div class="control">
                         <label class="radio">
                             <input type="radio" value="1" {{ if eq (print $val.Description) "1" }} checked {{end}}
-                                name="answer{{$key}}">
+                                   name="answer{{$key}}">
                         </label>
                     </div>
                 </td>
@@ -44,12 +44,12 @@
                     <div class="control">
                         <label class="radio">
                             <input type="radio" value="2" {{ if eq (print $val.Description) "2" }} checked {{end}}
-                                name="answer{{$key}}">
+                                   name="answer{{$key}}">
                         </label>
                     </div>
                 </td>
             </tr>
-            {{end}}
+        {{end}}
         </tbody>
     </table>
 </section>

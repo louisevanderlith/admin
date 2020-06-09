@@ -52,13 +52,13 @@
                 <div class="content">
                     <table class="table is-fullwidth is-striped">
                         <tbody>
-                            {{range $key, $val := .Data}}
+                        {{range $key, $val := .Data}}
                             <tr>
                                 <td width="5%"><i class="fa fa-bell-o"></i></td>
                                 <td>{{$key}}</td>
                                 <td><a class="button is-small is-primary" href="{{$val}}">Visit</a></td>
                             </tr>
-                            {{end}}
+                        {{end}}
                         </tbody>
                     </table>
                 </div>

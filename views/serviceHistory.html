@@ -10,21 +10,21 @@
 <section class="section">
     <table class="table is-fullwidth is-hoverable" id="dataTable">
         <thead>
-            <tr>
-                <th>Vehicle Key</th>
-                <th>Contact</th>
-                <th>Services</th>
-            </tr>
+        <tr>
+            <th>Vehicle Key</th>
+            <th>Contact</th>
+            <th>Services</th>
+        </tr>
         </thead>
         <tfoot>
-            <tr>
-                <th>Vehicle Key</th>
-                <th>Contact</th>
-                <th>Services</th>
-            </tr>
+        <tr>
+            <th>Vehicle Key</th>
+            <th>Contact</th>
+            <th>Services</th>
+        </tr>
         </tfoot>
         <tbody>
-            {{range $key, $val := .Data}}
+        {{range $key, $val := .Data}}
             <tr>
                 <td>{{$val.VehicleKey}}</td>
                 <td>{{$val.Contact}}</td>
@@ -33,7 +33,7 @@
                     <a href="/secure/users/{{$val.Key}}" class="btn btn-primary">View</a>
                 </td>
             </tr>
-            {{end}}
+        {{end}}
         </tbody>
     </table>
 </section>

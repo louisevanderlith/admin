@@ -11,7 +11,8 @@
 <div class="main-content">
     <div class="container">
         <section class="hero is-medium has-background">
-            <img alt="YumYum" class="hero-background" src="https://artifact{{.Identity.Host}}download/{{.Data.ImageKey}}" />
+            <img alt="YumYum" class="hero-background"
+                 src="https://artifact{{.Identity.Host}}download/{{.Data.ImageKey}}"/>
             <div class="hero-body">
                 <div class="container">
                     <h4 class="title is-4 has-text-white">{{.Data.Title}}</h4>
@@ -24,7 +25,7 @@
             </div>
         </section>
         <!-- main content -->
-        
+
         <div class="content">
             {{.Data.Content | html}}
         </div>

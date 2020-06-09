@@ -10,25 +10,25 @@
 <section class="section">
     <table class="table is-fullwidth is-hoverable" id="dataTable">
         <thead>
-            <tr>
-                <th>Name</th>
-                <th>Verified</th>
-                <th>Created</th>
-                <th>Last Login</th>
-                <th>Actions</th>
-            </tr>
+        <tr>
+            <th>Name</th>
+            <th>Verified</th>
+            <th>Created</th>
+            <th>Last Login</th>
+            <th>Actions</th>
+        </tr>
         </thead>
         <tfoot>
-            <tr>
-                <th>Name</th>
-                <th>Verified</th>
-                <th>Created</th>
-                <th>Last Login</th>
-                <th>Actions</th>
-            </tr>
+        <tr>
+            <th>Name</th>
+            <th>Verified</th>
+            <th>Created</th>
+            <th>Last Login</th>
+            <th>Actions</th>
+        </tr>
         </tfoot>
         <tbody>
-            {{range $key, $val := .Data}}
+        {{range $key, $val := .Data}}
             <tr>
                 <td>{{$val.Name}}</td>
                 <td>{{$val.Verified}}</td>
@@ -44,7 +44,7 @@
                     </p>
                 </td>
             </tr>
-            {{end}}
+        {{end}}
         </tbody>
     </table>
 </section>

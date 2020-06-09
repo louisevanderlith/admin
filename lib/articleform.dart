@@ -3,9 +3,9 @@ import 'dart:html';
 
 import 'package:mango_ui/bodies/article.dart';
 import 'package:mango_ui/bodies/key.dart';
+import 'package:mango_ui/formstate.dart';
 import 'package:mango_ui/services/blogapi.dart';
 import 'package:mango_ui/services/uploadapi.dart';
-import 'package:mango_ui/formstate.dart';
 
 class ArticleForm extends FormState {
   Key _objKey;
@@ -91,6 +91,7 @@ class ArticleForm extends FormState {
       } else {
         req = await createArticle(obj);
       }
+
       var result = jsonDecode(req.response);
 
       if (req.status == 200) {

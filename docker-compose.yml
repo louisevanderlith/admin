@@ -2,26 +2,26 @@ version: "3.7"
 
 services:
   AdminDEV:
-      image: avosa/admin:dev
-      build: .
-      environment:
-        - KEYPATH=${KEYPATH}
-        - PUBLICKEY=${PUBLICKEY}
-        - HOST=${HOST}
-      depends_on:
-        - RouterDEV
-        - ThemeDEV
-        - SecureDEV
-        - ArtifactDEV
-        - CommsDEV
-        - VehicleDEV
-      networks:
-        - mango_net
-      volumes: 
-        - ../gate/certs:${KEYPATH}:ro
-      ports:
-        - "8088:8088"
-      command: ["./wait-for-it.sh", "ThemeDEV:8093", "--", "python", "app.py"]
+    image: avosa/admin:dev
+    build: .
+    environment:
+      - KEYPATH=${KEYPATH}
+      - PUBLICKEY=${PUBLICKEY}
+      - HOST=${HOST}
+    depends_on:
+      - RouterDEV
+      - ThemeDEV
+      - SecureDEV
+      - ArtifactDEV
+      - CommsDEV
+      - VehicleDEV
+    networks:
+      - mango_net
+    volumes:
+      - ../gate/certs:${KEYPATH}:ro
+    ports:
+      - "8088:8088"
+    command: ["./wait-for-it.sh", "ThemeDEV:8093", "--", "python", "app.py"]
 
   RouterDEV:
     image: avosa/router:dev
@@ -29,12 +29,12 @@ services:
       - KEYPATH=${KEYPATH}
       - PUBLICKEY=${PUBLICKEY}
       - HOST=${HOST}
-    volumes: 
+    volumes:
       - ../gate/certs:${KEYPATH}:ro
     ports:
       - "8080:8080"
     networks:
-        - mango_net
+      - mango_net
 
   FolioDEV:
     image: avosa/folio:dev
@@ -46,11 +46,11 @@ services:
       - "8090:8090"
     networks:
       - mango_net
-    volumes: 
+    volumes:
       - ../folio/db:/db
       - ../gate/certs:${KEYPATH}:ro
     depends_on:
-        - RouterDEV
+      - RouterDEV
     command: ["./wait-for-it.sh", "RouterDEV:8080", "--", "python", "app.py"]
 
   ThemeDEV:
@@ -59,14 +59,14 @@ services:
       - KEYPATH=${KEYPATH}
       - PUBLICKEY=${PUBLICKEY}
       - HOST=${HOST}
-    volumes: 
+    volumes:
       - ../gate/certs:${KEYPATH}:ro
     ports:
       - "8093:8093"
     networks:
-        - mango_net
+      - mango_net
     depends_on:
-        - FolioDEV
+      - FolioDEV
     command: ["./wait-for-it.sh", "FolioDEV:8090", "--", "python", "app.py"]
 
   GateDEV:
@@ -93,7 +93,7 @@ services:
       - KEYPATH=${KEYPATH}
       - PUBLICKEY=${PUBLICKEY}
       - HOST=${HOST}
-    volumes: 
+    volumes:
       - ../gate/certs:${KEYPATH}:ro
     ports:
       - "8094:8094"
@@ -131,11 +131,11 @@ services:
       - "8082:8082"
     networks:
       - "mango_net"
-    volumes: 
+    volumes:
       - ../artifact/db:/db
       - ../gate/certs:${KEYPATH}:ro
     depends_on:
-    - "RouterDEV"
+      - "RouterDEV"
     command: ["./wait-for-it.sh", "RouterDEV:8080", "--", "python", "app.py"]
 
   CommsDEV:
@@ -152,13 +152,13 @@ services:
       - "8085:8085"
     networks:
       - mango_net
-    volumes: 
+    volumes:
       - ../comms/db:/db
       - ../gate/certs:${KEYPATH}:ro
     depends_on:
-        - RouterDEV
+      - RouterDEV
     command: ["./wait-for-it.sh", "RouterDEV:8080", "--", "python", "app.py"]
-  
+
   VehicleDEV:
     image: avosa/vehicle:dev
     environment:
@@ -169,11 +169,11 @@ services:
       - "8098:8098"
     networks:
       - "mango_net"
-    volumes: 
+    volumes:
       - ../vehicle/db:/db
       - ../gate/certs:${KEYPATH}:ro
     depends_on:
-    - "RouterDEV"
+      - "RouterDEV"
     command: ["./wait-for-it.sh", "RouterDEV:8080", "--", "python", "app.py"]
 
 networks:

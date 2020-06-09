@@ -2,14 +2,14 @@ import 'dart:html';
 
 import 'package:mango_ui/bodies/header.dart';
 import 'package:mango_ui/formstate.dart';
-
 import 'package:mango_ui/trustvalidator.dart';
+
 import 'models/headeritem.dart';
 
-class HeaderForm extends FormState {  
+class HeaderForm extends FormState {
   HeaderForm(String idElem, String btnSubmit, String btnAdd)
       : super(idElem, btnSubmit) {
-        findHeaders();
+    findHeaders();
     querySelector(btnAdd).onClick.listen(onAddClick);
   }
 

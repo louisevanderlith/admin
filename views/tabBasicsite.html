@@ -3,7 +3,7 @@
         <div class="field">
             <div class="control">
                 <label class="label" for="txtTitle">Title</label>
-                <input class="input" type="text" id="txtTitle" placeholder="Title" required value="{{.Data.Title}}" />
+                <input class="input" type="text" id="txtTitle" placeholder="Title" required value="{{.Data.Title}}"/>
                 <p class="help is-danger"></p>
             </div>
         </div>
@@ -12,7 +12,7 @@
             <div class="control">
                 <label class="label" for="txtDescription">Description</label>
                 <textarea class="textarea" id="txtDescription" placeholder="Description" required cols="40"
-                    rows="5">{{.Data.Description}}</textarea>
+                          rows="5">{{.Data.Description}}</textarea>
                 <p class="help is-danger"></p>
             </div>
         </div>
@@ -20,7 +20,7 @@
         <div class="field">
             <div class="control">
                 <label class="label" for="txtEmail">Email</label>
-                <input class="input" type="email" id="txtEmail" required value="{{.Data.ContactEmail}}" />
+                <input class="input" type="email" id="txtEmail" required value="{{.Data.ContactEmail}}"/>
                 <p class="help is-danger"></p>
             </div>
         </div>
@@ -29,7 +29,7 @@
             <div class="control">
                 <label class="label" for="txtPhone">Phone</label>
                 <input class="input" type="tel" id="txtPhone" minlength="9" maxlength="10" required
-                    value="{{.Data.ContactPhone}}" />
+                       value="{{.Data.ContactPhone}}"/>
                 <p class="help is-danger"></p>
             </div>
         </div>
@@ -37,18 +37,18 @@
         <div class="field">
             <div class="control">
                 <label class="label" for="txtURL">URL</label>
-                <input class="input" type="url" id="txtURL" required value="{{.Data.URL}}" />
+                <input class="input" type="url" id="txtURL" required value="{{.Data.URL}}"/>
                 <p class="help is-danger"></p>
             </div>
         </div>
 
         <div class="field">
-                <div class="control">
-                    <label class="label" for="txtGTag">Google Tracking Code</label>
-                    <input class="input" type="text" id="txtGTag" required value="{{.Data.GTag}}" />
-                    <p class="help is-danger"></p>
-                </div>
+            <div class="control">
+                <label class="label" for="txtGTag">Google Tracking Code</label>
+                <input class="input" type="text" id="txtGTag" required value="{{.Data.GTag}}"/>
+                <p class="help is-danger"></p>
             </div>
+        </div>
 
         <div class="field">
             <div class="control">
@@ -56,8 +56,8 @@
                 <div class="file">
                     <label class="file-label">
                         <input class="file-input" type="file" multiple="false" data-for="logo" data-name="Profile"
-                            data-id="{{.Data.ImageKey}}" accept=".jpg, .jpeg, .png" id="uplProfileImg"
-                            placeholder="Profile Image" {{if eq (print .Data.ImageKey) "0`0" }} required {{end}} />
+                               data-id="{{.Data.ImageKey}}" accept=".jpg, .jpeg, .png" id="uplProfileImg"
+                               placeholder="Profile Image" {{if eq (print .Data.ImageKey) "0`0" }} required {{end}} />
                         <p class="help is-danger"></p>
                         <span class="file-cta">
                             <span class="file-icon">
@@ -68,8 +68,9 @@
                             </span>
                         </span>
                 </div>
-                <input type="image" id="uplProfileView" class='image {{if eq (print .Data.ImageKey) "0`0"}} is-hidden {{end}}'
-                    src="https://artifact{{.Identity.Host}}download/{{.Data.ImageKey}}" alt="profile image" />
+                <input type="image" id="uplProfileView"
+                       class='image {{if eq (print .Data.ImageKey) "0`0"}} is-hidden {{end}}'
+                       src="https://artifact{{.Identity.Host}}download/{{.Data.ImageKey}}" alt="profile image"/>
                 <p class="help is-danger"></p>
             </div>
         </div>

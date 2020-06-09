@@ -10,21 +10,21 @@
 <section class="section">
     <table class="table is-fullwidth is-hoverable" id="dataTable">
         <thead>
-            <tr>
-                <th>Entity Key</th>
-                <th>Total</th>
-                <th>Requisitions</th>
-            </tr>
+        <tr>
+            <th>Entity Key</th>
+            <th>Total</th>
+            <th>Requisitions</th>
+        </tr>
         </thead>
         <tfoot>
-            <tr>
-                <th>Entity Key</th>
-                <th>Total</th>
-                <th>Requisitions</th>
-            </tr>
+        <tr>
+            <th>Entity Key</th>
+            <th>Total</th>
+            <th>Requisitions</th>
+        </tr>
         </tfoot>
         <tbody>
-            {{range $key, $val := .Data}}
+        {{range $key, $val := .Data}}
             <tr>
                 <td>{{$val.V.EntityKey}}</td>
                 <td>{{$val.V.Total}}</td>
@@ -44,16 +44,16 @@
                     </p>
                 </td>
             </tr>
-            {{end}}
+        {{end}}
         </tbody>
     </table>
     <nav class="pagination is-centered" role="navigation" aria-label="pagination">
-            <a class="pagination-previous">Previous</a>
-            <a class="pagination-next">Next page</a>
-            <ul class="pagination-list">
-              <li><a href="./A10" class="pagination-link" aria-label="A10">A</a></li>
-              <li><a href="./B10" class="pagination-link is-current" aria-label="B10" aria-current="page">B</a></li>
-              <li><a href="./C10" class="pagination-link" aria-label="C10">C</a></li>
-            </ul>
-          </nav>
+        <a class="pagination-previous">Previous</a>
+        <a class="pagination-next">Next page</a>
+        <ul class="pagination-list">
+            <li><a href="./A10" class="pagination-link" aria-label="A10">A</a></li>
+            <li><a href="./B10" class="pagination-link is-current" aria-label="B10" aria-current="page">B</a></li>
+            <li><a href="./C10" class="pagination-link" aria-label="C10">C</a></li>
+        </ul>
+    </nav>
 </section>

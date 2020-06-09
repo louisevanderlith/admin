@@ -10,17 +10,17 @@
 <section class="section">
     <table class="table is-fullwidth is-hoverable" id="dataTable">
         <thead>
-            <tr>
-                <th>Stock Item</th>
-            </tr>
+        <tr>
+            <th>Stock Item</th>
+        </tr>
         </thead>
         <tfoot>
-            <tr>
-                <th>Stock Item</th>
-            </tr>
+        <tr>
+            <th>Stock Item</th>
+        </tr>
         </tfoot>
         <tbody>
-            {{range $key, $val := .Data}}
+        {{range $key, $val := .Data}}
             <tr>
                 <td>{{$val.V.StockItem}}</td>
                 <td>
@@ -38,7 +38,7 @@
                     </p>
                 </td>
             </tr>
-            {{end}}
+        {{end}}
         </tbody>
     </table>
 </section>

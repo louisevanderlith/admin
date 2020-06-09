@@ -10,27 +10,27 @@
 <section class="section">
     <table class="table is-fullwidth is-hoverable" id="dataTable">
         <thead>
-            <tr>
-                <th>Title</th>
-                <th>Written by</th>
-                <th>Published</th>
-                <th>Created</th>
-                <th>Category</th>
-                <th>Actions</th>
-            </tr>
+        <tr>
+            <th>Title</th>
+            <th>Written by</th>
+            <th>Published</th>
+            <th>Created</th>
+            <th>Category</th>
+            <th>Actions</th>
+        </tr>
         </thead>
         <tfoot>
-            <tr>
-                <th>Title</th>
-                <th>Written by</th>
-                <th>Published</th>
-                <th>Created</th>
-                <th>Category</th>
-                <th>Actions</th>
-            </tr>
+        <tr>
+            <th>Title</th>
+            <th>Written by</th>
+            <th>Published</th>
+            <th>Created</th>
+            <th>Category</th>
+            <th>Actions</th>
+        </tr>
         </tfoot>
         <tbody>
-            {{range $key, $val := .Data}}
+        {{range $key, $val := .Data}}
             <tr>
                 <td>{{$val.V.Title}}</td>
                 <td>{{$val.V.WrittenBy}}</td>
@@ -52,7 +52,7 @@
                     </p>
                 </td>
             </tr>
-            {{end}}
+        {{end}}
         </tbody>
     </table>
 </section>

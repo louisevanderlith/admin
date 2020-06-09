@@ -1,72 +1,49 @@
 package main
 
 import (
-	"os"
-	"path"
-	"strconv"
+	"flag"
+	"github.com/louisevanderlith/admin/handles"
+	"github.com/louisevanderlith/kong"
+	"net/http"
+	"time"
 
-	"github.com/louisevanderlith/admin/controllers"
-	"github.com/louisevanderlith/admin/routers"
 	"github.com/louisevanderlith/droxolite"
-	"github.com/louisevanderlith/droxolite/bodies"
-	"github.com/louisevanderlith/droxolite/do"
-	"github.com/louisevanderlith/droxolite/element"
-	"github.com/louisevanderlith/droxolite/resins"
-	"github.com/louisevanderlith/droxolite/servicetype"
 )
 
 func main() {
-	keyPath := os.Getenv("KEYPATH")
-	pubName := os.Getenv("PUBLICKEY")
-	host := os.Getenv("HOST")
-	profile := os.Getenv("PROFILE")
-	httpport, _ := strconv.Atoi(os.Getenv("HTTPPORT"))
-	appName := os.Getenv("APPNAME")
-	pubPath := path.Join(keyPath, pubName)
+	clientId := flag.String("client", "mango.auth", "Client ID which will be used to verify this instance")
+	clientSecrt := flag.String("secret", "secret", "Client Secret which will be used to authenticate this instance")
+	authrty := flag.String("authority", "http://localhost:8094", "Authority Provider's URL")
+	securty := flag.String("security", "http://localhost:8086", "Security Provider's URL")
 
-	// Register with router
-	srv := bodies.NewService(appName, profile, pubPath, host, httpport, servicetype.APP)
+	flag.Parse()
 
-	routr, err := do.GetServiceURL("", "Router.API", false)
+	tkn, err := kong.FetchToken(http.DefaultClient, *securty, *clientId, *clientSecrt, "theme.assets.download", "theme.assets.view")
 
 	if err != nil {
 		panic(err)
 	}
 
-	err = srv.Register(routr)
+	clms, err := kong.Exchange(http.DefaultClient, tkn, *clientId, *clientSecrt, *securty+"/info")
 
 	if err != nil {
 		panic(err)
 	}
 
-	err = droxolite.UpdateTheme(srv.ID)
+	err = droxolite.UpdateTemplate(tkn, clms)
 
 	if err != nil {
 		panic(err)
 	}
 
-	theme, err := element.GetDefaultTheme(host, srv.ID, profile)
-
-	if err != nil {
-		panic(err)
+	srvr := &http.Server{
+		ReadTimeout:  time.Second * 15,
+		WriteTimeout: time.Second * 15,
+		Addr:         ":8088",
+		Handler:      handles.SetupRoutes(*clientId, *clientSecrt, *securty, *authrty),
 	}
 
-	secur, err := do.GetServiceURL(srv.ID, "Auth.APP", true)
-
-	if err != nil {
-		panic(err)
-	}
-
-	err = theme.LoadTemplate("./views", "master.html")
-
-	if err != nil {
-		panic(err)
-	}
-
-	poxy := resins.NewColourEpoxy(srv, theme, secur, controllers.Index)
-	routers.Setup(poxy)
-
-	err = droxolite.Boot(poxy)
+	err = srvr.ListenAndServe()
 
 	if err != nil {
 		panic(err)

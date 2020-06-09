@@ -1,11 +1,11 @@
 <table class="table is-fullwidth is-hoverable" id="dataTable">
     <thead>
-        <tr>
-            <th>Assembly Plant</th>
-        </tr>
+    <tr>
+        <th>Assembly Plant</th>
+    </tr>
     </thead>
     <tbody>
-        {{range $key, $val := .}}
+    {{range $key, $val := .}}
         <tr>
             <td>{{$val.Name}}</td>
             <td>
@@ -19,6 +19,6 @@
             </td>
         </tr>
         {{template "tabSeries.html" $val.Series}}
-        {{end}}
+    {{end}}
     </tbody>
 </table> 

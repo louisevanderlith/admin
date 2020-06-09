@@ -11,26 +11,26 @@
 <section class="container cards-container">
     <div class="columns is-multiline" id="sectioncontainer">
         {{range $key, $items := .Data}}
-        <div class="column is-narrow">
-            <article class="message is-info">
-                <div class="message-header">
-                    <p>{{ $key }}</p>
-                    <!--<button class="delete" aria-label="delete" @click="removeCard(yxy)"></button>-->
-                </div>
-                <div class="message-body">
-                    <div class="board-item">
-
-                        {{range $_, $props := $items}}
-                        <div class="board-item-content">
-                            {{range $k, $v := $props}}
-                            <span class="span">{{ $k }}:{{$v}}</p>
-                                {{end}}
-                        </div>
-                        {{end}}
+            <div class="column is-narrow">
+                <article class="message is-info">
+                    <div class="message-header">
+                        <p>{{ $key }}</p>
+                        <!--<button class="delete" aria-label="delete" @click="removeCard(yxy)"></button>-->
                     </div>
-                </div>
-            </article>
-        </div>
+                    <div class="message-body">
+                        <div class="board-item">
+
+                            {{range $_, $props := $items}}
+                                <div class="board-item-content">
+                                    {{range $k, $v := $props}}
+                                    <span class="span">{{ $k }}:{{$v}}</p>
+                                {{end}}
+                                </div>
+                            {{end}}
+                        </div>
+                    </div>
+                </article>
+            </div>
         {{end}}
     </div>
 </section>

@@ -10,23 +10,23 @@
 <section class="section">
     <table class="table is-fullwidth is-hoverable" id="dataTable">
         <thead>
-            <tr>
-                <th>Upvotes</th>
-                <th>Downvotes</th>
-                <th>Text</th>
-                <th>Comment type</th>
-            </tr>
+        <tr>
+            <th>Upvotes</th>
+            <th>Downvotes</th>
+            <th>Text</th>
+            <th>Comment type</th>
+        </tr>
         </thead>
         <tfoot>
-            <tr>
-                <th>Upvotes</th>
-                <th>Downvotes</th>
-                <th>Text</th>
-                <th>Comment type</th>
-            </tr>
+        <tr>
+            <th>Upvotes</th>
+            <th>Downvotes</th>
+            <th>Text</th>
+            <th>Comment type</th>
+        </tr>
         </tfoot>
         <tbody>
-            {{range $key, $val := .Data}}
+        {{range $key, $val := .Data}}
             <tr>
                 <td>{{$val.Upvotes}}</td>
                 <td>{{$val.Downvotes}}</td>
@@ -36,7 +36,7 @@
                     <a href="/comment/comments/{{$val.Key}}" class="btn btn-primary">View</a>
                 </td>
             </tr>
-            {{end}}
+        {{end}}
         </tbody>
     </table>
 </section>

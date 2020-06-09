@@ -1,11 +1,11 @@
 <table class="table is-fullwidth is-hoverable" id="dataTable">
     <thead>
-        <tr>
-            <th>Country</th>
-        </tr>
+    <tr>
+        <th>Country</th>
+    </tr>
     </thead>
-    <tbody> 
-        {{range $key, $val := .}}
+    <tbody>
+    {{range $key, $val := .}}
         <tr>
             <td>{{$val.Name}}</td>
             <td>
@@ -19,6 +19,6 @@
             </td>
         </tr>
         {{template "tabManufacturer.html" $val.Manufacturers}}
-        {{end}}
+    {{end}}
     </tbody>
 </table> 

@@ -36,9 +36,9 @@ class RolesForm extends FormState {
       disableSubmit(true);
       final req = await updateRoles(_objKey, items);
 
-      if(req.status == 200){
-      var result = jsonDecode(req.response);
-      window.alert(result);
+      if (req.status == 200) {
+        var result = jsonDecode(req.response);
+        window.alert(result);
       } else {
         window.alert(req.response);
       }

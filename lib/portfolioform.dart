@@ -3,12 +3,13 @@ import 'dart:html';
 import 'package:mango_ui/bodies/portfolio.dart';
 import 'package:mango_ui/formstate.dart';
 import 'package:mango_ui/trustvalidator.dart';
+
 import 'models/portfolioitem.dart';
 
 class PortfolioForm extends FormState {
   PortfolioForm(String idElem, String btnSubmit, String btnAdd)
       : super(idElem, btnSubmit) {
-        findPortfolios();
+    findPortfolios();
     querySelector(btnAdd).onClick.listen(onAddClick);
   }
 
@@ -19,15 +20,18 @@ class PortfolioForm extends FormState {
   List<Portfolio> get items {
     return findPortfolios();
   }
-  
+
   List<Portfolio> findPortfolios() {
     var hasPortf = false;
     var result = new List<Portfolio>();
     var indx = 0;
 
     do {
-      var portf = new PortfolioItem('#uplPortfolioImg${indx}',
-          '#txtPortfolioName${indx}', '#txtPortfolioURL${indx}');
+      var portf = new PortfolioItem(
+          '#uplPortfolioIcon${indx}',
+          '#txtPortfolioName${indx}',
+          '#txtPortfolioDescription${indx}',
+          '#txtPortfolioURL${indx}');
 
       hasPortf = portf.loaded();
 

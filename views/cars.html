@@ -10,25 +10,25 @@
 <section class="section">
     <table class="table is-fullwidth is-hoverable" id="dataTable">
         <thead>
-            <tr>
-                <th>Car Key</th>
-                <th>Year model</th>
-                <th>Mileage</th>
-                <th>Licence Expiry</th>
-                <th>Actions</th>
-            </tr>
+        <tr>
+            <th>Car Key</th>
+            <th>Year model</th>
+            <th>Mileage</th>
+            <th>Licence Expiry</th>
+            <th>Actions</th>
+        </tr>
         </thead>
         <tfoot>
-            <tr>
-                <th>Car Key</th>
-                <th>Year model</th>
-                <th>Mileage</th>
-                <th>Licence Expiry</th>
-                <th>Actions</th>
-            </tr>
+        <tr>
+            <th>Car Key</th>
+            <th>Year model</th>
+            <th>Mileage</th>
+            <th>Licence Expiry</th>
+            <th>Actions</th>
+        </tr>
         </tfoot>
         <tbody>
-            {{range $key, $val := .Data}}
+        {{range $key, $val := .Data}}
             <tr>
                 <td>{{$val.V.Entity.VehicleKey}}</td>
                 <td>{{$val.V.Address.Year}}</td>
@@ -49,7 +49,7 @@
                     </p>
                 </td>
             </tr>
-            {{end}}
+        {{end}}
         </tbody>
     </table>
 </section>

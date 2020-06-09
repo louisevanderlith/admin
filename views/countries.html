@@ -10,35 +10,35 @@
 <section class="section">
     <table class="table is-fullwidth is-hoverable" id="dataTable">
         <thead>
-            <tr>
-                <th>region Code</th>
-            </tr>
-            <tr>
-                <th>Name</th>
-            </tr>
-            <tr>
-                <th>Start Character</th>
-            </tr>
-            <tr>
-                <th>End Character</th>
-            </tr>
+        <tr>
+            <th>region Code</th>
+        </tr>
+        <tr>
+            <th>Name</th>
+        </tr>
+        <tr>
+            <th>Start Character</th>
+        </tr>
+        <tr>
+            <th>End Character</th>
+        </tr>
         </thead>
         <tfoot>
-            <tr>
-                <th>region Code</th>
-            </tr>
-            <tr>
-                <th>Name</th>
-            </tr>
-            <tr> 
-                <th>Start Character</th>
-            </tr>
-            <tr>
-                <th>End Character</th>
-            </tr>
+        <tr>
+            <th>region Code</th>
+        </tr>
+        <tr>
+            <th>Name</th>
+        </tr>
+        <tr>
+            <th>Start Character</th>
+        </tr>
+        <tr>
+            <th>End Character</th>
+        </tr>
         </tfoot>
         <tbody>
-            {{range $key, $val := .}}
+        {{range $key, $val := .}}
             <tr>
                 <td>{{$val.RegionCode}}</td>
                 <td>{{$val.Name}}</td>
@@ -54,7 +54,7 @@
                     </p>
                 </td>
             </tr>
-            {{end}}
+        {{end}}
         </tbody>
     </table>
 </section>

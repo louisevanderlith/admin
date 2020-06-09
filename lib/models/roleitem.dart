@@ -6,7 +6,7 @@ import 'package:mango_ui/bodies/role.dart';
 class RoleItem {
   LabelElement _application;
   ElementList<RadioButtonInputElement> _roletypes;
-  
+
   bool _loaded;
 
   RoleItem(String applicationElem, String roletypeElem) {
@@ -14,7 +14,7 @@ class RoleItem {
     _roletypes = querySelectorAll(roletypeElem);
     _loaded = _application != null && _roletypes.length != 0;
   }
-  
+
   String get application {
     return _application.text;
   }
@@ -44,7 +44,7 @@ class RoleItem {
   Role get role {
     return new Role(application, roletype);
   }
-  
+
   bool loaded() {
     return _loaded;
   }

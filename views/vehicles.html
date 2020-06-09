@@ -10,33 +10,33 @@
 <section class="section">
     <table class="table is-fullwidth is-hoverable" id="dataTable">
         <thead>
-            <tr>
-                <th>Full VIN</th>
-                <th>Manufacturer</th>
-                <th>Colour</th>
-                <th>Year</th>
-                <th>Engine</th>
-                <th>Gearbox</th>
-                <th>Body style</th>
-                <th>Doors</th>
-                <th>Actions</th>
-            </tr>
+        <tr>
+            <th>Full VIN</th>
+            <th>Manufacturer</th>
+            <th>Colour</th>
+            <th>Year</th>
+            <th>Engine</th>
+            <th>Gearbox</th>
+            <th>Body style</th>
+            <th>Doors</th>
+            <th>Actions</th>
+        </tr>
         </thead>
         <tfoot>
-            <tr>
-                <th>Full VIN</th>
-                <th>Manufacturer</th>
-                <th>Colour</th>
-                <th>Year</th>
-                <th>Engine</th>
-                <th>Gearbox</th>
-                <th>Body style</th>
-                <th>Doors</th>
-                <th>Actions</th>
-            </tr>
+        <tr>
+            <th>Full VIN</th>
+            <th>Manufacturer</th>
+            <th>Colour</th>
+            <th>Year</th>
+            <th>Engine</th>
+            <th>Gearbox</th>
+            <th>Body style</th>
+            <th>Doors</th>
+            <th>Actions</th>
+        </tr>
         </tfoot>
         <tbody>
-            {{range $key, $val := .Data}}
+        {{range $key, $val := .Data}}
             <tr>
                 <td>{{$val.FullVIN}}</td>
                 <td>{{$val.Manufacturer}}</td>
@@ -56,7 +56,7 @@
                     </p>
                 </td>
             </tr>
-            {{end}}
+        {{end}}
         </tbody>
     </table>
 </section>

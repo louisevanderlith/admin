@@ -10,25 +10,25 @@
 <section class="section">
     <table class="table is-fullwidth is-hoverable" id="dataTable">
         <thead>
-            <tr>
-                <th>Item Name</th>
-                <th>Name</th>
-                <th>MimeType</th>
-                <th>Size</th>
-                <th>Actions</th>
-            </tr>
+        <tr>
+            <th>Item Name</th>
+            <th>Name</th>
+            <th>MimeType</th>
+            <th>Size</th>
+            <th>Actions</th>
+        </tr>
         </thead>
         <tfoot>
-            <tr>
-                <th>Item Name</th>
-                <th>Name</th>
-                <th>MimeType</th>
-                <th>Size</th>
-                <th>Actions</th>
-            </tr>
+        <tr>
+            <th>Item Name</th>
+            <th>Name</th>
+            <th>MimeType</th>
+            <th>Size</th>
+            <th>Actions</th>
+        </tr>
         </tfoot>
         <tbody>
-            {{range $key, $val := .Data}}
+        {{range $key, $val := .Data}}
             <tr>
                 <td>{{$val.V.ItemName}}</td>
                 <td>{{$val.V.Name}}</td>
@@ -49,7 +49,7 @@
                     </p>
                 </td>
             </tr>
-            {{end}}
+        {{end}}
         </tbody>
     </table>
 </section>

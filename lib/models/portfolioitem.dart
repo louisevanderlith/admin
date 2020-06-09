@@ -1,29 +1,26 @@
 import 'dart:html';
-import 'package:mango_ui/bodies/key.dart';
+
 import 'package:mango_ui/bodies/portfolio.dart';
-import 'package:mango_ui/services/uploadapi.dart';
 
 class PortfolioItem {
-  FileUploadInputElement _image;
+  TextInputElement _icon;
   TextInputElement _name;
+  TextInputElement _descr;
   UrlInputElement _url;
   bool _loaded;
 
   PortfolioItem(
-      String imageElem, String nameElem, String urlElem) {
-    _image = querySelector(imageElem);
+      String iconElem, String nameElem, String descrElem, String urlElem) {
+    _icon = querySelector(iconElem);
     _name = querySelector(nameElem);
+    _descr = querySelector(descrElem);
     _url = querySelector(urlElem);
 
-    _loaded = _image != null && _name != null && _url != null;
-
-    if (_loaded) {
-      _image.onChange.listen(uploadFile);
-    }
+    _loaded = _icon != null && _name != null && _descr != null && _url != null;
   }
 
-  Key get imageKey {
-    return new Key(_image.dataset["id"]);
+  String get icon {
+    return _icon.value;
   }
 
   String get name {
@@ -34,11 +31,15 @@ class PortfolioItem {
     return _url.value;
   }
 
+  String get description {
+    return _descr.value;
+  }
+
   bool loaded() {
     return _loaded;
   }
 
   Portfolio toDTO() {
-    return new Portfolio(imageKey, url, name);
+    return new Portfolio(icon, url, name, description);
   }
 }
