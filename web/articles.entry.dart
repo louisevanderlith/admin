@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:html';
 
-import 'package:mango_ui/bodies/article.dart';
-import 'package:mango_ui/bodies/key.dart';
-import 'package:mango_ui/services/blogapi.dart';
+import 'package:mango_blog/bodies/article.dart';
+import 'package:mango_ui/keys.dart';
+import 'package:mango_blog/blogapi.dart';
 
 void main() {
   querySelector('#btnAdd').onClick.listen(onAddClick);
