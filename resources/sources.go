@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/louisevanderlith/droxolite/context"
+	"log"
 	"net/http"
 	"strings"
 )
@@ -28,8 +29,8 @@ func (src *Source) get(api, path string, params ...string) (interface{}, error) 
 		return nil, err
 	}
 
-	fullURL := fmt.Sprintf("%s/%s/%s", url, path, strings.Join(params, "/"))
-
+	fullURL := fmt.Sprintf("%s/%s/%s", url, path, strings.Trim(strings.Join(params, "/"), "/"))
+	log.Println("Going", fullURL)
 	req, err := http.NewRequest(http.MethodGet, fullURL, nil)
 	req.Header.Set("Authorization", "Bearer "+src.ctx.GetToken())
 

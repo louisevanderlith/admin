@@ -16,7 +16,7 @@ func GetProfiles(mstr *template.Template, tmpl *template.Template) http.HandlerF
 
 		src := resources.APIResource(http.DefaultClient, ctx)
 		result, err := src.FetchProfiles("A10")
-
+		
 		if err != nil {
 			log.Println(err)
 			http.Error(w, "", http.StatusUnauthorized)

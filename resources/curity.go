@@ -9,11 +9,11 @@ func (src *Source) FetchSecurityReports(pagesize string) (interface{}, error) {
 }
 
 func (src *Source) FetchProfile(key string) (interface{}, error) {
-	return src.get("secure", "profile", key)
+	return src.get("secure", "profiles", key)
 }
 
 func (src *Source) FetchProfiles(pagesize string) (interface{}, error) {
-	return src.get("secure", "profile", pagesize)
+	return src.get("secure", "profiles", pagesize)
 }
 
 func (src *Source) FetchUser(key string) (interface{}, error) {
