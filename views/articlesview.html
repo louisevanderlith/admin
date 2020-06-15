@@ -60,9 +60,10 @@
                                 Choose a file…
                             </span>
                         </span>
+                    </label>
                 </div>
                 <input type="image" id="uplHeaderView" class='image {{if eq .Data.ImageKey "0`0"}} is-hidden {{end}}'
-                       src="https://artifact{{.Identity.Host}}download/{{.Data.ImageKey}}" alt="blog head image"/>
+                       src="{{ .Identity.GetResourceURL "artifact" }}/download/{{.Data.ImageKey}}" alt="blog head image"/>
                 <p class="help is-danger"></p>
             </div>
         </div>

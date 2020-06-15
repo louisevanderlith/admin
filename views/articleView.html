@@ -12,7 +12,7 @@
     <div class="container">
         <section class="hero is-medium has-background">
             <img alt="YumYum" class="hero-background"
-                 src="https://artifact{{.Identity.Host}}download/{{.Data.ImageKey}}"/>
+                 src="{{ .Identity.GetResourceURL "artifact" }}/download/{{.Data.ImageKey}}"/>
             <div class="hero-body">
                 <div class="container">
                     <h4 class="title is-4 has-text-white">{{.Data.Title}}</h4>

@@ -1,57 +1,57 @@
-<div class="container">
-    <section class="hero is-info welcome is-small">
-        <div class="hero-body">
-            <div class="container">
-                <h1 class="title">
-                    {{.Name}}
-                </h1>
-            </div>
-        </div>
-    </section>
-    <section class="section">
-        <table class="table is-fullwidth is-hoverable" id="dataTable">
-            <thead>
+<section class="section">
+    <table class="table is-fullwidth is-hoverable" id="dataTable">
+        <thead>
+        <tr>
+            {{range k, v := .Records}}
+            <th>Title</th>
+            <th>Written by</th>
+            <th>Published</th>
+            <th>Created</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tfoot>
+        <tr>
+            <th>Title</th>
+            <th>Written by</th>
+            <th>Published</th>
+            <th>Created</th>
+            <th>Actions</th>
+        </tr>
+        </tfoot>
+        <tbody>
+        {{range $key, $val := .Data}}
             <tr>
-                <th>Title</th>
-                <th>Written by</th>
-                <th>Published</th>
-                <th>Created</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tfoot>
-            <tr>
-                <th>Title</th>
-                <th>Written by</th>
-                <th>Published</th>
-                <th>Created</th>
-                <th>Actions</th>
-            </tr>
-            </tfoot>
-            <tbody>
-            {{range $key, $val := .Data}}
-                <tr>
-                    <td>{{$val.V.Title}}</td>
-                    <td>{{$val.V.WrittenBy}}</td>
-                    <td>{{$val.V.Public}}</td>
-                    <td>{{$val.V.Created}}</td>
-                    <td>
-                        <p class="buttons">
-                            <a href="/blog/articles/{{$val.K}}" class="button is-primary">
+                <td>{{$val.V.Title}}</td>
+                <td>{{$val.V.WrittenBy}}</td>
+                <td>{{$val.V.Public}}</td>
+                <td>{{$val.V.Created}}</td>
+                <td>
+                    <p class="buttons">
+                        <a href="/blog/articles/{{$val.K}}" class="button is-primary">
                                 <span class="icon is-small">
                                     <i class="far fa-edit"></i>
                                 </span>
-                            </a>
-                            <button data-key="{{$val.K}}" class="button is-danger deleter">
+                        </a>
+                        <button data-key="{{$val.K}}" class="button is-danger deleter">
                                 <span class="icon is-small">
                                     <i class="fas fa-ban"></i>
                                 </span>
-                            </button>
-                        </p>
-                    </td>
-                </tr>
-            {{end}}
-            </tbody>
-        </table>
-    </section>
-</div>
+                        </button>
+                    </p>
+                </td>
+            </tr>
+        {{end}}
+        </tbody>
+    </table>
+    <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+        <a href="" class="pagination-previous">Previous</a>
+        <a href="" class="pagination-next">Next</a>
+        <ul class="pagination-list">
+            <li><a href="./&#{{65  }};{{.Size}}" class="pagination-link" aria-label="A10">A</a></li>
+            <li><a href="./B10" class="pagination-link is-current" aria-label="B10"
+                   aria-current="page">{{.Page}}</a></li>
+            <li><a href="./C10" class="pagination-link" aria-label="C10">C</a></li>
+        </ul>
+    </nav>
+</section>

@@ -57,7 +57,7 @@
                                     />
                                     <input {{if not .Data.ImageKey}} hidden {{end}} type="image" id="uplProfileView"
                                                                                     class="img-thumbnail"
-                                                                                    src="https://artifact{{.Identity.Host}}download/{{.Data.ImageKey}}"
+                                                                                    src="{{ .Identity.GetResourceURL "artifact" }}/download/{{.Data.ImageKey}}"
                                                                                     alt="profile image"/>
                                     <p class="with-errors text-danger"></p>
                                 </div>
