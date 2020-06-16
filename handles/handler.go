@@ -3,6 +3,7 @@ package handles
 import (
 	"github.com/gorilla/mux"
 	"github.com/louisevanderlith/admin/handles/artifact"
+	"github.com/louisevanderlith/admin/handles/vin"
 	"github.com/louisevanderlith/admin/handles/blog"
 	"github.com/louisevanderlith/admin/handles/comment"
 	"github.com/louisevanderlith/admin/handles/curity"
@@ -36,6 +37,9 @@ func SetupRoutes(clnt, scrt, secureUrl, authUrl string) http.Handler {
 
 	cmms := r.PathPrefix("/comms").Subrouter()
 	cmms.HandleFunc("/messages", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, secureUrl, authUrl, artifact.GetUploads(mstr, tmpl), "artifact.uploads.view")).Methods(http.MethodGet)
+
+	rgns := r.PathPrefix("/vin").Subrouter()
+	rgns.HandleFunc("/regions", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, secureUrl, authUrl, vin.GetRegions(mstr, tmpl), "vin.region.search")).Methods(http.MethodGet)
 
 	crty := r.PathPrefix("/curity").Subrouter()
 	crty.HandleFunc("/profiles", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, secureUrl, authUrl, curity.GetProfiles(mstr, tmpl), "secure.profile.search")).Methods(http.MethodGet)
