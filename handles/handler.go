@@ -39,6 +39,9 @@ func SetupRoutes(clnt, scrt, secureUrl, authUrl string) http.Handler {
 
 	crty := r.PathPrefix("/curity").Subrouter()
 	crty.HandleFunc("/profiles", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, secureUrl, authUrl, curity.GetProfiles(mstr, tmpl), "secure.profile.search")).Methods(http.MethodGet)
+	crty.HandleFunc("/profiles/{pagesize:[A-Z][0-9]+}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, secureUrl, authUrl, curity.SearchProfiles(mstr, tmpl), "secure.profile.search")).Methods(http.MethodGet)
+	crty.HandleFunc("/profiles/{pagesize:[A-Z][0-9]+}/{hash:[a-zA-Z0-9]+={0,2}}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, secureUrl, authUrl, curity.SearchProfiles(mstr, tmpl), "secure.profile.search")).Methods(http.MethodGet)
+
 	crty.HandleFunc("/profiles/{key:[0-9]+\\x60[0-9]+}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, secureUrl, authUrl, curity.ViewProfile(mstr, tmpl), "secure.profile.view")).Methods(http.MethodGet)
 
 	return r

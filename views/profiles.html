@@ -30,7 +30,7 @@
                 <td>{{$val.V.Description}}</td>
                 <td>
                     <p class="buttons">
-                        <a href="{{$val.K}}" class="button is-primary">
+                        <a href="profiles/{{$val.K}}" class="button is-primary">
                             <span class="icon is-small">
                                 <i class="far fa-edit"></i>
                             </span>
@@ -46,13 +46,5 @@
         {{end}}
         </tbody>
     </table>
-    <nav class="pagination is-centered" role="navigation" aria-label="pagination">
-        <a href="" class="pagination-previous">Previous</a>
-        <a href="" class="pagination-next">Next page</a>
-        <ul class="pagination-list">
-            <li><a href="./A10" class="pagination-link" aria-label="A10">A</a></li>
-            <li><a href="./B10" class="pagination-link is-current" aria-label="B10" aria-current="page">{{.Data.Page}}</a></li>
-            <li><a href="./C10" class="pagination-link" aria-label="C10">C</a></li>
-        </ul>
-    </nav>
+    {{template "pager.html" .Data}}
 </section>
