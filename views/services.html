@@ -20,7 +20,7 @@
         </tr>
         </tfoot>
         <tbody>
-        {{range $key, $val := .Data}}
+        {{range $key, $val := .Data.Records}}
             <tr>
                 <td>{{$val.V.StockItem}}</td>
                 <td>

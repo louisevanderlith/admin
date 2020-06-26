@@ -1,0 +1,34 @@
+<form id="frmResource" role="form">
+    <div class="field">
+        <label class="label" for="txtName">Name</label>
+        <div class="control">
+            <input class="input" type="text" id="txtName" required placeholder="Name"/>
+            <p class="help is-danger"></p>
+        </div>
+    </div>
+    <div class="field">
+        <label class="label" for="txtDisplayName">Display Name</label>
+        <div class="control">
+            <input class="input" type="text" id="txtDisplayName" required placeholder="Display Name"/>
+            <p class="help is-danger"></p>
+        </div>
+    </div>
+    <div class="field">
+        <label class="label" for="txtSecret">Secret</label>
+        <div class="control">
+            <input class="input" type="password" id="txtSecret" required placeholder="Secret"/>
+            <p class="help is-danger"></p>
+        </div>
+    </div>
+
+    <div class="field">
+        <label class="label" for="txtNewNeed">Needs</label>
+        <div class="control">
+            <input class="input" type="text" id="txtNewNeed" placeholder="New Need"/>
+            <button type="button" class="button is-info is-small" id="btnAddNeed">Add</button>
+            <ul id="lstNeeds">
+
+            </ul>
+        </div>
+    </div>
+</form>

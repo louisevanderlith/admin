@@ -1,6 +1,7 @@
 package vin
 
 import (
+	"fmt"
 	"github.com/louisevanderlith/admin/resources"
 	"github.com/louisevanderlith/droxolite/context"
 	"github.com/louisevanderlith/droxolite/mix"
@@ -43,6 +44,13 @@ func SearchRegions(mstr *template.Template, tmpl *template.Template) http.Handle
 			log.Println(err)
 			http.Error(w, "", http.StatusUnauthorized)
 			return
+		}
+
+		page, size := ctx.GetPageData()
+		result["Next"] = fmt.Sprintf("%c%v", (page+1)+64, size)
+
+		if page != 1 {
+			result["Previous"] = fmt.Sprintf("%c%v", (page-1)+64, size)
 		}
 
 		err = ctx.Serve(http.StatusOK, mix.Page("regions", result, ctx.GetTokenInfo(), mstr, tmpl))

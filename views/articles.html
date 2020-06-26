@@ -30,7 +30,7 @@
         </tr>
         </tfoot>
         <tbody>
-        {{range $key, $val := .Data}}
+        {{range $key, $val := .Data.Records }}
             <tr>
                 <td>{{$val.V.Title}}</td>
                 <td>{{$val.V.WrittenBy}}</td>
@@ -55,4 +55,5 @@
         {{end}}
         </tbody>
     </table>
+    {{template "pager.html" .Data}}
 </section>

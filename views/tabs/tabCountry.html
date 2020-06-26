@@ -1,13 +1,12 @@
 <table class="table is-fullwidth is-hoverable" id="dataTable">
-    <thead>
-    <tr>
-        <th>Country</th>
-    </tr>
-    </thead>
     <tbody>
     {{range $key, $val := .}}
         <tr>
             <td>{{$val.Name}}</td>
+            <td>
+                {{template "tabManufacturer.html" $val.Manufacturers}}
+            </td>
+            <!--
             <td>
                 <p class="buttons">
                     <a href="#" class="button is-primary">
@@ -16,9 +15,8 @@
                         </span>
                     </a>
                 </p>
-            </td>
+            </td>-->
         </tr>
-        {{template "tabManufacturer.html" $val.Manufacturers}}
     {{end}}
     </tbody>
 </table> 

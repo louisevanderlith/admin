@@ -1,9 +1,13 @@
+{{template "mobmenu.html" .}}
+{{template "menu.html" .}}
 <section class="hero is-info welcome is-small">
     <div class="hero-body">
         <div class="container">
             <h1 class="title">
                 Profile {{.Data.Title}}
             </h1>
+
+            <button type="button" class="button is-primary is-normal" id="btnSubmit">Save</button>
         </div>
     </div>
 </section>
@@ -17,38 +21,31 @@
                     <span>Info</span>
                 </a>
             </li>
-            <li data-target="paneHeader" id="tabHeader">
+            <li data-target="paneContacts" id="tabContacts">
                 <a>
                     <span class="icon is-small"><i class="fab fa-empire"></i></span>
-                    <span>Clients</span>
+                    <span>Contacts</span>
                 </a>
             </li>
-            <li data-target="panePortfolio" id="tabPortfolio">
+            <li data-target="paneClients" id="tabClients">
                 <a>
                     <span class="icon is-small"><i class="fab fa-superpowers"></i></span>
-                    <span>Resources</span>
-                </a>
-            </li>
-            <li data-target="paneSocialmedia" id="tabSocialmedia">
-                <a>
-                    <span class="icon is-small"><i class="fa fa-film"></i></span>
-                    <span>Contact</span>
+                    <span>Clients</span>
                 </a>
             </li>
         </ul>
     </div>
     <div class="tab-content">
-        <div class="tab-pane is-active" id="paneBasicsite">
-            {{ template "tabBasicsite.html" .}}
-        </div>
-        <div class="tab-pane" id="paneHeader">
-            {{ template "tabHeader.html" .}}
-        </div>
-        <div class="tab-pane" id="panePortfolio">
-            {{ template "tabPortfolio.html" .}}
-        </div>
-        <div class="tab-pane" id="paneSocialmedia">
-            {{ template "tabSocialmedia.html" .}}
-        </div>
+        <form id="frmProfile" role="form">
+            <div class="tab-pane is-active" id="paneBasicsite">
+                {{ template "tabBasicsite.html" .}}
+            </div>
+            <div class="tab-pane" id="paneContact">
+                {{ template "tabContacts.html" .}}
+            </div>
+            <div class="tab-pane" id="paneClients">
+                {{ template "tabClients.html" .}}
+            </div>
+        </form>
     </div>
 </section>

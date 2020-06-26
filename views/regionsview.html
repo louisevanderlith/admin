@@ -2,11 +2,11 @@
     <div class="hero-body">
         <div class="container">
             <h1 class="title">
-                Region {{.Data.Title}}
+                Region {{.Data.Name}}
             </h1>
         </div>
     </div>
+    <section class="section">
+        {{ template "tabCountry.html" .Data.Countries}}
+    </section>
 </section>
-<section class="section">
-    {{ template "tabCountry.html" .Data.Countries}}
-</section> 

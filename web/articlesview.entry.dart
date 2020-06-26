@@ -1,9 +1,6 @@
-import 'package:Admin.APP/articleform.dart';
-import 'package:mango_ui/keys.dart';
-
 void main() {
   print('Article Edit');
-  new ArticleForm(
+  /*new ArticleForm(
       "#frmBlogCreate",
       getObjKey(),
       "#txtTitle",
@@ -13,5 +10,5 @@ void main() {
       "#uplHeaderImg",
       "#hdnAuthor",
       "#chkPublic",
-      "#btnSubmit");
+      "#btnSubmit");*/
 }

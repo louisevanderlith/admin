@@ -28,7 +28,7 @@
         </tr>
         </tfoot>
         <tbody>
-        {{range $key, $val := .Data}}
+        {{range $key, $val := .Data.Records}}
             <tr>
                 <td>{{$val.Full}}</td>
                 <td>{{$val.Unique}}</td>
