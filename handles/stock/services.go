@@ -12,6 +12,7 @@ import (
 )
 
 func GetServices(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage("Services", mstr, tmpl)
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -24,7 +25,7 @@ func GetServices(mstr *template.Template, tmpl *template.Template) http.HandlerF
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, mix.Page("services", result, ctx.GetTokenInfo(), mstr, tmpl))
+		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
 			log.Println(err)
@@ -33,6 +34,7 @@ func GetServices(mstr *template.Template, tmpl *template.Template) http.HandlerF
 }
 
 func SearchServices(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage("Services",  mstr, tmpl)
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -45,7 +47,7 @@ func SearchServices(mstr *template.Template, tmpl *template.Template) http.Handl
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, mix.Page("Index", result, ctx.GetTokenInfo(), mstr, tmpl))
+		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
 			log.Println(err)
@@ -54,6 +56,7 @@ func SearchServices(mstr *template.Template, tmpl *template.Template) http.Handl
 }
 
 func ViewService(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage("servicesView", mstr, tmpl)
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -75,7 +78,7 @@ func ViewService(mstr *template.Template, tmpl *template.Template) http.HandlerF
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, mix.Page("servicesView", result, ctx.GetTokenInfo(), mstr, tmpl))
+		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
 			log.Println(err)

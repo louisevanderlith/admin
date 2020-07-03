@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:html';
 
+import 'package:dart_toast/dart_toast.dart';
 import 'package:mango_secure/bodies/resource.dart';
 import 'package:mango_secure/resourceapi.dart';
 import 'package:mango_ui/formstate.dart';
@@ -28,15 +29,15 @@ class ResourceForm extends FormState {
   }
 
   String get name {
-    return txtName.text;
+    return txtName.value;
   }
 
   String get displayname {
-    return txtDisplayName.text;
+    return txtDisplayName.value;
   }
 
   String get secret {
-    return txtSecret.text;
+    return txtSecret.value;
   }
 
   List<String> get needs {
@@ -45,38 +46,48 @@ class ResourceForm extends FormState {
 
   void onNeedAddClick(MouseEvent e) {
     final item = new Element.li();
-    item.text = txtNewNeed.text;
+    item.text = txtNewNeed.value;
 
     lstNeeds.children.add(item);
-    txtNewNeed.text = "";
+    txtNewNeed.value = "";
   }
 
   void onSubmitClick(MouseEvent e) async {
-    if (isFormValid()) {
-      disableSubmit(true);
+    if (!isFormValid()) {
+      return;
+    }
 
-      final obj =
-          new Resource(this.name, this.displayname, this.secret, this.needs);
+    disableSubmit(true);
 
-      HttpRequest req;
-      if (_objKey.toJson() != "0`0") {
-        req = await updateResource(_objKey, obj);
-      } else {
-        req = await createResource(obj);
+    final obj =
+        new Resource(this.name, this.displayname, this.secret, this.needs);
+
+    HttpRequest req;
+    if (_objKey.toJson() != "0`0") {
+      req = await updateResource(_objKey, obj);
+    } else {
+      req = await createResource(obj);
+    }
+
+    if (req.status == 200) {
+      final result = jsonDecode(req.response);
+      print(result);
+      final data = result['Data'];
+      final rec = data['Record'];
+
+      new Toast.success(
+          title: "Success!", message: data, position: ToastPos.bottomLeft);
+
+      if (rec != null) {
+        final key = rec['K'];
+
+        _objKey = key;
       }
-
-      var result = jsonDecode(req.response);
-
-      if (req.status == 200) {
-        final data = result['Data'];
-        final rec = data['Record'];
-
-        if (rec != null) {
-          final key = rec['K'];
-
-          _objKey = key;
-        }
-      }
+    } else {
+      new Toast.error(
+          title: "Failed!",
+          message: req.response,
+          position: ToastPos.bottomLeft);
     }
   }
 }

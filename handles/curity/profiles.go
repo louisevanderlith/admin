@@ -3,7 +3,6 @@ package curity
 import (
 	"fmt"
 	"github.com/louisevanderlith/admin/resources"
-	"github.com/louisevanderlith/droxolite/bodies"
 	"github.com/louisevanderlith/droxolite/context"
 	"github.com/louisevanderlith/droxolite/mix"
 	"github.com/louisevanderlith/husk"
@@ -13,6 +12,7 @@ import (
 )
 
 func GetProfiles(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage("Profiles", mstr, tmpl)
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -27,7 +27,7 @@ func GetProfiles(mstr *template.Template, tmpl *template.Template) http.HandlerF
 
 		result["Next"] = "profiles/B10"
 		result["Previous"] = ""
-		err = ctx.Serve(http.StatusOK, mix.Page("profiles", result, ctx.GetTokenInfo(), mstr, tmpl))
+		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
 			log.Println(err)
@@ -36,6 +36,7 @@ func GetProfiles(mstr *template.Template, tmpl *template.Template) http.HandlerF
 }
 
 func SearchProfiles(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage("Profiles", mstr, tmpl)
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -55,7 +56,7 @@ func SearchProfiles(mstr *template.Template, tmpl *template.Template) http.Handl
 			result["Previous"] = fmt.Sprintf("%c%v", (page-1)+64, size)
 		}
 
-		err = ctx.Serve(http.StatusOK, mix.Page("profiles", result, ctx.GetTokenInfo(), mstr, tmpl))
+		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
 			log.Println(err)
@@ -64,6 +65,7 @@ func SearchProfiles(mstr *template.Template, tmpl *template.Template) http.Handl
 }
 
 func ViewProfile(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage("profilesView", mstr, tmpl)
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 		key, err := husk.ParseKey(ctx.FindParam("key"))
@@ -83,31 +85,10 @@ func ViewProfile(mstr *template.Template, tmpl *template.Template) http.HandlerF
 			return
 		}
 
-		//result["Menu"] =
-
-		err = ctx.Serve(http.StatusOK, mix.Page("profilesView", result, ctx.GetTokenInfo(), mstr, tmpl))
+		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
 			log.Println(err)
 		}
 	}
-}
-
-func CreateProfile(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		ctx := context.New(w, r)
-		err := ctx.Serve(http.StatusOK, mix.Page("profilesCreate", nil, ctx.GetTokenInfo(), mstr, tmpl))
-
-		if err != nil {
-			log.Println(err)
-		}
-	}
-}
-
-
-func makeMenu() *bodies.Menu {
-	result := bodies.NewMenu()
-	result.AddGroup("Home", nil)
-
-	return result
 }

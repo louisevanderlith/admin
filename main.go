@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"github.com/louisevanderlith/admin/handles"
-	"github.com/louisevanderlith/kong"
 	"net/http"
 	"time"
 
@@ -18,19 +17,7 @@ func main() {
 
 	flag.Parse()
 
-	tkn, err := kong.FetchToken(http.DefaultClient, *securty, *clientId, *clientSecrt, "theme.assets.download", "theme.assets.view")
-
-	if err != nil {
-		panic(err)
-	}
-
-	clms, err := kong.Exchange(http.DefaultClient, tkn, *clientId, *clientSecrt, *securty+"/info")
-
-	if err != nil {
-		panic(err)
-	}
-
-	err = droxolite.UpdateTemplate(tkn, clms)
+	err := droxolite.UpdateTemplate(*clientId, *clientSecrt, *securty)
 
 	if err != nil {
 		panic(err)

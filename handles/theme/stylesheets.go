@@ -12,6 +12,7 @@ import (
 )
 
 func GetStylesheets(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage("Stylesheets",  mstr, tmpl)
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -24,7 +25,7 @@ func GetStylesheets(mstr *template.Template, tmpl *template.Template) http.Handl
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, mix.Page("stylesheets", result, ctx.GetTokenInfo(), mstr, tmpl))
+		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
 			log.Println(err)
@@ -33,6 +34,7 @@ func GetStylesheets(mstr *template.Template, tmpl *template.Template) http.Handl
 }
 
 func SearchStylesheets(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage("Stylesheets",  mstr, tmpl)
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -45,7 +47,7 @@ func SearchStylesheets(mstr *template.Template, tmpl *template.Template) http.Ha
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, mix.Page("stylesheets", result, ctx.GetTokenInfo(), mstr, tmpl))
+		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
 			log.Println(err)
@@ -54,6 +56,7 @@ func SearchStylesheets(mstr *template.Template, tmpl *template.Template) http.Ha
 }
 
 func ViewStylesheets(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage( "stylesheetsView", mstr, tmpl)
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 		key, err := husk.ParseKey(ctx.FindParam("key"))
@@ -73,7 +76,7 @@ func ViewStylesheets(mstr *template.Template, tmpl *template.Template) http.Hand
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, mix.Page("stylesheetsView", result, ctx.GetTokenInfo(), mstr, tmpl))
+		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
 			log.Println(err)

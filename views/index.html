@@ -1,12 +1,8 @@
-<section class="hero is-info welcome is-small">
-    <div class="hero-body">
-        <div class="container">
-            <h1 class="title">
-                Hello, {{.Username}}
-            </h1>
-        </div>
-    </div>
-</section>
+{{template "layout.html" .}}
+{{define "title"}}
+    Hello, {{.Username}}
+{{end}}
+{{define "content"}}
 <section class="info-tiles">
     <div class="tile is-ancestor has-text-centered">
         <div class="tile is-parent">
@@ -121,3 +117,4 @@
         </div>
     </div>
 </div>
+{{end}}

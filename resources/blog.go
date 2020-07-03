@@ -1,11 +1,11 @@
 package resources
 
 func (src *Source) FetchArticle(key string) (interface{}, error) {
-	return src.get("blog", "article", key)
+	return src.get("blog", "articles", key)
 }
 
 func (src *Source) FetchArticles(pagesize string) (map[string]interface{}, error) {
-	res, err := src.get("blog", "article", pagesize)
+	res, err := src.get("blog", "articles", pagesize)
 
 	if err != nil {
 		return nil, err

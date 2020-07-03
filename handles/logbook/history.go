@@ -9,10 +9,11 @@ import (
 )
 
 func GetHistory(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage("History",  mstr, tmpl)
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
-		err := ctx.Serve(http.StatusOK, mix.Page("history", nil, ctx.GetTokenInfo(), mstr, tmpl))
+		err := ctx.Serve(http.StatusOK, pge.Page(nil, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
 			log.Println(err)

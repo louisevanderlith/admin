@@ -23,4 +23,8 @@ class MapItem {
   String get value {
     return txtValue.text;
   }
+
+  MapEntry toEntry() {
+    return new MapEntry(this.name, this.value);
+  }
 }

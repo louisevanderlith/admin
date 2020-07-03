@@ -12,6 +12,7 @@ import (
 )
 
 func GetArticles(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage("Articles",  mstr, tmpl)
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 		src := resources.APIResource(http.DefaultClient, ctx)
@@ -24,7 +25,7 @@ func GetArticles(mstr *template.Template, tmpl *template.Template) http.HandlerF
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, mix.Page("articles", result, ctx.GetTokenInfo(), mstr, tmpl))
+		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
 			log.Println(err)
@@ -33,11 +34,12 @@ func GetArticles(mstr *template.Template, tmpl *template.Template) http.HandlerF
 }
 
 func SearchArticles(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage("Articles",  mstr, tmpl)
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 		src := resources.APIResource(http.DefaultClient, ctx)
 
-		result, err := src.FetchUploads(ctx.FindParam("pagesize"))
+		result, err := src.FetchArticles(ctx.FindParam("pagesize"))
 
 		if err != nil {
 			log.Println(err)
@@ -45,7 +47,7 @@ func SearchArticles(mstr *template.Template, tmpl *template.Template) http.Handl
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, mix.Page("articles", result, ctx.GetTokenInfo(), mstr, tmpl))
+		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
 			log.Println(err)
@@ -54,6 +56,7 @@ func SearchArticles(mstr *template.Template, tmpl *template.Template) http.Handl
 }
 
 func ViewArticle(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage( "articlesView", mstr, tmpl)
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 		key, err := husk.ParseKey(ctx.FindParam("key"))
@@ -66,7 +69,7 @@ func ViewArticle(mstr *template.Template, tmpl *template.Template) http.HandlerF
 
 		src := resources.APIResource(http.DefaultClient, ctx)
 
-		result, err := src.FetchUploads(key.String())
+		result, err := src.FetchArticle(key.String())
 
 		if err != nil {
 			log.Println(err)
@@ -74,18 +77,7 @@ func ViewArticle(mstr *template.Template, tmpl *template.Template) http.HandlerF
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, mix.Page("articlesView", result, ctx.GetTokenInfo(), mstr, tmpl))
-
-		if err != nil {
-			log.Println(err)
-		}
-	}
-}
-
-func Create(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		ctx := context.New(w, r)
-		err := ctx.Serve(http.StatusOK, mix.Page("articlesCreate", nil, ctx.GetTokenInfo(), mstr, tmpl))
+		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
 			log.Println(err)

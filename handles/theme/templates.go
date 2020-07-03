@@ -12,6 +12,7 @@ import (
 )
 
 func GetTemplates(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage("Templates",  mstr, tmpl)
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 		src := resources.APIResource(http.DefaultClient, ctx)
@@ -23,7 +24,7 @@ func GetTemplates(mstr *template.Template, tmpl *template.Template) http.Handler
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, mix.Page("templates", result, ctx.GetTokenInfo(), mstr, tmpl))
+		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
 			log.Println(err)
@@ -32,6 +33,7 @@ func GetTemplates(mstr *template.Template, tmpl *template.Template) http.Handler
 }
 
 func SearchTemplates(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage("Templates",  mstr, tmpl)
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -44,7 +46,7 @@ func SearchTemplates(mstr *template.Template, tmpl *template.Template) http.Hand
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, mix.Page("templates", result, ctx.GetTokenInfo(), mstr, tmpl))
+		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
 			log.Println(err)
@@ -53,6 +55,7 @@ func SearchTemplates(mstr *template.Template, tmpl *template.Template) http.Hand
 }
 
 func ViewTemplates(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage( "templatesView", mstr, tmpl)
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 		key, err := husk.ParseKey(ctx.FindParam("key"))
@@ -72,7 +75,7 @@ func ViewTemplates(mstr *template.Template, tmpl *template.Template) http.Handle
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, mix.Page("templatesView", result, ctx.GetTokenInfo(), mstr, tmpl))
+		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
 			log.Println(err)

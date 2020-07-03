@@ -13,6 +13,7 @@ import (
 )
 
 func GetRegions(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage("Regions", mstr, tmpl)
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -25,7 +26,7 @@ func GetRegions(mstr *template.Template, tmpl *template.Template) http.HandlerFu
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, mix.Page("regions", result, ctx.GetTokenInfo(), mstr, tmpl))
+		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
 			log.Println(err)
@@ -34,6 +35,7 @@ func GetRegions(mstr *template.Template, tmpl *template.Template) http.HandlerFu
 }
 
 func SearchRegions(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage("resourceView", mstr, tmpl)
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -53,7 +55,7 @@ func SearchRegions(mstr *template.Template, tmpl *template.Template) http.Handle
 			result["Previous"] = fmt.Sprintf("%c%v", (page-1)+64, size)
 		}
 
-		err = ctx.Serve(http.StatusOK, mix.Page("regions", result, ctx.GetTokenInfo(), mstr, tmpl))
+		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
 			log.Println(err)
@@ -62,6 +64,7 @@ func SearchRegions(mstr *template.Template, tmpl *template.Template) http.Handle
 }
 
 func ViewRegion(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage("RegionsView", mstr, tmpl)
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 		key, err := husk.ParseKey(ctx.FindParam("key"))
@@ -81,7 +84,7 @@ func ViewRegion(mstr *template.Template, tmpl *template.Template) http.HandlerFu
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, mix.Page("regionsView", result, ctx.GetTokenInfo(), mstr, tmpl))
+		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
 			log.Println(err)

@@ -12,6 +12,7 @@ import (
 )
 
 func GetMessages(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage("Comments",mstr, tmpl)
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 		src := resources.APIResource(http.DefaultClient, ctx)
@@ -24,7 +25,7 @@ func GetMessages(mstr *template.Template, tmpl *template.Template) http.HandlerF
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, mix.Page("comments", result, ctx.GetTokenInfo(), mstr, tmpl))
+		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
 			log.Println(err)
@@ -33,6 +34,7 @@ func GetMessages(mstr *template.Template, tmpl *template.Template) http.HandlerF
 }
 
 func SearchMessages(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage("Comments", mstr, tmpl)
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 		src := resources.APIResource(http.DefaultClient, ctx)
@@ -45,7 +47,7 @@ func SearchMessages(mstr *template.Template, tmpl *template.Template) http.Handl
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, mix.Page("comments", result, ctx.GetTokenInfo(), mstr, tmpl))
+		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
 			log.Println(err)
@@ -54,6 +56,7 @@ func SearchMessages(mstr *template.Template, tmpl *template.Template) http.Handl
 }
 
 func ViewMessage(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage("commentsView", mstr, tmpl)
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 		key, err := husk.ParseKey(ctx.FindParam("key"))
@@ -73,7 +76,7 @@ func ViewMessage(mstr *template.Template, tmpl *template.Template) http.HandlerF
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, mix.Page("commentsView", result, ctx.GetTokenInfo(), mstr, tmpl))
+		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
 			log.Println(err)

@@ -12,6 +12,7 @@ import (
 )
 
 func GetAccounts(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage("Accounts", mstr, tmpl)
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -24,7 +25,7 @@ func GetAccounts(mstr *template.Template, tmpl *template.Template) http.HandlerF
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, mix.Page("accounts", result, ctx.GetTokenInfo(), mstr, tmpl))
+		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
 			log.Println(err)
@@ -33,6 +34,7 @@ func GetAccounts(mstr *template.Template, tmpl *template.Template) http.HandlerF
 }
 
 func SearchAccounts(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage("Accounts", mstr, tmpl)
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -45,7 +47,7 @@ func SearchAccounts(mstr *template.Template, tmpl *template.Template) http.Handl
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, mix.Page("accounts", result, ctx.GetTokenInfo(), mstr, tmpl))
+		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
 			log.Println(err)
@@ -54,6 +56,7 @@ func SearchAccounts(mstr *template.Template, tmpl *template.Template) http.Handl
 }
 
 func ViewAccounts(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage("accountsView", mstr, tmpl)
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -74,7 +77,7 @@ func ViewAccounts(mstr *template.Template, tmpl *template.Template) http.Handler
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, mix.Page("accountsView", result, ctx.GetTokenInfo(), mstr, tmpl))
+		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
 			log.Println(err)

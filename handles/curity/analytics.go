@@ -1,5 +1,5 @@
 package curity
 
-func Nothing() {
+func Nothingyet() {
 
 }

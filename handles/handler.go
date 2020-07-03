@@ -9,30 +9,14 @@ import (
 	"github.com/louisevanderlith/admin/handles/curity"
 	"github.com/louisevanderlith/admin/handles/vin"
 	"github.com/louisevanderlith/droxolite"
-	"github.com/louisevanderlith/droxolite/bodies"
+	"github.com/louisevanderlith/droxolite/menu"
 	"github.com/louisevanderlith/kong"
 	"net/http"
 )
 
-func FullMenu() *bodies.Menu {
-	m := bodies.NewMenu()
-	m.AddGroup("Home", nil)
-	m.AddGroup("Artifact", nil)
-	m.AddGroup("Blog", nil)
-	m.AddGroup("Comment", nil)
-	m.AddGroup("Communication", nil)
-	m.AddGroup("Security", nil)
-	m.AddGroup("Entity", nil)
-	m.AddGroup("Funds", nil)
-	m.AddGroup("Game", nil)
-	m.AddGroup("Logbook", nil)
-	m.AddGroup("Notification", nil)
-	m.AddGroup("Quote", nil)
-	m.AddGroup("Stock", nil)
-	m.AddGroup("Theme", nil)
-	m.AddGroup("Vehicle", nil)
-	m.AddGroup("VIN", nil)
-	m.AddGroup("Exchange", nil)
+func FullMenu() *menu.Menu {
+	m := menu.NewMenu()
+	m.AddItem(menu.NewItem("home", "/", "Home", nil))
 
 	return m
 }

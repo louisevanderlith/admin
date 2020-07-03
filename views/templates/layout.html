@@ -1,0 +1,18 @@
+<!-- Header -->
+<div class="header-wrapper" id="home">
+    <section class="hero is-medium">
+        {{template "mobmenu.html" .Data}}
+        <div class="hero-body has-text-centered">
+            <h1 class="title is-1">
+                {{block "title" .}}
+                {{end}}
+            </h1>
+        </div>
+        {{template "menu.html" .Data}}
+    </section>
+</div>
+<!-- Main Content -->
+<div class="main-content">
+    {{block "content" .}}
+    {{end}}
+</div>

@@ -9,7 +9,7 @@ class ClientsForm {
 
   ClientsForm() {
     form = querySelector("frmClients");
-    querySelector("btnAddContact").onClick.listen(onAddClick);
+    querySelector("btnAddClient").onClick.listen(onAddClick);
   }
 
   void onAddClick(MouseEvent e) {

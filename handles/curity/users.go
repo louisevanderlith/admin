@@ -12,6 +12,7 @@ import (
 )
 
 func GetUsers(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage("Users", mstr, tmpl)
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -24,7 +25,7 @@ func GetUsers(mstr *template.Template, tmpl *template.Template) http.HandlerFunc
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, mix.Page("users", result, ctx.GetTokenInfo(), mstr, tmpl))
+		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
 			log.Println(err)
@@ -33,6 +34,7 @@ func GetUsers(mstr *template.Template, tmpl *template.Template) http.HandlerFunc
 }
 
 func SearchUsers(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage("Users",  mstr, tmpl)
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -45,7 +47,7 @@ func SearchUsers(mstr *template.Template, tmpl *template.Template) http.HandlerF
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, mix.Page("users", result, ctx.GetTokenInfo(), mstr, tmpl))
+		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
 			log.Println(err)
@@ -54,6 +56,7 @@ func SearchUsers(mstr *template.Template, tmpl *template.Template) http.HandlerF
 }
 
 func ViewUser(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage("usersView", mstr, tmpl)
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -74,19 +77,7 @@ func ViewUser(mstr *template.Template, tmpl *template.Template) http.HandlerFunc
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, mix.Page("usersView", result, ctx.GetTokenInfo(), mstr, tmpl))
-
-		if err != nil {
-			log.Println(err)
-		}
-	}
-}
-
-func CreateUser(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		ctx := context.New(w, r)
-
-		err := ctx.Serve(http.StatusOK, mix.Page("usersCreate", nil, ctx.GetTokenInfo(), mstr, tmpl))
+		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
 			log.Println(err)

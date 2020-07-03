@@ -1,16 +1,16 @@
 <div class="content">
     <form id="frmBasicsite" role="form">
         <div class="field">
+            <label class="label" for="txtTitle">Title</label>
             <div class="control">
-                <label class="label" for="txtTitle">Title</label>
                 <input class="input" type="text" id="txtTitle" placeholder="Title" required value="{{.Data.Title}}"/>
                 <p class="help is-danger"></p>
             </div>
         </div>
 
         <div class="field">
+            <label class="label" for="txtDescription">Description</label>
             <div class="control">
-                <label class="label" for="txtDescription">Description</label>
                 <textarea class="textarea" id="txtDescription" placeholder="Description" required cols="40"
                           rows="5">{{.Data.Description}}</textarea>
                 <p class="help is-danger"></p>
@@ -18,8 +18,8 @@
         </div>
 
         <div class="field">
+            <label class="label" for="uplProfileImg">Logo</label>
             <div class="control">
-                <label class="label" for="uplProfileImg">Logo</label>
                 <div class="file">
                     <label class="file-label">
                         <input class="file-input" type="file" multiple="false" data-for="logo" data-name="Profile"
@@ -40,6 +40,37 @@
                        class='image {{if eq (print .Data.ImageKey) "0`0"}} is-hidden {{end}}'
                        src="{{ .Identity.GetResourceURL "artifact" }}/download/{{.Data.ImageKey}}" alt="profile image"/>
                 <p class="help is-danger"></p>
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="label" for="lstCodes">Codes</label>
+            <div class="control">
+                <ul id="lstCodes">
+                    {{range $k, $v := .Data.Codes}}
+                        <li>
+                            <input class="input" type="text" id="txtCodeName{{$k}}" placeholder="Title" required
+                                   value="{{$k}}"/>
+                            <input class="input" type="text" id="txtCodeValue{{$k}}" placeholder="Title" required
+                                   value="{{$v}}"/>
+                        </li>
+                    {{end}}
+                </ul>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label" for="lstTerms">Terms</label>
+            <div class="control">
+                <ul id="lstTerms">
+                    {{range $k, $v := .Data.Terms}}
+                        <li>
+                            <input class="input" type="text" id="txtTermName{{$k}}" placeholder="Title" required
+                                   value="{{$k}}"/>
+                            <input class="input" type="text" id="txtTermValue{{$k}}" placeholder="Title" required
+                                   value="{{$v}}"/>
+                        </li>
+                    {{end}}
+                </ul>
             </div>
         </div>
     </form>

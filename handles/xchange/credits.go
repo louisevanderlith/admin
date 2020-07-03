@@ -12,10 +12,11 @@ import (
 )
 
 func GetCredits(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage("Credits", mstr, tmpl)
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
-		err := ctx.Serve(http.StatusOK, mix.Page("credits", nil, ctx.GetTokenInfo(), mstr, tmpl))
+		err := ctx.Serve(http.StatusOK, pge.Page(nil, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
 			log.Println(err)
@@ -24,10 +25,11 @@ func GetCredits(mstr *template.Template, tmpl *template.Template) http.HandlerFu
 }
 
 func SearchCredits(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage("Credits",mstr, tmpl)
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
-		err := ctx.Serve(http.StatusOK, mix.Page("credits", nil, ctx.GetTokenInfo(), mstr, tmpl))
+		err := ctx.Serve(http.StatusOK, pge.Page(nil, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
 			log.Println(err)
@@ -36,6 +38,7 @@ func SearchCredits(mstr *template.Template, tmpl *template.Template) http.Handle
 }
 
 func ViewCredits(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage( "Credits View", mstr, tmpl)
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -56,7 +59,7 @@ func ViewCredits(mstr *template.Template, tmpl *template.Template) http.HandlerF
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, mix.Page("creditsView", result, ctx.GetTokenInfo(), mstr, tmpl))
+		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
 			log.Println(err)

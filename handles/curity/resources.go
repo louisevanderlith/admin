@@ -12,6 +12,7 @@ import (
 )
 
 func GetResource(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage("Resources", mstr, tmpl)
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -26,7 +27,7 @@ func GetResource(mstr *template.Template, tmpl *template.Template) http.HandlerF
 
 		result["Next"] = "resources/B10"
 		result["Previous"] = ""
-		err = ctx.Serve(http.StatusOK, mix.Page("resources", result, ctx.GetTokenInfo(), mstr, tmpl))
+		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
 			log.Println(err)
@@ -35,6 +36,7 @@ func GetResource(mstr *template.Template, tmpl *template.Template) http.HandlerF
 }
 
 func SearchResource(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage("Resources", mstr, tmpl)
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -54,7 +56,7 @@ func SearchResource(mstr *template.Template, tmpl *template.Template) http.Handl
 			result["Previous"] = fmt.Sprintf("%c%v", (page-1)+64, size)
 		}
 
-		err = ctx.Serve(http.StatusOK, mix.Page("resources", result, ctx.GetTokenInfo(), mstr, tmpl))
+		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
 			log.Println(err)
@@ -63,6 +65,7 @@ func SearchResource(mstr *template.Template, tmpl *template.Template) http.Handl
 }
 
 func ViewResource(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage("resourceview", mstr, tmpl)
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 		key, err := husk.ParseKey(ctx.FindParam("key"))
@@ -74,7 +77,7 @@ func ViewResource(mstr *template.Template, tmpl *template.Template) http.Handler
 		}
 
 		src := resources.APIResource(http.DefaultClient, ctx)
-		result, err := src.FetchProfile(key.String())
+		result, err := src.FetchResource(key.String())
 
 		if err != nil {
 			log.Println(err)
@@ -83,19 +86,8 @@ func ViewResource(mstr *template.Template, tmpl *template.Template) http.Handler
 		}
 
 		//result["Menu"] =
-
-		err = ctx.Serve(http.StatusOK, mix.Page("resourceView", result, ctx.GetTokenInfo(), mstr, tmpl))
-
-		if err != nil {
-			log.Println(err)
-		}
-	}
-}
-
-func CreateResource(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		ctx := context.New(w, r)
-		err := ctx.Serve(http.StatusOK, mix.Page("resourceCreate", nil, ctx.GetTokenInfo(), mstr, tmpl))
+		
+		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
 			log.Println(err)
