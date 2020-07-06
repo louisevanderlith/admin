@@ -1,12 +1,6 @@
-<section class="hero is-info welcome is-small">
-    <div class="hero-body">
-        <div class="container">
-            <h1 class="title">
-                Region {{.Data.Name}}
-            </h1>
-        </div>
-    </div>
+{{template "adminpage.html" .}}
+{{define "content"}}
     <section class="section">
         {{ template "tabCountry.html" .Data.Countries}}
     </section>
-</section>
+{{end}}

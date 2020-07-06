@@ -1,62 +1,57 @@
-<section class="hero is-info welcome is-small">
-    <div class="hero-body">
-        <div class="container">
-            <h1 class="title">
-                Vehicles
-            </h1>
-        </div>
-    </div>
-</section>
-<section class="section">
-    <table class="table is-fullwidth is-hoverable" id="dataTable">
-        <thead>
-        <tr>
-            <th>Full VIN</th>
-            <th>Manufacturer</th>
-            <th>Colour</th>
-            <th>Year</th>
-            <th>Engine</th>
-            <th>Gearbox</th>
-            <th>Body style</th>
-            <th>Doors</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tfoot>
-        <tr>
-            <th>Full VIN</th>
-            <th>Manufacturer</th>
-            <th>Colour</th>
-            <th>Year</th>
-            <th>Engine</th>
-            <th>Gearbox</th>
-            <th>Body style</th>
-            <th>Doors</th>
-            <th>Actions</th>
-        </tr>
-        </tfoot>
-        <tbody>
-        {{range $key, $val := .Data}}
+{{template "adminpage.html" .}}
+{{define "content"}}
+    <section class="section">
+        <table class="table is-fullwidth is-hoverable" id="dataTable">
+            <thead>
             <tr>
-                <td>{{$val.FullVIN}}</td>
-                <td>{{$val.Manufacturer}}</td>
-                <td>{{$val.Colour}}</td>
-                <td>{{$val.Year}}</td>
-                <td>{{$val.Engine}}</td>
-                <td>{{$val.Gearbox}}</td>
-                <td>{{$val.BodyStyle}}</td>
-                <td>{{$val.Doors}}</td>
-                <td>
-                    <p class="buttons">
-                        <a href="/vehicle/vehicles/{{$val.K}}" class="button is-primary">
+                <th>Full VIN</th>
+                <th>Manufacturer</th>
+                <th>Colour</th>
+                <th>Year</th>
+                <th>Engine</th>
+                <th>Gearbox</th>
+                <th>Body style</th>
+                <th>Doors</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+                <th>Full VIN</th>
+                <th>Manufacturer</th>
+                <th>Colour</th>
+                <th>Year</th>
+                <th>Engine</th>
+                <th>Gearbox</th>
+                <th>Body style</th>
+                <th>Doors</th>
+                <th>Actions</th>
+            </tr>
+            </tfoot>
+            <tbody>
+            {{range $key, $val := .Data}}
+                <tr>
+                    <td>{{$val.FullVIN}}</td>
+                    <td>{{$val.Manufacturer}}</td>
+                    <td>{{$val.Colour}}</td>
+                    <td>{{$val.Year}}</td>
+                    <td>{{$val.Engine}}</td>
+                    <td>{{$val.Gearbox}}</td>
+                    <td>{{$val.BodyStyle}}</td>
+                    <td>{{$val.Doors}}</td>
+                    <td>
+                        <p class="buttons">
+                            <a href="/vehicle/vehicles/{{$val.K}}" class="button is-primary">
                             <span class="icon is-small">
                                 <i class="fas fa-file-alt"></i>
                             </span>
-                        </a>
-                    </p>
-                </td>
-            </tr>
-        {{end}}
-        </tbody>
-    </table>
-</section>
+                            </a>
+                        </p>
+                    </td>
+                </tr>
+            {{end}}
+            </tbody>
+        </table>
+        {{template "pager.html" .Data}}
+    </section>
+{{end}}

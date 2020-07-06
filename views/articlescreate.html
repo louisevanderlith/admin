@@ -1,12 +1,5 @@
-<section class="hero is-info is-small">
-    <div class="hero-body">
-        <h1 class="title">
-            Write an Article
-        </h1>
-    </div>
-</section>
-<br>
-<div class="content">
+{{template "adminpage.html" .}}
+{{define "content"}}
     <form id="frmBlogCreate" role="form">
         <div class="field">
             <div class="control">
@@ -138,4 +131,4 @@
             </div>
         </div>
     </form>
-</div>
+{{end}}

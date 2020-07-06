@@ -1,55 +1,50 @@
-<section class="hero is-info welcome is-small">
-    <div class="hero-body">
-        <div class="container">
-            <h1 class="title">
-                Uploads
-            </h1>
-        </div>
-    </div>
-</section>
-<section class="section">
-    <table class="table is-fullwidth is-hoverable" id="dataTable">
-        <thead>
-        <tr>
-            <th>Item Name</th>
-            <th>Name</th>
-            <th>MimeType</th>
-            <th>Size</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tfoot>
-        <tr>
-            <th>Item Name</th>
-            <th>Name</th>
-            <th>MimeType</th>
-            <th>Size</th>
-            <th>Actions</th>
-        </tr>
-        </tfoot>
-        <tbody>
-        {{range $key, $val := .Data.Records}}
+{{template "adminpage.html" .}}
+{{define "content"}}
+    <section class="section">
+        <table class="table is-fullwidth is-hoverable" id="dataTable">
+            <thead>
             <tr>
-                <td>{{$val.V.ItemName}}</td>
-                <td>{{$val.V.Name}}</td>
-                <td>{{$val.V.MimeType}}</td>
-                <td>{{$val.V.Size}}</td>
-                <td>
-                    <p class="buttons">
-                        <a href="/artifact/uploads/{{$val.K}}" class="button is-primary">
+                <th>Item Name</th>
+                <th>Name</th>
+                <th>MimeType</th>
+                <th>Size</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+                <th>Item Name</th>
+                <th>Name</th>
+                <th>MimeType</th>
+                <th>Size</th>
+                <th>Actions</th>
+            </tr>
+            </tfoot>
+            <tbody>
+            {{range $key, $val := .Data.Records}}
+                <tr>
+                    <td>{{$val.V.ItemName}}</td>
+                    <td>{{$val.V.Name}}</td>
+                    <td>{{$val.V.MimeType}}</td>
+                    <td>{{$val.V.Size}}</td>
+                    <td>
+                        <p class="buttons">
+                            <a href="/artifact/uploads/{{$val.K}}" class="button is-primary">
                             <span class="icon is-small">
                                 <i class="fas fa-file-alt"></i>
                             </span>
-                        </a>
-                        <button data-key="{{$val.K}}" class="button is-danger deleter">
+                            </a>
+                            <button data-key="{{$val.K}}" class="button is-danger deleter">
                             <span class="icon is-small">
                                 <i class="fas fa-ban"></i>
                             </span>
-                        </button>
-                    </p>
-                </td>
-            </tr>
-        {{end}}
-        </tbody>
-    </table>
-</section>
+                            </button>
+                        </p>
+                    </td>
+                </tr>
+            {{end}}
+            </tbody>
+        </table>
+        {{template "pager.html" .Data}}
+    </section>
+{{end}}
