@@ -11,8 +11,8 @@ import (
 	"github.com/louisevanderlith/husk"
 )
 
-func GetTemplates(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Templates",  mstr, tmpl)
+func GetTemplates(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Templates", "./views/theme/templates.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 		src := resources.APIResource(http.DefaultClient, ctx)
@@ -32,8 +32,8 @@ func GetTemplates(mstr *template.Template, tmpl *template.Template) http.Handler
 	}
 }
 
-func SearchTemplates(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Templates",  mstr, tmpl)
+func SearchTemplates(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Templates", "./views/theme/templates.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -54,8 +54,8 @@ func SearchTemplates(mstr *template.Template, tmpl *template.Template) http.Hand
 	}
 }
 
-func ViewTemplates(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage( "templatesView", mstr, tmpl)
+func ViewTemplates(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "TemplatesView", "./views/theme/templatesView.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 		key, err := husk.ParseKey(ctx.FindParam("key"))

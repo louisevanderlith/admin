@@ -1,5 +1,5 @@
 {{template "adminpage.html" .}}
-{{define "content"}}
+{{define "admincontent"}}
     <section class="section">
         <table class="table is-fullwidth is-hoverable" id="dataTable">
             <thead>
@@ -36,5 +36,5 @@
         </table>
         {{template "pager.html" .Data}}
     </section>
-    {{template "resourcecreate.html" .}}
+    {{template "resourceCreate.html" .}}
 {{end}}

@@ -1,0 +1,6 @@
+{{template "adminpage.html" .}}
+{{define "admincontent"}}
+    <section class="section">
+        {{ template "tabCountry.html" .Data.Countries}}
+    </section>
+{{end}}

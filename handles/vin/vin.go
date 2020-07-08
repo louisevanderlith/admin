@@ -11,8 +11,8 @@ import (
 	"github.com/louisevanderlith/husk"
 )
 
-func GetVIN(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("vin", mstr, tmpl)
+func GetVIN(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "VIN", "./views/vin/vin.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -33,8 +33,8 @@ func GetVIN(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
 	}
 }
 
-func SearchVIN(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("vin", mstr, tmpl)
+func SearchVIN(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "VIN", "./views/vin/vin.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -55,8 +55,8 @@ func SearchVIN(mstr *template.Template, tmpl *template.Template) http.HandlerFun
 	}
 }
 
-func ViewVIN(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage( "vinView", mstr, tmpl)
+func ViewVIN(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "VIN View", "./views/vin/vinView.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 

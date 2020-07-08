@@ -11,8 +11,8 @@ import (
 	"github.com/louisevanderlith/husk"
 )
 
-func GetVehicles(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Vehicles", mstr, tmpl)
+func GetVehicles(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Vehicles", "./views/vehicle/vehicles.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -33,8 +33,8 @@ func GetVehicles(mstr *template.Template, tmpl *template.Template) http.HandlerF
 	}
 }
 
-func SearchVehicles(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Vehicles",  mstr, tmpl)
+func SearchVehicles(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Vehicles", "./views/vehicle/vehicles.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -55,8 +55,8 @@ func SearchVehicles(mstr *template.Template, tmpl *template.Template) http.Handl
 	}
 }
 
-func ViewVehicles(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage( "vehiclesView", mstr, tmpl)
+func ViewVehicles(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Vehicles View", "./views/vehicle/vehiclesView.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 

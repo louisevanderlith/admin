@@ -11,8 +11,9 @@ import (
 	"net/http"
 )
 
-func GetResource(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Resources", mstr, tmpl)
+func GetResource(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Resources", "./views/curity/resources.html")
+
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -35,8 +36,8 @@ func GetResource(mstr *template.Template, tmpl *template.Template) http.HandlerF
 	}
 }
 
-func SearchResource(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Resources", mstr, tmpl)
+func SearchResource(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Resources", "./views/curity/resources.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -64,8 +65,9 @@ func SearchResource(mstr *template.Template, tmpl *template.Template) http.Handl
 	}
 }
 
-func ViewResource(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("resourceview", mstr, tmpl)
+func ViewResource(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Resources View", "./views/curity/resourcesView.html")
+
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 		key, err := husk.ParseKey(ctx.FindParam("key"))
@@ -85,8 +87,6 @@ func ViewResource(mstr *template.Template, tmpl *template.Template) http.Handler
 			return
 		}
 
-		//result["Menu"] =
-		
 		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {

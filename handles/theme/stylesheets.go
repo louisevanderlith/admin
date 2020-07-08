@@ -11,8 +11,8 @@ import (
 	"github.com/louisevanderlith/husk"
 )
 
-func GetStylesheets(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Stylesheets",  mstr, tmpl)
+func GetStylesheets(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Stylesheets", "./views/theme/stylesheets.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -33,8 +33,8 @@ func GetStylesheets(mstr *template.Template, tmpl *template.Template) http.Handl
 	}
 }
 
-func SearchStylesheets(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Stylesheets",  mstr, tmpl)
+func SearchStylesheets(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Stylesheets", "./views/theme/stylesheets.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -55,8 +55,8 @@ func SearchStylesheets(mstr *template.Template, tmpl *template.Template) http.Ha
 	}
 }
 
-func ViewStylesheets(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage( "stylesheetsView", mstr, tmpl)
+func ViewStylesheets(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Stylesheets View", "./views/theme/stylesheetsView.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 		key, err := husk.ParseKey(ctx.FindParam("key"))

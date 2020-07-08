@@ -11,8 +11,8 @@ import (
 	"github.com/louisevanderlith/husk"
 )
 
-func GetUploads(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Uploads", mstr, tmpl)
+func GetUploads(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Uploads", "./views/artifact/uploads.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 		src := resources.APIResource(http.DefaultClient, ctx)
@@ -20,8 +20,7 @@ func GetUploads(mstr *template.Template, tmpl *template.Template) http.HandlerFu
 		result, err := src.FetchUploads("A10")
 
 		if err != nil {
-			log.Println(err)
-
+			log.Println("Fetch Error", err)
 			http.Error(w, "", http.StatusUnauthorized)
 			return
 		}
@@ -34,8 +33,8 @@ func GetUploads(mstr *template.Template, tmpl *template.Template) http.HandlerFu
 	}
 }
 
-func SearchUploads(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Uploads", mstr, tmpl)
+func SearchUploads(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Uploads", "./views/artifact/uploads.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 		src := resources.APIResource(http.DefaultClient, ctx)
@@ -56,8 +55,8 @@ func SearchUploads(mstr *template.Template, tmpl *template.Template) http.Handle
 	}
 }
 
-func ViewUpload(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("uploadsView", mstr, tmpl)
+func ViewUpload(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Uploads View", "./views/artifact/uploadsView.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 		key, err := husk.ParseKey(ctx.FindParam("key"))

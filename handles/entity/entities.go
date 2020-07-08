@@ -11,8 +11,9 @@ import (
 	"github.com/louisevanderlith/husk"
 )
 
-func GetEnitites(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Entities",  mstr, tmpl)
+func GetEnitites(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Entities", "./views/entity/entities.html")
+
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -33,8 +34,9 @@ func GetEnitites(mstr *template.Template, tmpl *template.Template) http.HandlerF
 	}
 }
 
-func SearchEntities(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Entities",mstr, tmpl)
+func SearchEntities(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Entities", "./views/entity/entities.html")
+
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -56,8 +58,9 @@ func SearchEntities(mstr *template.Template, tmpl *template.Template) http.Handl
 	}
 }
 
-func ViewEntity(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("entitiesView", mstr, tmpl)
+func ViewEntity(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Entities View", "./views/entity/entitiesView.html")
+
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 

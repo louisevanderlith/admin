@@ -11,8 +11,9 @@ import (
 	"github.com/louisevanderlith/husk"
 )
 
-func GetHeroes(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Heroes", mstr, tmpl)
+func GetHeroes(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Heroes", "./views/game/heroes.html")
+
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -33,8 +34,9 @@ func GetHeroes(mstr *template.Template, tmpl *template.Template) http.HandlerFun
 	}
 }
 
-func SearchHeroes(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Heroes", mstr, tmpl)
+func SearchHeroes(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Heroes", "./views/game/heroes.html")
+
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -55,8 +57,9 @@ func SearchHeroes(mstr *template.Template, tmpl *template.Template) http.Handler
 	}
 }
 
-func ViewHero(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("heroesView", mstr, tmpl)
+func ViewHero(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Heroes View", "./views/game/heroesView.html")
+
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 

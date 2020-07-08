@@ -11,8 +11,9 @@ import (
 	"github.com/louisevanderlith/husk"
 )
 
-func GetAccounts(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Accounts", mstr, tmpl)
+func GetAccounts(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Accounts", "./views/funds/accounts.html")
+
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -33,8 +34,9 @@ func GetAccounts(mstr *template.Template, tmpl *template.Template) http.HandlerF
 	}
 }
 
-func SearchAccounts(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Accounts", mstr, tmpl)
+func SearchAccounts(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Accounts", "./views/funds/accounts.html")
+
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -55,8 +57,9 @@ func SearchAccounts(mstr *template.Template, tmpl *template.Template) http.Handl
 	}
 }
 
-func ViewAccounts(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("accountsView", mstr, tmpl)
+func ViewAccounts(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Accounts View", "./views/funds/accountsView.html")
+
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 

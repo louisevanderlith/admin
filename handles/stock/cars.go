@@ -11,8 +11,9 @@ import (
 	"github.com/louisevanderlith/husk"
 )
 
-func GetCars(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Cars", mstr, tmpl)
+func GetCars(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Cars", "./views/stock/cars.html")
+
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -34,8 +35,8 @@ func GetCars(mstr *template.Template, tmpl *template.Template) http.HandlerFunc 
 	}
 }
 
-func SearchCars(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Cars", mstr, tmpl)
+func SearchCars(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Cars", "./views/stock/cars.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 		src := resources.APIResource(http.DefaultClient, ctx)
@@ -56,8 +57,8 @@ func SearchCars(mstr *template.Template, tmpl *template.Template) http.HandlerFu
 	}
 }
 
-func ViewCar(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("carsView", mstr, tmpl)
+func ViewCar(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Cars View", "./views/stock/carsView.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 		key, err := husk.ParseKey(ctx.FindParam("key"))

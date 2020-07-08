@@ -1,0 +1,53 @@
+{{template "adminpage.html" .}}
+{{define "admincontent"}}
+    <section class="section">
+        <table class="table is-fullwidth is-hoverable" id="dataTable">
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Written by</th>
+                <th>Published</th>
+                <th>Created</th>
+                <th>Category</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+                <th>Title</th>
+                <th>Written by</th>
+                <th>Published</th>
+                <th>Created</th>
+                <th>Category</th>
+                <th>Actions</th>
+            </tr>
+            </tfoot>
+            <tbody>
+            {{range $key, $val := .Data.Records }}
+                <tr>
+                    <td>{{$val.V.Title}}</td>
+                    <td>{{$val.V.WrittenBy}}</td>
+                    <td>{{$val.V.Public}}</td>
+                    <td>{{$val.V.Created}}</td>
+                    <td>{{$val.V.Category}}</td>
+                    <td>
+                        <p class="buttons">
+                            <a href="/blog/articles/{{$val.K}}" class="button is-primary">
+                            <span class="icon is-small">
+                                <i class="far fa-edit"></i>
+                            </span>
+                            </a>
+                            <button data-key="{{$val.K}}" class="button is-danger deleter">
+                            <span class="icon is-small">
+                                <i class="fas fa-ban"></i>
+                            </span>
+                            </button>
+                        </p>
+                    </td>
+                </tr>
+            {{end}}
+            </tbody>
+        </table>
+        {{template "pager.html" .Data}}
+    </section>
+{{end}}

@@ -11,8 +11,8 @@ import (
 	"github.com/louisevanderlith/husk"
 )
 
-func GetCredits(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Credits", mstr, tmpl)
+func GetCredits(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Credits", "./views/xchange/credits.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -24,8 +24,8 @@ func GetCredits(mstr *template.Template, tmpl *template.Template) http.HandlerFu
 	}
 }
 
-func SearchCredits(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Credits",mstr, tmpl)
+func SearchCredits(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Credits", "./views/xchange/credits.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -37,8 +37,8 @@ func SearchCredits(mstr *template.Template, tmpl *template.Template) http.Handle
 	}
 }
 
-func ViewCredits(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage( "Credits View", mstr, tmpl)
+func ViewCredits(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "CreditsView", "./views/xchange/creditsView.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 

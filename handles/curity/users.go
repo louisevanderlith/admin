@@ -11,8 +11,9 @@ import (
 	"github.com/louisevanderlith/husk"
 )
 
-func GetUsers(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Users", mstr, tmpl)
+func GetUsers(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Users", "./views/curity/users.html")
+
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -33,8 +34,9 @@ func GetUsers(mstr *template.Template, tmpl *template.Template) http.HandlerFunc
 	}
 }
 
-func SearchUsers(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Users",  mstr, tmpl)
+func SearchUsers(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Users", "./views/curity/users.html")
+
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -55,8 +57,9 @@ func SearchUsers(mstr *template.Template, tmpl *template.Template) http.HandlerF
 	}
 }
 
-func ViewUser(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("usersView", mstr, tmpl)
+func ViewUser(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Users View", "./views/curity/usersView.html")
+
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 

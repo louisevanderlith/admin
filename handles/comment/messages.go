@@ -11,8 +11,8 @@ import (
 	"github.com/louisevanderlith/husk"
 )
 
-func GetMessages(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Comments",mstr, tmpl)
+func GetMessages(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Comments", "./views/comment/comments.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 		src := resources.APIResource(http.DefaultClient, ctx)
@@ -33,8 +33,8 @@ func GetMessages(mstr *template.Template, tmpl *template.Template) http.HandlerF
 	}
 }
 
-func SearchMessages(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Comments", mstr, tmpl)
+func SearchMessages(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Comments", "./views/comment/comments.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 		src := resources.APIResource(http.DefaultClient, ctx)
@@ -55,8 +55,8 @@ func SearchMessages(mstr *template.Template, tmpl *template.Template) http.Handl
 	}
 }
 
-func ViewMessage(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("commentsView", mstr, tmpl)
+func ViewMessage(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Comments View", "./views/comment/commentView.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 		key, err := husk.ParseKey(ctx.FindParam("key"))

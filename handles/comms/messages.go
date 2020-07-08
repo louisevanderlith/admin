@@ -1,6 +1,7 @@
 package comms
 
 import (
+	"github.com/louisevanderlith/admin/handles/menu"
 	"github.com/louisevanderlith/admin/resources"
 	"github.com/louisevanderlith/droxolite/mix"
 	"html/template"
@@ -11,8 +12,9 @@ import (
 	"github.com/louisevanderlith/husk"
 )
 
-func GetMessages(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("comms", mstr, tmpl)
+func GetMessages(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Messages", "./views/comms/messages.html")
+	pge.AddMenu(menu.FullMenu())
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 		src := resources.APIResource(http.DefaultClient, ctx)
@@ -20,21 +22,22 @@ func GetMessages(mstr *template.Template, tmpl *template.Template) http.HandlerF
 		result, err := src.FetchComms("A10")
 
 		if err != nil {
-			log.Println(err)
-			http.Error(w, "", http.StatusUnauthorized)
+			log.Println("Fetch Error", err)
+			http.Error(w, "", http.StatusInternalServerError)
 			return
 		}
 
 		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
-			log.Println(err)
+			log.Println("Serve Error", err)
 		}
 	}
 }
 
-func SearchMessages(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("comms", mstr, tmpl)
+func SearchMessages(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Messages", "./views/comms/messages.html")
+	pge.AddMenu(menu.FullMenu())
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 		src := resources.APIResource(http.DefaultClient, ctx)
@@ -42,7 +45,7 @@ func SearchMessages(mstr *template.Template, tmpl *template.Template) http.Handl
 		result, err := src.FetchComms(ctx.FindParam("pagesize"))
 
 		if err != nil {
-			log.Println(err)
+			log.Println("Fetch Error", err)
 			http.Error(w, "", http.StatusUnauthorized)
 			return
 		}
@@ -55,8 +58,8 @@ func SearchMessages(mstr *template.Template, tmpl *template.Template) http.Handl
 	}
 }
 
-func ViewMessage(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("commsView", mstr, tmpl)
+func ViewMessage(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Messages View", "./views/comms/messageView.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 		key, err := husk.ParseKey(ctx.FindParam("key"))

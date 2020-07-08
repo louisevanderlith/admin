@@ -11,8 +11,8 @@ import (
 	"github.com/louisevanderlith/husk"
 )
 
-func GetServices(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Services", mstr, tmpl)
+func GetServices(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Services", "./views/stock/services.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -33,8 +33,8 @@ func GetServices(mstr *template.Template, tmpl *template.Template) http.HandlerF
 	}
 }
 
-func SearchServices(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Services",  mstr, tmpl)
+func SearchServices(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Services", "./views/stock/services.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -55,8 +55,8 @@ func SearchServices(mstr *template.Template, tmpl *template.Template) http.Handl
 	}
 }
 
-func ViewService(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("servicesView", mstr, tmpl)
+func ViewService(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Services View", "./views/stock/servicesView.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 

@@ -12,8 +12,8 @@ import (
 	"github.com/louisevanderlith/husk"
 )
 
-func GetRegions(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Regions", mstr, tmpl)
+func GetRegions(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Regions", "./views/vin/regions.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -34,8 +34,8 @@ func GetRegions(mstr *template.Template, tmpl *template.Template) http.HandlerFu
 	}
 }
 
-func SearchRegions(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("resourceView", mstr, tmpl)
+func SearchRegions(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Regions", "./views/vin/regions.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -63,8 +63,8 @@ func SearchRegions(mstr *template.Template, tmpl *template.Template) http.Handle
 	}
 }
 
-func ViewRegion(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("RegionsView", mstr, tmpl)
+func ViewRegion(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Regions View", "./views/vin/regionsView.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 		key, err := husk.ParseKey(ctx.FindParam("key"))

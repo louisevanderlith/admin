@@ -11,8 +11,8 @@ import (
 	"github.com/louisevanderlith/husk"
 )
 
-func GetArticles(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Articles",  mstr, tmpl)
+func GetArticles(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Articles", "./views/blog/articles.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 		src := resources.APIResource(http.DefaultClient, ctx)
@@ -33,8 +33,8 @@ func GetArticles(mstr *template.Template, tmpl *template.Template) http.HandlerF
 	}
 }
 
-func SearchArticles(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Articles",  mstr, tmpl)
+func SearchArticles(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Articles", "./views/blog/articles.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 		src := resources.APIResource(http.DefaultClient, ctx)
@@ -55,8 +55,8 @@ func SearchArticles(mstr *template.Template, tmpl *template.Template) http.Handl
 	}
 }
 
-func ViewArticle(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage( "articlesView", mstr, tmpl)
+func ViewArticle(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Articles View", "./views/blog/articlesView.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 		key, err := husk.ParseKey(ctx.FindParam("key"))

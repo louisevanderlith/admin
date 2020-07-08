@@ -11,8 +11,9 @@ import (
 	"net/http"
 )
 
-func GetProfiles(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Profiles", mstr, tmpl)
+func GetProfiles(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Profiles", "./views/curity/profiles.html")
+
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -35,8 +36,8 @@ func GetProfiles(mstr *template.Template, tmpl *template.Template) http.HandlerF
 	}
 }
 
-func SearchProfiles(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Profiles", mstr, tmpl)
+func SearchProfiles(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Profiles", "./views/curity/profiles.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -64,8 +65,8 @@ func SearchProfiles(mstr *template.Template, tmpl *template.Template) http.Handl
 	}
 }
 
-func ViewProfile(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("profilesView", mstr, tmpl)
+func ViewProfile(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Profiles View", "./views/curity/profilesView.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 		key, err := husk.ParseKey(ctx.FindParam("key"))

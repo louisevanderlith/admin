@@ -1,0 +1,56 @@
+{{template "adminpage.html" .}}
+{{define "admincontent"}}
+    <section class="section">
+        <div class="tabs is-boxed is-centered main-menu" id="nav">
+            <ul>
+                <li data-target="paneBasicsite" id="tabBasicsite" class="is-active">
+                    <a>
+                        <span class="icon is-small"><i class="fa fa-image"></i></span>
+                        <span>Overview</span>
+                    </a>
+                </li>
+                <li data-target="paneHeader" id="tabHeader">
+                    <a>
+                        <span class="icon is-small"><i class="fab fa-empire"></i></span>
+                        <span>Engine</span>
+                    </a>
+                </li>
+                <li data-target="panePortfolio" id="tabPortfolio">
+                    <a>
+                        <span class="icon is-small"><i class="fab fa-superpowers"></i></span>
+                        <span>Exterior</span>
+                    </a>
+                </li>
+                <li data-target="paneSocialmedia" id="tabSocialmedia">
+                    <a>
+                        <span class="icon is-small"><i class="fa fa-film"></i></span>
+                        <span>Mechanical</span>
+                    </a>
+                </li>
+                <li data-target="paneSocialmedia" id="tabSocialmedia">
+                    <a>
+                        <span class="icon is-small"><i class="fa fa-film"></i></span>
+                        <span>Safety</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="tab-content">
+            <div class="tab-pane is-active" id="paneBasicsite">
+                {{ template "tabOverview.html" .}}
+            </div>
+            <div class="tab-pane" id="paneHeader">
+                {{ template "tabEngine.html" .}}
+            </div>
+            <div class="tab-pane" id="panePortfolio">
+                {{ template "tabExterior.html" .}}
+            </div>
+            <div class="tab-pane" id="paneSocialmedia">
+                {{ template "tabMechanical.html" .}}
+            </div>
+            <div class="tab-pane" id="paneSocialmedia">
+                {{ template "tabSafety.html" .}}
+            </div>
+        </div>
+    </section>
+{{end}}

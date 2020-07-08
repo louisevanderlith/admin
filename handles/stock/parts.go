@@ -11,8 +11,8 @@ import (
 	"github.com/louisevanderlith/husk"
 )
 
-func GetParts(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage( "Parts", mstr, tmpl)
+func GetParts(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Parts", "./views/stock/parts.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -33,8 +33,8 @@ func GetParts(mstr *template.Template, tmpl *template.Template) http.HandlerFunc
 	}
 }
 
-func SearchParts(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Parts",  mstr, tmpl)
+func SearchParts(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Parts", "./views/stock/parts.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
@@ -55,8 +55,8 @@ func SearchParts(mstr *template.Template, tmpl *template.Template) http.HandlerF
 	}
 }
 
-func ViewParts(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("partsView", mstr, tmpl)
+func ViewParts(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Parts View", "./views/stock/partsView.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
