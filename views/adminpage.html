@@ -1,35 +1,36 @@
 {{template "master.html" .}}
 {{define "layoutcontent"}}
-    <!-- START NAV -->
-    {{template "adminnav.html" .}}
-    <!-- END NAV -->
-    <div class="container">
-        <div class="columns">
-            <div class="column is-3">
-                {{template "sidemenu.html" .}}
-            </div>
-            <div class="column is-9">
-                <nav class="breadcrumb" aria-label="breadcrumbs">
-                    <ul>
-                        <li><a href="../">Bulma</a></li>
-                        <li><a href="../">Templates</a></li>
-                        <li><a href="../">Examples</a></li>
-                        <li class="is-active"><a href="#" aria-current="page">Admin</a></li>
-                    </ul>
-                </nav>
-                <section class="hero is-info is-small">
-                    <div class="hero-body">
-                        <div class="container">
-                            <h1 class="title">
-                                {{.Title}}
-                            </h1>
-                        </div>
+<!-- START NAV -->
+{{template "adminnav.html" .}}
+<!-- END NAV -->
+
+<div class="columns">
+    <div class="column is-3">
+        {{template "sidemenu.html" .}}
+    </div>
+    <div class="column">
+        <div class="content">
+            <nav class="breadcrumb" aria-label="breadcrumbs">
+                <ul>
+                    <li><a href="../">Bulma</a></li>
+                    <li><a href="../">Templates</a></li>
+                    <li><a href="../">Examples</a></li>
+                    <li class="is-active"><a href="#" aria-current="page">Admin</a></li>
+                </ul>
+            </nav>
+            <section class="hero is-info is-small">
+                <div class="hero-body">
+                    <div class="content">
+                        <h1 class="title">
+                            {{.Title}}
+                        </h1>
                     </div>
-                </section>
-                {{block "admincontent" .}}{{end}}
-            </div>
+                </div>
+            </section>
+            {{block "admincontent" .}}{{end}}
         </div>
     </div>
+</div>
 {{end}}
 {{define "scripts"}}
 {{end}}
