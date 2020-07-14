@@ -4,10 +4,13 @@
         {{range $key, $val := .Data.Contacts}}
             <div class="card">
                 <header class="card-header">
-                    <a href="#" data-liID="liContact{{$key}}" class="card-header-icon" aria-label="more options">
-                        <span class="icon">
-                            <i class="fas {{$val.Icon}}" aria-hidden="true"></i>
-                        </span>
+                    <p class="card-header-title">
+                        {{$val.Name}}
+                    </p>
+                    <a href="#" class="card-header-icon" aria-label="more options">
+                      <span class="icon">
+                        <i class="fas fa-angle-down" aria-hidden="true"></i>
+                      </span>
                     </a>
                 </header>
                 <div class="card-content">
@@ -38,6 +41,9 @@
                         </div>
                     </div>
                 </div>
+                <footer class="card-footer">
+                    <a href="#" class="card-footer-item">Delete</a>
+                </footer>
             </div>
         {{end}}
     </form>
