@@ -22,7 +22,7 @@ func GetEnitites(tmpl *template.Template) http.HandlerFunc {
 		result, err := src.FetchEntities("A10")
 
 		if err != nil {
-			log.Println(err)
+			log.Println("Fetch Entities Error", err)
 			http.Error(w, "", http.StatusUnauthorized)
 			return
 		}
@@ -30,7 +30,7 @@ func GetEnitites(tmpl *template.Template) http.HandlerFunc {
 		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
-			log.Println(err)
+			log.Println("Serve Error", err)
 		}
 	}
 }
@@ -51,7 +51,7 @@ func SearchEntities(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, pge.Page( result, ctx.GetTokenInfo(), ctx.GetToken()))
+		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
 			log.Println(err)
