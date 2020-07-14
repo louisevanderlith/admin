@@ -1,6 +1,7 @@
 package entity
 
 import (
+	"github.com/louisevanderlith/admin/handles/menu"
 	"github.com/louisevanderlith/admin/resources"
 	"github.com/louisevanderlith/droxolite/context"
 	"github.com/louisevanderlith/droxolite/mix"
@@ -13,7 +14,7 @@ import (
 
 func GetEnitites(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage(tmpl, "Entities", "./views/entity/entities.html")
-
+	pge.AddMenu(menu.FullMenu())
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 

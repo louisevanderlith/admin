@@ -1,6 +1,7 @@
 package curity
 
 import (
+	"github.com/louisevanderlith/admin/handles/menu"
 	"github.com/louisevanderlith/admin/resources"
 	"github.com/louisevanderlith/droxolite/mix"
 	"html/template"
@@ -13,7 +14,7 @@ import (
 
 func GetUsers(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage(tmpl, "Users", "./views/curity/users.html")
-
+	pge.AddMenu(menu.FullMenu())
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
