@@ -19,7 +19,7 @@ func GetTemplates(tmpl *template.Template) http.HandlerFunc {
 		result, err := src.FetchTemplates("A10")
 
 		if err != nil {
-			log.Println(err)
+			log.Println("Fetch Templates Error", err)
 			http.Error(w, "", http.StatusUnauthorized)
 			return
 		}
@@ -27,7 +27,7 @@ func GetTemplates(tmpl *template.Template) http.HandlerFunc {
 		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
-			log.Println(err)
+			log.Println("Serve Error", err)
 		}
 	}
 }
@@ -41,7 +41,7 @@ func SearchTemplates(tmpl *template.Template) http.HandlerFunc {
 		result, err := src.FetchTemplates(ctx.FindParam("pagesize"))
 
 		if err != nil {
-			log.Println(err)
+			log.Println("Fetch Templates Error", err)
 			http.Error(w, "", http.StatusUnauthorized)
 			return
 		}
@@ -49,19 +49,19 @@ func SearchTemplates(tmpl *template.Template) http.HandlerFunc {
 		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
-			log.Println(err)
+			log.Println("Serve Error", err)
 		}
 	}
 }
 
 func ViewTemplates(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage(tmpl, "TemplatesView", "./views/theme/templatesView.html")
+	pge := mix.PreparePage(tmpl, "Template View", "./views/theme/templateview.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 		key, err := husk.ParseKey(ctx.FindParam("key"))
 
 		if err != nil {
-			log.Println(err)
+			log.Println("Parse Key Error", err)
 			http.Error(w, "", http.StatusBadRequest)
 			return
 		}
@@ -70,7 +70,7 @@ func ViewTemplates(tmpl *template.Template) http.HandlerFunc {
 		result, err := src.FetchTemplate(key.String())
 
 		if err != nil {
-			log.Println(err)
+			log.Println("Fetch Template Error", err)
 			http.Error(w, "", http.StatusUnauthorized)
 			return
 		}
@@ -78,7 +78,7 @@ func ViewTemplates(tmpl *template.Template) http.HandlerFunc {
 		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
-			log.Println(err)
+			log.Println("Serve Error", err)
 		}
 	}
 }

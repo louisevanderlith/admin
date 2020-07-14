@@ -17,10 +17,10 @@ func GetParts(tmpl *template.Template) http.HandlerFunc {
 		ctx := context.New(w, r)
 
 		src := resources.APIResource(http.DefaultClient, ctx)
-		result, err := src.FetchStockCar("A10")
+		result, err := src.FetchStockParts("A10")
 
 		if err != nil {
-			log.Println(err)
+			log.Println("Fetch Parts Error", err)
 			http.Error(w, "", http.StatusUnauthorized)
 			return
 		}
@@ -28,7 +28,7 @@ func GetParts(tmpl *template.Template) http.HandlerFunc {
 		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
-			log.Println(err)
+			log.Println("Serve Error", err)
 		}
 	}
 }
@@ -42,7 +42,7 @@ func SearchParts(tmpl *template.Template) http.HandlerFunc {
 		result, err := src.FetchStockParts(ctx.FindParam("pagesize"))
 
 		if err != nil {
-			log.Println(err)
+			log.Println("Fetch Parts Error", err)
 			http.Error(w, "", http.StatusUnauthorized)
 			return
 		}
@@ -50,20 +50,20 @@ func SearchParts(tmpl *template.Template) http.HandlerFunc {
 		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
-			log.Println(err)
+			log.Println("Serve Error", err)
 		}
 	}
 }
 
-func ViewParts(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage(tmpl, "Parts View", "./views/stock/partsView.html")
+func ViewPart(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Part View", "./views/stock/partview.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
 		key, err := husk.ParseKey(ctx.FindParam("key"))
 
 		if err != nil {
-			log.Println(err)
+			log.Println("Parse Key Error", err)
 			http.Error(w, "", http.StatusBadRequest)
 			return
 		}
@@ -72,7 +72,7 @@ func ViewParts(tmpl *template.Template) http.HandlerFunc {
 		result, err := src.FetchStockPart(key.String())
 
 		if err != nil {
-			log.Println(err)
+			log.Println("Fetch Part Error", err)
 			http.Error(w, "", http.StatusUnauthorized)
 			return
 		}
@@ -80,7 +80,7 @@ func ViewParts(tmpl *template.Template) http.HandlerFunc {
 		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
-			log.Println(err)
+			log.Println("Serve Error", err)
 		}
 	}
 }

@@ -20,7 +20,7 @@ func GetServices(tmpl *template.Template) http.HandlerFunc {
 		result, err := src.FetchStockCars("A10")
 
 		if err != nil {
-			log.Println(err)
+			log.Println("Fetch Cars Error", err)
 			http.Error(w, "", http.StatusUnauthorized)
 			return
 		}
@@ -28,7 +28,7 @@ func GetServices(tmpl *template.Template) http.HandlerFunc {
 		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
-			log.Println(err)
+			log.Println("Serve Error", err)
 		}
 	}
 }
@@ -42,7 +42,7 @@ func SearchServices(tmpl *template.Template) http.HandlerFunc {
 		result, err := src.FetchStockCars(ctx.FindParam("pagesize"))
 
 		if err != nil {
-			log.Println(err)
+			log.Println("Fetch Cars Error", err)
 			http.Error(w, "", http.StatusUnauthorized)
 			return
 		}
@@ -50,20 +50,20 @@ func SearchServices(tmpl *template.Template) http.HandlerFunc {
 		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
-			log.Println(err)
+			log.Println("Serve Error", err)
 		}
 	}
 }
 
 func ViewService(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage(tmpl, "Services View", "./views/stock/servicesView.html")
+	pge := mix.PreparePage(tmpl, "Service View", "./views/stock/serviceview.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
 		key, err := husk.ParseKey(ctx.FindParam("key"))
 
 		if err != nil {
-			log.Println(err)
+			log.Println("Parse Key Error", err)
 			http.Error(w, "", http.StatusBadRequest)
 			return
 		}
@@ -73,7 +73,7 @@ func ViewService(tmpl *template.Template) http.HandlerFunc {
 		result, err := src.FetchStockService(key.String())
 
 		if err != nil {
-			log.Println(err)
+			log.Println("Fetch Service Error", err)
 			http.Error(w, "", http.StatusUnauthorized)
 			return
 		}
@@ -81,7 +81,7 @@ func ViewService(tmpl *template.Template) http.HandlerFunc {
 		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
-			log.Println(err)
+			log.Println("Serve Error", err)
 		}
 	}
 }

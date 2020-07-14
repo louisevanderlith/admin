@@ -17,7 +17,7 @@ func GetHistory(tmpl *template.Template) http.HandlerFunc {
 		err := ctx.Serve(http.StatusOK, pge.Page(nil, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
-			log.Println(err)
+			log.Println("Serve Error", err)
 		}
 	}
 }

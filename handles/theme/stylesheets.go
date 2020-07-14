@@ -20,7 +20,7 @@ func GetStylesheets(tmpl *template.Template) http.HandlerFunc {
 		result, err := src.FetchStylesheets("A10")
 
 		if err != nil {
-			log.Println(err)
+			log.Println("Fetch Stylesheets Error", err)
 			http.Error(w, "", http.StatusUnauthorized)
 			return
 		}
@@ -28,7 +28,7 @@ func GetStylesheets(tmpl *template.Template) http.HandlerFunc {
 		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
-			log.Println(err)
+			log.Println("Serve Error", err)
 		}
 	}
 }
@@ -42,7 +42,7 @@ func SearchStylesheets(tmpl *template.Template) http.HandlerFunc {
 		result, err := src.FetchStylesheets(ctx.FindParam("pagesize"))
 
 		if err != nil {
-			log.Println(err)
+			log.Println("Fetch Stylesheets Error", err)
 			http.Error(w, "", http.StatusUnauthorized)
 			return
 		}
@@ -50,19 +50,19 @@ func SearchStylesheets(tmpl *template.Template) http.HandlerFunc {
 		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
-			log.Println(err)
+			log.Println("Serve Error", err)
 		}
 	}
 }
 
 func ViewStylesheets(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage(tmpl, "Stylesheets View", "./views/theme/stylesheetsView.html")
+	pge := mix.PreparePage(tmpl, "Stylesheet View", "./views/theme/stylesheetview.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 		key, err := husk.ParseKey(ctx.FindParam("key"))
 
 		if err != nil {
-			log.Println(err)
+			log.Println("Parse Key Error", err)
 			http.Error(w, "", http.StatusBadRequest)
 			return
 		}
@@ -71,7 +71,7 @@ func ViewStylesheets(tmpl *template.Template) http.HandlerFunc {
 		result, err := src.FetchStylesheet(key.String())
 
 		if err != nil {
-			log.Println(err)
+			log.Println("Fetch Stylesheet Error", err)
 			http.Error(w, "", http.StatusUnauthorized)
 			return
 		}
@@ -79,7 +79,7 @@ func ViewStylesheets(tmpl *template.Template) http.HandlerFunc {
 		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
-			log.Println(err)
+			log.Println("Serve Error", err)
 		}
 	}
 }

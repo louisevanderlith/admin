@@ -1,27 +1,26 @@
-package vin
+package stock
 
 import (
-	"fmt"
 	"github.com/louisevanderlith/admin/resources"
-	"github.com/louisevanderlith/droxolite/context"
 	"github.com/louisevanderlith/droxolite/mix"
 	"html/template"
 	"log"
 	"net/http"
 
+	"github.com/louisevanderlith/droxolite/context"
 	"github.com/louisevanderlith/husk"
 )
 
-func GetRegions(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage(tmpl, "Regions", "./views/vin/regions.html")
+func GetProperties(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Properties", "./views/stock/properties.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
 		src := resources.APIResource(http.DefaultClient, ctx)
-		result, err := src.FetchRegions("A10")
+		result, err := src.FetchStockProperties("A10")
 
 		if err != nil {
-			log.Println("Fetch Regions Error", err)
+			log.Println("Fetch Properties Error", err)
 			http.Error(w, "", http.StatusUnauthorized)
 			return
 		}
@@ -34,25 +33,18 @@ func GetRegions(tmpl *template.Template) http.HandlerFunc {
 	}
 }
 
-func SearchRegions(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage(tmpl, "Regions", "./views/vin/regions.html")
+func SearchProperties(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Properties", "./views/stock/properties.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
 		src := resources.APIResource(http.DefaultClient, ctx)
-		result, err := src.FetchRegions(ctx.FindParam("pagesize"))
+		result, err := src.FetchStockProperties(ctx.FindParam("pagesize"))
 
 		if err != nil {
-			log.Println("Fetch Regions", err)
+			log.Println("Fetch Properties", err)
 			http.Error(w, "", http.StatusUnauthorized)
 			return
-		}
-
-		page, size := ctx.GetPageData()
-		result["Next"] = fmt.Sprintf("%c%v", (page+1)+64, size)
-
-		if page != 1 {
-			result["Previous"] = fmt.Sprintf("%c%v", (page-1)+64, size)
 		}
 
 		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
@@ -63,10 +55,11 @@ func SearchRegions(tmpl *template.Template) http.HandlerFunc {
 	}
 }
 
-func ViewRegion(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage(tmpl, "Region View", "./views/vin/regionview.html")
+func ViewProperty(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Property View", "./views/stock/propertyview.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
+
 		key, err := husk.ParseKey(ctx.FindParam("key"))
 
 		if err != nil {
@@ -76,10 +69,10 @@ func ViewRegion(tmpl *template.Template) http.HandlerFunc {
 		}
 
 		src := resources.APIResource(http.DefaultClient, ctx)
-		result, err := src.FetchRegion(key.String())
+		result, err := src.FetchStockProperty(key.String())
 
 		if err != nil {
-			log.Println("Fetch Region Error", err)
+			log.Println("Fetch Property Error", err)
 			http.Error(w, "", http.StatusUnauthorized)
 			return
 		}

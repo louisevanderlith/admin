@@ -56,7 +56,7 @@ func SearchArticles(tmpl *template.Template) http.HandlerFunc {
 }
 
 func ViewArticle(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage(tmpl, "Articles View", "./views/blog/articlesView.html")
+	pge := mix.PreparePage(tmpl, "Articles View", "./views/blog/articlesview.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 		key, err := husk.ParseKey(ctx.FindParam("key"))

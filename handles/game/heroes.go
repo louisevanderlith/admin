@@ -58,7 +58,7 @@ func SearchHeroes(tmpl *template.Template) http.HandlerFunc {
 }
 
 func ViewHero(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage(tmpl, "Heroes View", "./views/game/heroesView.html")
+	pge := mix.PreparePage(tmpl, "Hero View", "./views/game/heroview.html")
 
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
@@ -66,7 +66,7 @@ func ViewHero(tmpl *template.Template) http.HandlerFunc {
 		key, err := husk.ParseKey(ctx.FindParam("key"))
 
 		if err != nil {
-			log.Println(err)
+			log.Println("Parse Key Error", err)
 			http.Error(w, "", http.StatusBadRequest)
 			return
 		}
@@ -75,7 +75,7 @@ func ViewHero(tmpl *template.Template) http.HandlerFunc {
 		result, err := src.FetchHero(key.String())
 
 		if err != nil {
-			log.Println(err)
+			log.Println("Serve Error", err)
 			http.Error(w, "", http.StatusUnauthorized)
 			return
 		}
@@ -83,7 +83,7 @@ func ViewHero(tmpl *template.Template) http.HandlerFunc {
 		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
-			log.Println(err)
+			log.Println("Serve Error", err)
 		}
 	}
 }

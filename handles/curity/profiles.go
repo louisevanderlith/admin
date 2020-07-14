@@ -66,7 +66,7 @@ func SearchProfiles(tmpl *template.Template) http.HandlerFunc {
 }
 
 func ViewProfile(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage(tmpl, "Profiles View", "./views/curity/profilesView.html")
+	pge := mix.PreparePage(tmpl, "Profiles View", "./views/curity/profilesview.html")
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 		key, err := husk.ParseKey(ctx.FindParam("key"))
