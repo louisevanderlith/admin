@@ -70,5 +70,10 @@ func SetupRoutes(clnt, scrt, secureUrl, authUrl string) http.Handler {
 	crty.HandleFunc("/resources/{pagesize:[A-Z][0-9]+}/{hash:[a-zA-Z0-9]+={0,2}}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, secureUrl, authUrl, curity.SearchResource(tmpl), "secure.resource.search")).Methods(http.MethodGet)
 	crty.HandleFunc("/resources/{key:[0-9]+\\x60[0-9]+}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, secureUrl, authUrl, curity.ViewResource(tmpl), "secure.resource.view")).Methods(http.MethodGet)
 
+	crty.HandleFunc("/users", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, secureUrl, authUrl, curity.GetUsers(tmpl), "secure.resource.search")).Methods(http.MethodGet)
+	crty.HandleFunc("/users/{pagesize:[A-Z][0-9]+}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, secureUrl, authUrl, curity.SearchUsers(tmpl), "secure.resource.search")).Methods(http.MethodGet)
+	crty.HandleFunc("/users/{pagesize:[A-Z][0-9]+}/{hash:[a-zA-Z0-9]+={0,2}}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, secureUrl, authUrl, curity.SearchUsers(tmpl), "secure.resource.search")).Methods(http.MethodGet)
+	crty.HandleFunc("/users/{key:[0-9]+\\x60[0-9]+}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, secureUrl, authUrl, curity.ViewUser(tmpl), "secure.resource.view")).Methods(http.MethodGet)
+
 	return r
 }

@@ -2,6 +2,7 @@ package vin
 
 import (
 	"fmt"
+	"github.com/louisevanderlith/admin/handles/menu"
 	"github.com/louisevanderlith/admin/resources"
 	"github.com/louisevanderlith/droxolite/context"
 	"github.com/louisevanderlith/droxolite/mix"
@@ -14,6 +15,7 @@ import (
 
 func GetRegions(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage(tmpl, "Regions", "./views/vin/regions.html")
+	pge.AddMenu(menu.FullMenu())
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 

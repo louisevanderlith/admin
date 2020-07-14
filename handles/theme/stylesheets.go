@@ -1,6 +1,7 @@
 package theme
 
 import (
+	"github.com/louisevanderlith/admin/handles/menu"
 	"github.com/louisevanderlith/admin/resources"
 	"github.com/louisevanderlith/droxolite/context"
 	"github.com/louisevanderlith/droxolite/mix"
@@ -13,6 +14,7 @@ import (
 
 func GetStylesheets(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage(tmpl, "Stylesheets", "./views/theme/stylesheets.html")
+	pge.AddMenu(menu.FullMenu())
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 

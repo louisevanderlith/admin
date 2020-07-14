@@ -4,7 +4,6 @@ import "github.com/louisevanderlith/droxolite/menu"
 
 func FullMenu() *menu.Menu {
 	m := menu.NewMenu()
-	m.AddItem(menu.NewItem("home", "/", "Home", nil))
 	m.AddItem(artifactMenu())
 	m.AddItem(blogMenu())
 	m.AddItem(commentMenu())
@@ -43,7 +42,7 @@ func blogMenu() menu.Item {
 
 func commentMenu() menu.Item {
 	chldrn := []menu.Item{
-		menu.NewItem("comments", "/comment/uploads", "Messages", nil),
+		menu.NewItem("comments", "/comment/messages", "Messages", nil),
 	}
 
 	return menu.NewItem("comment", "#", "Comments", chldrn)
