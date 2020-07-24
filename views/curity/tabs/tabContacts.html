@@ -1,5 +1,6 @@
 <div class="content">
     <button type="button" class="button is-info is-small" id="btnAddContact">Add Contact</button>
+    <hr/>
     <form id="frmContacts" role="form">
         {{range $key, $val := .Data.Contacts}}
             <div class="card">
@@ -7,17 +8,17 @@
                     <p class="card-header-title">
                         {{$val.Name}}
                     </p>
-                    <a href="#" class="card-header-icon" aria-label="more options">
+                    <a class="card-header-icon" aria-label="more options">
                       <span class="icon">
                         <i class="fas fa-angle-down" aria-hidden="true"></i>
                       </span>
                     </a>
                 </header>
-                <div class="card-content">
+                <div class="card-content" hidden>
                     <div class="content">
                         <div class="field">
+                            <label class="label" for="txtContactIcon{{$key}}">Icon</label>
                             <div class="control">
-                                <label class="label" for="txtContactIcon{{$key}}">Icon</label>
                                 <input class="input" type="text" id="txtContactIcon{{$key}}" required
                                        value="{{$val.Icon}}"/>
                                 <p class="help is-danger"></p>

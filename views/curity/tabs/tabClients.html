@@ -1,5 +1,5 @@
+<button type="button" class="button is-info" id="btnAddClient">Add Client</button>
 <div class="content">
-    <button type="button" class="button is-info is-small" id="btnAddClient">Add Client</button>
     <form id="frmClients" role="form">
         {{range $key, $val := .Data.Clients}}
             <div class="card">
@@ -7,14 +7,14 @@
                     <p class="card-header-title">
                         {{$val.Name}}
                     </p>
-                    <a href="#" class="card-header-icon" aria-label="more options">
+                    <a class="card-header-icon" aria-label="more options">
                       <span class="icon">
                         <i class="fas fa-angle-down" aria-hidden="true"></i>
                       </span>
                     </a>
-                    
+
                 </header>
-                <div class="card-content">
+                <div class="card-content" hidden>
                     <div class="content">
                         <div class="field">
                             <div class="control">

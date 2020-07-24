@@ -17,6 +17,17 @@ class BasicSiteForm {
     uplProfileImg = querySelector("uplProfileImg");
 
     uplProfileImg.onChange.listen(uploadFile);
+
+    querySelector("#btnAddCode").onClick.listen(addCodeClick);
+    querySelector("#btnAddTerms").onClick.listen(addTermClick);
+  }
+
+  void addCodeClick(MouseEvent e){
+
+  }
+
+  void addTermClick(MouseEvent e) {
+
   }
 
   List<MapItem> getEndpoints() {
