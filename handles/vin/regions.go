@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/louisevanderlith/admin/handles/menu"
 	"github.com/louisevanderlith/admin/resources"
-	"github.com/louisevanderlith/droxolite/context"
+	"github.com/louisevanderlith/droxolite/drx"
 	"github.com/louisevanderlith/droxolite/mix"
 	"html/template"
 	"log"
@@ -14,12 +14,11 @@ import (
 )
 
 func GetRegions(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage(tmpl, "Regions", "./views/vin/regions.html")
+	pge := mix.PreparePage("Regions", tmpl, "./views/vin/regions.html")
 	pge.AddMenu(menu.FullMenu())
 	return func(w http.ResponseWriter, r *http.Request) {
-		ctx := context.New(w, r)
 
-		src := resources.APIResource(http.DefaultClient, ctx)
+		src := resources.APIResource(http.DefaultClient, r)
 		result, err := src.FetchRegions("A10")
 
 		if err != nil {
@@ -28,7 +27,7 @@ func GetRegions(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
+		err = mix.Write(w, pge.Create(r, result))
 
 		if err != nil {
 			log.Println("Serve Error", err)
@@ -37,12 +36,11 @@ func GetRegions(tmpl *template.Template) http.HandlerFunc {
 }
 
 func SearchRegions(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage(tmpl, "Regions", "./views/vin/regions.html")
+	pge := mix.PreparePage("Regions", tmpl, "./views/vin/regions.html")
 	return func(w http.ResponseWriter, r *http.Request) {
-		ctx := context.New(w, r)
 
-		src := resources.APIResource(http.DefaultClient, ctx)
-		result, err := src.FetchRegions(ctx.FindParam("pagesize"))
+		src := resources.APIResource(http.DefaultClient, r)
+		result, err := src.FetchRegions(drx.FindParam(r, "pagesize"))
 
 		if err != nil {
 			log.Println("Fetch Regions", err)
@@ -50,14 +48,14 @@ func SearchRegions(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		page, size := ctx.GetPageData()
+		page, size := drx.GetPageData(r)
 		result["Next"] = fmt.Sprintf("%c%v", (page+1)+64, size)
 
 		if page != 1 {
 			result["Previous"] = fmt.Sprintf("%c%v", (page-1)+64, size)
 		}
 
-		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
+		err = mix.Write(w, pge.Create(r, result))
 
 		if err != nil {
 			log.Println("Serve Error", err)
@@ -66,10 +64,9 @@ func SearchRegions(tmpl *template.Template) http.HandlerFunc {
 }
 
 func ViewRegion(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage(tmpl, "Region View", "./views/vin/regionview.html")
+	pge := mix.PreparePage("Region View", tmpl, "./views/vin/regionview.html")
 	return func(w http.ResponseWriter, r *http.Request) {
-		ctx := context.New(w, r)
-		key, err := husk.ParseKey(ctx.FindParam("key"))
+		key, err := husk.ParseKey(drx.FindParam(r, "key"))
 
 		if err != nil {
 			log.Println("Parse Key Error", err)
@@ -77,7 +74,7 @@ func ViewRegion(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		src := resources.APIResource(http.DefaultClient, ctx)
+		src := resources.APIResource(http.DefaultClient, r)
 		result, err := src.FetchRegion(key.String())
 
 		if err != nil {
@@ -86,7 +83,7 @@ func ViewRegion(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
+		err = mix.Write(w, pge.Create(r, result))
 
 		if err != nil {
 			log.Println("Serve Error", err)

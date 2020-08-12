@@ -3,22 +3,21 @@ package stock
 import (
 	"github.com/louisevanderlith/admin/handles/menu"
 	"github.com/louisevanderlith/admin/resources"
+	"github.com/louisevanderlith/droxolite/drx"
 	"github.com/louisevanderlith/droxolite/mix"
 	"html/template"
 	"log"
 	"net/http"
 
-	"github.com/louisevanderlith/droxolite/context"
 	"github.com/louisevanderlith/husk"
 )
 
 func GetProperties(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage(tmpl, "Properties", "./views/stock/properties.html")
+	pge := mix.PreparePage("Properties", tmpl, "./views/stock/properties.html")
 	pge.AddMenu(menu.FullMenu())
 	return func(w http.ResponseWriter, r *http.Request) {
-		ctx := context.New(w, r)
 
-		src := resources.APIResource(http.DefaultClient, ctx)
+		src := resources.APIResource(http.DefaultClient, r)
 		result, err := src.FetchStockProperties("A10")
 
 		if err != nil {
@@ -27,7 +26,7 @@ func GetProperties(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
+		err = mix.Write(w, pge.Create(r, result))
 
 		if err != nil {
 			log.Println("Serve Error", err)
@@ -36,12 +35,10 @@ func GetProperties(tmpl *template.Template) http.HandlerFunc {
 }
 
 func SearchProperties(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage(tmpl, "Properties", "./views/stock/properties.html")
+	pge := mix.PreparePage("Properties", tmpl, "./views/stock/properties.html")
 	return func(w http.ResponseWriter, r *http.Request) {
-		ctx := context.New(w, r)
-
-		src := resources.APIResource(http.DefaultClient, ctx)
-		result, err := src.FetchStockProperties(ctx.FindParam("pagesize"))
+		src := resources.APIResource(http.DefaultClient, r)
+		result, err := src.FetchStockProperties(drx.FindParam(r, "pagesize"))
 
 		if err != nil {
 			log.Println("Fetch Properties", err)
@@ -49,7 +46,7 @@ func SearchProperties(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
+		err = mix.Write(w, pge.Create(r, result))
 
 		if err != nil {
 			log.Println("Serve Error", err)
@@ -58,11 +55,9 @@ func SearchProperties(tmpl *template.Template) http.HandlerFunc {
 }
 
 func ViewProperty(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage(tmpl, "Property View", "./views/stock/propertyview.html")
+	pge := mix.PreparePage("Property View", tmpl, "./views/stock/propertyview.html")
 	return func(w http.ResponseWriter, r *http.Request) {
-		ctx := context.New(w, r)
-
-		key, err := husk.ParseKey(ctx.FindParam("key"))
+		key, err := husk.ParseKey(drx.FindParam(r, "key"))
 
 		if err != nil {
 			log.Println("Parse Key Error", err)
@@ -70,7 +65,7 @@ func ViewProperty(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		src := resources.APIResource(http.DefaultClient, ctx)
+		src := resources.APIResource(http.DefaultClient, r)
 		result, err := src.FetchStockProperty(key.String())
 
 		if err != nil {
@@ -79,7 +74,7 @@ func ViewProperty(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
+		err = mix.Write(w, pge.Create(r, result))
 
 		if err != nil {
 			log.Println("Serve Error", err)

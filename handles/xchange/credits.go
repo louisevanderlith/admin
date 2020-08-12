@@ -3,22 +3,21 @@ package xchange
 import (
 	"github.com/louisevanderlith/admin/handles/menu"
 	"github.com/louisevanderlith/admin/resources"
+	"github.com/louisevanderlith/droxolite/drx"
 	"github.com/louisevanderlith/droxolite/mix"
 	"html/template"
 	"log"
 	"net/http"
 
-	"github.com/louisevanderlith/droxolite/context"
 	"github.com/louisevanderlith/husk"
 )
 
 func GetCredits(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage(tmpl, "Credits", "./views/xchange/credits.html")
+	pge := mix.PreparePage("Credits", tmpl, "./views/xchange/credits.html")
 	pge.AddMenu(menu.FullMenu())
 	return func(w http.ResponseWriter, r *http.Request) {
-		ctx := context.New(w, r)
 
-		err := ctx.Serve(http.StatusOK, pge.Page(nil, ctx.GetTokenInfo(), ctx.GetToken()))
+		err := mix.Write(w, pge.Create(r, nil))
 
 		if err != nil {
 			log.Println("Serve Error", err)
@@ -27,11 +26,10 @@ func GetCredits(tmpl *template.Template) http.HandlerFunc {
 }
 
 func SearchCredits(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage(tmpl, "Credits", "./views/xchange/credits.html")
+	pge := mix.PreparePage("Credits", tmpl, "./views/xchange/credits.html")
 	return func(w http.ResponseWriter, r *http.Request) {
-		ctx := context.New(w, r)
 
-		err := ctx.Serve(http.StatusOK, pge.Page(nil, ctx.GetTokenInfo(), ctx.GetToken()))
+		err := mix.Write(w, pge.Create(r, nil))
 
 		if err != nil {
 			log.Println("Serve Error", err)
@@ -40,11 +38,10 @@ func SearchCredits(tmpl *template.Template) http.HandlerFunc {
 }
 
 func ViewCredits(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage(tmpl, "CreditsView", "./views/xchange/creditview.html")
+	pge := mix.PreparePage("CreditsView", tmpl, "./views/xchange/creditview.html")
 	return func(w http.ResponseWriter, r *http.Request) {
-		ctx := context.New(w, r)
 
-		key, err := husk.ParseKey(ctx.FindParam("key"))
+		key, err := husk.ParseKey(drx.FindParam(r, "key"))
 
 		if err != nil {
 			log.Println("Parse Key Error", err)
@@ -52,7 +49,7 @@ func ViewCredits(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		src := resources.APIResource(http.DefaultClient, ctx)
+		src := resources.APIResource(http.DefaultClient, r)
 		result, err := src.FetchCredits(key.String())
 
 		if err != nil {
@@ -61,7 +58,7 @@ func ViewCredits(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
+		err = mix.Write(w, pge.Create(r, result))
 
 		if err != nil {
 			log.Println("Serve Error", err)

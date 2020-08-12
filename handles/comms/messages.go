@@ -3,21 +3,20 @@ package comms
 import (
 	"github.com/louisevanderlith/admin/handles/menu"
 	"github.com/louisevanderlith/admin/resources"
+	"github.com/louisevanderlith/droxolite/drx"
 	"github.com/louisevanderlith/droxolite/mix"
 	"html/template"
 	"log"
 	"net/http"
 
-	"github.com/louisevanderlith/droxolite/context"
 	"github.com/louisevanderlith/husk"
 )
 
 func GetMessages(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage(tmpl, "Messages", "./views/comms/messages.html")
+	pge := mix.PreparePage("Messages", tmpl, "./views/comms/messages.html")
 	pge.AddMenu(menu.FullMenu())
 	return func(w http.ResponseWriter, r *http.Request) {
-		ctx := context.New(w, r)
-		src := resources.APIResource(http.DefaultClient, ctx)
+		src := resources.APIResource(http.DefaultClient, r)
 
 		result, err := src.FetchComms("A10")
 
@@ -27,7 +26,7 @@ func GetMessages(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
+		err = mix.Write(w, pge.Create(r, result))
 
 		if err != nil {
 			log.Println("Serve Error", err)
@@ -36,13 +35,12 @@ func GetMessages(tmpl *template.Template) http.HandlerFunc {
 }
 
 func SearchMessages(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage(tmpl, "Messages", "./views/comms/messages.html")
+	pge := mix.PreparePage("Messages", tmpl, "./views/comms/messages.html")
 	pge.AddMenu(menu.FullMenu())
 	return func(w http.ResponseWriter, r *http.Request) {
-		ctx := context.New(w, r)
-		src := resources.APIResource(http.DefaultClient, ctx)
+		src := resources.APIResource(http.DefaultClient, r)
 
-		result, err := src.FetchComms(ctx.FindParam("pagesize"))
+		result, err := src.FetchComms(drx.FindParam(r, "pagesize"))
 
 		if err != nil {
 			log.Println("Fetch Error", err)
@@ -50,7 +48,7 @@ func SearchMessages(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
+		err = mix.Write(w, pge.Create(r, result))
 
 		if err != nil {
 			log.Println(err)
@@ -59,10 +57,9 @@ func SearchMessages(tmpl *template.Template) http.HandlerFunc {
 }
 
 func ViewMessage(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage(tmpl, "Messages View", "./views/comms/messageView.html")
+	pge := mix.PreparePage("Messages View", tmpl, "./views/comms/messageView.html")
 	return func(w http.ResponseWriter, r *http.Request) {
-		ctx := context.New(w, r)
-		key, err := husk.ParseKey(ctx.FindParam("key"))
+		key, err := husk.ParseKey(drx.FindParam(r, "key"))
 
 		if err != nil {
 			log.Println(err)
@@ -70,7 +67,7 @@ func ViewMessage(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		src := resources.APIResource(http.DefaultClient, ctx)
+		src := resources.APIResource(http.DefaultClient, r)
 
 		result, err := src.FetchCommsMessage(key.String())
 
@@ -80,7 +77,7 @@ func ViewMessage(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
+		err = mix.Write(w, pge.Create(r, result))
 
 		if err != nil {
 			log.Println(err)

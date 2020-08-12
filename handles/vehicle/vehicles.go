@@ -3,7 +3,7 @@ package vehicle
 import (
 	"github.com/louisevanderlith/admin/handles/menu"
 	"github.com/louisevanderlith/admin/resources"
-	"github.com/louisevanderlith/droxolite/context"
+	"github.com/louisevanderlith/droxolite/drx"
 	"github.com/louisevanderlith/droxolite/mix"
 	"html/template"
 	"log"
@@ -13,12 +13,11 @@ import (
 )
 
 func GetVehicles(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage(tmpl, "Vehicles", "./views/vehicle/vehicles.html")
+	pge := mix.PreparePage("Vehicles", tmpl, "./views/vehicle/vehicles.html")
 	pge.AddMenu(menu.FullMenu())
 	return func(w http.ResponseWriter, r *http.Request) {
-		ctx := context.New(w, r)
 
-		src := resources.APIResource(http.DefaultClient, ctx)
+		src := resources.APIResource(http.DefaultClient, r)
 		result, err := src.FetchVehicles("A10")
 
 		if err != nil {
@@ -27,7 +26,7 @@ func GetVehicles(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
+		err = mix.Write(w, pge.Create(r, result))
 
 		if err != nil {
 			log.Println("Serve Error", err)
@@ -36,12 +35,11 @@ func GetVehicles(tmpl *template.Template) http.HandlerFunc {
 }
 
 func SearchVehicles(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage(tmpl, "Vehicles", "./views/vehicle/vehicles.html")
+	pge := mix.PreparePage("Vehicles", tmpl, "./views/vehicle/vehicles.html")
 	return func(w http.ResponseWriter, r *http.Request) {
-		ctx := context.New(w, r)
 
-		src := resources.APIResource(http.DefaultClient, ctx)
-		result, err := src.FetchVehicles(ctx.FindParam("pagesize"))
+		src := resources.APIResource(http.DefaultClient, r)
+		result, err := src.FetchVehicles(drx.FindParam(r, "pagesize"))
 
 		if err != nil {
 			log.Println("Fetch Vehicles Error", err)
@@ -49,7 +47,7 @@ func SearchVehicles(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
+		err = mix.Write(w, pge.Create(r, result))
 
 		if err != nil {
 			log.Println("Serve Error", err)
@@ -58,11 +56,10 @@ func SearchVehicles(tmpl *template.Template) http.HandlerFunc {
 }
 
 func ViewVehicles(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage(tmpl, "Vehicles View", "./views/vehicle/vehicleview.html")
+	pge := mix.PreparePage("Vehicles View", tmpl, "./views/vehicle/vehicleview.html")
 	return func(w http.ResponseWriter, r *http.Request) {
-		ctx := context.New(w, r)
 
-		key, err := husk.ParseKey(ctx.FindParam("key"))
+		key, err := husk.ParseKey(drx.FindParam(r, "key"))
 
 		if err != nil {
 			log.Println("Parse Key Error", err)
@@ -70,7 +67,7 @@ func ViewVehicles(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		src := resources.APIResource(http.DefaultClient, ctx)
+		src := resources.APIResource(http.DefaultClient, r)
 		result, err := src.FetchVehicle(key.String())
 
 		if err != nil {
@@ -79,7 +76,7 @@ func ViewVehicles(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
+		err = mix.Write(w, pge.Create(r, result))
 
 		if err != nil {
 			log.Println("Serve Error", err)

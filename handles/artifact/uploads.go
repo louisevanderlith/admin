@@ -3,21 +3,20 @@ package artifact
 import (
 	"github.com/louisevanderlith/admin/handles/menu"
 	"github.com/louisevanderlith/admin/resources"
+	"github.com/louisevanderlith/droxolite/drx"
 	"github.com/louisevanderlith/droxolite/mix"
 	"html/template"
 	"log"
 	"net/http"
 
-	"github.com/louisevanderlith/droxolite/context"
 	"github.com/louisevanderlith/husk"
 )
 
 func GetUploads(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage(tmpl, "Uploads", "./views/artifact/uploads.html")
+	pge := mix.PreparePage("Uploads", tmpl, "./views/artifact/uploads.html")
 	pge.AddMenu(menu.FullMenu())
 	return func(w http.ResponseWriter, r *http.Request) {
-		ctx := context.New(w, r)
-		src := resources.APIResource(http.DefaultClient, ctx)
+		src := resources.APIResource(http.DefaultClient, r)
 
 		result, err := src.FetchUploads("A10")
 
@@ -27,7 +26,7 @@ func GetUploads(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
+		err = mix.Write(w, pge.Create(r, result))
 
 		if err != nil {
 			log.Println(err)
@@ -36,12 +35,11 @@ func GetUploads(tmpl *template.Template) http.HandlerFunc {
 }
 
 func SearchUploads(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage(tmpl, "Uploads", "./views/artifact/uploads.html")
+	pge := mix.PreparePage("Uploads", tmpl, "./views/artifact/uploads.html")
 	return func(w http.ResponseWriter, r *http.Request) {
-		ctx := context.New(w, r)
-		src := resources.APIResource(http.DefaultClient, ctx)
+		src := resources.APIResource(http.DefaultClient, r)
 
-		result, err := src.FetchUploads(ctx.FindParam("pagesize"))
+		result, err := src.FetchUploads(drx.FindParam(r, "pagesize"))
 
 		if err != nil {
 			log.Println(err)
@@ -49,7 +47,7 @@ func SearchUploads(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
+		err = mix.Write(w, pge.Create(r, result))
 
 		if err != nil {
 			log.Println(err)
@@ -58,10 +56,9 @@ func SearchUploads(tmpl *template.Template) http.HandlerFunc {
 }
 
 func ViewUpload(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage(tmpl, "Uploads View", "./views/artifact/uploadsView.html")
+	pge := mix.PreparePage("Uploads View", tmpl, "./views/artifact/uploadsView.html")
 	return func(w http.ResponseWriter, r *http.Request) {
-		ctx := context.New(w, r)
-		key, err := husk.ParseKey(ctx.FindParam("key"))
+		key, err := husk.ParseKey(drx.FindParam(r, "key"))
 
 		if err != nil {
 			log.Println(err)
@@ -69,7 +66,7 @@ func ViewUpload(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		src := resources.APIResource(http.DefaultClient, ctx)
+		src := resources.APIResource(http.DefaultClient, r)
 		result, err := src.FetchUpload(key.String())
 
 		if err != nil {
@@ -78,7 +75,7 @@ func ViewUpload(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
+		err = mix.Write(w, pge.Create(r, result))
 
 		if err != nil {
 			log.Println(err)

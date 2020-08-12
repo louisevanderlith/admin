@@ -3,7 +3,7 @@ package theme
 import (
 	"github.com/louisevanderlith/admin/handles/menu"
 	"github.com/louisevanderlith/admin/resources"
-	"github.com/louisevanderlith/droxolite/context"
+	"github.com/louisevanderlith/droxolite/drx"
 	"github.com/louisevanderlith/droxolite/mix"
 	"html/template"
 	"log"
@@ -13,12 +13,11 @@ import (
 )
 
 func GetStylesheets(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage(tmpl, "Stylesheets", "./views/theme/stylesheets.html")
+	pge := mix.PreparePage("Stylesheets", tmpl, "./views/theme/stylesheets.html")
 	pge.AddMenu(menu.FullMenu())
 	return func(w http.ResponseWriter, r *http.Request) {
-		ctx := context.New(w, r)
 
-		src := resources.APIResource(http.DefaultClient, ctx)
+		src := resources.APIResource(http.DefaultClient, r)
 		result, err := src.FetchStylesheets("A10")
 
 		if err != nil {
@@ -27,7 +26,7 @@ func GetStylesheets(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
+		err = mix.Write(w, pge.Create(r, result))
 
 		if err != nil {
 			log.Println("Serve Error", err)
@@ -36,12 +35,11 @@ func GetStylesheets(tmpl *template.Template) http.HandlerFunc {
 }
 
 func SearchStylesheets(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage(tmpl, "Stylesheets", "./views/theme/stylesheets.html")
+	pge := mix.PreparePage("Stylesheets", tmpl, "./views/theme/stylesheets.html")
 	return func(w http.ResponseWriter, r *http.Request) {
-		ctx := context.New(w, r)
 
-		src := resources.APIResource(http.DefaultClient, ctx)
-		result, err := src.FetchStylesheets(ctx.FindParam("pagesize"))
+		src := resources.APIResource(http.DefaultClient, r)
+		result, err := src.FetchStylesheets(drx.FindParam(r, "pagesize"))
 
 		if err != nil {
 			log.Println("Fetch Stylesheets Error", err)
@@ -49,7 +47,7 @@ func SearchStylesheets(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
+		err = mix.Write(w, pge.Create(r, result))
 
 		if err != nil {
 			log.Println("Serve Error", err)
@@ -58,10 +56,9 @@ func SearchStylesheets(tmpl *template.Template) http.HandlerFunc {
 }
 
 func ViewStylesheets(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage(tmpl, "Stylesheet View", "./views/theme/stylesheetview.html")
+	pge := mix.PreparePage("Stylesheet View", tmpl, "./views/theme/stylesheetview.html")
 	return func(w http.ResponseWriter, r *http.Request) {
-		ctx := context.New(w, r)
-		key, err := husk.ParseKey(ctx.FindParam("key"))
+		key, err := husk.ParseKey(drx.FindParam(r, "key"))
 
 		if err != nil {
 			log.Println("Parse Key Error", err)
@@ -69,7 +66,7 @@ func ViewStylesheets(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		src := resources.APIResource(http.DefaultClient, ctx)
+		src := resources.APIResource(http.DefaultClient, r)
 		result, err := src.FetchStylesheet(key.String())
 
 		if err != nil {
@@ -78,7 +75,7 @@ func ViewStylesheets(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
+		err = mix.Write(w, pge.Create(r, result))
 
 		if err != nil {
 			log.Println("Serve Error", err)

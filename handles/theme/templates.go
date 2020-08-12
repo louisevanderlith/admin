@@ -3,21 +3,20 @@ package theme
 import (
 	"github.com/louisevanderlith/admin/handles/menu"
 	"github.com/louisevanderlith/admin/resources"
+	"github.com/louisevanderlith/droxolite/drx"
 	"github.com/louisevanderlith/droxolite/mix"
 	"html/template"
 	"log"
 	"net/http"
 
-	"github.com/louisevanderlith/droxolite/context"
 	"github.com/louisevanderlith/husk"
 )
 
 func GetTemplates(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage(tmpl, "Templates", "./views/theme/templates.html")
+	pge := mix.PreparePage("Templates", tmpl, "./views/theme/templates.html")
 	pge.AddMenu(menu.FullMenu())
 	return func(w http.ResponseWriter, r *http.Request) {
-		ctx := context.New(w, r)
-		src := resources.APIResource(http.DefaultClient, ctx)
+		src := resources.APIResource(http.DefaultClient, r)
 		result, err := src.FetchTemplates("A10")
 
 		if err != nil {
@@ -26,7 +25,7 @@ func GetTemplates(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
+		err = mix.Write(w, pge.Create(r, result))
 
 		if err != nil {
 			log.Println("Serve Error", err)
@@ -35,12 +34,11 @@ func GetTemplates(tmpl *template.Template) http.HandlerFunc {
 }
 
 func SearchTemplates(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage(tmpl, "Templates", "./views/theme/templates.html")
+	pge := mix.PreparePage("Templates", tmpl, "./views/theme/templates.html")
 	return func(w http.ResponseWriter, r *http.Request) {
-		ctx := context.New(w, r)
 
-		src := resources.APIResource(http.DefaultClient, ctx)
-		result, err := src.FetchTemplates(ctx.FindParam("pagesize"))
+		src := resources.APIResource(http.DefaultClient, r)
+		result, err := src.FetchTemplates(drx.FindParam(r, "pagesize"))
 
 		if err != nil {
 			log.Println("Fetch Templates Error", err)
@@ -48,7 +46,7 @@ func SearchTemplates(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
+		err = mix.Write(w, pge.Create(r, result))
 
 		if err != nil {
 			log.Println("Serve Error", err)
@@ -57,10 +55,9 @@ func SearchTemplates(tmpl *template.Template) http.HandlerFunc {
 }
 
 func ViewTemplates(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage(tmpl, "Template View", "./views/theme/templateview.html")
+	pge := mix.PreparePage("Template View", tmpl, "./views/theme/templateview.html")
 	return func(w http.ResponseWriter, r *http.Request) {
-		ctx := context.New(w, r)
-		key, err := husk.ParseKey(ctx.FindParam("key"))
+		key, err := husk.ParseKey(drx.FindParam(r, "key"))
 
 		if err != nil {
 			log.Println("Parse Key Error", err)
@@ -68,7 +65,7 @@ func ViewTemplates(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		src := resources.APIResource(http.DefaultClient, ctx)
+		src := resources.APIResource(http.DefaultClient, r)
 		result, err := src.FetchTemplate(key.String())
 
 		if err != nil {
@@ -77,7 +74,7 @@ func ViewTemplates(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
+		err = mix.Write(w, pge.Create(r, result))
 
 		if err != nil {
 			log.Println("Serve Error", err)

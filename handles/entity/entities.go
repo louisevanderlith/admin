@@ -3,7 +3,7 @@ package entity
 import (
 	"github.com/louisevanderlith/admin/handles/menu"
 	"github.com/louisevanderlith/admin/resources"
-	"github.com/louisevanderlith/droxolite/context"
+	"github.com/louisevanderlith/droxolite/drx"
 	"github.com/louisevanderlith/droxolite/mix"
 	"html/template"
 	"log"
@@ -13,12 +13,11 @@ import (
 )
 
 func GetEnitites(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage(tmpl, "Entities", "./views/entity/entities.html")
+	pge := mix.PreparePage("Entities", tmpl, "./views/entity/entities.html")
 	pge.AddMenu(menu.FullMenu())
 	return func(w http.ResponseWriter, r *http.Request) {
-		ctx := context.New(w, r)
 
-		src := resources.APIResource(http.DefaultClient, ctx)
+		src := resources.APIResource(http.DefaultClient, r)
 		result, err := src.FetchEntities("A10")
 
 		if err != nil {
@@ -27,7 +26,7 @@ func GetEnitites(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
+		err = mix.Write(w, pge.Create(r, result))
 
 		if err != nil {
 			log.Println("Serve Error", err)
@@ -36,14 +35,13 @@ func GetEnitites(tmpl *template.Template) http.HandlerFunc {
 }
 
 func SearchEntities(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage(tmpl, "Entities", "./views/entity/entities.html")
+	pge := mix.PreparePage("Entities", tmpl, "./views/entity/entities.html")
 
 	return func(w http.ResponseWriter, r *http.Request) {
-		ctx := context.New(w, r)
 
-		src := resources.APIResource(http.DefaultClient, ctx)
+		src := resources.APIResource(http.DefaultClient, r)
 
-		result, err := src.FetchEntities(ctx.FindParam("pagesize"))
+		result, err := src.FetchEntities(drx.FindParam(r, "pagesize"))
 
 		if err != nil {
 			log.Println(err)
@@ -51,7 +49,7 @@ func SearchEntities(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
+		err = mix.Write(w, pge.Create(r, result))
 
 		if err != nil {
 			log.Println(err)
@@ -60,12 +58,11 @@ func SearchEntities(tmpl *template.Template) http.HandlerFunc {
 }
 
 func ViewEntity(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage(tmpl, "Entities View", "./views/entity/entitiesView.html")
+	pge := mix.PreparePage("Entities View", tmpl, "./views/entity/entitiesView.html")
 
 	return func(w http.ResponseWriter, r *http.Request) {
-		ctx := context.New(w, r)
 
-		key, err := husk.ParseKey(ctx.FindParam("key"))
+		key, err := husk.ParseKey(drx.FindParam(r, "key"))
 
 		if err != nil {
 			log.Println(err)
@@ -73,7 +70,7 @@ func ViewEntity(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		src := resources.APIResource(http.DefaultClient, ctx)
+		src := resources.APIResource(http.DefaultClient, r)
 		result, err := src.FetchEntity(key.String())
 
 		if err != nil {
@@ -82,7 +79,7 @@ func ViewEntity(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
+		err = mix.Write(w, pge.Create(r, result))
 
 		if err != nil {
 			log.Println(err)
