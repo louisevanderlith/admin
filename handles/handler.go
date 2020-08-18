@@ -69,10 +69,10 @@ func SetupRoutes(clnt, scrt, securityUrl, authorityUrl string) http.Handler {
 	vins.HandleFunc("/numbers/{key:[0-9]+\\x60[0-9]+}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, vin.ViewVIN(tmpl), map[string]bool{"vin.admin.view": true})).Methods(http.MethodGet)
 
 	ent := r.PathPrefix("/entity").Subrouter()
-	ent.HandleFunc("/entities", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, entity.GetEnitites(tmpl), map[string]bool{"secure.profile.search": true})).Methods(http.MethodGet)
-	ent.HandleFunc("/entities/{pagesize:[A-Z][0-9]+}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, entity.SearchEntities(tmpl), map[string]bool{"secure.profile.search": true})).Methods(http.MethodGet)
-	ent.HandleFunc("/entities/{pagesize:[A-Z][0-9]+}/{hash:[a-zA-Z0-9]+={0,2}}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, entity.SearchEntities(tmpl), map[string]bool{"secure.profile.search": true})).Methods(http.MethodGet)
-	ent.HandleFunc("/entities/{key:[0-9]+\\x60[0-9]+}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, entity.ViewEntity(tmpl), map[string]bool{"secure.profile.view": true})).Methods(http.MethodGet)
+	ent.HandleFunc("/entities", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, entity.GetEnitites(tmpl), map[string]bool{"entity.info.search": true})).Methods(http.MethodGet)
+	ent.HandleFunc("/entities/{pagesize:[A-Z][0-9]+}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, entity.SearchEntities(tmpl), map[string]bool{"entity.info.search": true})).Methods(http.MethodGet)
+	ent.HandleFunc("/entities/{pagesize:[A-Z][0-9]+}/{hash:[a-zA-Z0-9]+={0,2}}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, entity.SearchEntities(tmpl), map[string]bool{"entity.info.search": true})).Methods(http.MethodGet)
+	ent.HandleFunc("/entities/{key:[0-9]+\\x60[0-9]+}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, entity.ViewEntity(tmpl), map[string]bool{"entity.info.view": true})).Methods(http.MethodGet)
 
 	crty := r.PathPrefix("/curity").Subrouter()
 	crty.HandleFunc("/profiles", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, curity.GetProfiles(tmpl), map[string]bool{"secure.profile.search": true})).Methods(http.MethodGet)
