@@ -1,27 +1,57 @@
 package menu
 
-import "github.com/louisevanderlith/droxolite/menu"
+import (
+	"github.com/louisevanderlith/droxolite/menu"
+)
 
 func FullMenu() *menu.Menu {
 	m := menu.NewMenu()
-	m.AddItem(artifactMenu())
-	m.AddItem(blogMenu())
-	m.AddItem(commentMenu())
-	m.AddItem(commsMenu())
-	m.AddItem(curityMenu())
-	m.AddItem(entityMenu())
-	m.AddItem(fundsMenu())
-	m.AddItem(gameMenu())
-	m.AddItem(logbookMenu())
-	m.AddItem(notifyMenu())
-	m.AddItem(quoteMenu())
-	m.AddItem(stockMenu())
-	m.AddItem(themeMenu())
-	m.AddItem(vehicleMenu())
-	m.AddItem(vinMenu())
-	m.AddItem(xchangeMenu())
+	m.AddItem(resouceMenu())
+	m.AddItem(contentMenu())
+	m.AddItem(profileMenu())
+	m.AddItem(accountMenu())
 
 	return m
+}
+
+func resouceMenu() menu.Item {
+	chldrn := []menu.Item{
+		stockMenu(),
+		vinMenu(),
+		vehicleMenu(),
+		logbookMenu(),
+	}
+
+	return menu.NewItem("resource", "#", "Stock & Resource Management", chldrn)
+}
+
+func contentMenu() menu.Item {
+	chldrn := []menu.Item{
+		themeMenu(),
+		blogMenu(),
+		artifactMenu(),
+	}
+	return menu.NewItem("content", "#", "Content & Artifacts", chldrn)
+}
+
+func profileMenu() menu.Item {
+	chldrn := []menu.Item{
+		entityMenu(),
+		curityMenu(),
+		commsMenu(),
+		notifyMenu(),
+	}
+	return menu.NewItem("profile", "#", "Profile & Security", chldrn)
+}
+
+func accountMenu() menu.Item {
+	chldrn := []menu.Item{
+		fundsMenu(),
+		xchangeMenu(),
+		gameMenu(),
+		quoteMenu(),
+	}
+	return menu.NewItem("account", "#", "Accounts & Invoices", chldrn)
 }
 
 func artifactMenu() menu.Item {

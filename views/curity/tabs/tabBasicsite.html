@@ -31,7 +31,7 @@
                                 <i class="fas fa-upload"></i>
                             </span>
                             <span class="file-label">
-                                Choose a file…
+                                Choose an image.
                             </span>
                         </span>
                     </label>
@@ -46,11 +46,11 @@
             <h5 class="subtitle has-text-left" for="lstCodes">Codes</h5>
             <button type="button" class="button is-info is-small has-text-right" id="btnAddCode">Add</button>
         </div>
-        {{range $k, $v := .Data.Codes}}
+        {{range $i, $v := .Data.Codes}}
             <div class="card">
                 <header class="card-header">
                     <p class="card-header-title">
-                        {{$k}}
+                        {{$v.Key}}
                     </p>
                     <a class="card-header-icon" aria-label="more options">
                     <span class="icon">
@@ -63,18 +63,18 @@
                         <div class="field">
                             <div class="control">
                                 <div class="content" id="lstCodes">
-                                    <input class="input" type="text" id="txtCodeName{{$k}}" placeholder="Title" required
-                                           value="{{$k}}"/>
+                                    <input class="input" type="text" id="txtCodeName{{$i}}" placeholder="Title" required
+                                           value="{{$v.Key}}"/>
                                     <hr/>
-                                    <input class="input" type="text" id="txtCodeValue{{$k}}" placeholder="Title"
-                                           required value="{{$v}}"/>
+                                    <input class="input" type="text" id="txtCodeValue{{$i}}" placeholder="Title"
+                                           required value="{{$v.Value}}"/>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <footer class="card-footer">
-                    <a href="#" class="card-footer-item">Delete</a>
+                    <a href="#{{$i}}" class="card-footer-item">Delete</a>
                 </footer>
             </div>
         {{end}}
@@ -84,11 +84,11 @@
             <button type="button" class="button is-info is-small has-text-right" id="btnAddTerms">Add</button>
         </div>
         <div id="lstTerms">
-            {{range $k, $v := .Data.Terms}}
+            {{range $i, $v := .Data.Terms}}
                 <div class="card">
                     <header class="card-header">
                         <p class="card-header-title">
-                            {{index $k}}
+                            {{$v.Key}}
                         </p>
                         <a class="card-header-icon" aria-label="more options">
                             <span class="icon">
@@ -99,19 +99,19 @@
                     <div class="card-content" hidden>
                         <div class="field">
                             <div class="control">
-                                <input class="input" type="text" id="txtTermName{{$k}}" placeholder="Name of Term"
+                                <input class="input" type="text" id="txtTermName{{$i}}" placeholder="Name of Term"
                                        required
-                                       value="{{$k}}"/>
+                                       value="{{$v.Key}}"/>
                                 <p class="help is-danger"></p>
-                                <input class="input" type="text" id="txtTermValue{{$k}}"
+                                <input class="input" type="text" id="txtTermValue{{$i}}"
                                        placeholder="https://terms.com/terms.html"
-                                       required value="{{$v}}"/>
+                                       required value="{{$v.Value}}"/>
                                 <p class="help is-danger"></p>
                             </div>
                         </div>
                     </div>
                     <footer class="card-footer">
-                        <a href="#{{$k}}" class="card-footer-item">Delete</a>
+                        <a href="#{{$i}}" class="card-footer-item">Delete</a>
                     </footer>
                 </div>
             {{end}}

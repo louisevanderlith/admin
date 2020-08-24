@@ -1,11 +1,11 @@
 <div class="content">
     <button type="button" class="button is-info is-small" id="btnAddEndpoint">Add Endpoint</button>
-    {{range $k, $v := .Data.Endpoints}}
+    {{range $i, $v := .Data.Endpoints}}
         <br/>
         <div class="card">
             <header class="card-header">
                 <p class="card-header-title">
-                    {{$k}}
+                    {{$v.Key}}
                 </p>
                 <a class="card-header-icon" aria-label="more options">
                   <span class="icon">
@@ -18,9 +18,9 @@
                     <div class="field">
                         <label class="label">Name:</label>
                         <div class="control">
-                            <input class="input txtEndpointName" placeholder="Name" type="text" min-length="3"
+                            <input class="input txtEndpointName{{$i}}" placeholder="Name" type="text" min-length="3"
                                    required
-                                   value="{{$k}}"/>
+                                   value="{{$v.Key}}"/>
                             <p class="help is-danger"></p>
                         </div>
                     </div>
@@ -28,16 +28,16 @@
                     <div class="field">
                         <label class="label">Value:</label>
                         <div class="control">
-                            <input class="input txtEndpointValue" type="text" min-length="3"
+                            <input class="input txtEndpointValue{{$i}}" type="text" min-length="3"
                                    required
-                                   value="{{$v}}"/>
+                                   value="{{$v.Value}}"/>
                             <p class="help is-danger"></p>
                         </div>
                     </div>
                 </div>
             </div>
             <footer class="card-footer">
-                <a href="#" class="card-footer-item">Delete</a>
+                <a href="#{{$i}}" class="card-footer-item">Delete</a>
             </footer>
         </div>
     {{end}}

@@ -1,7 +1,7 @@
 <div class="content">
     <button type="button" class="button is-info is-small" id="btnAddPortfolio">Add Row</button>
     <form id="frmPortfolio" role="form">
-        {{$host := .Identity.Host}}
+        {{$artUrl := .Identity.GetResourceURL "artifact"}}
         {{range $key, $val := .Data.PortfolioItems}}
             <div class="card">
                 <header class="card-header">
@@ -13,7 +13,7 @@
                 </header>
                 <div {{if eq $val.ImageKey "0`0"}} hidden {{end}} class="card-image">
                     <figure class="image">
-                        <img id="uplPortfolioView{{$key}}" src="https://artifact{{$host}}download/{{$val.ImageKey}}"
+                        <img id="uplPortfolioView{{$key}}" src="{{$artUrl}}/download/{{$val.ImageKey}}"
                              class='{{if eq $val.ImageKey "0`0"}}is-hidden{{end}}' alt="{{$val.Heading}}">
                     </figure>
                 </div>
