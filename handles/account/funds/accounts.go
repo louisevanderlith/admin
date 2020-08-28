@@ -1,4 +1,4 @@
-package comment
+package funds
 
 import (
 	"github.com/louisevanderlith/admin/handles/menu"
@@ -12,13 +12,13 @@ import (
 	"github.com/louisevanderlith/husk"
 )
 
-func GetMessages(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Comments", tmpl, "./views/comment/comments.html")
+func GetAccounts(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage("Accounts", tmpl, "./views/funds/accountmanagement.html")
 	pge.AddMenu(menu.FullMenu())
 	return func(w http.ResponseWriter, r *http.Request) {
-		src := resources.APIResource(http.DefaultClient, r)
 
-		result, err := src.FetchComms("A10")
+		src := resources.APIResource(http.DefaultClient, r)
+		result, err := src.FetchAccounts("A10")
 
 		if err != nil {
 			log.Println(err)
@@ -34,12 +34,13 @@ func GetMessages(tmpl *template.Template) http.HandlerFunc {
 	}
 }
 
-func SearchMessages(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Comments", tmpl, "./views/comment/comments.html")
-	return func(w http.ResponseWriter, r *http.Request) {
-		src := resources.APIResource(http.DefaultClient, r)
+func SearchAccounts(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage("Accounts", tmpl, "./views/funds/accountmanagement.html")
 
-		result, err := src.FetchComments(drx.FindParam(r, "pagesize"))
+	return func(w http.ResponseWriter, r *http.Request) {
+
+		src := resources.APIResource(http.DefaultClient, r)
+		result, err := src.FetchAccounts(drx.FindParam(r, "pagesize"))
 
 		if err != nil {
 			log.Println(err)
@@ -55,9 +56,11 @@ func SearchMessages(tmpl *template.Template) http.HandlerFunc {
 	}
 }
 
-func ViewMessage(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Comments View", tmpl, "./views/comment/commentView.html")
+func ViewAccounts(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage("Accounts View", tmpl, "./views/funds/accountsView.html")
+
 	return func(w http.ResponseWriter, r *http.Request) {
+
 		key, err := husk.ParseKey(drx.FindParam(r, "key"))
 
 		if err != nil {
@@ -67,7 +70,7 @@ func ViewMessage(tmpl *template.Template) http.HandlerFunc {
 		}
 
 		src := resources.APIResource(http.DefaultClient, r)
-		result, err := src.FetchCommentMessage(key.String())
+		result, err := src.FetchAccount(key.String())
 
 		if err != nil {
 			log.Println(err)

@@ -22,7 +22,7 @@ func resouceMenu() menu.Item {
 		logbookMenu(),
 	}
 
-	return menu.NewItem("resource", "#", "Stock & Resource Management", chldrn)
+	return menu.NewItem("resource", "/resourcemanager", "Stock & Resource Management", chldrn)
 }
 
 func contentMenu() menu.Item {
@@ -31,7 +31,7 @@ func contentMenu() menu.Item {
 		blogMenu(),
 		artifactMenu(),
 	}
-	return menu.NewItem("content", "#", "Content & Artifacts", chldrn)
+	return menu.NewItem("content", "/contentmanager", "Content & Artifacts", chldrn)
 }
 
 func profileMenu() menu.Item {
@@ -41,7 +41,7 @@ func profileMenu() menu.Item {
 		commsMenu(),
 		notifyMenu(),
 	}
-	return menu.NewItem("profile", "#", "Profile & Security", chldrn)
+	return menu.NewItem("profile", "/profilemanager", "Profile & Security", chldrn)
 }
 
 func accountMenu() menu.Item {
@@ -51,7 +51,7 @@ func accountMenu() menu.Item {
 		gameMenu(),
 		quoteMenu(),
 	}
-	return menu.NewItem("account", "#", "Accounts & Invoices", chldrn)
+	return menu.NewItem("account", "/accountmanager", "Accounts & Invoices", chldrn)
 }
 
 func artifactMenu() menu.Item {
