@@ -88,10 +88,10 @@ func commsMenu() menu.Item {
 
 func curityMenu() menu.Item {
 	chldrn := []menu.Item{
-		menu.NewItem("analytics", "/curity/analytics", "Analytics", nil),
-		menu.NewItem("profiles", "/curity/profiles", "Profiles", nil),
-		menu.NewItem("resources", "/curity/resources", "Resources", nil),
-		menu.NewItem("users", "/curity/users", "Users", nil),
+		menu.NewItem("analytics", "/analytics", "Analytics", nil),
+		menu.NewItem("profiles", "/profiles", "Profiles", nil),
+		menu.NewItem("resources", "/resources", "Resources", nil),
+		menu.NewItem("users", "/users", "Users", nil),
 	}
 
 	return menu.NewItem("curity", "#", "Security", chldrn)

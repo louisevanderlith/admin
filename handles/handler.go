@@ -8,8 +8,7 @@ import (
 	"github.com/louisevanderlith/admin/handles/content/artifact"
 	"github.com/louisevanderlith/admin/handles/content/blog"
 	"github.com/louisevanderlith/admin/handles/profile/comms"
-	"github.com/louisevanderlith/admin/handles/profile/curity"
-	"github.com/louisevanderlith/admin/handles/profile/entity"
+	"github.com/louisevanderlith/admin/handles/resource/stock"
 	"github.com/louisevanderlith/admin/handles/resource/vin"
 	"github.com/louisevanderlith/droxolite/drx"
 	"github.com/louisevanderlith/kong"
@@ -74,53 +73,31 @@ func AddProfileManager(r *mux.Router, clnt, scrt, securityUrl, authorityUrl stri
 	cmms.HandleFunc("/messages/{pagesize:[A-Z][0-9]+}/{hash:[a-zA-Z0-9]+={0,2}}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, comms.SearchMessages(tmpl), map[string]bool{"comms.messages.search": true})).Methods(http.MethodGet)
 	cmms.HandleFunc("/messages/{key:[0-9]+\\x60[0-9]+}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, comms.ViewMessage(tmpl), map[string]bool{"comms.messages.view": true})).Methods(http.MethodGet)
 
-	ent := managr.PathPrefix("/entity").Subrouter()
-	ent.HandleFunc("/entities", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, entity.GetEnitites(tmpl), map[string]bool{"entity.info.search": true})).Methods(http.MethodGet)
-	ent.HandleFunc("/entities/{pagesize:[A-Z][0-9]+}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, entity.SearchEntities(tmpl), map[string]bool{"entity.info.search": true})).Methods(http.MethodGet)
-	ent.HandleFunc("/entities/{pagesize:[A-Z][0-9]+}/{hash:[a-zA-Z0-9]+={0,2}}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, entity.SearchEntities(tmpl), map[string]bool{"entity.info.search": true})).Methods(http.MethodGet)
-	ent.HandleFunc("/entities/{key:[0-9]+\\x60[0-9]+}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, entity.ViewEntity(tmpl), map[string]bool{"entity.info.view": true})).Methods(http.MethodGet)
-
-	crty := managr.PathPrefix("/curity").Subrouter()
-	crty.HandleFunc("/profiles", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, curity.GetProfiles(tmpl), map[string]bool{"secure.profile.search": true})).Methods(http.MethodGet)
-	crty.HandleFunc("/profiles/{pagesize:[A-Z][0-9]+}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, curity.SearchProfiles(tmpl), map[string]bool{"secure.profile.search": true})).Methods(http.MethodGet)
-	crty.HandleFunc("/profiles/{pagesize:[A-Z][0-9]+}/{hash:[a-zA-Z0-9]+={0,2}}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, curity.SearchProfiles(tmpl), map[string]bool{"secure.profile.search": true})).Methods(http.MethodGet)
-	crty.HandleFunc("/profiles/{key:[0-9]+\\x60[0-9]+}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, curity.ViewProfile(tmpl), map[string]bool{"secure.profile.view": true})).Methods(http.MethodGet)
-
-	crty.HandleFunc("/users", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, curity.GetUsers(tmpl), map[string]bool{"secure.user.search": true})).Methods(http.MethodGet)
-	crty.HandleFunc("/users/{pagesize:[A-Z][0-9]+}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, curity.SearchUsers(tmpl), map[string]bool{"secure.user.search": true})).Methods(http.MethodGet)
-	crty.HandleFunc("/users/{pagesize:[A-Z][0-9]+}/{hash:[a-zA-Z0-9]+={0,2}}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, curity.SearchUsers(tmpl), map[string]bool{"secure.user.search": true})).Methods(http.MethodGet)
-	crty.HandleFunc("/users/{key:[0-9]+\\x60[0-9]+}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, curity.ViewUser(tmpl), map[string]bool{"secure.user.view": true})).Methods(http.MethodGet)
-
-	crty.HandleFunc("/resources", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, curity.GetResource(tmpl), map[string]bool{"secure.resource.search": true})).Methods(http.MethodGet)
-	crty.HandleFunc("/resources/{pagesize:[A-Z][0-9]+}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, curity.SearchResource(tmpl), map[string]bool{"secure.resource.search": true})).Methods(http.MethodGet)
-	crty.HandleFunc("/resources/{pagesize:[A-Z][0-9]+}/{hash:[a-zA-Z0-9]+={0,2}}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, curity.SearchResource(tmpl), map[string]bool{"secure.resource.search": true})).Methods(http.MethodGet)
-	crty.HandleFunc("/resources/{key:[0-9]+\\x60[0-9]+}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, curity.ViewResource(tmpl), map[string]bool{"secure.resource.view": true})).Methods(http.MethodGet)
-
 }
 
 func AddResourceManager(r *mux.Router, clnt, scrt, securityUrl, authorityUrl string, tmpl *template.Template) {
 	managr := r.PathPrefix("/resourcemanage").Subrouter()
 
 	stck := managr.PathPrefix("/stock").Subrouter()
-	stck.HandleFunc("/cars", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, entity.GetEnitites(tmpl), map[string]bool{"secure.profile.search": true})).Methods(http.MethodGet)
-	stck.HandleFunc("/cars/{pagesize:[A-Z][0-9]+}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, entity.SearchEntities(tmpl), map[string]bool{"stock.cars.search": true})).Methods(http.MethodGet)
-	stck.HandleFunc("/cars/{pagesize:[A-Z][0-9]+}/{hash:[a-zA-Z0-9]+={0,2}}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, entity.SearchEntities(tmpl), map[string]bool{"stock.cars.search": true})).Methods(http.MethodGet)
-	stck.HandleFunc("/cars/{key:[0-9]+\\x60[0-9]+}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, entity.ViewEntity(tmpl), map[string]bool{"stock.cars.view": true})).Methods(http.MethodGet)
+	stck.HandleFunc("/cars", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, stock.GetCars(tmpl), map[string]bool{"secure.profile.search": true})).Methods(http.MethodGet)
+	stck.HandleFunc("/cars/{pagesize:[A-Z][0-9]+}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, stock.SearchCars(tmpl), map[string]bool{"stock.cars.search": true})).Methods(http.MethodGet)
+	stck.HandleFunc("/cars/{pagesize:[A-Z][0-9]+}/{hash:[a-zA-Z0-9]+={0,2}}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, stock.SearchCars(tmpl), map[string]bool{"stock.cars.search": true})).Methods(http.MethodGet)
+	stck.HandleFunc("/cars/{key:[0-9]+\\x60[0-9]+}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, stock.ViewCar(tmpl), map[string]bool{"stock.cars.view": true})).Methods(http.MethodGet)
 
-	stck.HandleFunc("/parts", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, entity.GetEnitites(tmpl), map[string]bool{"stock.parts.search": true})).Methods(http.MethodGet)
-	stck.HandleFunc("/parts/{pagesize:[A-Z][0-9]+}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, entity.SearchEntities(tmpl), map[string]bool{"stock.parts.search": true})).Methods(http.MethodGet)
-	stck.HandleFunc("/parts/{pagesize:[A-Z][0-9]+}/{hash:[a-zA-Z0-9]+={0,2}}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, entity.SearchEntities(tmpl), map[string]bool{"stock.parts.search": true})).Methods(http.MethodGet)
-	stck.HandleFunc("/parts/{key:[0-9]+\\x60[0-9]+}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, entity.ViewEntity(tmpl), map[string]bool{"stock.parts.view": true})).Methods(http.MethodGet)
+	stck.HandleFunc("/parts", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, stock.GetParts(tmpl), map[string]bool{"stock.parts.search": true})).Methods(http.MethodGet)
+	stck.HandleFunc("/parts/{pagesize:[A-Z][0-9]+}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, stock.SearchParts(tmpl), map[string]bool{"stock.parts.search": true})).Methods(http.MethodGet)
+	stck.HandleFunc("/parts/{pagesize:[A-Z][0-9]+}/{hash:[a-zA-Z0-9]+={0,2}}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, stock.SearchParts(tmpl), map[string]bool{"stock.parts.search": true})).Methods(http.MethodGet)
+	stck.HandleFunc("/parts/{key:[0-9]+\\x60[0-9]+}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, stock.ViewPart(tmpl), map[string]bool{"stock.parts.view": true})).Methods(http.MethodGet)
 
-	stck.HandleFunc("/properties", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, entity.GetEnitites(tmpl), map[string]bool{"stock.properties.search": true})).Methods(http.MethodGet)
-	stck.HandleFunc("/properties/{pagesize:[A-Z][0-9]+}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, entity.SearchEntities(tmpl), map[string]bool{"stock.properties.search": true})).Methods(http.MethodGet)
-	stck.HandleFunc("/properties/{pagesize:[A-Z][0-9]+}/{hash:[a-zA-Z0-9]+={0,2}}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, entity.SearchEntities(tmpl), map[string]bool{"stock.properties.search": true})).Methods(http.MethodGet)
-	stck.HandleFunc("/properties/{key:[0-9]+\\x60[0-9]+}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, entity.ViewEntity(tmpl), map[string]bool{"stock.properties.view": true})).Methods(http.MethodGet)
+	stck.HandleFunc("/properties", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, stock.GetProperties(tmpl), map[string]bool{"stock.properties.search": true})).Methods(http.MethodGet)
+	stck.HandleFunc("/properties/{pagesize:[A-Z][0-9]+}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, stock.SearchProperties(tmpl), map[string]bool{"stock.properties.search": true})).Methods(http.MethodGet)
+	stck.HandleFunc("/properties/{pagesize:[A-Z][0-9]+}/{hash:[a-zA-Z0-9]+={0,2}}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, stock.SearchProperties(tmpl), map[string]bool{"stock.properties.search": true})).Methods(http.MethodGet)
+	stck.HandleFunc("/properties/{key:[0-9]+\\x60[0-9]+}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, stock.ViewProperty(tmpl), map[string]bool{"stock.properties.view": true})).Methods(http.MethodGet)
 
-	stck.HandleFunc("/services", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, entity.GetEnitites(tmpl), map[string]bool{"stock.services.search": true})).Methods(http.MethodGet)
-	stck.HandleFunc("/services/{pagesize:[A-Z][0-9]+}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, entity.SearchEntities(tmpl), map[string]bool{"stock.services.search": true})).Methods(http.MethodGet)
-	stck.HandleFunc("/services/{pagesize:[A-Z][0-9]+}/{hash:[a-zA-Z0-9]+={0,2}}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, entity.SearchEntities(tmpl), map[string]bool{"stock.services.search": true})).Methods(http.MethodGet)
-	stck.HandleFunc("/services/{key:[0-9]+\\x60[0-9]+}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, entity.ViewEntity(tmpl), map[string]bool{"stock.services.view": true})).Methods(http.MethodGet)
+	stck.HandleFunc("/services", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, stock.GetServices(tmpl), map[string]bool{"stock.services.search": true})).Methods(http.MethodGet)
+	stck.HandleFunc("/services/{pagesize:[A-Z][0-9]+}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, stock.SearchServices(tmpl), map[string]bool{"stock.services.search": true})).Methods(http.MethodGet)
+	stck.HandleFunc("/services/{pagesize:[A-Z][0-9]+}/{hash:[a-zA-Z0-9]+={0,2}}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, stock.SearchServices(tmpl), map[string]bool{"stock.services.search": true})).Methods(http.MethodGet)
+	stck.HandleFunc("/services/{key:[0-9]+\\x60[0-9]+}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, stock.ViewProperty(tmpl), map[string]bool{"stock.services.view": true})).Methods(http.MethodGet)
 
 	vins := managr.PathPrefix("/vin").Subrouter()
 	vins.HandleFunc("/regions", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, vin.GetRegions(tmpl), map[string]bool{"vin.region.search": true})).Methods(http.MethodGet)
