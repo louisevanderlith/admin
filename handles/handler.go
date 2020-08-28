@@ -45,7 +45,6 @@ func AddAccountManager(r *mux.Router, clnt, scrt, securityUrl, authorityUrl stri
 
 	fund := managr.PathPrefix("/fund").Subrouter()
 	fund.HandleFunc("/accounts", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, funds.GetAccounts(tmpl), map[string]bool{"funds.account.search": true})).Methods(http.MethodGet)
-
 }
 
 func AddContentManager(r *mux.Router, clnt, scrt, securityUrl, authorityUrl string, tmpl *template.Template) {
@@ -133,5 +132,4 @@ func AddResourceManager(r *mux.Router, clnt, scrt, securityUrl, authorityUrl str
 	vins.HandleFunc("/numbers/{pagesize:[A-Z][0-9]+}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, vin.SearchVIN(tmpl), map[string]bool{"vin.admin.search": true})).Methods(http.MethodGet)
 	vins.HandleFunc("/numbers/{pagesize:[A-Z][0-9]+}/{hash:[a-zA-Z0-9]+={0,2}}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, vin.SearchVIN(tmpl), map[string]bool{"vin.admin.search": true})).Methods(http.MethodGet)
 	vins.HandleFunc("/numbers/{key:[0-9]+\\x60[0-9]+}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, vin.ViewVIN(tmpl), map[string]bool{"vin.admin.view": true})).Methods(http.MethodGet)
-
 }

@@ -13,7 +13,7 @@ import (
 )
 
 func GetAccounts(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Accounts", tmpl, "./views/funds/accountmanagement.html")
+	pge := mix.PreparePage("Accounts", tmpl, "./views/funds/accounts.html")
 	pge.AddMenu(menu.FullMenu())
 	return func(w http.ResponseWriter, r *http.Request) {
 
@@ -35,7 +35,7 @@ func GetAccounts(tmpl *template.Template) http.HandlerFunc {
 }
 
 func SearchAccounts(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Accounts", tmpl, "./views/funds/accountmanagement.html")
+	pge := mix.PreparePage("Accounts", tmpl, "./views/funds/accounts.html")
 
 	return func(w http.ResponseWriter, r *http.Request) {
 
