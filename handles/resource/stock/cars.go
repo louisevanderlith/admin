@@ -5,11 +5,10 @@ import (
 	"github.com/louisevanderlith/admin/resources"
 	"github.com/louisevanderlith/droxolite/drx"
 	"github.com/louisevanderlith/droxolite/mix"
+	"github.com/louisevanderlith/husk/keys"
 	"html/template"
 	"log"
 	"net/http"
-
-	"github.com/louisevanderlith/husk"
 )
 
 func GetCars(tmpl *template.Template) http.HandlerFunc {
@@ -59,7 +58,7 @@ func SearchCars(tmpl *template.Template) http.HandlerFunc {
 func ViewCar(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage("Car View", tmpl, "./views/stock/carview.html")
 	return func(w http.ResponseWriter, r *http.Request) {
-		key, err := husk.ParseKey(drx.FindParam(r, "key"))
+		key, err := keys.ParseKey(drx.FindParam(r, "key"))
 
 		if err != nil {
 			log.Println("Parse Key Error", err)
