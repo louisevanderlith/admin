@@ -1,5 +1,0 @@
-package curity
-
-func Nothingyet() {
-
-}

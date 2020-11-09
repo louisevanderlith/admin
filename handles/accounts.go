@@ -1,10 +1,9 @@
-package funds
+package handles
 
 import (
-	"github.com/louisevanderlith/admin/handles/menu"
-	"github.com/louisevanderlith/admin/resources"
 	"github.com/louisevanderlith/droxolite/drx"
 	"github.com/louisevanderlith/droxolite/mix"
+	"github.com/louisevanderlith/funds/api"
 	"github.com/louisevanderlith/husk/keys"
 	"html/template"
 	"log"
@@ -13,11 +12,14 @@ import (
 
 func GetAccounts(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage("Accounts", tmpl, "./views/funds/accounts.html")
-	pge.AddMenu(menu.FullMenu())
+	pge.AddMenu(FullMenu())
+	pge.AddModifier(mix.EndpointMod(Endpoints))
+	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
+	pge.AddModifier(ThemeContentMod())
 	return func(w http.ResponseWriter, r *http.Request) {
 
-		src := resources.APIResource(http.DefaultClient, r)
-		result, err := src.FetchAccounts("A10")
+		clnt := CredConfig.Client(r.Context())
+		result, err := api.FetchAllAccounts(clnt, Endpoints["funds"], "A10")
 
 		if err != nil {
 			log.Println(err)
@@ -35,11 +37,14 @@ func GetAccounts(tmpl *template.Template) http.HandlerFunc {
 
 func SearchAccounts(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage("Accounts", tmpl, "./views/funds/accounts.html")
-
+	pge.AddMenu(FullMenu())
+	pge.AddModifier(mix.EndpointMod(Endpoints))
+	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
+	pge.AddModifier(ThemeContentMod())
 	return func(w http.ResponseWriter, r *http.Request) {
 
-		src := resources.APIResource(http.DefaultClient, r)
-		result, err := src.FetchAccounts(drx.FindParam(r, "pagesize"))
+		clnt := CredConfig.Client(r.Context())
+		result, err := api.FetchAllAccounts(clnt, Endpoints["funds"], drx.FindParam(r, "pagesize"))
 
 		if err != nil {
 			log.Println(err)
@@ -50,14 +55,17 @@ func SearchAccounts(tmpl *template.Template) http.HandlerFunc {
 		err = mix.Write(w, pge.Create(r, result))
 
 		if err != nil {
-			log.Println(err)
+			log.Println("Serve Error", err)
 		}
 	}
 }
 
 func ViewAccounts(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage("Accounts View", tmpl, "./views/funds/accountsView.html")
-
+	pge.AddMenu(FullMenu())
+	pge.AddModifier(mix.EndpointMod(Endpoints))
+	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
+	pge.AddModifier(ThemeContentMod())
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		key, err := keys.ParseKey(drx.FindParam(r, "key"))
@@ -68,8 +76,8 @@ func ViewAccounts(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		src := resources.APIResource(http.DefaultClient, r)
-		result, err := src.FetchAccount(key.String())
+		clnt := CredConfig.Client(r.Context())
+		result, err := api.FetchAccount(clnt, Endpoints["funds"], key)
 
 		if err != nil {
 			log.Println(err)
@@ -80,7 +88,7 @@ func ViewAccounts(tmpl *template.Template) http.HandlerFunc {
 		err = mix.Write(w, pge.Create(r, result))
 
 		if err != nil {
-			log.Println(err)
+			log.Println("Serve Error", err)
 		}
 	}
 }

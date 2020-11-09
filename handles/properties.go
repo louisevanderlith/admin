@@ -1,10 +1,9 @@
-package stock
+package handles
 
 import (
-	"github.com/louisevanderlith/admin/handles/menu"
-	"github.com/louisevanderlith/admin/resources"
 	"github.com/louisevanderlith/droxolite/drx"
 	"github.com/louisevanderlith/droxolite/mix"
+	"github.com/louisevanderlith/house/api"
 	"github.com/louisevanderlith/husk/keys"
 	"html/template"
 	"log"
@@ -13,11 +12,14 @@ import (
 
 func GetProperties(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage("Properties", tmpl, "./views/stock/properties.html")
-	pge.AddMenu(menu.FullMenu())
+	pge.AddMenu(FullMenu())
+	pge.AddModifier(mix.EndpointMod(Endpoints))
+	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
+	pge.AddModifier(ThemeContentMod())
 	return func(w http.ResponseWriter, r *http.Request) {
 
-		src := resources.APIResource(http.DefaultClient, r)
-		result, err := src.FetchStockProperties("A10")
+		clnt := CredConfig.Client(r.Context())
+		result, err := api.FetchAllProperties(clnt, Endpoints["house"], "A10")
 
 		if err != nil {
 			log.Println("Fetch Properties Error", err)
@@ -35,9 +37,13 @@ func GetProperties(tmpl *template.Template) http.HandlerFunc {
 
 func SearchProperties(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage("Properties", tmpl, "./views/stock/properties.html")
+	pge.AddMenu(FullMenu())
+	pge.AddModifier(mix.EndpointMod(Endpoints))
+	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
+	pge.AddModifier(ThemeContentMod())
 	return func(w http.ResponseWriter, r *http.Request) {
-		src := resources.APIResource(http.DefaultClient, r)
-		result, err := src.FetchStockProperties(drx.FindParam(r, "pagesize"))
+		clnt := CredConfig.Client(r.Context())
+		result, err := api.FetchAllProperties(clnt, Endpoints["house"], drx.FindParam(r, "pagesize"))
 
 		if err != nil {
 			log.Println("Fetch Properties", err)
@@ -55,6 +61,10 @@ func SearchProperties(tmpl *template.Template) http.HandlerFunc {
 
 func ViewProperty(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage("Property View", tmpl, "./views/stock/propertyview.html")
+	pge.AddMenu(FullMenu())
+	pge.AddModifier(mix.EndpointMod(Endpoints))
+	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
+	pge.AddModifier(ThemeContentMod())
 	return func(w http.ResponseWriter, r *http.Request) {
 		key, err := keys.ParseKey(drx.FindParam(r, "key"))
 
@@ -64,8 +74,8 @@ func ViewProperty(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		src := resources.APIResource(http.DefaultClient, r)
-		result, err := src.FetchStockProperty(key.String())
+		clnt := CredConfig.Client(r.Context())
+		result, err := api.FetchProperty(clnt, Endpoints["house"], key)
 
 		if err != nil {
 			log.Println("Fetch Property Error", err)

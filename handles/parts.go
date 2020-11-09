@@ -1,11 +1,10 @@
-package stock
+package handles
 
 import (
-	"github.com/louisevanderlith/admin/handles/menu"
-	"github.com/louisevanderlith/admin/resources"
 	"github.com/louisevanderlith/droxolite/drx"
 	"github.com/louisevanderlith/droxolite/mix"
 	"github.com/louisevanderlith/husk/keys"
+	"github.com/louisevanderlith/parts/api"
 	"html/template"
 	"log"
 	"net/http"
@@ -13,11 +12,13 @@ import (
 
 func GetParts(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage("Parts", tmpl, "./views/stock/parts.html")
-	pge.AddMenu(menu.FullMenu())
+	pge.AddMenu(FullMenu())
+	pge.AddModifier(mix.EndpointMod(Endpoints))
+	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
+	pge.AddModifier(ThemeContentMod())
 	return func(w http.ResponseWriter, r *http.Request) {
-
-		src := resources.APIResource(http.DefaultClient, r)
-		result, err := src.FetchStockParts("A10")
+		clnt := CredConfig.Client(r.Context())
+		result, err := api.FetchAllSpares(clnt, Endpoints["parts"], "A10")
 
 		if err != nil {
 			log.Println("Fetch Parts Error", err)
@@ -34,11 +35,15 @@ func GetParts(tmpl *template.Template) http.HandlerFunc {
 }
 
 func SearchParts(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Parts", tmpl, "./views/stock/parts.html")
+	pge := mix.PreparePage("Parts", tmpl, "./views/parts.html")
+	pge.AddMenu(FullMenu())
+	pge.AddModifier(mix.EndpointMod(Endpoints))
+	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
+	pge.AddModifier(ThemeContentMod())
 	return func(w http.ResponseWriter, r *http.Request) {
 
-		src := resources.APIResource(http.DefaultClient, r)
-		result, err := src.FetchStockParts(drx.FindParam(r, "pagesize"))
+		clnt := CredConfig.Client(r.Context())
+		result, err := api.FetchAllSpares(clnt, Endpoints["parts"], drx.FindParam(r, "pagesize"))
 
 		if err != nil {
 			log.Println("Fetch Parts Error", err)
@@ -56,6 +61,10 @@ func SearchParts(tmpl *template.Template) http.HandlerFunc {
 
 func ViewPart(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage("Part View", tmpl, "./views/stock/partview.html")
+	pge.AddMenu(FullMenu())
+	pge.AddModifier(mix.EndpointMod(Endpoints))
+	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
+	pge.AddModifier(ThemeContentMod())
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		key, err := keys.ParseKey(drx.FindParam(r, "key"))
@@ -66,8 +75,8 @@ func ViewPart(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		src := resources.APIResource(http.DefaultClient, r)
-		result, err := src.FetchStockPart(key.String())
+		clnt := CredConfig.Client(r.Context())
+		result, err := api.FetchSpare(clnt, Endpoints["parts"], key)
 
 		if err != nil {
 			log.Println("Fetch Part Error", err)

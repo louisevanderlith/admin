@@ -1,11 +1,7 @@
-package xchange
+package handles
 
 import (
-	"github.com/louisevanderlith/admin/handles/menu"
-	"github.com/louisevanderlith/admin/resources"
-	"github.com/louisevanderlith/droxolite/drx"
 	"github.com/louisevanderlith/droxolite/mix"
-	"github.com/louisevanderlith/husk/keys"
 	"html/template"
 	"log"
 	"net/http"
@@ -13,7 +9,10 @@ import (
 
 func GetCredits(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage("Credits", tmpl, "./views/xchange/credits.html")
-	pge.AddMenu(menu.FullMenu())
+	pge.AddMenu(FullMenu())
+	pge.AddModifier(mix.EndpointMod(Endpoints))
+	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
+	pge.AddModifier(ThemeContentMod())
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		err := mix.Write(w, pge.Create(r, nil))
@@ -26,6 +25,10 @@ func GetCredits(tmpl *template.Template) http.HandlerFunc {
 
 func SearchCredits(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage("Credits", tmpl, "./views/xchange/credits.html")
+	pge.AddMenu(FullMenu())
+	pge.AddModifier(mix.EndpointMod(Endpoints))
+	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
+	pge.AddModifier(ThemeContentMod())
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		err := mix.Write(w, pge.Create(r, nil))
@@ -38,26 +41,29 @@ func SearchCredits(tmpl *template.Template) http.HandlerFunc {
 
 func ViewCredits(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage("CreditsView", tmpl, "./views/xchange/creditview.html")
+	pge.AddMenu(FullMenu())
+	pge.AddModifier(mix.EndpointMod(Endpoints))
+	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
+	pge.AddModifier(ThemeContentMod())
 	return func(w http.ResponseWriter, r *http.Request) {
-
-		key, err := keys.ParseKey(drx.FindParam(r, "key"))
+		/*key, err := keys.ParseKey(drx.FindParam(r, "key"))
 
 		if err != nil {
 			log.Println("Parse Key Error", err)
 			http.Error(w, "", http.StatusBadRequest)
 			return
 		}
-
-		src := resources.APIResource(http.DefaultClient, r)
-		result, err := src.FetchCredits(key.String())
+		*/
+		/*clnt := CredConfig.Client(r.Context())
+		result, err := api.FetchCredits(key.String())
 
 		if err != nil {
 			log.Println("Fetch Credit Error", err)
 			http.Error(w, "", http.StatusUnauthorized)
 			return
 		}
-
-		err = mix.Write(w, pge.Create(r, result))
+		*/
+		err := mix.Write(w, pge.Create(r, nil))
 
 		if err != nil {
 			log.Println("Serve Error", err)

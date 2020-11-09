@@ -1,11 +1,10 @@
-package vehicle
+package handles
 
 import (
-	"github.com/louisevanderlith/admin/handles/menu"
-	"github.com/louisevanderlith/admin/resources"
 	"github.com/louisevanderlith/droxolite/drx"
 	"github.com/louisevanderlith/droxolite/mix"
 	"github.com/louisevanderlith/husk/keys"
+	"github.com/louisevanderlith/vehicle/api"
 	"html/template"
 	"log"
 	"net/http"
@@ -13,11 +12,14 @@ import (
 
 func GetVehicles(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage("Vehicles", tmpl, "./views/vehicle/vehicles.html")
-	pge.AddMenu(menu.FullMenu())
+	pge.AddMenu(FullMenu())
+	pge.AddModifier(mix.EndpointMod(Endpoints))
+	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
+	pge.AddModifier(ThemeContentMod())
 	return func(w http.ResponseWriter, r *http.Request) {
 
-		src := resources.APIResource(http.DefaultClient, r)
-		result, err := src.FetchVehicles("A10")
+		clnt := CredConfig.Client(r.Context())
+		result, err := api.FetchAllVehicles(clnt, Endpoints["vehicle"], "A10")
 
 		if err != nil {
 			log.Println("Fetch Vehicles Error", err)
@@ -35,10 +37,14 @@ func GetVehicles(tmpl *template.Template) http.HandlerFunc {
 
 func SearchVehicles(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage("Vehicles", tmpl, "./views/vehicle/vehicles.html")
+	pge.AddMenu(FullMenu())
+	pge.AddModifier(mix.EndpointMod(Endpoints))
+	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
+	pge.AddModifier(ThemeContentMod())
 	return func(w http.ResponseWriter, r *http.Request) {
 
-		src := resources.APIResource(http.DefaultClient, r)
-		result, err := src.FetchVehicles(drx.FindParam(r, "pagesize"))
+		clnt := CredConfig.Client(r.Context())
+		result, err := api.FetchAllVehicles(clnt, Endpoints["vehicle"], drx.FindParam(r, "pagesize"))
 
 		if err != nil {
 			log.Println("Fetch Vehicles Error", err)
@@ -56,6 +62,10 @@ func SearchVehicles(tmpl *template.Template) http.HandlerFunc {
 
 func ViewVehicles(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage("Vehicles View", tmpl, "./views/vehicle/vehicleview.html")
+	pge.AddMenu(FullMenu())
+	pge.AddModifier(mix.EndpointMod(Endpoints))
+	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
+	pge.AddModifier(ThemeContentMod())
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		key, err := keys.ParseKey(drx.FindParam(r, "key"))
@@ -66,8 +76,8 @@ func ViewVehicles(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		src := resources.APIResource(http.DefaultClient, r)
-		result, err := src.FetchVehicle(key.String())
+		clnt := CredConfig.Client(r.Context())
+		result, err := api.FetchVehicleInfo(clnt, Endpoints["vehicle"], key)
 
 		if err != nil {
 			log.Println("Fetch Vehicle Error", err)
