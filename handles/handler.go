@@ -1,22 +1,57 @@
 package handles
 
 import (
+	"github.com/coreos/go-oidc"
 	"github.com/gorilla/mux"
-	"github.com/louisevanderlith/admin/handles/account/funds"
-	"github.com/louisevanderlith/admin/handles/account/game"
-	"github.com/louisevanderlith/admin/handles/content"
-	"github.com/louisevanderlith/admin/handles/content/artifact"
-	"github.com/louisevanderlith/admin/handles/content/blog"
-	"github.com/louisevanderlith/admin/handles/profile/comms"
-	"github.com/louisevanderlith/admin/handles/resource/stock"
-	"github.com/louisevanderlith/admin/handles/resource/vin"
 	"github.com/louisevanderlith/droxolite/drx"
-	"github.com/louisevanderlith/kong/middle"
-	"html/template"
+	"github.com/louisevanderlith/droxolite/menu"
+	"github.com/louisevanderlith/droxolite/mix"
+	"github.com/louisevanderlith/droxolite/open"
+	folio "github.com/louisevanderlith/folio/api"
+	"github.com/louisevanderlith/theme/api"
+	"golang.org/x/net/context"
+	"golang.org/x/oauth2"
+	"golang.org/x/oauth2/clientcredentials"
+	"log"
 	"net/http"
 )
 
-func SetupRoutes(clnt, scrt, securityUrl, managerUrl, authorityUrl string) http.Handler {
+var (
+	CredConfig *clientcredentials.Config
+	Endpoints  map[string]string
+)
+
+func SetupRoutes(host, clientId, clientSecret string, endpoints map[string]string) http.Handler {
+	ctx := context.Background()
+	provider, err := oidc.NewProvider(ctx, endpoints["issuer"])
+
+	if err != nil {
+		panic(err)
+	}
+
+	Endpoints = endpoints
+
+	authConfig := &oauth2.Config{
+		ClientID:     clientId,
+		ClientSecret: clientSecret,
+		Endpoint:     provider.Endpoint(),
+		RedirectURL:  host + "/callback",
+		Scopes:       []string{oidc.ScopeOpenID},
+	}
+
+	CredConfig = &clientcredentials.Config{
+		ClientID:     clientId,
+		ClientSecret: clientSecret,
+		TokenURL:     provider.Endpoint().TokenURL,
+		Scopes:       []string{oidc.ScopeOpenID, "theme", "folio"},
+	}
+
+	err = api.UpdateTemplate(CredConfig.Client(ctx), endpoints["theme"])
+
+	if err != nil {
+		panic(err)
+	}
+
 	tmpl, err := drx.LoadTemplate("./views")
 
 	if err != nil {
@@ -24,90 +59,54 @@ func SetupRoutes(clnt, scrt, securityUrl, managerUrl, authorityUrl string) http.
 	}
 
 	r := mux.NewRouter()
+
 	distPath := http.FileSystem(http.Dir("dist/"))
 	fs := http.FileServer(distPath)
 	r.PathPrefix("/dist/").Handler(http.StripPrefix("/dist/", fs))
 
-	clntIns := middle.NewClientInspector(clnt, scrt, http.DefaultClient, securityUrl, managerUrl, authorityUrl)
-	r.HandleFunc("/", clntIns.Middleware(Index(tmpl), map[string]bool{"artifact.uploads.view": true})).Methods(http.MethodGet)
-	AddAccountManager(r, clntIns, tmpl)
-	AddContentManager(r, clntIns, tmpl)
-	AddProfileManager(r, clntIns, tmpl)
-	AddResourceManager(r, clntIns, tmpl)
+	lock := open.NewUILock(authConfig)
+	r.HandleFunc("/login", lock.Login).Methods(http.MethodGet)
+	r.HandleFunc("/callback", lock.Callback).Methods(http.MethodGet)
+
+	oidcConfig := &oidc.Config{
+		ClientID: clientId,
+	}
+
+	v := provider.Verifier(oidcConfig)
+
+	r.HandleFunc("/", open.LoginMiddleware(v, Index(tmpl))).Methods(http.MethodGet)
+
+	r.HandleFunc("/stock", open.LoginMiddleware(v, GetStock(tmpl))).Methods(http.MethodGet)
+	//r.HandleFunc()
+
 	return r
 }
 
-func AddAccountManager(r *mux.Router, clntIns middle.ClientInspector, tmpl *template.Template) {
-	managr := r.PathPrefix("/accountmanage").Subrouter()
+func FullMenu() *menu.Menu {
+	m := menu.NewMenu()
 
-	gme := managr.PathPrefix("/game").Subrouter()
-	gme.HandleFunc("/heroes", clntIns.Middleware(game.GetHeroes(tmpl), map[string]bool{"game.heroes.search": true})).Methods(http.MethodGet)
+	m.AddItem(menu.NewItem("e", "/clients", "Clients", nil))
+	m.AddItem(menu.NewItem("a", "/orders", "Orders", nil))
+	m.AddItem(menu.NewItem("c", "/heroes", "Profiles", nil))
 
-	fund := managr.PathPrefix("/fund").Subrouter()
-	fund.HandleFunc("/accounts", clntIns.Middleware(funds.GetAccounts(tmpl), map[string]bool{"funds.account.search": true})).Methods(http.MethodGet)
+	//TODO: Add categories as children
+	m.AddItem(menu.NewItem("b", "/stock", "Stock", nil))
+
+	return m
 }
 
-func AddContentManager(r *mux.Router, clntIns middle.ClientInspector, tmpl *template.Template) {
-	managr := r.PathPrefix("/contentmanage").Subrouter()
-	managr.HandleFunc("", clntIns.Middleware(content.Management(tmpl), map[string]bool{"artifact.uploads.view": true, "blog.articles.view": true})).Methods(http.MethodGet)
-	artfct := managr.PathPrefix("/artifact").Subrouter()
+func ThemeContentMod() mix.ModFunc {
+	return func(f mix.MixerFactory, r *http.Request) {
+		clnt := CredConfig.Client(r.Context())
 
-	artfct.HandleFunc("/uploads", clntIns.Middleware(artifact.GetUploads(tmpl), map[string]bool{"artifact.uploads.view": true})).Methods(http.MethodGet)
-	artfct.HandleFunc("/uploads/{pagesize:[A-Z][0-9]+}", clntIns.Middleware(artifact.SearchUploads(tmpl), map[string]bool{"artifact.uploads.search": true})).Methods(http.MethodGet)
-	artfct.HandleFunc("/uploads/{pagesize:[A-Z][0-9]+}/{hash:[a-zA-Z0-9]+={0,2}}", clntIns.Middleware(artifact.SearchUploads(tmpl), map[string]bool{"artifact.uploads.search": true})).Methods(http.MethodGet)
-	artfct.HandleFunc("/uploads/{key:[0-9]+\\x60[0-9]+}", clntIns.Middleware(artifact.ViewUpload(tmpl), map[string]bool{"artifact.uploads.view": true})).Methods(http.MethodGet)
+		content, err := folio.FetchDisplay(clnt, Endpoints["folio"])
 
-	blg := managr.PathPrefix("/blog").Subrouter()
-	blg.HandleFunc("/articles", clntIns.Middleware(blog.GetArticles(tmpl), map[string]bool{"blog.articles.view": true})).Methods(http.MethodGet)
-	blg.HandleFunc("/articles/{pagesize:[A-Z][0-9]+}", clntIns.Middleware(blog.SearchArticles(tmpl), map[string]bool{"blog.articles.search": true})).Methods(http.MethodGet)
-	blg.HandleFunc("/articles/{pagesize:[A-Z][0-9]+}/{hash:[a-zA-Z0-9]+={0,2}}", clntIns.Middleware(blog.SearchArticles(tmpl), map[string]bool{"blog.articles.search": true})).Methods(http.MethodGet)
-	blg.HandleFunc("/articles/{key:[0-9]+\\x60[0-9]+}", clntIns.Middleware(blog.ViewArticle(tmpl), map[string]bool{"blog.articles.view": true})).Methods(http.MethodGet)
+		if err != nil {
+			log.Println("Fetch Profile Error", err)
+			panic(err)
+			return
+		}
 
-}
-
-func AddProfileManager(r *mux.Router, clntIns middle.ClientInspector, tmpl *template.Template) {
-	managr := r.PathPrefix("/profilemanage").Subrouter()
-
-	cmms := managr.PathPrefix("/comms").Subrouter()
-	cmms.HandleFunc("/messages", clntIns.Middleware(comms.GetMessages(tmpl), map[string]bool{"comms.messages.search": true})).Methods(http.MethodGet)
-	cmms.HandleFunc("/messages/{pagesize:[A-Z][0-9]+}", clntIns.Middleware(comms.SearchMessages(tmpl), map[string]bool{"comms.messages.search": true})).Methods(http.MethodGet)
-	cmms.HandleFunc("/messages/{pagesize:[A-Z][0-9]+}/{hash:[a-zA-Z0-9]+={0,2}}", clntIns.Middleware(comms.SearchMessages(tmpl), map[string]bool{"comms.messages.search": true})).Methods(http.MethodGet)
-	cmms.HandleFunc("/messages/{key:[0-9]+\\x60[0-9]+}", clntIns.Middleware(comms.ViewMessage(tmpl), map[string]bool{"comms.messages.view": true})).Methods(http.MethodGet)
-
-}
-
-func AddResourceManager(r *mux.Router, clntIns middle.ClientInspector, tmpl *template.Template) {
-	managr := r.PathPrefix("/resourcemanage").Subrouter()
-
-	stck := managr.PathPrefix("/stock").Subrouter()
-	stck.HandleFunc("/cars", clntIns.Middleware(stock.GetCars(tmpl), map[string]bool{"secure.profile.search": true})).Methods(http.MethodGet)
-	stck.HandleFunc("/cars/{pagesize:[A-Z][0-9]+}", clntIns.Middleware(stock.SearchCars(tmpl), map[string]bool{"stock.cars.search": true})).Methods(http.MethodGet)
-	stck.HandleFunc("/cars/{pagesize:[A-Z][0-9]+}/{hash:[a-zA-Z0-9]+={0,2}}", clntIns.Middleware(stock.SearchCars(tmpl), map[string]bool{"stock.cars.search": true})).Methods(http.MethodGet)
-	stck.HandleFunc("/cars/{key:[0-9]+\\x60[0-9]+}", clntIns.Middleware(stock.ViewCar(tmpl), map[string]bool{"stock.cars.view": true})).Methods(http.MethodGet)
-
-	stck.HandleFunc("/parts", clntIns.Middleware(stock.GetParts(tmpl), map[string]bool{"stock.parts.search": true})).Methods(http.MethodGet)
-	stck.HandleFunc("/parts/{pagesize:[A-Z][0-9]+}", clntIns.Middleware(stock.SearchParts(tmpl), map[string]bool{"stock.parts.search": true})).Methods(http.MethodGet)
-	stck.HandleFunc("/parts/{pagesize:[A-Z][0-9]+}/{hash:[a-zA-Z0-9]+={0,2}}", clntIns.Middleware(stock.SearchParts(tmpl), map[string]bool{"stock.parts.search": true})).Methods(http.MethodGet)
-	stck.HandleFunc("/parts/{key:[0-9]+\\x60[0-9]+}", clntIns.Middleware(stock.ViewPart(tmpl), map[string]bool{"stock.parts.view": true})).Methods(http.MethodGet)
-
-	stck.HandleFunc("/properties", clntIns.Middleware(stock.GetProperties(tmpl), map[string]bool{"stock.properties.search": true})).Methods(http.MethodGet)
-	stck.HandleFunc("/properties/{pagesize:[A-Z][0-9]+}", clntIns.Middleware(stock.SearchProperties(tmpl), map[string]bool{"stock.properties.search": true})).Methods(http.MethodGet)
-	stck.HandleFunc("/properties/{pagesize:[A-Z][0-9]+}/{hash:[a-zA-Z0-9]+={0,2}}", clntIns.Middleware(stock.SearchProperties(tmpl), map[string]bool{"stock.properties.search": true})).Methods(http.MethodGet)
-	stck.HandleFunc("/properties/{key:[0-9]+\\x60[0-9]+}", clntIns.Middleware(stock.ViewProperty(tmpl), map[string]bool{"stock.properties.view": true})).Methods(http.MethodGet)
-
-	stck.HandleFunc("/services", clntIns.Middleware(stock.GetServices(tmpl), map[string]bool{"stock.services.search": true})).Methods(http.MethodGet)
-	stck.HandleFunc("/services/{pagesize:[A-Z][0-9]+}", clntIns.Middleware(stock.SearchServices(tmpl), map[string]bool{"stock.services.search": true})).Methods(http.MethodGet)
-	stck.HandleFunc("/services/{pagesize:[A-Z][0-9]+}/{hash:[a-zA-Z0-9]+={0,2}}", clntIns.Middleware(stock.SearchServices(tmpl), map[string]bool{"stock.services.search": true})).Methods(http.MethodGet)
-	stck.HandleFunc("/services/{key:[0-9]+\\x60[0-9]+}", clntIns.Middleware(stock.ViewProperty(tmpl), map[string]bool{"stock.services.view": true})).Methods(http.MethodGet)
-
-	vins := managr.PathPrefix("/vin").Subrouter()
-	vins.HandleFunc("/regions", clntIns.Middleware(vin.GetRegions(tmpl), map[string]bool{"vin.region.search": true})).Methods(http.MethodGet)
-	vins.HandleFunc("/regions/{pagesize:[A-Z][0-9]+}", clntIns.Middleware(vin.SearchRegions(tmpl), map[string]bool{"vin.region.search": true})).Methods(http.MethodGet)
-	vins.HandleFunc("/regions/{pagesize:[A-Z][0-9]+}/{hash:[a-zA-Z0-9]+={0,2}}", clntIns.Middleware(vin.SearchRegions(tmpl), map[string]bool{"vin.region.search": true})).Methods(http.MethodGet)
-	vins.HandleFunc("/regions/{key:[0-9]+\\x60[0-9]+}", clntIns.Middleware(vin.ViewRegion(tmpl), map[string]bool{"vin.region.view": true})).Methods(http.MethodGet)
-
-	vins.HandleFunc("/numbers", clntIns.Middleware(vin.GetVIN(tmpl), map[string]bool{"vin.admin.search": true})).Methods(http.MethodGet)
-	vins.HandleFunc("/numbers/{pagesize:[A-Z][0-9]+}", clntIns.Middleware(vin.SearchVIN(tmpl), map[string]bool{"vin.admin.search": true})).Methods(http.MethodGet)
-	vins.HandleFunc("/numbers/{pagesize:[A-Z][0-9]+}/{hash:[a-zA-Z0-9]+={0,2}}", clntIns.Middleware(vin.SearchVIN(tmpl), map[string]bool{"vin.admin.search": true})).Methods(http.MethodGet)
-	vins.HandleFunc("/numbers/{key:[0-9]+\\x60[0-9]+}", clntIns.Middleware(vin.ViewVIN(tmpl), map[string]bool{"vin.admin.view": true})).Methods(http.MethodGet)
+		f.SetValue("Folio", content)
+	}
 }
