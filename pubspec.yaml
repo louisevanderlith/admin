@@ -1,5 +1,5 @@
 name: Admin.APP
-version: 0.1.10
+version: 1.0.0
 description: Back-office application for mango services.
 author: Louise van der Lith
 repository: https://github.com/louisevanderlith/admin
@@ -11,6 +11,4 @@ dev_dependencies:
 dependencies:
   mango_ui: '^1.0.3'
   dart_toast: '^0.3.0'
-  mango_blog: '^1.0.0'
-  mango_secure: '^1.0.8'
-  mango_artifact: '^1.0.1'
+  mango_stock: '^1.0.0'

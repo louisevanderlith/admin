@@ -77,8 +77,7 @@ func SetupRoutes(host, clientId, clientSecret string, endpoints map[string]strin
 	r.HandleFunc("/", open.LoginMiddleware(v, Index(tmpl))).Methods(http.MethodGet)
 
 	r.HandleFunc("/stock", open.LoginMiddleware(v, GetStock(tmpl))).Methods(http.MethodGet)
-	//r.HandleFunc()
-
+	r.HandleFunc("/stock/{key:[0-9]+\\x60[0-9]+}", open.LoginMiddleware(v, ViewStock(tmpl))).Methods(http.MethodGet)
 	return r
 }
 

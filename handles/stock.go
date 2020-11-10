@@ -11,13 +11,12 @@ import (
 )
 
 func GetStock(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Services", tmpl, "./views/stock/services.html")
+	pge := mix.PreparePage("Services", tmpl, "./views/categories.html")
 	pge.AddMenu(FullMenu())
 	pge.AddModifier(mix.EndpointMod(Endpoints))
 	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
 	pge.AddModifier(ThemeContentMod())
 	return func(w http.ResponseWriter, r *http.Request) {
-
 		clnt := CredConfig.Client(r.Context())
 		result, err := api.FetchAllCategories(clnt, Endpoints["stock"], "A10")
 
@@ -36,7 +35,7 @@ func GetStock(tmpl *template.Template) http.HandlerFunc {
 }
 
 func SearchStock(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Services", tmpl, "./views/stock/services.html")
+	pge := mix.PreparePage("Services", tmpl, "./views/categories.html")
 	pge.AddMenu(FullMenu())
 	pge.AddModifier(mix.EndpointMod(Endpoints))
 	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
@@ -60,7 +59,7 @@ func SearchStock(tmpl *template.Template) http.HandlerFunc {
 }
 
 func ViewStock(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Service View", tmpl, "./views/stock/serviceview.html")
+	pge := mix.PreparePage("Service View", tmpl, "./views/categoryview.html")
 	pge.AddMenu(FullMenu())
 	pge.AddModifier(mix.EndpointMod(Endpoints))
 	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))

@@ -1,0 +1,53 @@
+{{template "adminpage.html" .}}
+{{define "admincontent"}}
+    <section class="section">
+        <button type="button" class="button" id="btnAdd">Add Category</button>
+        <table class="table is-fullwidth is-hoverable" id="dataTable">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Text</th>
+                <th>ClientID</th>
+                <th>Created</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+                <th>Name</th>
+                <th>Text</th>
+                <th>ClientID</th>
+                <th>Created</th>
+                <th>Actions</th>
+            </tr>
+            </tfoot>
+            <tbody>
+            {{range $_, $val := .Data.GetRecords.ToSlice}}
+                {{$v := $val.GetValue}}
+                {{$k := $val.GetKey}}
+                <tr>
+                    <td>{{$v.Name}}</td>
+                    <td>{{$v.Text}}</td>
+                    <td>{{$v.ClientID}}</td>
+                    <td>{{$k.GetTimestamp}}</td>
+                    <td>
+                        <p class="buttons">
+                            <a href="/stock/{{$k}}" class="button is-primary">
+                            <span class="icon is-small">
+                                <i class="far fa-edit"></i>
+                            </span>
+                            </a>
+                            <button data-key="{{$k}}" class="button is-danger deleter">
+                            <span class="icon is-small">
+                                <i class="fas fa-ban"></i>
+                            </span>
+                            </button>
+                        </p>
+                    </td>
+                </tr>
+            {{end}}
+            </tbody>
+        </table>
+        {{template "pager.html" .Data}}
+    </section>
+{{end}}

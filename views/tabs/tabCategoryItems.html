@@ -1,0 +1,43 @@
+<div class="content" id="dvStock">
+    {{range $i, $v := .Data.Items}}
+        <br/>
+        <div class="card">
+            <header class="card-header">
+                <p class="card-header-title">
+                    {{$v.ShortName}}
+                </p>
+                <a class="card-header-icon" aria-label="more options">
+                <span class="icon">
+                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                </span>
+                </a>
+            </header>
+            <div class="card-content" hidden>
+                <div class="content">
+                    <div class="field">
+                        <label class="label">Short Name:</label>
+                        <div class="control">
+                            <input class="input" id="txtItemName{{$i}}" placeholder="Name" type="text"
+                                   min-length="3"
+                                   required value="{{$v.ShortName}}"/>
+                            <p class="help is-danger"></p>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">Price:</label>
+                        <div class="control">
+                            <input class="input" id="txtItemPrice{{$i}}" type="number" min="1" required
+                                   value="{{$v.Price}}"/>
+                            <p class="help is-danger"></p>
+                        </div>
+                    </div>
+                </div>
+                <footer class="card-footer">
+                    <a href="#" class="card-footer-item">Edit</a>
+                    <a href="#" class="card-footer-item Delete">Delete</a>
+                </footer>
+            </div>
+        </div>
+    {{end}}
+</div>
