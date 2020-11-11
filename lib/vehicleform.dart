@@ -1,17 +1,28 @@
-import 'package:mango_stock/bodies/category.dart';
+import 'dart:html';
+
+import 'package:dart_toast/dart_toast.dart';
+import 'package:mango_vehicle/bodies/vehicle.dart';
 import 'package:mango_ui/formstate.dart';
 import 'package:mango_ui/keys.dart';
+import 'package:mango_vehicle/vehicleapi.dart';
 
-class CategoryForm extends FormState {
+import 'vehicleengine.dart';
+import 'vehicleextra.dart';
+import 'vehiclegearbox.dart';
+import 'vehicleinfo.dart';
+import 'vehicleseries.dart';
+
+class VehicleForm extends FormState {
   Key objKey;
-  
-  CategoryInfoForm info;
-  CategoryStockForm stock;
 
-  StockForm(Key k) : super("#frmCategory", "#btnSubmit"){
+  VehicleInfo info;
+  VehicleSeries series;
+  VehicleEngine engine;
+  VehicleGearbox gearbox;
+  VehicleExtra extra;
+
+  VehicleForm(Key k) : super("#frmVehicle", "#btnSubmit"){
    objKey = k;
-
-
 
    querySelector("#btnSubmit").onClick.listen(onSubmitClick);
   }
@@ -20,11 +31,27 @@ class CategoryForm extends FormState {
     if (isFormValid()) {
       disableSubmit(true);
 
-      final obj = new Category();
+      final obj = new Vehicle(
+        info.vinKey,
+        info.fullVIN,
+        series.toDto(),
+        info.colour,
+        info.paintNo,
+        engine.toDto(),
+        gearbox.toDto(),
+        info.bodyStyle,
+        info.doors,
+        extra.extraitems,
+        info.spare,
+        info.service,
+        info.condition,
+        info.issues,
+        info.mileage
+        );
 
       HttpRequest req;
       if (objKey.toJson() != "0`0") {
-        req = await updateContent(objKey, obj);
+        req = await updateInfo(objKey, obj);
         if (req.status == 200) {
           Toast.success(
               title: "Success!",
@@ -37,7 +64,7 @@ class CategoryForm extends FormState {
               position: ToastPos.bottomLeft);
         }
       } else {
-        req = await createContent(obj);
+        req = await submitVehicle(obj);
 
         if (req.status == 200) {
           final key = req.response;
@@ -45,7 +72,7 @@ class CategoryForm extends FormState {
 
           Toast.success(
               title: "Success!",
-              message: "Content Saved",
+              message: "Vehicle Saved",
               position: ToastPos.bottomLeft);
         } else {
           Toast.error(

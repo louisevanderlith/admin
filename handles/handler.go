@@ -1,6 +1,9 @@
 package handles
 
 import (
+	"log"
+	"net/http"
+
 	"github.com/coreos/go-oidc"
 	"github.com/gorilla/mux"
 	"github.com/louisevanderlith/droxolite/drx"
@@ -12,8 +15,6 @@ import (
 	"golang.org/x/net/context"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/clientcredentials"
-	"log"
-	"net/http"
 )
 
 var (
@@ -77,7 +78,16 @@ func SetupRoutes(host, clientId, clientSecret string, endpoints map[string]strin
 	r.HandleFunc("/", open.LoginMiddleware(v, Index(tmpl))).Methods(http.MethodGet)
 
 	r.HandleFunc("/stock", open.LoginMiddleware(v, GetStock(tmpl))).Methods(http.MethodGet)
-	r.HandleFunc("/stock/{key:[0-9]+\\x60[0-9]+}", open.LoginMiddleware(v, ViewStock(tmpl))).Methods(http.MethodGet)
+	r.HandleFunc("/stock/{key:[0-9]+\\x60[0-9]+}", open.LoginMiddleware(v, ViewStock(tmpl))).Methods(http.MethodGet) //CategorieView
+
+	r.HandleFunc("/cars", open.LoginMiddleware(v, CreateVehicle(tmpl))).Methods(http.MethodGet)                       //Cars
+	r.HandleFunc("/cars/{key:[0-9]+\\x60[0-9]+}", open.LoginMiddleware(v, ViewVehicle(tmpl))).Methods(http.MethodGet) //CarView
+	// //r.HandleFunc("/clothing/{key:[0-9]+\\x60[0-9]+}", open.LoginMiddleware(v, View(tmpl))).Methods(http.MethodGet)
+	// r.HandleFunc("/spares/{key:[0-9]+\\x60[0-9]+}", open.LoginMiddleware(v, ViewPart(tmpl))).Methods(http.MethodGet)         //PartView
+	// r.HandleFunc("/properties/{key:[0-9]+\\x60[0-9]+}", open.LoginMiddleware(v, ViewProperty(tmpl))).Methods(http.MethodGet) //PropertyView
+	// r.HandleFunc("/utilities/{key:[0-9]+\\x60[0-9]+}", open.LoginMiddleware(v, ViewService(tmpl))).Methods(http.MethodGet)   //ServicesView
+	// r.HandleFunc("/tokens/{key:[0-9]+\\x60[0-9]+}", open.LoginMiddleware(v, ViewCredits(tmpl))).Methods(http.MethodGet)      //CreditsView
+
 	return r
 }
 

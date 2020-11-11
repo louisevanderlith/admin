@@ -1,17 +1,18 @@
 package handles
 
 import (
+	"html/template"
+	"log"
+	"net/http"
+
 	"github.com/louisevanderlith/droxolite/drx"
 	"github.com/louisevanderlith/droxolite/mix"
 	"github.com/louisevanderlith/husk/keys"
 	"github.com/louisevanderlith/vehicle/api"
-	"html/template"
-	"log"
-	"net/http"
 )
 
 func GetVehicles(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Vehicles", tmpl, "./views/vehicle/vehicles.html")
+	pge := mix.PreparePage("Vehicles", tmpl, "./views/vehicles.html")
 	pge.AddMenu(FullMenu())
 	pge.AddModifier(mix.EndpointMod(Endpoints))
 	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
@@ -36,7 +37,7 @@ func GetVehicles(tmpl *template.Template) http.HandlerFunc {
 }
 
 func SearchVehicles(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Vehicles", tmpl, "./views/vehicle/vehicles.html")
+	pge := mix.PreparePage("Vehicles", tmpl, "./views/vehicles.html")
 	pge.AddMenu(FullMenu())
 	pge.AddModifier(mix.EndpointMod(Endpoints))
 	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
@@ -60,8 +61,41 @@ func SearchVehicles(tmpl *template.Template) http.HandlerFunc {
 	}
 }
 
-func ViewVehicles(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Vehicles View", tmpl, "./views/vehicle/vehicleview.html")
+func CreateVehicle(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage("Vehicles Create", tmpl, "./views/vehicleview.html")
+	pge.AddMenu(FullMenu())
+	pge.AddModifier(mix.EndpointMod(Endpoints))
+	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
+	pge.AddModifier(ThemeContentMod())
+	return func(w http.ResponseWriter, r *http.Request) {
+
+		// key, err := keys.ParseKey(drx.FindParam(r, "key"))
+
+		// if err != nil {
+		// 	log.Println("Parse Key Error", err)
+		// 	http.Error(w, "", http.StatusBadRequest)
+		// 	return
+		// }
+
+		// clnt := CredConfig.Client(r.Context())
+		// result, err := api.FetchVehicleInfo(clnt, Endpoints["vehicle"], key)
+
+		// if err != nil {
+		// 	log.Println("Fetch Vehicle Error", err)
+		// 	http.Error(w, "", http.StatusUnauthorized)
+		// 	return
+		// }
+
+		err := mix.Write(w, pge.Create(r, nil))
+
+		if err != nil {
+			log.Println("Serve Error", err)
+		}
+	}
+}
+
+func ViewVehicle(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage("Vehicles View", tmpl, "./views/vehicleview.html")
 	pge.AddMenu(FullMenu())
 	pge.AddModifier(mix.EndpointMod(Endpoints))
 	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))

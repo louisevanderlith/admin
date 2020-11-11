@@ -1,17 +1,18 @@
 package handles
 
 import (
+	"html/template"
+	"log"
+	"net/http"
+
 	"github.com/louisevanderlith/droxolite/drx"
 	"github.com/louisevanderlith/droxolite/mix"
 	"github.com/louisevanderlith/husk/keys"
 	"github.com/louisevanderlith/parts/api"
-	"html/template"
-	"log"
-	"net/http"
 )
 
 func GetParts(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Parts", tmpl, "./views/stock/parts.html")
+	pge := mix.PreparePage("Parts", tmpl, "./views/parts.html")
 	pge.AddMenu(FullMenu())
 	pge.AddModifier(mix.EndpointMod(Endpoints))
 	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
@@ -60,7 +61,7 @@ func SearchParts(tmpl *template.Template) http.HandlerFunc {
 }
 
 func ViewPart(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Part View", tmpl, "./views/stock/partview.html")
+	pge := mix.PreparePage("Part View", tmpl, "./views/partview.html")
 	pge.AddMenu(FullMenu())
 	pge.AddModifier(mix.EndpointMod(Endpoints))
 	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
