@@ -12,3 +12,4 @@ dependencies:
   mango_ui: '^1.0.3'
   dart_toast: '^0.3.0'
   mango_stock: '^1.0.0'
+  mango_vehicle: '^1.0.10'

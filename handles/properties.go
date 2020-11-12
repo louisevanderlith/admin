@@ -1,17 +1,18 @@
 package handles
 
 import (
+	"html/template"
+	"log"
+	"net/http"
+
 	"github.com/louisevanderlith/droxolite/drx"
 	"github.com/louisevanderlith/droxolite/mix"
 	"github.com/louisevanderlith/house/api"
 	"github.com/louisevanderlith/husk/keys"
-	"html/template"
-	"log"
-	"net/http"
 )
 
 func GetProperties(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Properties", tmpl, "./views/stock/properties.html")
+	pge := mix.PreparePage("Properties", tmpl, "./views/properties.html")
 	pge.AddMenu(FullMenu())
 	pge.AddModifier(mix.EndpointMod(Endpoints))
 	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
@@ -36,7 +37,7 @@ func GetProperties(tmpl *template.Template) http.HandlerFunc {
 }
 
 func SearchProperties(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Properties", tmpl, "./views/stock/properties.html")
+	pge := mix.PreparePage("Properties", tmpl, "./views/properties.html")
 	pge.AddMenu(FullMenu())
 	pge.AddModifier(mix.EndpointMod(Endpoints))
 	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
@@ -60,7 +61,7 @@ func SearchProperties(tmpl *template.Template) http.HandlerFunc {
 }
 
 func ViewProperty(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Property View", tmpl, "./views/stock/propertyview.html")
+	pge := mix.PreparePage("Property View", tmpl, "./views/propertyview.html")
 	pge.AddMenu(FullMenu())
 	pge.AddModifier(mix.EndpointMod(Endpoints))
 	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))

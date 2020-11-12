@@ -1,14 +1,15 @@
 package handles
 
 import (
-	"github.com/louisevanderlith/droxolite/mix"
 	"html/template"
 	"log"
 	"net/http"
+
+	"github.com/louisevanderlith/droxolite/mix"
 )
 
 func GetCredits(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Credits", tmpl, "./views/xchange/credits.html")
+	pge := mix.PreparePage("Credits", tmpl, "./views/credits.html")
 	pge.AddMenu(FullMenu())
 	pge.AddModifier(mix.EndpointMod(Endpoints))
 	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
@@ -24,7 +25,7 @@ func GetCredits(tmpl *template.Template) http.HandlerFunc {
 }
 
 func SearchCredits(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Credits", tmpl, "./views/xchange/credits.html")
+	pge := mix.PreparePage("Credits", tmpl, "./views/credits.html")
 	pge.AddMenu(FullMenu())
 	pge.AddModifier(mix.EndpointMod(Endpoints))
 	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
@@ -40,7 +41,7 @@ func SearchCredits(tmpl *template.Template) http.HandlerFunc {
 }
 
 func ViewCredits(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("CreditsView", tmpl, "./views/xchange/creditview.html")
+	pge := mix.PreparePage("CreditsView", tmpl, "./views/creditview.html")
 	pge.AddMenu(FullMenu())
 	pge.AddModifier(mix.EndpointMod(Endpoints))
 	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))

@@ -1,17 +1,18 @@
 package handles
 
 import (
+	"html/template"
+	"log"
+	"net/http"
+
 	"github.com/louisevanderlith/droxolite/drx"
 	"github.com/louisevanderlith/droxolite/mix"
 	"github.com/louisevanderlith/husk/keys"
 	"github.com/louisevanderlith/utility/api"
-	"html/template"
-	"log"
-	"net/http"
 )
 
 func GetServices(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Services", tmpl, "./views/stock/services.html")
+	pge := mix.PreparePage("Services", tmpl, "./views/services.html")
 	pge.AddMenu(FullMenu())
 	pge.AddModifier(mix.EndpointMod(Endpoints))
 	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
@@ -36,7 +37,7 @@ func GetServices(tmpl *template.Template) http.HandlerFunc {
 }
 
 func SearchServices(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Services", tmpl, "./views/stock/services.html")
+	pge := mix.PreparePage("Services", tmpl, "./views/services.html")
 	pge.AddMenu(FullMenu())
 	pge.AddModifier(mix.EndpointMod(Endpoints))
 	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
@@ -61,7 +62,7 @@ func SearchServices(tmpl *template.Template) http.HandlerFunc {
 }
 
 func ViewService(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Service View", tmpl, "./views/stock/serviceview.html")
+	pge := mix.PreparePage("Service View", tmpl, "./views/serviceview.html")
 	pge.AddMenu(FullMenu())
 	pge.AddModifier(mix.EndpointMod(Endpoints))
 	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
