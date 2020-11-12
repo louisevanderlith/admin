@@ -17,7 +17,7 @@ func main() {
 	folio := flag.String("folio", "http://127.0.0.1:8090", "Folio URL")
 	artifact := flag.String("artifact", "http://127.0.0.1:8082", "Artifact URL")
 	funds := flag.String("funds", "http://127.0.0.1:8082", "Funds URL")
-	vehicle := flag.String("vehicle", "http://127.0.0.1:8082", "Vehicle URL")
+	vehicle := flag.String("vehicle", "http://127.0.0.1:8098", "Vehicle URL")
 	game := flag.String("game", "http://127.0.0.1:8082", "Game URL")
 	xchange := flag.String("xchange", "http://127.0.0.1:8088", "XChange URL")
 	flag.Parse()
