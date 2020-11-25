@@ -1,13 +1,13 @@
 {{template "adminpage.html" .}}
 {{define "admincontent"}}
-    <form id="frmBasicsite" role="form">
-        <div class="field">
-            <div class="control">
-                <label class="label" for="txtTitle">Stock Item</label>
-                <input class="input" type="text" id="txtDescription" placeholder="Description" required
-                       value="{{.Data.StockItem}}"/>
-                <p class="help is-danger"></p>
-            </div>
+<form id="frmBasicsite" role="form">
+    <div class="field">
+        <div class="control">
+            <label class="label" for="txtTitle">Stock Item</label>
+            <input class="input" type="text" id="txtDescription" placeholder="Description" required
+                value="{{.Data.StockItem}}" />
+            <p class="help is-danger"></p>
         </div>
-    </form>
+    </div>
+</form>
 {{end}}

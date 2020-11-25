@@ -1,0 +1,26 @@
+<div class="content">
+    <form id="frmBasicsite" role="form">
+        <div class="field">
+            <div class="control">
+                <label class="label" for="txtPartNumber">Number</label>
+                <input class="input" type="text" id="txtPartNumber" placeholder="Title" required value="{{.Data.}}" />
+                <p class="help is-danger"></p>
+            </div>
+        </div>
+        <div class="field">
+            <div class="control">
+                <label class="label" for="txtPartType">Type</label>
+                <textarea class="textarea" id="txtPartType" placeholder="Description" required cols="40"
+                    rows="5">{{.Data.}}</textarea>
+                <p class="help is-danger"></p>
+            </div>
+        </div>
+        <div class="field">
+            <div class="control">
+                <label class="label" for="txtPartWeight">Weight</label>
+                <input class="input" type="email" id="txtPartWeight" required value="{{.Data.}}" />
+                <p class="help is-danger"></p>
+            </div>
+        </div>
+    </form>
+</div>
