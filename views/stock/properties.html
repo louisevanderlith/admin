@@ -4,21 +4,39 @@
     <table class="table is-fullwidth is-hoverable" id="dataTable">
         <thead>
             <tr>
-                <th>Stock Item</th>
+                <th>Address</th>
+                <th>Size</th>
+                <th>Type</th>
+                <th>Bedrooms</th>
+                <th>Bathrooms</th>
+                <th>Garages</th>
+                <th>Pool</th>
             </tr>
         </thead>
         <tfoot>
             <tr>
-                <th>Stock Item</th>
+                <th>Address</th>
+                <th>Size</th>
+                <th>Type</th>
+                <th>Bedrooms</th>
+                <th>Bathrooms</th>
+                <th>Garages</th>
+                <th>Pool</th>
             </tr>
         </tfoot>
         <tbody>
             {{range $key, $val := .Data.Records}}
             <tr>
-                <td>{{$val.V.StockItem}}</td>
+                <td>{{$val.V.Address}}</td>
+                <td>{{$val.V.Size}}</td>
+                <td>{{$val.V.Type}}</td>
+                <td>{{$val.V.Bedrooms}}</td>
+                <td>{{$val.V.Bathrooms}}</td>
+                <td>{{$val.V.Garages}}</td>
+                <td>{{$val.V.Pool}}</td>
                 <td>
                     <p class="buttons">
-                        <a href="/stock/parts/{{$val.V.K}}" class="button is-primary">
+                        <a href="/stock/propertyEdit/{{$val.V.K}}" class="button is-primary">
                             <span class="icon is-small">
                                 <i class="far fa-edit"></i>
                             </span>

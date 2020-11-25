@@ -1,0 +1,48 @@
+<div class="content">
+    <form id="frmBasicsite" role="form">
+        <div class="field">
+            <div class="control">
+                <label class="label" for="txtAddress">Address</label>
+                <input class="input" type="text" id="txtAddress" placeholder="Title" required
+                    value="{{.Data.Address}}" />
+                <p class="help is-danger"></p>
+            </div>
+        </div>
+        <div class="field">
+            <div class="control">
+                <label class="label" for="numSize">Size</label>
+                <textarea class="textarea" id="numSize" placeholder="Description" required cols="40"
+                    rows="5">{{.Data.Size}}</textarea>
+                <p class="help is-danger"></p>
+            </div>
+        </div>
+        <div class="field">
+            <div class="control">
+                <label class="label" for="txtType">Type</label>
+                <input class="input" type="email" id="txtType" required value="{{.Data.Type}}" />
+                <p class="help is-danger"></p>
+            </div>
+        </div>
+        <div class="field">
+            <div class="control">
+                <label class="label" for="numBathrooms">Bathrooms</label>
+                <input class="input" type="tel" id="numBathrooms" value="{{.Data.Bathrooms}}" />
+                <p class="help is-danger"></p>
+            </div>
+        </div>
+        <div class="field">
+            <div class="control">
+                <label class="label" for="numGarages">Garages</label>
+                <input class="input" type="tel" id="numGarages" value="{{.Data.Garages}}" />
+                <p class="help is-danger"></p>
+            </div>
+        </div>
+        <div class="field">
+            <div class="control">
+                <label class="label" for="chkPool">Pool</label>
+                <input class="input" type="tel" id="chkPool" value="{{.Data.Pool}}" />
+                <p class="help is-danger"></p>
+            </div>
+        </div>
+    </form>
+</div>

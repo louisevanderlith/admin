@@ -1,8 +1,8 @@
 {{template "adminpage.html" .}}
 {{define "admincontent"}}
-    <section class="section">
-        <table class="table is-fullwidth is-hoverable" id="dataTable">
-            <thead>
+<section class="section">
+    <table class="table is-fullwidth is-hoverable" id="dataTable">
+        <thead>
             <tr>
                 <th>Full VIN</th>
                 <th>Manufacturer</th>
@@ -14,8 +14,8 @@
                 <th>Doors</th>
                 <th>Actions</th>
             </tr>
-            </thead>
-            <tfoot>
+        </thead>
+        <tfoot>
             <tr>
                 <th>Full VIN</th>
                 <th>Manufacturer</th>
@@ -54,8 +54,8 @@
                     </tr>
                 {{end}}
             {{end}}
-            </tbody>
-        </table>
-        {{template "pager.html" .Data}}
-    </section>
+        </tbody>
+    </table>
+    {{template "pager.html" .Data}}
+</section>
 {{end}}

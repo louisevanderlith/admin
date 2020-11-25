@@ -4,21 +4,27 @@
     <table class="table is-fullwidth is-hoverable" id="dataTable">
         <thead>
             <tr>
-                <th>Stock Item</th>
+                <th>Number</th>
+                <th>Type</th>
+                <th>Weight</th>
             </tr>
         </thead>
         <tfoot>
             <tr>
-                <th>Stock Item</th>
+                <th>Number</th>
+                <th>Type</th>
+                <th>Weight</th>
             </tr>
         </tfoot>
         <tbody>
             {{range $key, $val := .Data.Records}}
             <tr>
-                <td>{{$val.V.StockItem}}</td>
+                <td>{{$val.V.Number}}</td>
+                <td>{{$val.V.Type}}</td>
+                <td>{{$val.V.Weight}}</td>
                 <td>
                     <p class="buttons">
-                        <a href="/stock/parts/{{$val.V.K}}" class="button is-primary">
+                        <a href="/stock/clothingEdit/{{$val.V.K}}" class="button is-primary">
                             <span class="icon is-small">
                                 <i class="far fa-edit"></i>
                             </span>
