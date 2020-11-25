@@ -1,6 +1,7 @@
 package handles
 
 import (
+	"golang.org/x/oauth2"
 	"html/template"
 	"log"
 	"net/http"
@@ -15,15 +16,15 @@ func GetServices(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage("Services", tmpl, "./views/services.html")
 	pge.AddMenu(FullMenu())
 	pge.AddModifier(mix.EndpointMod(Endpoints))
-	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
+	pge.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
 	pge.AddModifier(ThemeContentMod())
 	return func(w http.ResponseWriter, r *http.Request) {
-
-		clnt := CredConfig.Client(r.Context())
+		tkn := r.Context().Value("Token").(oauth2.Token)
+		clnt := AuthConfig.Client(r.Context(), &tkn)
 		result, err := api.FetchAllServices(clnt, Endpoints["utility"], "A10")
 
 		if err != nil {
-			log.Println("Fetch Cars Error", err)
+			log.Println("Fetch Utilities Error", err)
 			http.Error(w, "", http.StatusUnauthorized)
 			return
 		}
@@ -40,11 +41,12 @@ func SearchServices(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage("Services", tmpl, "./views/services.html")
 	pge.AddMenu(FullMenu())
 	pge.AddModifier(mix.EndpointMod(Endpoints))
-	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
+	pge.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
 	pge.AddModifier(ThemeContentMod())
 	return func(w http.ResponseWriter, r *http.Request) {
 
-		clnt := CredConfig.Client(r.Context())
+		tkn := r.Context().Value("Token").(oauth2.Token)
+		clnt := AuthConfig.Client(r.Context(), &tkn)
 		result, err := api.FetchAllServices(clnt, Endpoints["utility"], drx.FindParam(r, "pagesize"))
 
 		if err != nil {
@@ -61,11 +63,26 @@ func SearchServices(tmpl *template.Template) http.HandlerFunc {
 	}
 }
 
+func CreateService(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage("Service Create", tmpl, "./views/servicecreate.html")
+	pge.AddMenu(FullMenu())
+	pge.AddModifier(mix.EndpointMod(Endpoints))
+	pge.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
+	pge.AddModifier(ThemeContentMod())
+	return func(w http.ResponseWriter, r *http.Request) {
+		err := mix.Write(w, pge.Create(r, nil))
+
+		if err != nil {
+			log.Println("Serve Error", err)
+		}
+	}
+}
+
 func ViewService(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage("Service View", tmpl, "./views/serviceview.html")
 	pge.AddMenu(FullMenu())
 	pge.AddModifier(mix.EndpointMod(Endpoints))
-	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
+	pge.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
 	pge.AddModifier(ThemeContentMod())
 	return func(w http.ResponseWriter, r *http.Request) {
 		key, err := keys.ParseKey(drx.FindParam(r, "key"))
@@ -76,7 +93,8 @@ func ViewService(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		clnt := CredConfig.Client(r.Context())
+		tkn := r.Context().Value("Token").(oauth2.Token)
+		clnt := AuthConfig.Client(r.Context(), &tkn)
 		result, err := api.FetchService(clnt, Endpoints["utility"], key)
 
 		if err != nil {

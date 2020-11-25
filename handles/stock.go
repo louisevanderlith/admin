@@ -4,34 +4,45 @@ import (
 	"fmt"
 	"github.com/louisevanderlith/droxolite/drx"
 	"github.com/louisevanderlith/droxolite/mix"
+	house "github.com/louisevanderlith/house/api"
+	housecore "github.com/louisevanderlith/house/core"
 	"github.com/louisevanderlith/husk/hsk"
 	"github.com/louisevanderlith/husk/keys"
+	parts "github.com/louisevanderlith/parts/api"
+	partscore "github.com/louisevanderlith/parts/core"
 	"github.com/louisevanderlith/stock/api"
 	"github.com/louisevanderlith/stock/core"
+	"github.com/louisevanderlith/stock/core/categories"
+	utility "github.com/louisevanderlith/utility/api"
+	utilitycore "github.com/louisevanderlith/utility/core"
 	cars "github.com/louisevanderlith/vehicle/api"
 	carcore "github.com/louisevanderlith/vehicle/core"
+	wear "github.com/louisevanderlith/wear/api"
+	wearcore "github.com/louisevanderlith/wear/core"
+	"golang.org/x/oauth2"
 	"html/template"
 	"log"
 	"net/http"
-	"strings"
 )
 
-func GetStock(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Services", tmpl, "./views/categories.html")
+func GetStockCategories(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage("Categories", tmpl, "./views/categories.html")
 	pge.AddMenu(FullMenu())
 	pge.AddModifier(mix.EndpointMod(Endpoints))
-	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
+	pge.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
 	pge.AddModifier(ThemeContentMod())
 	return func(w http.ResponseWriter, r *http.Request) {
-		clnt := CredConfig.Client(r.Context())
+		tkn := r.Context().Value("Token").(oauth2.Token)
+		clnt := AuthConfig.Client(r.Context(), &tkn)
 		result, err := api.FetchAllCategories(clnt, Endpoints["stock"], "A10")
 
 		if err != nil {
-			log.Println("Fetch Cars Error", err)
+			log.Println("Fetch Categories Error", err)
 			http.Error(w, "", http.StatusUnauthorized)
 			return
 		}
 
+		pge.ChangeTitle("Stock Categories")
 		err = mix.Write(w, pge.Create(r, result))
 
 		if err != nil {
@@ -40,22 +51,24 @@ func GetStock(tmpl *template.Template) http.HandlerFunc {
 	}
 }
 
-func SearchStock(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Services", tmpl, "./views/categories.html")
+func SearchStockCategories(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage("Categories", tmpl, "./views/categories.html")
 	pge.AddMenu(FullMenu())
 	pge.AddModifier(mix.EndpointMod(Endpoints))
-	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
+	pge.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
 	pge.AddModifier(ThemeContentMod())
 	return func(w http.ResponseWriter, r *http.Request) {
-		clnt := CredConfig.Client(r.Context())
+		tkn := r.Context().Value("Token").(oauth2.Token)
+		clnt := AuthConfig.Client(r.Context(), &tkn)
 		result, err := api.FetchAllCategories(clnt, Endpoints["stock"], drx.FindParam(r, "pagesize"))
 
 		if err != nil {
-			log.Println("Fetch Cars Error", err)
+			log.Println("Fetch Categories Error", err)
 			http.Error(w, "", http.StatusUnauthorized)
 			return
 		}
 
+		pge.ChangeTitle("Stock Categories")
 		err = mix.Write(w, pge.Create(r, result))
 
 		if err != nil {
@@ -64,14 +77,13 @@ func SearchStock(tmpl *template.Template) http.HandlerFunc {
 	}
 }
 
-func ViewStock(tmpl *template.Template) http.HandlerFunc {
+func ViewStockCategory(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage("Category View", tmpl, "./views/categoryview.html")
 	pge.AddMenu(FullMenu())
 	pge.AddModifier(mix.EndpointMod(Endpoints))
-	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
+	pge.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
 	pge.AddModifier(ThemeContentMod())
 	return func(w http.ResponseWriter, r *http.Request) {
-
 		key, err := keys.ParseKey(drx.FindParam(r, "key"))
 
 		if err != nil {
@@ -85,7 +97,8 @@ func ViewStock(tmpl *template.Template) http.HandlerFunc {
 			Options  map[hsk.Key]string
 		}{}
 
-		clnt := CredConfig.Client(r.Context())
+		tkn := r.Context().Value("Token").(oauth2.Token)
+		clnt := AuthConfig.Client(r.Context(), &tkn)
 		cat, err := api.FetchCategory(clnt, Endpoints["stock"], key)
 
 		if err != nil {
@@ -96,7 +109,7 @@ func ViewStock(tmpl *template.Template) http.HandlerFunc {
 
 		result.Category = cat
 
-		options, err := FetchCategoryOptions(strings.ToLower(cat.Name), clnt)
+		options, err := FetchCategoryOptions(categories.StringEnum(cat.BaseCategory), clnt)
 
 		if err != nil {
 			log.Println("Fetch Options Error", err)
@@ -115,31 +128,164 @@ func ViewStock(tmpl *template.Template) http.HandlerFunc {
 }
 
 func FetchCategoryOptions(name string, clnt *http.Client) (map[hsk.Key]string, error) {
+	log.Println("Looking for... ", name)
+	actions := map[string]func(client *http.Client) (map[hsk.Key]string, error){
+		"Cars":       fetchVehicleOptions,
+		"Clothing":   fetchClothingOptions,
+		"Spares":     fetchPartOptions,
+		"Properties": fetchPropertyOptions,
+		"Utilities":  fetchUtilityOptions,
+		"Tokens":     fetchTokenOptions,
+	}
+
+	act, ok := actions[name]
+
+	if !ok {
+		return nil, fmt.Errorf("unknown option: %s", name)
+	}
+
+	return act(clnt)
+}
+
+func fetchVehicleOptions(clnt *http.Client) (map[hsk.Key]string, error) {
 	result := make(map[hsk.Key]string)
-	switch name {
-	case "cars":
-		lst, err := cars.FetchAllVehicles(clnt, Endpoints["vehicle"], "A10")
 
-		if err != nil {
-			return nil, err
-		}
+	lst, err := cars.FetchAllVehicles(clnt, Endpoints["vehicle"], "A10")
 
-		if lst.GetRecords() == nil {
-			return result, nil
-		}
+	if err != nil {
+		return nil, err
+	}
 
-		itor := lst.GetEnumerator()
+	if lst.GetRecords() == nil || !lst.Any() {
+		return result, nil
+	}
 
-		for itor.MoveNext() {
-			curr := itor.Current().(hsk.Record)
-			val := curr.GetValue().(carcore.Vehicle)
-			result[curr.GetKey()] = fmt.Sprintf("%s %s %v", val.Series.Manufacturer, val.Series.Model, val.Series.Year)
-		}
-	case "clothing":
-	case "spares":
-	case "properties":
-	case "utilities":
-	case "tokens":
+	itor := lst.GetEnumerator()
+
+	for itor.MoveNext() {
+		curr := itor.Current().(hsk.Record)
+		val := curr.GetValue().(carcore.Vehicle)
+		result[curr.GetKey()] = fmt.Sprintf("%s %s %v", val.Series.Manufacturer, val.Series.Model, val.Series.Year)
+	}
+
+	return result, nil
+}
+
+func fetchUtilityOptions(clnt *http.Client) (map[hsk.Key]string, error) {
+	result := make(map[hsk.Key]string)
+
+	lst, err := utility.FetchAllServices(clnt, Endpoints["utility"], "A10")
+
+	if err != nil {
+		return nil, err
+	}
+
+	if lst.GetRecords() == nil || !lst.Any() {
+		return result, nil
+	}
+
+	itor := lst.GetEnumerator()
+
+	for itor.MoveNext() {
+		curr := itor.Current().(hsk.Record)
+		val := curr.GetValue().(utilitycore.Service)
+		result[curr.GetKey()] = fmt.Sprintf("%s @ %s", val.Description, val.Location)
+	}
+
+	return result, nil
+}
+
+func fetchTokenOptions(clnt *http.Client) (map[hsk.Key]string, error) {
+	result := make(map[hsk.Key]string)
+
+	/*lst, err := xchange.FetchAllTokens(clnt, Endpoints["xchange"], "A10")
+
+	if err != nil {
+		return nil, err
+	}
+
+	if !lst.Any() {
+		return result, nil
+	}
+
+	itor := lst.GetEnumerator()
+
+	for itor.MoveNext() {
+		curr := itor.Current().(hsk.Record)
+		val := curr.GetValue().(xchangecore.Token)
+		result[curr.GetKey()] = fmt.Sprintf("%s %s %v", val.Series.Manufacturer, val.Series.Model, val.Series.Year)
+	}*/
+
+	return result, nil
+}
+
+func fetchClothingOptions(clnt *http.Client) (map[hsk.Key]string, error) {
+	result := make(map[hsk.Key]string)
+
+	lst, err := wear.FetchAllClothing(clnt, Endpoints["wear"], "A10")
+
+	if err != nil {
+		return nil, err
+	}
+
+	if lst.GetRecords() == nil || !lst.Any() {
+		return result, nil
+	}
+
+	itor := lst.GetEnumerator()
+
+	for itor.MoveNext() {
+		curr := itor.Current().(hsk.Record)
+		val := curr.GetValue().(wearcore.Clothing)
+		result[curr.GetKey()] = fmt.Sprintf("%s %s %s", val.Brand, val.Type, val.Colour)
+	}
+
+	return result, nil
+}
+
+func fetchPropertyOptions(clnt *http.Client) (map[hsk.Key]string, error) {
+	result := make(map[hsk.Key]string)
+
+	lst, err := house.FetchAllProperties(clnt, Endpoints["house"], "A10")
+
+	if err != nil {
+		return nil, err
+	}
+
+	if lst.GetRecords() == nil || !lst.Any() {
+		return result, nil
+	}
+
+	itor := lst.GetEnumerator()
+
+	for itor.MoveNext() {
+		curr := itor.Current().(hsk.Record)
+		val := curr.GetValue().(housecore.Property)
+		result[curr.GetKey()] = fmt.Sprintf("%s %s", val.Type, val.Address)
+	}
+
+	return result, nil
+}
+
+func fetchPartOptions(clnt *http.Client) (map[hsk.Key]string, error) {
+	result := make(map[hsk.Key]string)
+
+	lst, err := parts.FetchAllSpares(clnt, Endpoints["parts"], "A10")
+
+	if err != nil {
+		return nil, err
+	}
+
+	if lst.GetRecords() == nil || !lst.Any() {
+		return result, nil
+	}
+
+	itor := lst.GetEnumerator()
+
+	for itor.MoveNext() {
+		curr := itor.Current().(hsk.Record)
+		val := curr.GetValue().(partscore.Spare)
+		result[curr.GetKey()] = val.Number
 	}
 
 	return result, nil

@@ -1,24 +1,16 @@
 {{template "adminpage.html" .}}
 {{define "admincontent"}}
     <section class="section">
-        <!-- CategoryList -->
-        <button type="button" class="button" id="btnAdd">Add Category</button>
         <table class="table is-fullwidth is-hoverable" id="dataTable">
             <thead>
             <tr>
-                <th>Name</th>
-                <th>Text</th>
-                <th>ClientID</th>
-                <th>Created</th>
+                <th>Description</th>
                 <th>Actions</th>
             </tr>
             </thead>
             <tfoot>
             <tr>
-                <th>Name</th>
-                <th>Text</th>
-                <th>ClientID</th>
-                <th>Created</th>
+                <th>Description</th>
                 <th>Actions</th>
             </tr>
             </tfoot>
@@ -28,13 +20,10 @@
                     {{$v := $val.GetValue}}
                     {{$k := $val.GetKey}}
                     <tr>
-                        <td>{{$v.Name}}</td>
-                        <td>{{$v.Text}}</td>
-                        <td>{{$v.ClientID}}</td>
-                        <td>{{$k.GetTimestamp}}</td>
+                        <td>{{$v.Description}}</td>
                         <td>
                             <p class="buttons">
-                                <a href="/stock/{{$k}}" class="button is-primary">
+                                <a href="/utilities/{{$k}}" class="button is-primary">
                             <span class="icon is-small">
                                 <i class="far fa-edit"></i>
                             </span>
@@ -51,6 +40,5 @@
             {{end}}
             </tbody>
         </table>
-        {{template "pager.html" .Data}}
     </section>
 {{end}}

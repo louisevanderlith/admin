@@ -1,6 +1,7 @@
 package handles
 
 import (
+	"golang.org/x/oauth2"
 	"html/template"
 	"log"
 	"net/http"
@@ -15,11 +16,12 @@ func GetVehicles(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage("Vehicles", tmpl, "./views/vehicles.html")
 	pge.AddMenu(FullMenu())
 	pge.AddModifier(mix.EndpointMod(Endpoints))
-	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
+	pge.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
 	pge.AddModifier(ThemeContentMod())
 	return func(w http.ResponseWriter, r *http.Request) {
 
-		clnt := CredConfig.Client(r.Context())
+		tkn := r.Context().Value("Token").(oauth2.Token)
+		clnt := AuthConfig.Client(r.Context(), &tkn)
 		result, err := api.FetchAllVehicles(clnt, Endpoints["vehicle"], "A10")
 
 		if err != nil {
@@ -40,11 +42,12 @@ func SearchVehicles(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage("Vehicles", tmpl, "./views/vehicles.html")
 	pge.AddMenu(FullMenu())
 	pge.AddModifier(mix.EndpointMod(Endpoints))
-	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
+	pge.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
 	pge.AddModifier(ThemeContentMod())
 	return func(w http.ResponseWriter, r *http.Request) {
 
-		clnt := CredConfig.Client(r.Context())
+		tkn := r.Context().Value("Token").(oauth2.Token)
+		clnt := AuthConfig.Client(r.Context(), &tkn)
 		result, err := api.FetchAllVehicles(clnt, Endpoints["vehicle"], drx.FindParam(r, "pagesize"))
 
 		if err != nil {
@@ -65,27 +68,9 @@ func CreateVehicle(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage("Vehicles Create", tmpl, "./views/vehicleview.html")
 	pge.AddMenu(FullMenu())
 	pge.AddModifier(mix.EndpointMod(Endpoints))
-	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
+	pge.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
 	pge.AddModifier(ThemeContentMod())
 	return func(w http.ResponseWriter, r *http.Request) {
-
-		// key, err := keys.ParseKey(drx.FindParam(r, "key"))
-
-		// if err != nil {
-		// 	log.Println("Parse Key Error", err)
-		// 	http.Error(w, "", http.StatusBadRequest)
-		// 	return
-		// }
-
-		// clnt := CredConfig.Client(r.Context())
-		// result, err := api.FetchVehicleInfo(clnt, Endpoints["vehicle"], key)
-
-		// if err != nil {
-		// 	log.Println("Fetch Vehicle Error", err)
-		// 	http.Error(w, "", http.StatusUnauthorized)
-		// 	return
-		// }
-
 		err := mix.Write(w, pge.Create(r, nil))
 
 		if err != nil {
@@ -98,7 +83,7 @@ func ViewVehicle(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage("Vehicles View", tmpl, "./views/vehicleview.html")
 	pge.AddMenu(FullMenu())
 	pge.AddModifier(mix.EndpointMod(Endpoints))
-	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
+	pge.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
 	pge.AddModifier(ThemeContentMod())
 	return func(w http.ResponseWriter, r *http.Request) {
 
@@ -110,7 +95,8 @@ func ViewVehicle(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		clnt := CredConfig.Client(r.Context())
+		tkn := r.Context().Value("Token").(oauth2.Token)
+		clnt := AuthConfig.Client(r.Context(), &tkn)
 		result, err := api.FetchVehicleInfo(clnt, Endpoints["vehicle"], key)
 
 		if err != nil {

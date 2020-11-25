@@ -29,26 +29,30 @@
             </tr>
             </tfoot>
             <tbody>
-            {{range $key, $val := .Data}}
-                <tr>
-                    <td>{{$val.FullVIN}}</td>
-                    <td>{{$val.Manufacturer}}</td>
-                    <td>{{$val.Colour}}</td>
-                    <td>{{$val.Year}}</td>
-                    <td>{{$val.Engine}}</td>
-                    <td>{{$val.Gearbox}}</td>
-                    <td>{{$val.BodyStyle}}</td>
-                    <td>{{$val.Doors}}</td>
-                    <td>
-                        <p class="buttons">
-                            <a href="/vehicle/vehicles/{{$val.K}}" class="button is-primary">
+            {{if .Data.Records}}
+                {{range $_, $val := .Data.GetRecords.ToSlice}}
+                    {{$v := $val.GetValue}}
+                    {{$k := $val.GetKey}}
+                    <tr>
+                        <td>{{$v.FullVIN}}</td>
+                        <td>{{$v.Manufacturer}}</td>
+                        <td>{{$v.Colour}}</td>
+                        <td>{{$v.Year}}</td>
+                        <td>{{$v.Engine}}</td>
+                        <td>{{$v.Gearbox}}</td>
+                        <td>{{$v.BodyStyle}}</td>
+                        <td>{{$v.Doors}}</td>
+                        <td>
+                            <p class="buttons">
+                                <a href="/vehicles/{{$k}}" class="button is-primary">
                             <span class="icon is-small">
                                 <i class="fas fa-file-alt"></i>
                             </span>
-                            </a>
-                        </p>
-                    </td>
-                </tr>
+                                </a>
+                            </p>
+                        </td>
+                    </tr>
+                {{end}}
             {{end}}
             </tbody>
         </table>

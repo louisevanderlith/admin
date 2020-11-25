@@ -20,6 +20,10 @@ func main() {
 	vehicle := flag.String("vehicle", "http://127.0.0.1:8098", "Vehicle URL")
 	game := flag.String("game", "http://127.0.0.1:8082", "Game URL")
 	xchange := flag.String("xchange", "http://127.0.0.1:8088", "XChange URL")
+	wear := flag.String("wear", "http://127.0.0.1:8086", "Wear URL")
+	utility := flag.String("utility", "http://127.0.0.1:8105", "Wear URL")
+	parts := flag.String("parts", "http://127.0.0.1:8", "Parts URL")
+	house := flag.String("house", "http://127.0.0.1:80", "House URL")
 	flag.Parse()
 
 	ends := map[string]string{
@@ -32,6 +36,10 @@ func main() {
 		"vehicle":  *vehicle,
 		"game":     *game,
 		"xchange":  *xchange,
+		"wear":     *wear,
+		"utility":  *utility,
+		"parts":    *parts,
+		"house":    *house,
 	}
 
 	srvr := &http.Server{

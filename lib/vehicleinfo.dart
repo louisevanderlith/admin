@@ -1,38 +1,35 @@
 import 'dart:html';
 
-import 'package:mango_stock/bodies/category.dart';
-import 'package:mango_ui/formstate.dart';
 import 'package:mango_ui/keys.dart';
 
 class VehicleInfo {
+  HiddenInputElement txtVINKey;
+  TextInputElement txtFullVIN;
+  TextInputElement txtColour;
+  TextInputElement txtPaintNo;
+  SelectElement cboBodyStyle;
+  NumberInputElement numDoors;
+  CheckboxInputElement chkSpare;
+  CheckboxInputElement chkService;
+  TextInputElement txtCondition;
+  TextInputElement txtIssues;
+  NumberInputElement numMileage;
 
-HiddenInputElement txtVINKey;
-TextInputElement txtFullVIN;
-TextInputElement txtColour;
-TextInputElement txtPaintNo;
-SelectElement cboBodyStyle;
-NumberInputElement numDoors;
-CheckboxInputElement chkSpare;
-CheckboxInputElement chkService;
-TextInputElement txtCondition;
-TextInputElement txtIssues;
-NumberInputElement numMileage;
-
- VehicleGearbox(){
-   txtVINKey = querySelector("#txtVINKey");
-   txtFullVIN = querySelector("#txtFullVIN");
-   txtColour = querySelector("#txtColour");
-   txtPaintNo = querySelector("#txtPaintNo");
-   cboBodyStyle =  querySelector("#cboBodyStyle");
-   numDoors = querySelector("#numDoors");
-   chkSpare = querySelector("#chkSpare");
-   chkService = querySelector("#chkService");
-   txtCondition = querySelector("#txtCondition");
-   txtIssues = querySelector("#txtIssues");
-   numMileage = querySelector("#numMileage");
+  VehicleGearbox() {
+    txtVINKey = querySelector("#txtVINKey");
+    txtFullVIN = querySelector("#txtFullVIN");
+    txtColour = querySelector("#txtColour");
+    txtPaintNo = querySelector("#txtPaintNo");
+    cboBodyStyle = querySelector("#cboBodyStyle");
+    numDoors = querySelector("#numDoors");
+    chkSpare = querySelector("#chkSpare");
+    chkService = querySelector("#chkService");
+    txtCondition = querySelector("#txtCondition");
+    txtIssues = querySelector("#txtIssues");
+    numMileage = querySelector("#numMileage");
   }
 
-  Key get vinKey {  
+  Key get vinKey {
     return new Key(txtVINKey.value);
   }
 
@@ -43,13 +40,13 @@ NumberInputElement numMileage;
   String get colour {
     return txtColour.value;
   }
-  
+
   String get paintNo {
     return txtPaintNo.value;
   }
 
-  String get bodyStyle {
-    return cboBodyStyle.value;
+  num get bodyStyle {
+    return cboBodyStyle.selectedIndex;
   }
 
   num get doors {

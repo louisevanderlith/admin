@@ -25,24 +25,28 @@
             </tr>
             </tfoot>
             <tbody>
-            {{range $key, $val := .Data.Records}}
-                <tr>
-                    <td>{{$val.V.UserID}}</td>
-                    <td>{{$val.V.Credits}}</td>
-                    <td>{{$val.V.Experiences}}</td>
-                    <td>{{$val.V.Level}}</td>
-                    <td>{{$val.V.TotalXP}}</td>
-                    <td>{{$val.V.LastUpdated}}</td>
-                    <td>
-                        <p class="buttons">
-                            <a href="/game/heroes/{{$val.K}}" class="button is-primary">
+            {{if .Data.Records}}
+                {{range $_, $val := .Data.GetRecords.ToSlice}}
+                    {{$v := $val.GetValue}}
+                    {{$k := $val.GetKey}}
+                    <tr>
+                        <td>{{$v.UserID}}</td>
+                        <td>{{$v.Credits}}</td>
+                        <td>{{$v.Experiences}}</td>
+                        <td>{{$v.Level}}</td>
+                        <td>{{$v.TotalXP}}</td>
+                        <td>{{$v.LastUpdated}}</td>
+                        <td>
+                            <p class="buttons">
+                                <a href="/heroes/{{$k}}" class="button is-primary">
                             <span class="icon is-small">
                                 <i class="far fa-edit"></i>
                             </span>
-                            </a>
-                        </p>
-                    </td>
-                </tr>
+                                </a>
+                            </p>
+                        </td>
+                    </tr>
+                {{end}}
             {{end}}
             </tbody>
         </table>

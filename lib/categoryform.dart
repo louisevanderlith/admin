@@ -19,7 +19,7 @@ class CategoryForm extends FormState {
     objKey = k;
 
     info = new CategoryInfoForm();
-    stock = new CategoryStockForm();
+    stock = new CategoryStockForm(k);
 
     querySelector("#btnSubmit").onClick.listen(onSubmitClick);
   }
@@ -28,8 +28,8 @@ class CategoryForm extends FormState {
     if (isFormValid()) {
       disableSubmit(true);
 
-      final obj = new Category(
-          info.client, info.text, info.description, info.image, stock.items);
+      final obj = new Category(info.client, info.text, info.description, info.pageurl,
+          info.basecategory, info.image, stock.items);
 
       HttpRequest req;
       if (objKey.toJson() != "0`0") {

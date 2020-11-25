@@ -12,7 +12,7 @@ func GetCredits(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage("Credits", tmpl, "./views/credits.html")
 	pge.AddMenu(FullMenu())
 	pge.AddModifier(mix.EndpointMod(Endpoints))
-	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
+	pge.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
 	pge.AddModifier(ThemeContentMod())
 	return func(w http.ResponseWriter, r *http.Request) {
 
@@ -28,10 +28,25 @@ func SearchCredits(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage("Credits", tmpl, "./views/credits.html")
 	pge.AddMenu(FullMenu())
 	pge.AddModifier(mix.EndpointMod(Endpoints))
-	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
+	pge.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
 	pge.AddModifier(ThemeContentMod())
 	return func(w http.ResponseWriter, r *http.Request) {
 
+		err := mix.Write(w, pge.Create(r, nil))
+
+		if err != nil {
+			log.Println("Serve Error", err)
+		}
+	}
+}
+
+func CreateCredit(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage("CreditsView", tmpl, "./views/creditview.html")
+	pge.AddMenu(FullMenu())
+	pge.AddModifier(mix.EndpointMod(Endpoints))
+	pge.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
+	pge.AddModifier(ThemeContentMod())
+	return func(w http.ResponseWriter, r *http.Request) {
 		err := mix.Write(w, pge.Create(r, nil))
 
 		if err != nil {
@@ -44,7 +59,7 @@ func ViewCredits(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage("CreditsView", tmpl, "./views/creditview.html")
 	pge.AddMenu(FullMenu())
 	pge.AddModifier(mix.EndpointMod(Endpoints))
-	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
+	pge.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
 	pge.AddModifier(ThemeContentMod())
 	return func(w http.ResponseWriter, r *http.Request) {
 		/*key, err := keys.ParseKey(drx.FindParam(r, "key"))
@@ -55,7 +70,8 @@ func ViewCredits(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 		*/
-		/*clnt := CredConfig.Client(r.Context())
+		/*tkn := r.Context().Value("Token").(oauth2.Token)
+		clnt := AuthConfig.Client(r.Context(), &tkn)
 		result, err := api.FetchCredits(key.String())
 
 		if err != nil {

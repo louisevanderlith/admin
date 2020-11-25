@@ -5,6 +5,7 @@ import (
 	"github.com/louisevanderlith/droxolite/mix"
 	"github.com/louisevanderlith/funds/api"
 	"github.com/louisevanderlith/husk/keys"
+	"golang.org/x/oauth2"
 	"html/template"
 	"log"
 	"net/http"
@@ -14,11 +15,12 @@ func GetAccounts(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage("Accounts", tmpl, "./views/funds/accounts.html")
 	pge.AddMenu(FullMenu())
 	pge.AddModifier(mix.EndpointMod(Endpoints))
-	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
+	pge.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
 	pge.AddModifier(ThemeContentMod())
 	return func(w http.ResponseWriter, r *http.Request) {
 
-		clnt := CredConfig.Client(r.Context())
+		tkn := r.Context().Value("Token").(oauth2.Token)
+		clnt := AuthConfig.Client(r.Context(), &tkn)
 		result, err := api.FetchAllAccounts(clnt, Endpoints["funds"], "A10")
 
 		if err != nil {
@@ -39,11 +41,12 @@ func SearchAccounts(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage("Accounts", tmpl, "./views/funds/accounts.html")
 	pge.AddMenu(FullMenu())
 	pge.AddModifier(mix.EndpointMod(Endpoints))
-	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
+	pge.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
 	pge.AddModifier(ThemeContentMod())
 	return func(w http.ResponseWriter, r *http.Request) {
 
-		clnt := CredConfig.Client(r.Context())
+		tkn := r.Context().Value("Token").(oauth2.Token)
+		clnt := AuthConfig.Client(r.Context(), &tkn)
 		result, err := api.FetchAllAccounts(clnt, Endpoints["funds"], drx.FindParam(r, "pagesize"))
 
 		if err != nil {
@@ -64,7 +67,7 @@ func ViewAccounts(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage("Accounts View", tmpl, "./views/funds/accountsView.html")
 	pge.AddMenu(FullMenu())
 	pge.AddModifier(mix.EndpointMod(Endpoints))
-	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
+	pge.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
 	pge.AddModifier(ThemeContentMod())
 	return func(w http.ResponseWriter, r *http.Request) {
 
@@ -76,7 +79,8 @@ func ViewAccounts(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		clnt := CredConfig.Client(r.Context())
+		tkn := r.Context().Value("Token").(oauth2.Token)
+		clnt := AuthConfig.Client(r.Context(), &tkn)
 		result, err := api.FetchAccount(clnt, Endpoints["funds"], key)
 
 		if err != nil {

@@ -1,6 +1,7 @@
 package handles
 
 import (
+	"golang.org/x/oauth2"
 	"html/template"
 	"log"
 	"net/http"
@@ -15,11 +16,11 @@ func GetProperties(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage("Properties", tmpl, "./views/properties.html")
 	pge.AddMenu(FullMenu())
 	pge.AddModifier(mix.EndpointMod(Endpoints))
-	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
+	pge.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
 	pge.AddModifier(ThemeContentMod())
 	return func(w http.ResponseWriter, r *http.Request) {
-
-		clnt := CredConfig.Client(r.Context())
+		tkn := r.Context().Value("Token").(oauth2.Token)
+		clnt := AuthConfig.Client(r.Context(), &tkn)
 		result, err := api.FetchAllProperties(clnt, Endpoints["house"], "A10")
 
 		if err != nil {
@@ -40,10 +41,11 @@ func SearchProperties(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage("Properties", tmpl, "./views/properties.html")
 	pge.AddMenu(FullMenu())
 	pge.AddModifier(mix.EndpointMod(Endpoints))
-	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
+	pge.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
 	pge.AddModifier(ThemeContentMod())
 	return func(w http.ResponseWriter, r *http.Request) {
-		clnt := CredConfig.Client(r.Context())
+		tkn := r.Context().Value("Token").(oauth2.Token)
+		clnt := AuthConfig.Client(r.Context(), &tkn)
 		result, err := api.FetchAllProperties(clnt, Endpoints["house"], drx.FindParam(r, "pagesize"))
 
 		if err != nil {
@@ -60,11 +62,26 @@ func SearchProperties(tmpl *template.Template) http.HandlerFunc {
 	}
 }
 
+func CreateProperty(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage("Property Create", tmpl, "./views/propertyview.html")
+	pge.AddMenu(FullMenu())
+	pge.AddModifier(mix.EndpointMod(Endpoints))
+	pge.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
+	pge.AddModifier(ThemeContentMod())
+	return func(w http.ResponseWriter, r *http.Request) {
+		err := mix.Write(w, pge.Create(r, nil))
+
+		if err != nil {
+			log.Println("Serve Error", err)
+		}
+	}
+}
+
 func ViewProperty(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage("Property View", tmpl, "./views/propertyview.html")
 	pge.AddMenu(FullMenu())
 	pge.AddModifier(mix.EndpointMod(Endpoints))
-	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
+	pge.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
 	pge.AddModifier(ThemeContentMod())
 	return func(w http.ResponseWriter, r *http.Request) {
 		key, err := keys.ParseKey(drx.FindParam(r, "key"))
@@ -75,7 +92,8 @@ func ViewProperty(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		clnt := CredConfig.Client(r.Context())
+		tkn := r.Context().Value("Token").(oauth2.Token)
+		clnt := AuthConfig.Client(r.Context(), &tkn)
 		result, err := api.FetchProperty(clnt, Endpoints["house"], key)
 
 		if err != nil {

@@ -1,26 +1,22 @@
 import 'dart:html';
-import 'package:mango_stock/bodies/category.dart';
-import 'package:mango_ui/formstate.dart';
-import 'package:mango_ui/keys.dart';
+
 import 'package:mango_vehicle/bodies/series.dart';
 
-
 class VehicleSeries {
+  TextInputElement txtModel;
+  TextInputElement txtManufacturer;
+  TextInputElement txtAssemblyPlant;
+  NumberInputElement numMonth;
+  NumberInputElement numYear;
+  TextInputElement txtTrim;
 
-TextInputElement txtModel;
-TextInputElement txtManufacturer;
-TextInputElement txtAssemblyPlant;
-NumberInputElement numMonth;
-NumberInputElement numYear;
-TextInputElement txtTrim;
-
- VehicleSeries(){
-   txtModel = querySelector("#txtModel");
-   txtManufacturer = querySelector("#txtManufacturer");
-   txtAssemblyPlant = querySelector("#txtAssemblyPlant");
-   numMonth = querySelector("#numMonth");
-   numYear = querySelector("#numYear");
-   txtTrim = querySelector("#txtTrim");
+  VehicleSeries() {
+    txtModel = querySelector("#txtModel");
+    txtManufacturer = querySelector("#txtManufacturer");
+    txtAssemblyPlant = querySelector("#txtAssemblyPlant");
+    numMonth = querySelector("#numMonth");
+    numYear = querySelector("#numYear");
+    txtTrim = querySelector("#txtTrim");
   }
 
   String get model {
@@ -30,7 +26,7 @@ TextInputElement txtTrim;
   String get manufacturer {
     return txtManufacturer.value;
   }
-  
+
   String get assemblyPlant {
     return txtAssemblyPlant.value;
   }

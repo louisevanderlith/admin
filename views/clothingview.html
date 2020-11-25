@@ -1,0 +1,104 @@
+{{template "adminpage.html" .}}
+{{define "admincontent"}}
+    <div class="content">
+        <section class="section">
+            <button type="button" class="button is-link is-medium" id="btnSubmit">Save
+            </button>
+            <form id="frmClothing" role="form">
+                <div class="field">
+                    <label class="label" for="txtCode">Code</label>
+                    <div class="control">
+                        <input class="input" type="text" id="txtCode" placeholder="Item unique no. or serial" required
+                               value="{{.Data.Code}}"/>
+                        <p class="help is-danger"></p>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label" for="txtDescription">Description</label>
+                    <div class="control">
+                        <input class="input" type="text" id="txtDescription"
+                               placeholder="Description eg. 'safari cargo shirt'" required
+                               value="{{.Data.Description}}"/>
+                        <p class="help is-danger"></p>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label" for="cboBrand">Brand</label>
+                    <div class="control">
+                        <select class="select" id="cboBrand">
+                            {{range .Brands.GetRecords.ToSlice}}
+                                {{$k := .GetKey}}
+                                {{$v := .GetValue}}
+                                <option value="{{$k}}">{{$v.Name}}</option>
+                            {{end}}
+                        </select>
+                        <p class="help is-danger"></p>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label" for="cboType">Type</label>
+                    <div class="control">
+                        <select class="select" id="cboType">
+                            {{$sel := .Data}}
+                            {{$sel}}
+                            {{range .Types.GetRecords.ToSlice}}
+                                {{$k := .GetKey}}
+                                {{$v := .GetValue}}
+                                <option value="{{$k}}">{{$v.Name}}</option>
+                            {{end}}
+                        </select>
+                        <p class="help is-danger"></p>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label" for="cboSize">Size</label>
+                    <div class="control">
+                        <select class="select" disabled id="cboSize">
+                            <option value="XS">XS - Extra Small</option>
+                            <option value="S">S - Small
+                            </option>
+                            <option value="M">M - Medium
+                            </option>
+                            <option value="">M - Medium
+                            </option>
+                            <option value="M">M - Medium
+                            </option>
+                        </select>
+                        <p class="help is-danger"></p>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label" for="txtColour">Colour</label>
+                    <div class="control">
+                        <input class="input" type="text" id="txtColour"
+                               placeholder="Colour eg. 'Khaki'" required
+                               value="{{.Data.Colour}}"/>
+                        <p class="help is-danger"></p>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label" for="txtMaterial">Material</label>
+                    <div class="control">
+                        <input class="input" type="text" id="txtMaterial"
+                               placeholder="Material eg. '100% Cotton'" required
+                               value="{{.Data.Material}}"/>
+                        <p class="help is-danger"></p>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label" for="numWeight">Weight</label>
+                    <div class="control">
+                        <input class="input" type="number" id="numWeight"
+                               placeholder="Weight eg. '150g'" required
+                               value="{{.Data.Weight}}"/>
+                        <p class="help is-danger"></p>
+                    </div>
+                </div>
+            </form>
+        </section>
+    </div>
+{{end}}
+
+Type   string
+Size   string
+Colour string

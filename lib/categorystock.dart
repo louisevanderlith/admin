@@ -2,27 +2,24 @@ import 'dart:html';
 
 import 'package:Admin.APP/bodies/categorystock.dart';
 import 'package:mango_stock/bodies/stockitem.dart';
+import 'package:mango_ui/keys.dart';
 import 'package:mango_ui/trustvalidator.dart';
 
 class CategoryStockForm {
   DivElement form;
+  final Key categoryKey;
 
-  CategoryStockForm() {
+  CategoryStockForm(this.categoryKey) {
     form = querySelector("#dvStock");
     registerEvents();
   }
 
   void registerEvents() {
-    querySelector("#btnAddStock").onClick.listen(onAddClick);
-    querySelector("#btnAddItem").onClick.listen(onAddItemClick);
+    querySelector("#btnAddItem").onClick.listen(onAddClick);
   }
 
   void onAddClick(MouseEvent e) {
     addItem();
-  }
-
-  void onAddItemClick(MouseEvent e) {
-    window.location.href = "/cars";
   }
 
   List<StockItem> get items {
