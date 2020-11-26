@@ -19,7 +19,6 @@
                     <div class="field">
                         <label class="label">Item</label>
                         <div class="control">
-                            <button id="btnAddItem">Create</button>
                             <select class="select">
                                 {{range $options}}
                                     <option>
@@ -27,6 +26,7 @@
                                     </option>
                                 {{end}}
                             </select>
+                            <p class="help is-danger"></p>
                         </div>
                     </div>
                     <input type="hidden" id="hdnOwnerKey" value="{{$v.OwnerKey}}">
@@ -70,7 +70,7 @@
                     <div class="field">
                         <label class="label">Price:</label>
                         <div class="control">
-                            <input class="input" id="txtItemPrice{{$i}}" type="number" min="1" required
+                            <input class="number" id="txtItemPrice{{$i}}" type="number" min="1" required
                                    value="{{$v.Price}}"/>
                             <p class="help is-danger"></p>
                         </div>
@@ -94,7 +94,7 @@
                     <div class="field">
                         <label for="numPrice{{$i}}" class="label">Price:</label>
                         <div class="control">
-                            <input class="input" id="numPrice{{$i}}" type="number" required
+                            <input class="number" id="numPrice{{$i}}" type="number" required
                                    value="{{$v.Price}}"/>
                             <p class="help is-danger"></p>
                         </div>
@@ -102,7 +102,7 @@
                     <div class="field">
                         <label for="numEstimate{{$i}}" class="label">Estimate Value:</label>
                         <div class="control">
-                            <input class="input" id="numEstimate{{$i}}" type="number" required
+                            <input class="number" id="numEstimate{{$i}}" type="number" required
                                    value="{{$v.EstimateValue}}"/>
                             <p class="help is-danger"></p>
                         </div>
@@ -129,7 +129,7 @@
                     <div class="field">
                         <label for="numViews{{$i}}" class="label">Views:</label>
                         <div class="control">
-                            <input class="input" id="numViews{{$i}}" disabled type="number" required
+                            <input class="number" id="numViews{{$i}}" disabled type="number" required
                                    value="{{$v.Views}}"/>
                             <p class="help is-danger"></p>
                         </div>

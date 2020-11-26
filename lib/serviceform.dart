@@ -8,20 +8,18 @@ import 'package:mango_utility/servicesapi.dart';
 
 class ServiceForm extends FormState {
   Key objKey;
+  Key fromKey;
   SelectElement cboDays;
   SelectElement cboHours;
   SelectElement cboMinutes;
-  LocalDateTimeInputElement txtStartTime;
-  TextInputElement txtDescription;
+  TextAreaElement txtDescription;
   TextInputElement txtLocation;
 
-  ServiceForm(Key k) : super("#frmService", "#btnSubmit") {
+  ServiceForm(Key k, Key from) : super("#frmService", "#btnSubmit") {
     objKey = k;
     cboDays = querySelector("#cboDays");
     cboHours = querySelector("#cboHours");
     cboMinutes = querySelector("#cboMinutes");
-    txtDescription = querySelector("#txtDescription");
-    txtStartTime = querySelector("#txtStartTime");
     txtDescription = querySelector("#txtDescription");
     txtLocation = querySelector("#txtLocation");
 
@@ -36,15 +34,15 @@ class ServiceForm extends FormState {
     return txtLocation.value;
   }
 
-  Duration get duration {
-    final days = num.parse(cboDays.value);
+  num get hours {
+    final days = num.parse(cboDays.value) * 24;
     final hours = num.parse(cboHours.value);
-    final mins = num.parse(cboMinutes.value);
-    return new Duration(days: days, hours: hours, minutes: mins);
+
+    return days + hours;
   }
 
-  DateTime get starttime {
-    return DateTime.parse(txtStartTime.value);
+  num get minutes {
+    return num.parse(cboMinutes.value);
   }
 
   void onSend(Event e) {
@@ -55,7 +53,7 @@ class ServiceForm extends FormState {
   }
 
   submitSend() async {
-    final obj = new Service(duration, starttime, location, description);
+    final obj = new Service(location, description, hours, minutes, 0);
 
     HttpRequest req;
     if (objKey.toJson() != "0`0") {
@@ -65,6 +63,10 @@ class ServiceForm extends FormState {
             title: "Success!",
             message: req.response,
             position: ToastPos.bottomLeft);
+
+        if (fromKey.toJson() != "0`0") {
+          window.location.replace("/categories/${fromKey.toJson()}");
+        }
       } else {
         Toast.error(
             title: "Failed!",
@@ -82,6 +84,10 @@ class ServiceForm extends FormState {
             title: "Success!",
             message: req.response,
             position: ToastPos.bottomLeft);
+
+        if (fromKey.toJson() != "0`0") {
+          window.location.replace("/categories/${fromKey.toJson()}");
+        }
         super.form.reset();
       } else {
         new Toast.error(

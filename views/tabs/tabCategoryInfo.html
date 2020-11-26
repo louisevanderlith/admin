@@ -24,6 +24,29 @@
         </div>
     </div>
     <div class="field">
+        <label class="label" for="txtInfoPageURL">Page URL</label>
+        <div class="control">
+            <input class="input" type="text" id="txtInfoPageURL" placeholder="Category Page" required
+                   value="{{.Data.Category.PageURL}}"/>
+            <p class="help is-danger"></p>
+        </div>
+    </div>
+    <div class="field">
+        <div class="control">
+            <label class="label" for="cboBaseCategory">Base Category</label>
+            <select class="select" id="cboBaseCategory">
+                <option {{if eq .Data.Category.BaseCategory 0}} selected {{end}} value="0">None</option>
+                <option {{if eq .Data.Category.BaseCategory 1}} selected {{end}} value="1">Cars</option>
+                <option {{if eq .Data.Category.BaseCategory 2}} selected {{end}} value="2">Clothing</option>
+                <option {{if eq .Data.Category.BaseCategory 3}} selected {{end}} value="3">Spares</option>
+                <option {{if eq .Data.Category.BaseCategory 4}} selected {{end}} value="4">Properties</option>
+                <option {{if eq .Data.Category.BaseCategory 5}} selected {{end}} value="5">Utilities</option>
+                <option {{if eq .Data.Category.BaseCategory 6}} selected {{end}} value="6">Tokens</option>
+            </select>
+            <p class="help is-danger"></p>
+        </div>
+    </div>
+    <div class="field">
         <label class="label" for="txtInfoClient">Client ID</label>
         <div class="control">
             <input class="input" type="text" id="txtInfoClient" placeholder="Client ID (eg. www)" required
