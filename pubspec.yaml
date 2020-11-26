@@ -15,4 +15,4 @@ dependencies:
   mango_vehicle: '^1.0.11'
   mango_wear: '^1.0.2'
   mango_artifact: '^1.0.2'
-  mango_utility: '^1.0.2'
+  mango_utility: '^1.0.5'

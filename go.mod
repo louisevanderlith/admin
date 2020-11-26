@@ -12,7 +12,7 @@ require (
 	github.com/louisevanderlith/parts v1.0.1
 	github.com/louisevanderlith/stock v1.0.6
 	github.com/louisevanderlith/theme v1.0.3
-	github.com/louisevanderlith/utility v1.0.3
+	github.com/louisevanderlith/utility v1.0.4
 	github.com/louisevanderlith/vehicle v1.0.10
 	github.com/louisevanderlith/wear v1.0.5
 	golang.org/x/net v0.0.0-20201022231255-08b38378de70

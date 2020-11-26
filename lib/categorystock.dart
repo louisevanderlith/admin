@@ -84,7 +84,6 @@ class CategoryStockForm {
                     <div class="field">
                         <label class="label">Item</label>
                         <div class="control">
-                            <button id="btnAddItem">Create</button>
                             <select class="select">
                             </select>
                         </div>
