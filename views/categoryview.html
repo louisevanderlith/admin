@@ -28,7 +28,7 @@
                         {{ template "tabCategoryInfo.html" .}}
                     </div>
                     <div class="tab-pane" id="paneCategoryItems">
-                        <a class="button is-info is-small" href="{{.Data.Category.BaseCategory}}/create">Add Stock</a>
+                        <a class="button is-info is-small" href="{{.Data.CreatePath}}">Add Stock</a>
                         {{ template "tabCategoryItems.html" .}}
                     </div>
                 </form>

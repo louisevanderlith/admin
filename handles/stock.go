@@ -23,6 +23,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"strings"
 )
 
 func GetStockCategories(tmpl *template.Template) http.HandlerFunc {
@@ -93,8 +94,9 @@ func ViewStockCategory(tmpl *template.Template) http.HandlerFunc {
 		}
 
 		result := struct {
-			Category core.Category
-			Options  map[hsk.Key]string
+			Category   core.Category
+			Options    map[hsk.Key]string
+			CreatePath string
 		}{}
 
 		tkn := r.Context().Value("Token").(oauth2.Token)
@@ -107,9 +109,11 @@ func ViewStockCategory(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
+		catBase := categories.StringEnum(cat.BaseCategory)
 		result.Category = cat
+		result.CreatePath = fmt.Sprintf("/%s/create", strings.ToLower(catBase))
 
-		options, err := FetchCategoryOptions(categories.StringEnum(cat.BaseCategory), clnt)
+		options, err := FetchCategoryOptions(catBase, clnt)
 
 		if err != nil {
 			log.Println("Fetch Options Error", err)
