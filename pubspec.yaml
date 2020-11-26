@@ -16,3 +16,5 @@ dependencies:
   mango_wear: '^1.0.2'
   mango_artifact: '^1.0.2'
   mango_utility: '^1.0.5'
+  mango_house: '^1.0.1'
+
