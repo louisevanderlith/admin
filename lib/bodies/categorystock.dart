@@ -1,10 +1,11 @@
 import 'dart:html';
 
+import 'package:mango_artifact/uploadapi.dart';
 import 'package:mango_stock/bodies/stockitem.dart';
 import 'package:mango_ui/keys.dart';
 
 class CategoryStock {
-  HiddenInputElement hdnItemKey;
+  SelectElement cboItems;
   TextInputElement txtShortName;
   FileUploadInputElement uplImage;
   HiddenInputElement hdnOwnerKey;
@@ -20,7 +21,7 @@ class CategoryStock {
   bool _loaded;
 
   CategoryStock(
-      String itemKeyId,
+      String itemsId,
       String shortnameId,
       String imageId,
       String ownerId,
@@ -32,7 +33,7 @@ class CategoryStock {
       String locationId,
       String viewsId,
       String historyId) {
-    hdnItemKey = querySelector(itemKeyId);
+    cboItems = querySelector(itemsId);
     txtShortName = querySelector(shortnameId);
     uplImage = querySelector(imageId);
     hdnOwnerKey = querySelector(ownerId);
@@ -45,7 +46,9 @@ class CategoryStock {
     lstHistory = querySelector(historyId);
     numViews = querySelector(viewsId);
 
-    _loaded = hdnItemKey != null &&
+    uplImage.onChange.listen(uploadFile);
+
+    _loaded = cboItems != null &&
         uplImage != null &&
         hdnOwnerKey != null &&
         txtExpires != null &&
@@ -62,7 +65,7 @@ class CategoryStock {
   }
 
   Key get itemKey {
-    return new Key(hdnItemKey.value);
+    return new Key(cboItems.value);
   }
 
   String get shortName {

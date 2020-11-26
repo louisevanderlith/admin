@@ -19,7 +19,7 @@
                     <div class="field">
                         <label class="label">Item</label>
                         <div class="control">
-                            <select class="select">
+                            <select id="cboItems{{$i}}" class="select">
                                 {{range $options}}
                                     <option>
                                         {{.}}
@@ -29,7 +29,7 @@
                             <p class="help is-danger"></p>
                         </div>
                     </div>
-                    <input type="hidden" id="hdnOwnerKey" value="{{$v.OwnerKey}}">
+                    <input type="hidden" id="hdnOwnerKey{{$i}}" value="{{$v.OwnerKey}}">
                     <div class="field">
                         <label class="label">Short Name:</label>
                         <div class="control">
@@ -40,14 +40,14 @@
                         </div>
                     </div>
                     <div class="field">
-                        <label class="label" for="uplThumbImg">Thumbnail</label>
+                        <label class="label" for="uplThumbImg{{$i}}">Thumbnail</label>
                         <div class="control">
                             <div class="file">
                                 <label class="file-label">
                                     <input class="file-input" type="file" multiple="false" data-for="thumb"
                                            data-name="Banner"
                                            data-id="{{$v.ImageKey}}" accept=".jpg, .jpeg, .png"
-                                           id="uplThumbImg"
+                                           id="uplThumbImg{{$i}}"
                                            placeholder="Stock Thumbnail" {{if eq (print $v.ImageKey) "0`0" }} required {{end}} />
                                     <p class="help is-danger"></p>
                                     <span class="file-cta">
@@ -60,18 +60,10 @@
                                     </span>
                                 </label>
                             </div>
-                            <input type="image" id="uplThumbView"
+                            <input type="image" id="uplThumbView{{$i}}"
                                    class='image {{if eq (print $v.ImageKey) "0`0"}} is-hidden {{end}}'
                                    src="{{ $artUrl }}/download/{{$v.ImageKey}}"
                                    alt="profile image"/>
-                            <p class="help is-danger"></p>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label class="label">Price:</label>
-                        <div class="control">
-                            <input class="number" id="txtItemPrice{{$i}}" type="number" min="1" required
-                                   value="{{$v.Price}}"/>
                             <p class="help is-danger"></p>
                         </div>
                     </div>

@@ -16,6 +16,7 @@ class CategoryStockForm {
 
   void registerEvents() {
     querySelector("#btnAddItem").onClick.listen(onAddClick);
+
   }
 
   void onAddClick(MouseEvent e) {
@@ -33,7 +34,7 @@ class CategoryStockForm {
 
     do {
       var item = new CategoryStock(
-        "#hdnItemKey${indx}",
+        "#cboItems${indx}",
         "#txtShortName${indx}",
         "#uplThumbImg${indx}",
         "#hdnOwnerKey${indx}",
