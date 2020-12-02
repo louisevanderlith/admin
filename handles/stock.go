@@ -23,6 +23,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"strings"
 )
 
 func GetStockCategories(tmpl *template.Template) http.HandlerFunc {
@@ -93,8 +94,9 @@ func ViewStockCategory(tmpl *template.Template) http.HandlerFunc {
 		}
 
 		result := struct {
-			Category core.Category
-			Options  map[hsk.Key]string
+			Category   core.Category
+			Options    map[hsk.Key]string
+			CreatePath string
 		}{}
 
 		tkn := r.Context().Value("Token").(oauth2.Token)
@@ -107,9 +109,11 @@ func ViewStockCategory(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
+		catBase := categories.StringEnum(cat.BaseCategory)
 		result.Category = cat
+		result.CreatePath = fmt.Sprintf("/%s/create?from=%s", strings.ToLower(catBase), key.String())
 
-		options, err := FetchCategoryOptions(categories.StringEnum(cat.BaseCategory), clnt)
+		options, err := FetchCategoryOptions(catBase, clnt)
 
 		if err != nil {
 			log.Println("Fetch Options Error", err)
@@ -128,7 +132,6 @@ func ViewStockCategory(tmpl *template.Template) http.HandlerFunc {
 }
 
 func FetchCategoryOptions(name string, clnt *http.Client) (map[hsk.Key]string, error) {
-	log.Println("Looking for... ", name)
 	actions := map[string]func(client *http.Client) (map[hsk.Key]string, error){
 		"Cars":       fetchVehicleOptions,
 		"Clothing":   fetchClothingOptions,
@@ -188,7 +191,7 @@ func fetchUtilityOptions(clnt *http.Client) (map[hsk.Key]string, error) {
 
 	for itor.MoveNext() {
 		curr := itor.Current().(hsk.Record)
-		val := curr.GetValue().(utilitycore.Service)
+		val := curr.GetValue().(*utilitycore.Service)
 		result[curr.GetKey()] = fmt.Sprintf("%s @ %s", val.Description, val.Location)
 	}
 

@@ -1,5 +1,5 @@
-{{template "adminpage.html" .}}
-{{define "admincontent"}}
+{{template "layout.html" .}}
+{{define "mainlayout"}}
     <section class="hero is-medium has-background">
         <img alt="YumYum" class="hero-background"
              src="{{ .Identity.GetResourceURL "artifact" }}/download/{{.Data.ImageKey}}"/>

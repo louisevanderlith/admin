@@ -16,7 +16,7 @@ class CategoryInfoForm {
     txtText = querySelector("#txtInfoText");
     txtName = querySelector("#txtInfoName");
     txtDescription = querySelector("#txtInfoDescription");
-    txtPageURL = querySelector("#txtPageURL");
+    txtPageURL = querySelector("#txtInfoPageURL");
     cboBaseCategory = querySelector("#cboBaseCategory");
     txtClient = querySelector("#txtInfoClient");
     uplImage = querySelector("#uplInfoImageImg");

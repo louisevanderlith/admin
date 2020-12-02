@@ -1,10 +1,11 @@
 import 'dart:html';
 
+import 'package:mango_artifact/uploadapi.dart';
 import 'package:mango_stock/bodies/stockitem.dart';
 import 'package:mango_ui/keys.dart';
 
-class CategoryStock {
-  HiddenInputElement hdnItemKey;
+class CategoryStockItem {
+  SelectElement cboItems;
   TextInputElement txtShortName;
   FileUploadInputElement uplImage;
   HiddenInputElement hdnOwnerKey;
@@ -16,11 +17,12 @@ class CategoryStock {
   TextInputElement txtLocation;
   UListElement lstHistory;
   NumberInputElement numViews;
+  NumberInputElement numQuantity;
 
   bool _loaded;
 
-  CategoryStock(
-      String itemKeyId,
+  CategoryStockItem(
+      String itemsId,
       String shortnameId,
       String imageId,
       String ownerId,
@@ -31,8 +33,9 @@ class CategoryStock {
       String tagsId,
       String locationId,
       String viewsId,
-      String historyId) {
-    hdnItemKey = querySelector(itemKeyId);
+      String historyId,
+      String quantityId) {
+    cboItems = querySelector(itemsId);
     txtShortName = querySelector(shortnameId);
     uplImage = querySelector(imageId);
     hdnOwnerKey = querySelector(ownerId);
@@ -44,8 +47,13 @@ class CategoryStock {
     txtLocation = querySelector(locationId);
     lstHistory = querySelector(historyId);
     numViews = querySelector(viewsId);
+    numQuantity = querySelector(quantityId);
 
-    _loaded = hdnItemKey != null &&
+    if (uplImage != null) {
+      uplImage.onChange.listen(uploadFile);
+    }
+
+    _loaded = cboItems != null &&
         uplImage != null &&
         hdnOwnerKey != null &&
         txtExpires != null &&
@@ -62,7 +70,7 @@ class CategoryStock {
   }
 
   Key get itemKey {
-    return new Key(hdnItemKey.value);
+    return new Key(cboItems.value);
   }
 
   String get shortName {
@@ -94,7 +102,7 @@ class CategoryStock {
   }
 
   List<String> get tags {
-    return lstTags.children.map((e) => e.text);
+    return lstTags.children.map((e) => e.text).toList();
   }
 
   String get location {
@@ -109,8 +117,12 @@ class CategoryStock {
     return new Map<DateTime, Key>();
   }
 
+  num get quantity {
+    return numQuantity.valueAsNumber;
+  }
+
   StockItem toDTO() {
     return new StockItem(itemKey, shortName, imageKey, ownerKey, expires,
-        currency, price, estimate, tags, location, views, history);
+        currency, price, estimate, tags, location, views, history, quantity);
   }
 }

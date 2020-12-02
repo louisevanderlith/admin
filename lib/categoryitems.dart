@@ -1,21 +1,22 @@
 import 'dart:html';
 
-import 'package:Admin.APP/bodies/categorystock.dart';
+import 'package:Admin.APP/components/categorystockitem.dart';
 import 'package:mango_stock/bodies/stockitem.dart';
 import 'package:mango_ui/keys.dart';
 import 'package:mango_ui/trustvalidator.dart';
 
-class CategoryStockForm {
+import 'components/categorystockitem.dart';
+
+class CategoryItemsForm {
   DivElement form;
   final Key categoryKey;
+  List<CategoryStockItem> stock;
 
-  CategoryStockForm(this.categoryKey) {
+  CategoryItemsForm(this.categoryKey) {
     form = querySelector("#dvStock");
-    registerEvents();
-  }
-
-  void registerEvents() {
     querySelector("#btnAddItem").onClick.listen(onAddClick);
+
+    stock = findItems();
   }
 
   void onAddClick(MouseEvent e) {
@@ -23,17 +24,27 @@ class CategoryStockForm {
   }
 
   List<StockItem> get items {
-    return findItems();
+    return stock.map((e) => e.toDTO()).toList(growable: false);
   }
 
-  List<StockItem> findItems() {
+  List<StockItem> get simpleitems {
+   final result = new List<StockItem>();
+
+   for(var item in stock){
+     result.add(item.toDTO());
+   }
+
+   return result;
+  }
+
+  List<CategoryStockItem> findItems() {
     var isLoaded = false;
-    var result = new List<StockItem>();
+    var result = new List<CategoryStockItem>();
     var indx = 0;
 
     do {
-      var item = new CategoryStock(
-        "#hdnItemKey${indx}",
+      var item = new CategoryStockItem(
+        "#cboItems${indx}",
         "#txtShortName${indx}",
         "#uplThumbImg${indx}",
         "#hdnOwnerKey${indx}",
@@ -45,12 +56,13 @@ class CategoryStockForm {
         "#txtLocation${indx}",
         "#numViews${indx}",
         "#lstHistory${indx}",
+        "#numQuantity${indx}",
       );
 
       isLoaded = item.loaded;
 
       if (isLoaded) {
-        result.add(item.toDTO());
+        result.add(item);
       }
 
       indx++;
@@ -62,7 +74,8 @@ class CategoryStockForm {
   void addItem() {
     var schema = buildElement(items.length);
     form.children.add(schema);
-    registerEvents();
+
+    stock = findItems();
   }
 
   //returns HTML for this Item
@@ -84,7 +97,6 @@ class CategoryStockForm {
                     <div class="field">
                         <label class="label">Item</label>
                         <div class="control">
-                            <button id="btnAddItem">Create</button>
                             <select class="select">
                             </select>
                         </div>
@@ -138,7 +150,7 @@ class CategoryStockForm {
                     <div class="field">
                         <label for="txtExpires${index}" class="label">Expiry Date:</label>
                         <div class="control">
-                            <input class="input" id="txtExpires${index}" type="datetime-local" required
+                            <input class="input" id="txtExpires${index}" type="date" required
                                    value=""/>
                             <p class="help is-danger"></p>
                         </div>

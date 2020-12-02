@@ -72,8 +72,8 @@ func SetupRoutes(host, clientId, clientSecret string, endpoints map[string]strin
 
 	r.Handle("/", lock.Middleware(Index(tmpl))).Methods(http.MethodGet)
 
-	r.Handle("/stock", lock.Middleware(GetStockCategories(tmpl))).Methods(http.MethodGet)
-	r.Handle("/stock/{key:[0-9]+\\x60[0-9]+}", lock.Middleware(ViewStockCategory(tmpl))).Methods(http.MethodGet)
+	r.Handle("/categories", lock.Middleware(GetStockCategories(tmpl))).Methods(http.MethodGet)
+	r.Handle("/categories/{key:[0-9]+\\x60[0-9]+}", lock.Middleware(ViewStockCategory(tmpl))).Methods(http.MethodGet)
 
 	r.Handle("/cars", lock.Middleware(GetVehicles(tmpl))).Methods(http.MethodGet)
 	r.Handle("/cars/create", lock.Middleware(CreateVehicle(tmpl))).Methods(http.MethodGet)
@@ -109,7 +109,7 @@ func FullMenu() *menu.Menu {
 	m.AddItem(menu.NewItem("c", "/heroes", "Profiles", nil))
 
 	//TODO: Add categories as children
-	m.AddItem(menu.NewItem("b", "/stock", "Stock", nil))
+	m.AddItem(menu.NewItem("b", "/categories", "Stock Categories", nil))
 
 	return m
 }
