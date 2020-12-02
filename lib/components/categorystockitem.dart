@@ -4,7 +4,7 @@ import 'package:mango_artifact/uploadapi.dart';
 import 'package:mango_stock/bodies/stockitem.dart';
 import 'package:mango_ui/keys.dart';
 
-class CategoryStock {
+class CategoryStockItem {
   SelectElement cboItems;
   TextInputElement txtShortName;
   FileUploadInputElement uplImage;
@@ -17,10 +17,11 @@ class CategoryStock {
   TextInputElement txtLocation;
   UListElement lstHistory;
   NumberInputElement numViews;
+  NumberInputElement numQuantity;
 
   bool _loaded;
 
-  CategoryStock(
+  CategoryStockItem(
       String itemsId,
       String shortnameId,
       String imageId,
@@ -32,7 +33,8 @@ class CategoryStock {
       String tagsId,
       String locationId,
       String viewsId,
-      String historyId) {
+      String historyId,
+      String quantityId) {
     cboItems = querySelector(itemsId);
     txtShortName = querySelector(shortnameId);
     uplImage = querySelector(imageId);
@@ -45,8 +47,11 @@ class CategoryStock {
     txtLocation = querySelector(locationId);
     lstHistory = querySelector(historyId);
     numViews = querySelector(viewsId);
+    numQuantity = querySelector(quantityId);
 
-    uplImage.onChange.listen(uploadFile);
+    if (uplImage != null) {
+      uplImage.onChange.listen(uploadFile);
+    }
 
     _loaded = cboItems != null &&
         uplImage != null &&
@@ -97,7 +102,7 @@ class CategoryStock {
   }
 
   List<String> get tags {
-    return lstTags.children.map((e) => e.text);
+    return lstTags.children.map((e) => e.text).toList();
   }
 
   String get location {
@@ -112,8 +117,12 @@ class CategoryStock {
     return new Map<DateTime, Key>();
   }
 
+  num get quantity {
+    return numQuantity.valueAsNumber;
+  }
+
   StockItem toDTO() {
     return new StockItem(itemKey, shortName, imageKey, ownerKey, expires,
-        currency, price, estimate, tags, location, views, history);
+        currency, price, estimate, tags, location, views, history, quantity);
   }
 }

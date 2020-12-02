@@ -32,9 +32,9 @@
         </div>
     </div>
     <div class="field">
-        <div class="control">
-            <label class="label" for="cboBaseCategory">Base Category</label>
-            <select class="select" id="cboBaseCategory">
+        <label class="label" for="cboBaseCategory">Base Category</label>
+        <div class="control select">
+            <select id="cboBaseCategory">
                 <option {{if eq .Data.Category.BaseCategory 0}} selected {{end}} value="0">None</option>
                 <option {{if eq .Data.Category.BaseCategory 1}} selected {{end}} value="1">Cars</option>
                 <option {{if eq .Data.Category.BaseCategory 2}} selected {{end}} value="2">Clothing</option>

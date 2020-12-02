@@ -20,12 +20,20 @@
                         <label class="label">Item</label>
                         <div class="control">
                             <select id="cboItems{{$i}}" class="select">
-                                {{range $options}}
-                                    <option>
-                                        {{.}}
+                                {{range $oi, $ov  := $options}}
+                                    <option value="{{$oi}}">
+                                        {{$ov}}
                                     </option>
                                 {{end}}
                             </select>
+                            <p class="help is-danger"></p>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="numQuantity{{$i}}" class="label">Quantity</label>
+                        <div class="control">
+                            <input class="number" id="numQuantity{{$i}}" type="number"
+                                   value="{{$v.Quantity}}"/>
                             <p class="help is-danger"></p>
                         </div>
                     </div>
@@ -45,7 +53,7 @@
                             <div class="file">
                                 <label class="file-label">
                                     <input class="file-input" type="file" multiple="false" data-for="thumb"
-                                           data-name="Banner"
+                                           data-name="Category"
                                            data-id="{{$v.ImageKey}}" accept=".jpg, .jpeg, .png"
                                            id="uplThumbImg{{$i}}"
                                            placeholder="Stock Thumbnail" {{if eq (print $v.ImageKey) "0`0" }} required {{end}} />
@@ -68,15 +76,15 @@
                         </div>
                     </div>
                     <div class="field">
-                        <label for="txtExpires{{$i}}" class="label">Expiry Date:</label>
+                        <label for="txtExpires{{$i}}" class="label">Expiry Date</label>
                         <div class="control">
-                            <input class="input" id="txtExpires{{$i}}" type="datetime-local" required
+                            <input class="input" id="txtExpires{{$i}}" type="date" required
                                    value="{{$v.Expires}}"/>
                             <p class="help is-danger"></p>
                         </div>
                     </div>
                     <div class="field">
-                        <label for="txtCurrency{{$i}}" class="label">Expiry Date:</label>
+                        <label for="txtCurrency{{$i}}" class="label">Currency</label>
                         <div class="control">
                             <input class="input" id="txtCurrency{{$i}}" type="text" required
                                    value="{{$v.Currency}}"/>
@@ -123,6 +131,17 @@
                         <div class="control">
                             <input class="number" id="numViews{{$i}}" disabled type="number" required
                                    value="{{$v.Views}}"/>
+                            <p class="help is-danger"></p>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="lstHistory{{$i}}" class="label">Owner History:</label>
+                        <div class="control">
+                            <ul id="lstHistory{{$i}}">
+                                {{range $v.OwnerHistory}}
+                                    <li>{{.}}</li>
+                                {{end}}
+                            </ul>
                             <p class="help is-danger"></p>
                         </div>
                     </div>

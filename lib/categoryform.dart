@@ -1,5 +1,6 @@
 import 'dart:html';
 
+import 'package:Admin.APP/categoryitems.dart';
 import 'package:dart_toast/dart_toast.dart';
 import 'package:mango_stock/bodies/category.dart';
 import 'package:mango_stock/stockapi.dart';
@@ -7,19 +8,19 @@ import 'package:mango_ui/formstate.dart';
 import 'package:mango_ui/keys.dart';
 
 import 'categoryinfo.dart';
-import 'categorystock.dart';
+import 'categoryitems.dart';
 
 class CategoryForm extends FormState {
   Key objKey;
 
   CategoryInfoForm info;
-  CategoryStockForm stock;
+  CategoryItemsForm stock;
 
   CategoryForm(Key k) : super("#frmCategory", "#btnSubmit") {
     objKey = k;
 
     info = new CategoryInfoForm();
-    stock = new CategoryStockForm(k);
+    stock = new CategoryItemsForm(k);
 
     querySelector("#btnSubmit").onClick.listen(onSubmitClick);
   }
@@ -28,8 +29,16 @@ class CategoryForm extends FormState {
     if (isFormValid()) {
       disableSubmit(true);
 
-      final obj = new Category(info.client, info.text, info.description, info.pageurl,
-          info.basecategory, info.image, stock.items);
+      print(stock.items.length);
+      final obj = new Category(
+          info.name,
+          info.text,
+          info.description,
+          info.pageurl,
+          info.basecategory,
+          info.client,
+          info.image,
+          stock.items);
 
       HttpRequest req;
       if (objKey.toJson() != "0`0") {
