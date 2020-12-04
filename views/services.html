@@ -1,44 +1,44 @@
 {{template "layout.html" .}}
 {{define "mainlayout"}}
-    <section class="section">
-        <table class="table is-fullwidth is-hoverable" id="dataTable">
-            <thead>
+<section class="section">
+    <table class="table is-fullwidth is-hoverable" id="dataTable">
+        <thead>
             <tr>
                 <th>Description</th>
                 <th>Actions</th>
             </tr>
-            </thead>
-            <tfoot>
+        </thead>
+        <tfoot>
             <tr>
                 <th>Description</th>
                 <th>Actions</th>
             </tr>
-            </tfoot>
-            <tbody>
+        </tfoot>
+        <tbody>
             {{if .Data.Records}}
-                {{range $_, $val := .Data.GetRecords.ToSlice}}
-                    {{$v := $val.GetValue}}
-                    {{$k := $val.GetKey}}
-                    <tr>
-                        <td>{{$v.Description}}</td>
-                        <td>
-                            <p class="buttons">
-                                <a href="/utilities/{{$k}}" class="button is-primary">
+            {{range $_, $val := .Data.GetRecords.ToSlice}}
+            {{$v := $val.GetValue}}
+            {{$k := $val.GetKey}}
+            <tr>
+                <td>{{$v.Description}}</td>
+                <td>
+                    <p class="buttons">
+                        <a href="/utilities/{{$k}}" class="button is-primary">
                             <span class="icon is-small">
                                 <i class="far fa-edit"></i>
                             </span>
-                                </a>
-                                <button data-key="{{$k}}" class="button is-danger deleter">
+                        </a>
+                        <button data-key="{{$k}}" class="button is-danger deleter">
                             <span class="icon is-small">
                                 <i class="fas fa-ban"></i>
                             </span>
-                                </button>
-                            </p>
-                        </td>
-                    </tr>
-                {{end}}
+                        </button>
+                    </p>
+                </td>
+            </tr>
             {{end}}
-            </tbody>
-        </table>
-    </section>
+            {{end}}
+        </tbody>
+    </table>
+</section>
 {{end}}
