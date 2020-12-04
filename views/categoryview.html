@@ -1,39 +1,39 @@
 {{template "layout.html" .}}
 {{define "mainlayout"}}
-    <div class="content">
-        <section class="section">
-            <div class="tabs is-boxed is-centered main-menu" id="nav">
-                <ul>
-                    <li data-target="paneCategoryInfo" id="tabCategoryInfo" class="is-active">
-                        <a>
-                            <span class="icon is-small"><i class="fa fa-image"></i></span>
-                            <span>Info</span>
-                        </a>
-                    </li>
-                    <li data-target="paneCategoryItems" id="tabCategoryItems">
-                        <a>
-                            <span class="icon is-small"><i class="fab fa-empire"></i></span>
-                            <span>Items</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="tab-content">
-                <form id="frmCategory" role="form">
-                    <div class="control">
-                        <button type="button" class="button is-link is-medium" id="btnSubmit">Save
-                        </button>
-                    </div>
-                    <div class="tab-pane is-active" id="paneCategoryInfo">
-                        {{ template "tabCategoryInfo.html" .}}
-                    </div>
-                    <div class="tab-pane" id="paneCategoryItems">
-                        <button type="button" class="button is-info" id="btnAddItem">Create</button>
-                        <a class="button is-success" href="{{.Data.CreatePath}}">+ Add Stock</a>
-                        {{ template "tabCategoryItems.html" .}}
-                    </div>
-                </form>
-            </div>
-        </section>
-    </div>
+<div class="content">
+    <section class="section">
+        <div class="tabs is-boxed is-centered main-menu" id="nav">
+            <ul>
+                <li data-target="paneCategoryInfo" id="tabCategoryInfo" class="is-active">
+                    <a>
+                        <span class="icon is-small"><i class="fa fa-image"></i></span>
+                        <span>Info</span>
+                    </a>
+                </li>
+                <li data-target="paneCategoryItems" id="tabCategoryItems">
+                    <a>
+                        <span class="icon is-small"><i class="fab fa-empire"></i></span>
+                        <span>Items</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="tab-content">
+            <form id="frmCategory" role="form">
+                <div class="control content">
+                    <button type="button" class="button is-link is-medium" id="btnSubmit">Save
+                    </button>
+                </div>
+                <div class="tab-pane is-active" id="paneCategoryInfo">
+                    {{ template "tabCategoryInfo.html" .}}
+                </div>
+                <div class="tab-pane" id="paneCategoryItems">
+                    <button type="button" class="button is-info" id="btnAddItem">Create</button>
+                    <a class="button is-success" href="{{.Data.CreatePath}}">+ Add Stock</a>
+                    {{ template "tabCategoryItems.html" .}}
+                </div>
+            </form>
+        </div>
+    </section>
+</div>
 {{end}}

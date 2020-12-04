@@ -1,156 +1,145 @@
 <div class="content" id="dvStock">
     {{$artUrl := index .Endpoints "artifact"}}
     {{$options := .Data.Options}}
-    <br/>
+    <br />
     {{range $i, $v := .Data.Category.Items}}
-        <div class="card">
-            <header class="card-header">
-                <p class="card-header-title">
-                    {{$v.ShortName}}
-                </p>
-                <a class="card-header-icon" aria-label="more options">
+    <div class="card">
+        <header class="card-header">
+            <p class="card-header-title">
+                {{$v.ShortName}}
+            </p>
+            <a class="card-header-icon" aria-label="more options">
                 <span class="icon">
                     <i class="fas fa-angle-down" aria-hidden="true"></i>
                 </span>
-                </a>
-            </header>
-            <div class="card-content" hidden>
-                <div class="content">
-                    <div class="field">
-                        <label class="label">Item</label>
-                        <div class="control">
-                            <select id="cboItems{{$i}}" class="select">
-                                {{range $oi, $ov  := $options}}
-                                    <option value="{{$oi}}">
-                                        {{$ov}}
-                                    </option>
-                                {{end}}
-                            </select>
-                            <p class="help is-danger"></p>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label for="numQuantity{{$i}}" class="label">Quantity</label>
-                        <div class="control">
-                            <input class="number" id="numQuantity{{$i}}" type="number"
-                                   value="{{$v.Quantity}}"/>
-                            <p class="help is-danger"></p>
-                        </div>
-                    </div>
-                    <input type="hidden" id="hdnOwnerKey{{$i}}" value="{{$v.OwnerKey}}">
-                    <div class="field">
-                        <label class="label">Short Name:</label>
-                        <div class="control">
-                            <input class="input" id="txtShortName{{$i}}" placeholder="Name" type="text"
-                                   min-length="3"
-                                   required value="{{$v.ShortName}}"/>
-                            <p class="help is-danger"></p>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label class="label" for="uplThumbImg{{$i}}">Thumbnail</label>
-                        <div class="control">
-                            <div class="file">
-                                <label class="file-label">
-                                    <input class="file-input" type="file" multiple="false" data-for="thumb"
-                                           data-name="Category"
-                                           data-id="{{$v.ImageKey}}" accept=".jpg, .jpeg, .png"
-                                           id="uplThumbImg{{$i}}"
-                                           placeholder="Stock Thumbnail" {{if eq (print $v.ImageKey) "0`0" }} required {{end}} />
-                                    <p class="help is-danger"></p>
-                                    <span class="file-cta">
-                                        <span class="file-icon">
-                                            <i class="fas fa-upload"></i>
-                                        </span>
-                                        <span class="file-label">
-                                            Choose an image.
-                                        </span>
-                                    </span>
-                                </label>
-                            </div>
-                            <input type="image" id="uplThumbView{{$i}}"
-                                   class='image {{if eq (print $v.ImageKey) "0`0"}} is-hidden {{end}}'
-                                   src="{{ $artUrl }}/download/{{$v.ImageKey}}"
-                                   alt="profile image"/>
-                            <p class="help is-danger"></p>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label for="txtExpires{{$i}}" class="label">Expiry Date</label>
-                        <div class="control">
-                            <input class="input" id="txtExpires{{$i}}" type="date" required
-                                   value="{{$v.Expires}}"/>
-                            <p class="help is-danger"></p>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label for="txtCurrency{{$i}}" class="label">Currency</label>
-                        <div class="control">
-                            <input class="input" id="txtCurrency{{$i}}" type="text" required
-                                   value="{{$v.Currency}}"/>
-                            <p class="help is-danger"></p>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label for="numPrice{{$i}}" class="label">Price:</label>
-                        <div class="control">
-                            <input class="number" id="numPrice{{$i}}" type="number" required
-                                   value="{{$v.Price}}"/>
-                            <p class="help is-danger"></p>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label for="numEstimate{{$i}}" class="label">Estimate Value:</label>
-                        <div class="control">
-                            <input class="number" id="numEstimate{{$i}}" type="number" required
-                                   value="{{$v.EstimateValue}}"/>
-                            <p class="help is-danger"></p>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label for="lstTags{{$i}}" class="label">Tags:</label>
-                        <div class="control">
-                            <ul id="lstTags{{$i}}">
-                                {{range $v.Tags}}
-                                    <li>{{.}}</li>
-                                {{end}}
-                            </ul>
-                            <p class="help is-danger"></p>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label for="txtLocation{{$i}}" class="label">Location:</label>
-                        <div class="control">
-                            <input class="input" id="txtLocation{{$i}}" type="text" required
-                                   value="{{$v.Location}}"/>
-                            <p class="help is-danger"></p>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label for="numViews{{$i}}" class="label">Views:</label>
-                        <div class="control">
-                            <input class="number" id="numViews{{$i}}" disabled type="number" required
-                                   value="{{$v.Views}}"/>
-                            <p class="help is-danger"></p>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label for="lstHistory{{$i}}" class="label">Owner History:</label>
-                        <div class="control">
-                            <ul id="lstHistory{{$i}}">
-                                {{range $v.OwnerHistory}}
-                                    <li>{{.}}</li>
-                                {{end}}
-                            </ul>
-                            <p class="help is-danger"></p>
-                        </div>
-                    </div>
+            </a>
+        </header>
+        <div class="card-content">
+
+            <div class="field">
+                <label class="label">Item</label>
+                <div class="control">
+                    <select id="cboItems{{$i}}" class="select">
+                        {{range $oi, $ov  := $options}}
+                        <option value="{{$oi}}">
+                            {{$ov}}
+                        </option>
+                        {{end}}
+                    </select>
+                    <p class="help is-danger"></p>
                 </div>
-                <footer class="card-footer">
-                    <a href="" class="card-footer-item">Edit</a>
-                    <a href="#" class="card-footer-item Delete">Delete</a>
-                </footer>
+            </div>
+            <div class="control">
+                <label for="numQuantity{{$i}}" class="label">Quantity</label>
+                <div class="control">
+                    <input class="input" id="numQuantity{{$i}}" type="number" value="{{$v.Quantity}}" />
+                    <p class="help is-danger"></p>
+                </div>
+            </div>
+            <input type="hidden" id="hdnOwnerKey{{$i}}" value="{{$v.OwnerKey}}">
+            <div class="field">
+                <label class="label">Short Name:</label>
+                <div class="control">
+                    <input class="input" id="txtShortName{{$i}}" placeholder="Name" type="text" min-length="3" required
+                        value="{{$v.ShortName}}" />
+                    <p class="help is-danger"></p>
+                </div>
+            </div>
+            <div class="field">
+                <label class="label" for="uplThumbImg{{$i}}">Thumbnail</label>
+                <div class="control">
+                    <div class="file">
+                        <label class="file-label">
+                            <input class="file-input" type="file" multiple="false" data-for="thumb" data-name="Category"
+                                data-id="{{$v.ImageKey}}" accept=".jpg, .jpeg, .png" id="uplThumbImg{{$i}}"
+                                placeholder="Stock Thumbnail" {{if eq (print $v.ImageKey) "0`0" }} required {{end}} />
+                            <p class="help is-danger"></p>
+                            <span class="file-cta">
+                                <span class="file-icon">
+                                    <i class="fas fa-upload"></i>
+                                </span>
+                                <span class="file-label">
+                                    Choose an image.
+                                </span>
+                            </span>
+                        </label>
+                    </div>
+                    <input type="image" id="uplThumbView{{$i}}"
+                        class='image {{if eq (print $v.ImageKey) "0`0"}} is-hidden {{end}}'
+                        src="{{ $artUrl }}/download/{{$v.ImageKey}}" alt="profile image" />
+                    <p class="help is-danger"></p>
+                </div>
+            </div>
+            <div class="field">
+                <label for="txtExpires{{$i}}" class="label">Expiry Date</label>
+                <div class="control">
+                    <input class="input" id="txtExpires{{$i}}" type="date" required value="{{$v.Expires}}" />
+                    <p class="help is-danger"></p>
+                </div>
+            </div>
+            <div class="field">
+                <label for="txtCurrency{{$i}}">Currency</label>
+                <div class="control">
+                    <input class="input" id="txtCurrency{{$i}}" type="text" required value="{{$v.Currency}}" />
+                    <p class="help is-danger"></p>
+                </div>
+            </div>
+            <div class="field">
+                <label for="numPrice{{$i}}">Price:</label>
+                <div class="control">
+                    <input class="input" id="numPrice{{$i}}" type="number" required value="{{$v.Price}}" />
+                    <p class="help is-danger"></p>
+                </div>
+            </div>
+            <div class="field">
+                <label for="numEstimate{{$i}}" class="label">Estimate Value:</label>
+                <div class="control">
+                    <input class="input" id="numEstimate{{$i}}" type="number" required value="{{$v.EstimateValue}}" />
+                    <p class="help is-danger"></p>
+                </div>
+            </div>
+            <div class="field">
+                <label for="lstTags{{$i}}" class="label">Tags:</label>
+                <div class="control">
+                    <div id="lstTags{{$i}}">
+                        {{range $v.Tags}}
+                        <span class="tag is-primary is-light is-medium">{{.}}</span>
+                        {{end}}
+                    </div>
+                    <p class="help is-danger"></p>
+                </div>
+            </div>
+            <div class="field">
+                <label for="txtLocation{{$i}}" class="label">Location:</label>
+                <div class="control">
+                    <input class="input" id="txtLocation{{$i}}" type="text" required value="{{$v.Location}}" />
+                    <p class="help is-danger"></p>
+                </div>
+            </div>
+            <div class="field">
+                <label for="numViews{{$i}}" class="label">Views:</label>
+                <div class="control">
+                    <input class="input" id="numViews{{$i}}" disabled type="number" required value="{{$v.Views}}" />
+                    <p class="help is-danger"></p>
+                </div>
+            </div>
+            <div class="field">
+                <label for="lstHistory{{$i}}" class="label">Owner History:</label>
+                <div class="control">
+                    <ul id="lstHistory{{$i}}">
+                        {{range $v.OwnerHistory}}
+                        <li>{{.}}</li>
+                        {{end}}
+                    </ul>
+                    <p class="help is-danger"></p>
+                </div>
             </div>
         </div>
-    {{end}}
+        <footer class="card-footer">
+            <a href="" class="card-footer-item">Edit</a>
+            <a href="#" class="card-footer-item Delete">Delete</a>
+        </footer>
+    </div>
+</div>
+{{end}}
 </div>
