@@ -20,22 +20,16 @@ import (
 	wear "github.com/louisevanderlith/wear/api"
 	wearcore "github.com/louisevanderlith/wear/core"
 	"golang.org/x/oauth2"
-	"html/template"
 	"log"
 	"net/http"
 	"strings"
 )
 
-func GetStockCategories(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Categories", tmpl, "./views/categories.html")
-	pge.AddMenu(FullMenu())
-	pge.AddModifier(mix.EndpointMod(Endpoints))
-	pge.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
-	pge.AddModifier(ThemeContentMod())
+func GetStockCategories(fact mix.MixerFactory) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		tkn := r.Context().Value("Token").(oauth2.Token)
 		clnt := AuthConfig.Client(r.Context(), &tkn)
-		result, err := api.FetchAllCategories(clnt, Endpoints["stock"], "A10")
+		data, err := api.FetchAllCategories(clnt, Endpoints["stock"], "A10")
 
 		if err != nil {
 			log.Println("Fetch Categories Error", err)
@@ -43,8 +37,8 @@ func GetStockCategories(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		pge.ChangeTitle("Stock Categories")
-		err = mix.Write(w, pge.Create(r, result))
+		//pge.ChangeTitle("Stock Categories")
+		err = mix.Write(w, fact.Create(r, "Categories", "./views/categories.html", mix.NewDataBag(data)))
 
 		if err != nil {
 			log.Println("Serve Error", err)
@@ -52,16 +46,11 @@ func GetStockCategories(tmpl *template.Template) http.HandlerFunc {
 	}
 }
 
-func SearchStockCategories(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Categories", tmpl, "./views/categories.html")
-	pge.AddMenu(FullMenu())
-	pge.AddModifier(mix.EndpointMod(Endpoints))
-	pge.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
-	pge.AddModifier(ThemeContentMod())
+func SearchStockCategories(fact mix.MixerFactory) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		tkn := r.Context().Value("Token").(oauth2.Token)
 		clnt := AuthConfig.Client(r.Context(), &tkn)
-		result, err := api.FetchAllCategories(clnt, Endpoints["stock"], drx.FindParam(r, "pagesize"))
+		data, err := api.FetchAllCategories(clnt, Endpoints["stock"], drx.FindParam(r, "pagesize"))
 
 		if err != nil {
 			log.Println("Fetch Categories Error", err)
@@ -69,8 +58,8 @@ func SearchStockCategories(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		pge.ChangeTitle("Stock Categories")
-		err = mix.Write(w, pge.Create(r, result))
+		//pge.ChangeTitle("Stock Categories")
+		err = mix.Write(w, fact.Create(r, "Categories", "./views/categories.html", mix.NewDataBag(data)))
 
 		if err != nil {
 			log.Println("Serve Error", err)
@@ -78,12 +67,7 @@ func SearchStockCategories(tmpl *template.Template) http.HandlerFunc {
 	}
 }
 
-func ViewStockCategory(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Category View", tmpl, "./views/categoryview.html")
-	pge.AddMenu(FullMenu())
-	pge.AddModifier(mix.EndpointMod(Endpoints))
-	pge.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
-	pge.AddModifier(ThemeContentMod())
+func ViewStockCategory(fact mix.MixerFactory) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		key, err := keys.ParseKey(drx.FindParam(r, "key"))
 
@@ -123,7 +107,7 @@ func ViewStockCategory(tmpl *template.Template) http.HandlerFunc {
 
 		result.Options = options
 
-		err = mix.Write(w, pge.Create(r, result))
+		err = mix.Write(w, fact.Create(r, "Category View", "./views/categoryview.html", mix.NewDataBag(result)))
 
 		if err != nil {
 			log.Println("Serve Error", err)

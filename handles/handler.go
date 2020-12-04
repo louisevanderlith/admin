@@ -70,33 +70,39 @@ func SetupRoutes(host, clientId, clientSecret string, endpoints map[string]strin
 	r.HandleFunc("/login", lock.Login).Methods(http.MethodGet)
 	r.HandleFunc("/callback", lock.Callback).Methods(http.MethodGet)
 
-	r.Handle("/", lock.Middleware(Index(tmpl))).Methods(http.MethodGet)
+	fact := mix.NewPageFactory(tmpl)
+	fact.AddMenu(FullMenu())
+	fact.AddModifier(mix.EndpointMod(Endpoints))
+	fact.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
+	fact.AddModifier(ThemeContentMod())
 
-	r.Handle("/categories", lock.Middleware(GetStockCategories(tmpl))).Methods(http.MethodGet)
-	r.Handle("/categories/{key:[0-9]+\\x60[0-9]+}", lock.Middleware(ViewStockCategory(tmpl))).Methods(http.MethodGet)
+	r.Handle("/", lock.Middleware(Index(fact))).Methods(http.MethodGet)
 
-	r.Handle("/cars", lock.Middleware(GetVehicles(tmpl))).Methods(http.MethodGet)
-	r.Handle("/cars/create", lock.Middleware(CreateVehicle(tmpl))).Methods(http.MethodGet)
-	r.Handle("/cars/{key:[0-9]+\\x60[0-9]+}", lock.Middleware(ViewVehicle(tmpl))).Methods(http.MethodGet)
+	r.Handle("/categories", lock.Middleware(GetStockCategories(fact))).Methods(http.MethodGet)
+	r.Handle("/categories/{key:[0-9]+\\x60[0-9]+}", lock.Middleware(ViewStockCategory(fact))).Methods(http.MethodGet)
 
-	r.Handle("/clothing", lock.Middleware(GetClothing(tmpl))).Methods(http.MethodGet)
-	r.Handle("/clothing/create", lock.Middleware(CreateClothing(tmpl))).Methods(http.MethodGet)
-	r.Handle("/clothing/{key:[0-9]+\\x60[0-9]+}", lock.Middleware(ViewClothing(tmpl))).Methods(http.MethodGet)
+	r.Handle("/cars", lock.Middleware(GetVehicles(fact))).Methods(http.MethodGet)
+	r.Handle("/cars/create", lock.Middleware(CreateVehicle(fact))).Methods(http.MethodGet)
+	r.Handle("/cars/{key:[0-9]+\\x60[0-9]+}", lock.Middleware(ViewVehicle(fact))).Methods(http.MethodGet)
 
-	r.Handle("/spares", lock.Middleware(GetParts(tmpl))).Methods(http.MethodGet)
-	r.Handle("/spares/create", lock.Middleware(CreatePart(tmpl))).Methods(http.MethodGet)
-	r.Handle("/spares/{key:[0-9]+\\x60[0-9]+}", lock.Middleware(ViewPart(tmpl))).Methods(http.MethodGet)
+	r.Handle("/clothing", lock.Middleware(GetClothing(fact))).Methods(http.MethodGet)
+	r.Handle("/clothing/create", lock.Middleware(CreateClothing(fact))).Methods(http.MethodGet)
+	r.Handle("/clothing/{key:[0-9]+\\x60[0-9]+}", lock.Middleware(ViewClothing(fact))).Methods(http.MethodGet)
 
-	r.Handle("/properties", lock.Middleware(GetProperties(tmpl))).Methods(http.MethodGet)
-	r.Handle("/properties/create", lock.Middleware(CreateProperty(tmpl))).Methods(http.MethodGet)
-	r.Handle("/properties/{key:[0-9]+\\x60[0-9]+}", lock.Middleware(ViewProperty(tmpl))).Methods(http.MethodGet)
+	r.Handle("/spares", lock.Middleware(GetParts(fact))).Methods(http.MethodGet)
+	r.Handle("/spares/create", lock.Middleware(CreatePart(fact))).Methods(http.MethodGet)
+	r.Handle("/spares/{key:[0-9]+\\x60[0-9]+}", lock.Middleware(ViewPart(fact))).Methods(http.MethodGet)
 
-	r.Handle("/utilities", lock.Middleware(GetServices(tmpl))).Methods(http.MethodGet)
-	r.Handle("/utilities/create", lock.Middleware(CreateService(tmpl))).Methods(http.MethodGet)
-	r.Handle("/utilities/{key:[0-9]+\\x60[0-9]+}", lock.Middleware(ViewService(tmpl))).Methods(http.MethodGet)
+	r.Handle("/properties", lock.Middleware(GetProperties(fact))).Methods(http.MethodGet)
+	r.Handle("/properties/create", lock.Middleware(CreateProperty(fact))).Methods(http.MethodGet)
+	r.Handle("/properties/{key:[0-9]+\\x60[0-9]+}", lock.Middleware(ViewProperty(fact))).Methods(http.MethodGet)
+
+	r.Handle("/utilities", lock.Middleware(GetServices(fact))).Methods(http.MethodGet)
+	r.Handle("/utilities/create", lock.Middleware(CreateService(fact))).Methods(http.MethodGet)
+	r.Handle("/utilities/{key:[0-9]+\\x60[0-9]+}", lock.Middleware(ViewService(fact))).Methods(http.MethodGet)
 
 	//r.HandleFunc("/tokens", lock.Middleware( create(tmpl))).Methods(http.MethodGet)                       //Cars
-	r.Handle("/tokens/{key:[0-9]+\\x60[0-9]+}", lock.Middleware(ViewCredits(tmpl))).Methods(http.MethodGet)
+	r.Handle("/tokens/{key:[0-9]+\\x60[0-9]+}", lock.Middleware(ViewCredits(fact))).Methods(http.MethodGet)
 
 	return r
 }
@@ -115,7 +121,7 @@ func FullMenu() *menu.Menu {
 }
 
 func ThemeContentMod() mix.ModFunc {
-	return func(f mix.MixerFactory, r *http.Request) {
+	return func(b mix.Bag, r *http.Request) {
 		clnt := credConfig.Client(r.Context())
 
 		content, err := folio.FetchDisplay(clnt, Endpoints["folio"])
@@ -126,6 +132,6 @@ func ThemeContentMod() mix.ModFunc {
 			return
 		}
 
-		f.SetValue("Folio", content)
+		b.SetValue("Folio", content)
 	}
 }

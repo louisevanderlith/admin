@@ -2,7 +2,6 @@ package handles
 
 import (
 	"golang.org/x/oauth2"
-	"html/template"
 	"log"
 	"net/http"
 
@@ -12,16 +11,11 @@ import (
 	"github.com/louisevanderlith/husk/keys"
 )
 
-func GetProperties(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Properties", tmpl, "./views/properties.html")
-	pge.AddMenu(FullMenu())
-	pge.AddModifier(mix.EndpointMod(Endpoints))
-	pge.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
-	pge.AddModifier(ThemeContentMod())
+func GetProperties(fact mix.MixerFactory) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		tkn := r.Context().Value("Token").(oauth2.Token)
 		clnt := AuthConfig.Client(r.Context(), &tkn)
-		result, err := api.FetchAllProperties(clnt, Endpoints["house"], "A10")
+		data, err := api.FetchAllProperties(clnt, Endpoints["house"], "A10")
 
 		if err != nil {
 			log.Println("Fetch Properties Error", err)
@@ -29,7 +23,7 @@ func GetProperties(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		err = mix.Write(w, pge.Create(r, result))
+		err = mix.Write(w, fact.Create(r, "Properties", "./views/properties.html", mix.NewDataBag(data)))
 
 		if err != nil {
 			log.Println("Serve Error", err)
@@ -37,16 +31,11 @@ func GetProperties(tmpl *template.Template) http.HandlerFunc {
 	}
 }
 
-func SearchProperties(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Properties", tmpl, "./views/properties.html")
-	pge.AddMenu(FullMenu())
-	pge.AddModifier(mix.EndpointMod(Endpoints))
-	pge.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
-	pge.AddModifier(ThemeContentMod())
+func SearchProperties(fact mix.MixerFactory) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		tkn := r.Context().Value("Token").(oauth2.Token)
 		clnt := AuthConfig.Client(r.Context(), &tkn)
-		result, err := api.FetchAllProperties(clnt, Endpoints["house"], drx.FindParam(r, "pagesize"))
+		data, err := api.FetchAllProperties(clnt, Endpoints["house"], drx.FindParam(r, "pagesize"))
 
 		if err != nil {
 			log.Println("Fetch Properties", err)
@@ -54,7 +43,7 @@ func SearchProperties(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		err = mix.Write(w, pge.Create(r, result))
+		err = mix.Write(w, fact.Create(r, "Properties", "./views/properties.html", mix.NewDataBag(data)))
 
 		if err != nil {
 			log.Println("Serve Error", err)
@@ -62,14 +51,9 @@ func SearchProperties(tmpl *template.Template) http.HandlerFunc {
 	}
 }
 
-func CreateProperty(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Property Create", tmpl, "./views/propertyview.html")
-	pge.AddMenu(FullMenu())
-	pge.AddModifier(mix.EndpointMod(Endpoints))
-	pge.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
-	pge.AddModifier(ThemeContentMod())
+func CreateProperty(fact mix.MixerFactory) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		err := mix.Write(w, pge.Create(r, nil))
+		err := mix.Write(w, fact.Create(r, "Property Create", "./views/propertyview.html", nil))
 
 		if err != nil {
 			log.Println("Serve Error", err)
@@ -77,12 +61,7 @@ func CreateProperty(tmpl *template.Template) http.HandlerFunc {
 	}
 }
 
-func ViewProperty(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Property View", tmpl, "./views/propertyview.html")
-	pge.AddMenu(FullMenu())
-	pge.AddModifier(mix.EndpointMod(Endpoints))
-	pge.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
-	pge.AddModifier(ThemeContentMod())
+func ViewProperty(fact mix.MixerFactory) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		key, err := keys.ParseKey(drx.FindParam(r, "key"))
 
@@ -94,7 +73,7 @@ func ViewProperty(tmpl *template.Template) http.HandlerFunc {
 
 		tkn := r.Context().Value("Token").(oauth2.Token)
 		clnt := AuthConfig.Client(r.Context(), &tkn)
-		result, err := api.FetchProperty(clnt, Endpoints["house"], key)
+		data, err := api.FetchProperty(clnt, Endpoints["house"], key)
 
 		if err != nil {
 			log.Println("Fetch Property Error", err)
@@ -102,7 +81,7 @@ func ViewProperty(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		err = mix.Write(w, pge.Create(r, result))
+		err = mix.Write(w, fact.Create(r, "Property View", "./views/propertyview.html", mix.NewDataBag(data)))
 
 		if err != nil {
 			log.Println("Serve Error", err)

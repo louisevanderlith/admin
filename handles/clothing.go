@@ -3,7 +3,6 @@ package handles
 import (
 	"github.com/louisevanderlith/wear/core"
 	"golang.org/x/oauth2"
-	"html/template"
 	"log"
 	"net/http"
 
@@ -13,16 +12,11 @@ import (
 	"github.com/louisevanderlith/wear/api"
 )
 
-func GetClothing(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Clothing", tmpl, "./views/clothing.html")
-	pge.AddMenu(FullMenu())
-	pge.AddModifier(mix.EndpointMod(Endpoints))
-	pge.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
-	pge.AddModifier(ThemeContentMod())
+func GetClothing(fact mix.MixerFactory) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		tkn := r.Context().Value("Token").(oauth2.Token)
 		clnt := AuthConfig.Client(r.Context(), &tkn)
-		result, err := api.FetchAllClothing(clnt, Endpoints["wear"], "A10")
+		data, err := api.FetchAllClothing(clnt, Endpoints["wear"], "A10")
 
 		if err != nil {
 			log.Println("Fetch Cars Error", err)
@@ -30,7 +24,8 @@ func GetClothing(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		err = mix.Write(w, pge.Create(r, result))
+		b := mix.NewDataBag(data)
+		err = mix.Write(w, fact.Create(r, "Clothing", "./views/clothing.html", b))
 
 		if err != nil {
 			log.Println("Serve Error", err)
@@ -38,16 +33,11 @@ func GetClothing(tmpl *template.Template) http.HandlerFunc {
 	}
 }
 
-func SearchClothing(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Clothing", tmpl, "./views/clothing.html")
-	pge.AddMenu(FullMenu())
-	pge.AddModifier(mix.EndpointMod(Endpoints))
-	pge.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
-	pge.AddModifier(ThemeContentMod())
+func SearchClothing(fact mix.MixerFactory) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		tkn := r.Context().Value("Token").(oauth2.Token)
 		clnt := AuthConfig.Client(r.Context(), &tkn)
-		result, err := api.FetchAllClothing(clnt, Endpoints["wear"], drx.FindParam(r, "pagesize"))
+		data, err := api.FetchAllClothing(clnt, Endpoints["wear"], drx.FindParam(r, "pagesize"))
 
 		if err != nil {
 			log.Println("Fetch Clothing Error", err)
@@ -55,7 +45,8 @@ func SearchClothing(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		err = mix.Write(w, pge.Create(r, result))
+		b := mix.NewDataBag(data)
+		err = mix.Write(w, fact.Create(r, "Clothing", "./views/clothing.html", b))
 
 		if err != nil {
 			log.Println("Serve Error", err)
@@ -63,12 +54,7 @@ func SearchClothing(tmpl *template.Template) http.HandlerFunc {
 	}
 }
 
-func CreateClothing(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Clothing Create", tmpl, "./views/clothingview.html")
-	pge.AddMenu(FullMenu())
-	pge.AddModifier(mix.EndpointMod(Endpoints))
-	pge.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
-	pge.AddModifier(ThemeContentMod())
+func CreateClothing(fact mix.MixerFactory) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		tkn := r.Context().Value("Token").(oauth2.Token)
 		clnt := AuthConfig.Client(r.Context(), &tkn)
@@ -78,7 +64,9 @@ func CreateClothing(tmpl *template.Template) http.HandlerFunc {
 			log.Println(err)
 			http.Error(w, "", http.StatusInternalServerError)
 		}
-		pge.SetValue("Brands", brands)
+
+		b := mix.NewDataBag(core.Clothing{})
+		b.SetValue("Brands", brands)
 
 		types, err := api.FetchAllTypes(clnt, Endpoints["wear"], "A10")
 
@@ -87,8 +75,8 @@ func CreateClothing(tmpl *template.Template) http.HandlerFunc {
 			http.Error(w, "", http.StatusInternalServerError)
 		}
 
-		pge.SetValue("Types", types)
-		err = mix.Write(w, pge.Create(r, core.Clothing{}))
+		b.SetValue("Types", types)
+		err = mix.Write(w, fact.Create(r, "Clothing Create", "./views/clothingview.html", b))
 
 		if err != nil {
 			log.Println("Serve Error", err)
@@ -96,12 +84,7 @@ func CreateClothing(tmpl *template.Template) http.HandlerFunc {
 	}
 }
 
-func ViewClothing(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Clothing View", tmpl, "./views/clothingview.html")
-	pge.AddMenu(FullMenu())
-	pge.AddModifier(mix.EndpointMod(Endpoints))
-	pge.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
-	pge.AddModifier(ThemeContentMod())
+func ViewClothing(fact mix.MixerFactory) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		key, err := keys.ParseKey(drx.FindParam(r, "key"))
 
@@ -113,13 +96,25 @@ func ViewClothing(tmpl *template.Template) http.HandlerFunc {
 
 		tkn := r.Context().Value("Token").(oauth2.Token)
 		clnt := AuthConfig.Client(r.Context(), &tkn)
+
+		data, err := api.FetchClothing(clnt, Endpoints["wear"], key)
+
+		if err != nil {
+			log.Println("Fetch Clothing Error", err)
+			http.Error(w, "", http.StatusUnauthorized)
+			return
+		}
+
+		b := mix.NewDataBag(data)
+
 		brands, err := api.FetchAllBrands(clnt, Endpoints["wear"], "A10")
 
 		if err != nil {
 			log.Println(err)
 			http.Error(w, "", http.StatusInternalServerError)
 		}
-		pge.SetValue("Brands", brands)
+
+		b.SetValue("Brands", brands)
 
 		types, err := api.FetchAllTypes(clnt, Endpoints["wear"], "A10")
 
@@ -128,16 +123,9 @@ func ViewClothing(tmpl *template.Template) http.HandlerFunc {
 			http.Error(w, "", http.StatusInternalServerError)
 		}
 
-		pge.SetValue("Types", types)
-		result, err := api.FetchClothing(clnt, Endpoints["wear"], key)
+		b.SetValue("Types", types)
 
-		if err != nil {
-			log.Println("Fetch Clothing Error", err)
-			http.Error(w, "", http.StatusUnauthorized)
-			return
-		}
-
-		err = mix.Write(w, pge.Create(r, result))
+		err = mix.Write(w, fact.Create(r, "Clothing View", "./views/clothingview.html", b))
 
 		if err != nil {
 			log.Println("Serve Error", err)

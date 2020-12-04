@@ -6,22 +6,16 @@ import (
 	"github.com/louisevanderlith/funds/api"
 	"github.com/louisevanderlith/husk/keys"
 	"golang.org/x/oauth2"
-	"html/template"
 	"log"
 	"net/http"
 )
 
-func GetAccounts(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Accounts", tmpl, "./views/funds/accounts.html")
-	pge.AddMenu(FullMenu())
-	pge.AddModifier(mix.EndpointMod(Endpoints))
-	pge.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
-	pge.AddModifier(ThemeContentMod())
+func GetAccounts(fact mix.MixerFactory) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		tkn := r.Context().Value("Token").(oauth2.Token)
 		clnt := AuthConfig.Client(r.Context(), &tkn)
-		result, err := api.FetchAllAccounts(clnt, Endpoints["funds"], "A10")
+		data, err := api.FetchAllAccounts(clnt, Endpoints["funds"], "A10")
 
 		if err != nil {
 			log.Println(err)
@@ -29,7 +23,8 @@ func GetAccounts(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		err = mix.Write(w, pge.Create(r, result))
+		b := mix.NewDataBag(data)
+		err = mix.Write(w, fact.Create(r, "Accounts", "./views/funds/accounts.html", b))
 
 		if err != nil {
 			log.Println(err)
@@ -37,17 +32,12 @@ func GetAccounts(tmpl *template.Template) http.HandlerFunc {
 	}
 }
 
-func SearchAccounts(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Accounts", tmpl, "./views/funds/accounts.html")
-	pge.AddMenu(FullMenu())
-	pge.AddModifier(mix.EndpointMod(Endpoints))
-	pge.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
-	pge.AddModifier(ThemeContentMod())
+func SearchAccounts(fact mix.MixerFactory) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		tkn := r.Context().Value("Token").(oauth2.Token)
 		clnt := AuthConfig.Client(r.Context(), &tkn)
-		result, err := api.FetchAllAccounts(clnt, Endpoints["funds"], drx.FindParam(r, "pagesize"))
+		data, err := api.FetchAllAccounts(clnt, Endpoints["funds"], drx.FindParam(r, "pagesize"))
 
 		if err != nil {
 			log.Println(err)
@@ -55,7 +45,8 @@ func SearchAccounts(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		err = mix.Write(w, pge.Create(r, result))
+		b := mix.NewDataBag(data)
+		err = mix.Write(w, fact.Create(r, "Accounts", "./views/funds/accounts.html", b))
 
 		if err != nil {
 			log.Println("Serve Error", err)
@@ -63,12 +54,7 @@ func SearchAccounts(tmpl *template.Template) http.HandlerFunc {
 	}
 }
 
-func ViewAccounts(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Accounts View", tmpl, "./views/funds/accountsView.html")
-	pge.AddMenu(FullMenu())
-	pge.AddModifier(mix.EndpointMod(Endpoints))
-	pge.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
-	pge.AddModifier(ThemeContentMod())
+func ViewAccounts(fact mix.MixerFactory) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		key, err := keys.ParseKey(drx.FindParam(r, "key"))
@@ -81,7 +67,7 @@ func ViewAccounts(tmpl *template.Template) http.HandlerFunc {
 
 		tkn := r.Context().Value("Token").(oauth2.Token)
 		clnt := AuthConfig.Client(r.Context(), &tkn)
-		result, err := api.FetchAccount(clnt, Endpoints["funds"], key)
+		data, err := api.FetchAccount(clnt, Endpoints["funds"], key)
 
 		if err != nil {
 			log.Println(err)
@@ -89,7 +75,8 @@ func ViewAccounts(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		err = mix.Write(w, pge.Create(r, result))
+		b := mix.NewDataBag(data)
+		err = mix.Write(w, fact.Create(r, "Account View", "./views/accountview.html", b))
 
 		if err != nil {
 			log.Println("Serve Error", err)

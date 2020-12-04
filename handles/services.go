@@ -2,7 +2,6 @@ package handles
 
 import (
 	"golang.org/x/oauth2"
-	"html/template"
 	"log"
 	"net/http"
 
@@ -12,16 +11,11 @@ import (
 	"github.com/louisevanderlith/utility/api"
 )
 
-func GetServices(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Services", tmpl, "./views/services.html")
-	pge.AddMenu(FullMenu())
-	pge.AddModifier(mix.EndpointMod(Endpoints))
-	pge.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
-	pge.AddModifier(ThemeContentMod())
+func GetServices(fact mix.MixerFactory) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		tkn := r.Context().Value("Token").(oauth2.Token)
 		clnt := AuthConfig.Client(r.Context(), &tkn)
-		result, err := api.FetchAllServices(clnt, Endpoints["utility"], "A10")
+		data, err := api.FetchAllServices(clnt, Endpoints["utility"], "A10")
 
 		if err != nil {
 			log.Println("Fetch Utilities Error", err)
@@ -29,7 +23,7 @@ func GetServices(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		err = mix.Write(w, pge.Create(r, result))
+		err = mix.Write(w, fact.Create(r, "Services", "./views/services.html", mix.NewDataBag(data)))
 
 		if err != nil {
 			log.Println("Serve Error", err)
@@ -37,17 +31,12 @@ func GetServices(tmpl *template.Template) http.HandlerFunc {
 	}
 }
 
-func SearchServices(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Services", tmpl, "./views/services.html")
-	pge.AddMenu(FullMenu())
-	pge.AddModifier(mix.EndpointMod(Endpoints))
-	pge.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
-	pge.AddModifier(ThemeContentMod())
+func SearchServices(fact mix.MixerFactory) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		tkn := r.Context().Value("Token").(oauth2.Token)
 		clnt := AuthConfig.Client(r.Context(), &tkn)
-		result, err := api.FetchAllServices(clnt, Endpoints["utility"], drx.FindParam(r, "pagesize"))
+		data, err := api.FetchAllServices(clnt, Endpoints["utility"], drx.FindParam(r, "pagesize"))
 
 		if err != nil {
 			log.Println("Fetch Cars Error", err)
@@ -55,7 +44,7 @@ func SearchServices(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		err = mix.Write(w, pge.Create(r, result))
+		err = mix.Write(w, fact.Create(r, "Services", "./views/services.html", mix.NewDataBag(data)))
 
 		if err != nil {
 			log.Println("Serve Error", err)
@@ -63,14 +52,9 @@ func SearchServices(tmpl *template.Template) http.HandlerFunc {
 	}
 }
 
-func CreateService(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Service Create", tmpl, "./views/servicecreate.html")
-	pge.AddMenu(FullMenu())
-	pge.AddModifier(mix.EndpointMod(Endpoints))
-	pge.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
-	pge.AddModifier(ThemeContentMod())
+func CreateService(fact mix.MixerFactory) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		err := mix.Write(w, pge.Create(r, nil))
+		err := mix.Write(w, fact.Create(r, "Service Create", "./views/servicecreate.html", nil))
 
 		if err != nil {
 			log.Println("Serve Error", err)
@@ -78,12 +62,7 @@ func CreateService(tmpl *template.Template) http.HandlerFunc {
 	}
 }
 
-func ViewService(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Service View", tmpl, "./views/serviceview.html")
-	pge.AddMenu(FullMenu())
-	pge.AddModifier(mix.EndpointMod(Endpoints))
-	pge.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
-	pge.AddModifier(ThemeContentMod())
+func ViewService(fact mix.MixerFactory) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		key, err := keys.ParseKey(drx.FindParam(r, "key"))
 
@@ -95,7 +74,7 @@ func ViewService(tmpl *template.Template) http.HandlerFunc {
 
 		tkn := r.Context().Value("Token").(oauth2.Token)
 		clnt := AuthConfig.Client(r.Context(), &tkn)
-		result, err := api.FetchService(clnt, Endpoints["utility"], key)
+		data, err := api.FetchService(clnt, Endpoints["utility"], key)
 
 		if err != nil {
 			log.Println("Fetch Service Error", err)
@@ -103,7 +82,7 @@ func ViewService(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		err = mix.Write(w, pge.Create(r, result))
+		err = mix.Write(w, fact.Create(r, "Service View", "./views/serviceview.html", mix.NewDataBag(data)))
 
 		if err != nil {
 			log.Println("Serve Error", err)
