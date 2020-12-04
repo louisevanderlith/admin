@@ -29,10 +29,10 @@
                             <p class="help is-danger"></p>
                         </div>
                     </div>
-                    <div class="field">
+                    <div class="control">
                         <label for="numQuantity{{$i}}" class="label">Quantity</label>
                         <div class="control">
-                            <input class="number" id="numQuantity{{$i}}" type="number"
+                            <input class="input" id="numQuantity{{$i}}" type="number"
                                    value="{{$v.Quantity}}"/>
                             <p class="help is-danger"></p>
                         </div>
@@ -84,7 +84,7 @@
                         </div>
                     </div>
                     <div class="field">
-                        <label for="txtCurrency{{$i}}" class="label">Currency</label>
+                        <label for="txtCurrency{{$i}}">Currency</label>
                         <div class="control">
                             <input class="input" id="txtCurrency{{$i}}" type="text" required
                                    value="{{$v.Currency}}"/>
@@ -92,9 +92,9 @@
                         </div>
                     </div>
                     <div class="field">
-                        <label for="numPrice{{$i}}" class="label">Price:</label>
+                        <label for="numPrice{{$i}}">Price:</label>
                         <div class="control">
-                            <input class="number" id="numPrice{{$i}}" type="number" required
+                            <input class="input" id="numPrice{{$i}}" type="number" required
                                    value="{{$v.Price}}"/>
                             <p class="help is-danger"></p>
                         </div>
@@ -102,7 +102,7 @@
                     <div class="field">
                         <label for="numEstimate{{$i}}" class="label">Estimate Value:</label>
                         <div class="control">
-                            <input class="number" id="numEstimate{{$i}}" type="number" required
+                            <input class="input" id="numEstimate{{$i}}" type="number" required
                                    value="{{$v.EstimateValue}}"/>
                             <p class="help is-danger"></p>
                         </div>
@@ -110,11 +110,11 @@
                     <div class="field">
                         <label for="lstTags{{$i}}" class="label">Tags:</label>
                         <div class="control">
-                            <ul id="lstTags{{$i}}">
+                            <div id="lstTags{{$i}}">
                                 {{range $v.Tags}}
-                                    <li>{{.}}</li>
+                                    <span class="tag is-primary is-light is-medium">{{.}}</span>
                                 {{end}}
-                            </ul>
+                            </div>
                             <p class="help is-danger"></p>
                         </div>
                     </div>
@@ -129,7 +129,7 @@
                     <div class="field">
                         <label for="numViews{{$i}}" class="label">Views:</label>
                         <div class="control">
-                            <input class="number" id="numViews{{$i}}" disabled type="number" required
+                            <input class="input" id="numViews{{$i}}" disabled type="number" required
                                    value="{{$v.Views}}"/>
                             <p class="help is-danger"></p>
                         </div>
