@@ -9,6 +9,7 @@ class CategoryStockItem {
   TextInputElement txtShortName;
   FileUploadInputElement uplImage;
   HiddenInputElement hdnOwnerKey;
+  HiddenInputElement hdnExpires;
   DateInputElement txtExpires;
   TextInputElement txtCurrency;
   NumberInputElement numPrice;
@@ -26,6 +27,7 @@ class CategoryStockItem {
       String shortnameId,
       String imageId,
       String ownerId,
+      String expiresHdnId,
       String expiresId,
       String currencyId,
       String priceId,
@@ -39,6 +41,7 @@ class CategoryStockItem {
     txtShortName = querySelector(shortnameId);
     uplImage = querySelector(imageId);
     hdnOwnerKey = querySelector(ownerId);
+    hdnExpires = querySelector(expiresHdnId);
     txtExpires = querySelector(expiresId);
     txtCurrency = querySelector(currencyId);
     numPrice = querySelector(priceId);
@@ -56,6 +59,7 @@ class CategoryStockItem {
     _loaded = cboItems != null &&
         uplImage != null &&
         hdnOwnerKey != null &&
+        hdnExpires != null &&
         txtExpires != null &&
         txtCurrency != null &&
         numPrice != null &&
@@ -63,6 +67,8 @@ class CategoryStockItem {
         txtLocation != null &&
         lstHistory != null &&
         numViews != null;
+
+    txtExpires.value = hdnExpires.value.replaceAll(" 00:00:00 +0000 UTC", "");
   }
 
   bool get loaded {
@@ -102,7 +108,7 @@ class CategoryStockItem {
   }
 
   List<String> get tags {
-    return lstTags.children.map((e) => e.text).toList();
+    return lstTags.children.map((e) => e.innerText).toList();
   }
 
   String get location {

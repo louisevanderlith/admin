@@ -38,7 +38,7 @@ func SetupRoutes(host, clientId, clientSecret string, endpoints map[string]strin
 		ClientSecret: clientSecret,
 		Endpoint:     provider.Endpoint(),
 		RedirectURL:  host + "/callback",
-		Scopes:       []string{oidc.ScopeOpenID, "upload-artifact"},
+		Scopes:       []string{oidc.ScopeOpenID, oidc.ScopeOfflineAccess, "upload-artifact"},
 	}
 
 	credConfig = &clientcredentials.Config{
@@ -66,9 +66,12 @@ func SetupRoutes(host, clientId, clientSecret string, endpoints map[string]strin
 	fs := http.FileServer(distPath)
 	r.PathPrefix("/dist/").Handler(http.StripPrefix("/dist/", fs))
 
-	lock := open.NewUILock(provider, AuthConfig)
+	lock := open.NewHybridLock(provider, credConfig, AuthConfig)
+
 	r.HandleFunc("/login", lock.Login).Methods(http.MethodGet)
 	r.HandleFunc("/callback", lock.Callback).Methods(http.MethodGet)
+	r.HandleFunc("/logout", lock.Logout).Methods(http.MethodGet)
+	r.HandleFunc("/refresh", lock.Refresh).Methods(http.MethodGet)
 
 	fact := mix.NewPageFactory(tmpl)
 	fact.AddMenu(FullMenu())
@@ -76,33 +79,63 @@ func SetupRoutes(host, clientId, clientSecret string, endpoints map[string]strin
 	fact.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
 	fact.AddModifier(ThemeContentMod())
 
-	r.Handle("/", lock.Middleware(Index(fact))).Methods(http.MethodGet)
+	r.Handle("/", lock.Protect(lock.Lock(Index(fact)))).Methods(http.MethodGet)
 
-	r.Handle("/categories", lock.Middleware(GetStockCategories(fact))).Methods(http.MethodGet)
-	r.Handle("/categories/{key:[0-9]+\\x60[0-9]+}", lock.Middleware(ViewStockCategory(fact))).Methods(http.MethodGet)
+	rcat := r.PathPrefix("/categories").Subrouter()
+	rcat.Handle("", GetStockCategories(fact)).Methods(http.MethodGet)
+	rcat.Handle("/{pagesize:[A-Z][0-9]+}", SearchStockCategories(fact)).Methods(http.MethodGet)
+	rcat.Handle("/{pagesize:[A-Z][0-9]+}/{hash:[a-zA-Z0-9]+={0,2}}", SearchStockCategories(fact)).Methods(http.MethodGet)
+	rcat.Handle("/{key:[0-9]+\\x60[0-9]+}", ViewStockCategory(fact)).Methods(http.MethodGet)
+	rcat.Use(lock.Protect)
+	rcat.Use(lock.Lock)
 
-	r.Handle("/cars", lock.Middleware(GetVehicles(fact))).Methods(http.MethodGet)
-	r.Handle("/cars/create", lock.Middleware(CreateVehicle(fact))).Methods(http.MethodGet)
-	r.Handle("/cars/{key:[0-9]+\\x60[0-9]+}", lock.Middleware(ViewVehicle(fact))).Methods(http.MethodGet)
+	rcar := r.PathPrefix("/cars").Subrouter()
+	rcar.Handle("", GetVehicles(fact)).Methods(http.MethodGet)
+	rcar.Handle("/create", CreateVehicle(fact)).Methods(http.MethodGet)
+	rcar.Handle("/{pagesize:[A-Z][0-9]+}", SearchVehicles(fact)).Methods(http.MethodGet)
+	rcar.Handle("/{pagesize:[A-Z][0-9]+}/{hash:[a-zA-Z0-9]+={0,2}}", SearchVehicles(fact)).Methods(http.MethodGet)
+	rcar.Handle("/{key:[0-9]+\\x60[0-9]+}", ViewVehicle(fact)).Methods(http.MethodGet)
+	rcar.Use(lock.Protect)
+	rcar.Use(lock.Lock)
 
-	r.Handle("/clothing", lock.Middleware(GetClothing(fact))).Methods(http.MethodGet)
-	r.Handle("/clothing/create", lock.Middleware(CreateClothing(fact))).Methods(http.MethodGet)
-	r.Handle("/clothing/{key:[0-9]+\\x60[0-9]+}", lock.Middleware(ViewClothing(fact))).Methods(http.MethodGet)
+	rcloth := r.PathPrefix("/clothing").Subrouter()
+	rcloth.Handle("", GetClothing(fact)).Methods(http.MethodGet)
+	rcloth.Handle("/create", CreateClothing(fact)).Methods(http.MethodGet)
+	rcloth.Handle("/{pagesize:[A-Z][0-9]+}", SearchClothing(fact)).Methods(http.MethodGet)
+	rcloth.Handle("/{pagesize:[A-Z][0-9]+}/{hash:[a-zA-Z0-9]+={0,2}}", SearchClothing(fact)).Methods(http.MethodGet)
+	rcloth.Handle("/{key:[0-9]+\\x60[0-9]+}", ViewClothing(fact)).Methods(http.MethodGet)
+	rcloth.Use(lock.Protect)
+	rcloth.Use(lock.Lock)
 
-	r.Handle("/spares", lock.Middleware(GetParts(fact))).Methods(http.MethodGet)
-	r.Handle("/spares/create", lock.Middleware(CreatePart(fact))).Methods(http.MethodGet)
-	r.Handle("/spares/{key:[0-9]+\\x60[0-9]+}", lock.Middleware(ViewPart(fact))).Methods(http.MethodGet)
+	rpart := r.PathPrefix("/spares").Subrouter()
+	rpart.Handle("", GetParts(fact)).Methods(http.MethodGet)
+	rpart.Handle("/create", CreatePart(fact)).Methods(http.MethodGet)
+	rpart.Handle("/{pagesize:[A-Z][0-9]+}", SearchParts(fact)).Methods(http.MethodGet)
+	rpart.Handle("/{pagesize:[A-Z][0-9]+}/{hash:[a-zA-Z0-9]+={0,2}}", SearchParts(fact)).Methods(http.MethodGet)
+	rpart.Handle("/{key:[0-9]+\\x60[0-9]+}", ViewPart(fact)).Methods(http.MethodGet)
+	rpart.Use(lock.Protect)
+	rpart.Use(lock.Lock)
 
-	r.Handle("/properties", lock.Middleware(GetProperties(fact))).Methods(http.MethodGet)
-	r.Handle("/properties/create", lock.Middleware(CreateProperty(fact))).Methods(http.MethodGet)
-	r.Handle("/properties/{key:[0-9]+\\x60[0-9]+}", lock.Middleware(ViewProperty(fact))).Methods(http.MethodGet)
+	rhouse := r.PathPrefix("/properties").Subrouter()
+	rhouse.Handle("", GetProperties(fact)).Methods(http.MethodGet)
+	rhouse.Handle("/create", CreateProperty(fact)).Methods(http.MethodGet)
+	rhouse.Handle("/{pagesize:[A-Z][0-9]+}", SearchProperties(fact)).Methods(http.MethodGet)
+	rhouse.Handle("/{pagesize:[A-Z][0-9]+}/{hash:[a-zA-Z0-9]+={0,2}}", SearchProperties(fact)).Methods(http.MethodGet)
+	rhouse.Handle("/{key:[0-9]+\\x60[0-9]+}", ViewProperty(fact)).Methods(http.MethodGet)
+	rhouse.Use(lock.Protect)
+	rhouse.Use(lock.Lock)
 
-	r.Handle("/utilities", lock.Middleware(GetServices(fact))).Methods(http.MethodGet)
-	r.Handle("/utilities/create", lock.Middleware(CreateService(fact))).Methods(http.MethodGet)
-	r.Handle("/utilities/{key:[0-9]+\\x60[0-9]+}", lock.Middleware(ViewService(fact))).Methods(http.MethodGet)
+	rutil := r.PathPrefix("/utilities").Subrouter()
+	rutil.Handle("", GetServices(fact)).Methods(http.MethodGet)
+	rutil.Handle("/create", CreateService(fact)).Methods(http.MethodGet)
+	rutil.Handle("/{pagesize:[A-Z][0-9]+}", SearchServices(fact)).Methods(http.MethodGet)
+	rutil.Handle("/{pagesize:[A-Z][0-9]+}/{hash:[a-zA-Z0-9]+={0,2}}", SearchServices(fact)).Methods(http.MethodGet)
+	rutil.Handle("/{key:[0-9]+\\x60[0-9]+}", ViewService(fact)).Methods(http.MethodGet)
+	rutil.Use(lock.Protect)
+	rutil.Use(lock.Lock)
 
 	//r.HandleFunc("/tokens", lock.Middleware( create(tmpl))).Methods(http.MethodGet)                       //Cars
-	r.Handle("/tokens/{key:[0-9]+\\x60[0-9]+}", lock.Middleware(ViewCredits(fact))).Methods(http.MethodGet)
+	r.Handle("/tokens/{key:[0-9]+\\x60[0-9]+}", lock.Protect(lock.Lock(ViewCredits(fact)))).Methods(http.MethodGet)
 
 	return r
 }

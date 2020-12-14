@@ -28,13 +28,13 @@ class CategoryItemsForm {
   }
 
   List<StockItem> get simpleitems {
-   final result = new List<StockItem>();
+    final result = new List<StockItem>();
 
-   for(var item in stock){
-     result.add(item.toDTO());
-   }
+    for (var item in stock) {
+      result.add(item.toDTO());
+    }
 
-   return result;
+    return result;
   }
 
   List<CategoryStockItem> findItems() {
@@ -43,26 +43,31 @@ class CategoryItemsForm {
     var indx = 0;
 
     do {
-      var item = new CategoryStockItem(
-        "#cboItems${indx}",
-        "#txtShortName${indx}",
-        "#uplThumbImg${indx}",
-        "#hdnOwnerKey${indx}",
-        "#txtExpires${indx}",
-        "#txtCurrency${indx}",
-        "#numPrice${indx}",
-        "#numEstimate${indx}",
-        "#lstTags${indx}",
-        "#txtLocation${indx}",
-        "#numViews${indx}",
-        "#lstHistory${indx}",
-        "#numQuantity${indx}",
-      );
+      try {
+        var item = new CategoryStockItem(
+          "#cboItems${indx}",
+          "#txtShortName${indx}",
+          "#uplThumbImg${indx}",
+          "#hdnOwnerKey${indx}",
+          "#hdnExpires${indx}",
+          "#txtExpires${indx}",
+          "#txtCurrency${indx}",
+          "#numPrice${indx}",
+          "#numEstimate${indx}",
+          "#lstTags${indx}",
+          "#txtLocation${indx}",
+          "#numViews${indx}",
+          "#lstHistory${indx}",
+          "#numQuantity${indx}",
+        );
 
-      isLoaded = item.loaded;
+        isLoaded = item.loaded;
 
-      if (isLoaded) {
-        result.add(item);
+        if (isLoaded) {
+          result.add(item);
+        }
+      } catch (exc) {
+        print(exc);
       }
 
       indx++;
@@ -156,7 +161,7 @@ class CategoryItemsForm {
                         </div>
                     </div>
                     <div class="field">
-                        <label for="txtCurrency${index}" class="label">Expiry Date:</label>
+                        <label for="txtCurrency${index}" class="label">Currency:</label>
                         <div class="control">
                             <input class="input" id="txtCurrency${index}" type="text" required
                                    value=""/>
