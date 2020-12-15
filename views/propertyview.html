@@ -1,0 +1,56 @@
+{{template "layout.html" .}}
+{{define "mainlayout"}}
+    <form id="frmProperty" role="form">
+        <button type="button" class="button is-link is-medium" id="btnSubmit">Save
+        </button>
+        <div class="field">
+            <label class="label" for="numBedrooms">Bedrooms</label>
+            <div class="control">
+                <input class="input" type="number" id="numBedrooms" placeholder="1" required/>
+                <p class="help is-danger"></p>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label" for="numBathrooms">Bathrooms</label>
+            <div class="control">
+                <input class="input" type="number" id="numBathrooms" placeholder="1" required/>
+                <p class="help is-danger"></p>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label" for="numGarages">Garages</label>
+            <div class="control">
+                <input class="input" type="text" id="numGarages" placeholder="1" required/>
+                <p class="help is-danger"></p>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label" for="chkPool">Pool</label>
+            <div class="control">
+                <input class="input" type="checkbox" id="chkPool" required/>
+                <p class="help is-danger"></p>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label" for="txtAddress">Address</label>
+            <div class="control">
+                <input class="input" type="text" id="txtAddress" placeholder="Address" required/>
+                <p class="help is-danger"></p>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label" for="txtSize">Size</label>
+            <div class="control">
+                <input class="input" type="text" id="txtSize" placeholder="Size" required/>
+                <p class="help is-danger"></p>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label" for="txtType">Type</label>
+            <div class="control">
+                <input class="input" type="text" id="txtType" placeholder="Type" required/>
+                <p class="help is-danger"></p>
+            </div>
+        </div>
+    </form>
+{{end}}

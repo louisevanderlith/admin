@@ -1,0 +1,11 @@
+<table class="table is-fullwidth is-hoverable" id="dataTable">
+    <tbody>
+    {{range $key, $val := .}}
+        <tr>
+            <td>{{$val.Name}}</td>
+            <td>{{template "tabSeries.html" $val.Series}}</td>
+        </tr>
+
+    {{end}}
+    </tbody>
+</table> 

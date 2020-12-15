@@ -1,0 +1,68 @@
+{{template "layout.html" .}}
+{{define "mainlayout"}}
+<div class="content">
+    <section class="section">
+        <div class="tabs is-boxed is-centered main-menu" id="nav">
+            <ul>
+                <li data-target="paneVehicleInfo" id="tabVehicleInfo" class="is-active">
+                    <a>
+                        <span class="icon is-small"><i class="fa fa-image"></i></span>
+                        <span>Info</span>
+                    </a>
+                </li>
+                <li data-target="paneVehicleSeries" id="tabVehicleSeries">
+                    <a>
+                        <span class="icon is-small"><i class="fab fa-empire"></i></span>
+                        <span>Series</span>
+                    </a>
+                </li>
+                <li data-target="paneVehicleEngine" id="tabVehicleEngine">
+                    <a>
+                        <span class="icon is-small"><i class="fab fa-empire"></i></span>
+                        <span>Engine</span>
+                    </a>
+                </li>
+                <li data-target="paneVehicleGearbox" id="tabVehicleGearbox">
+                    <a>
+                        <span class="icon is-small"><i class="fab fa-empire"></i></span>
+                        <span>Gearbox</span>
+                    </a>
+                </li>
+                <li data-target="paneVehicleExtra" id="tabVehicleExtra">
+                    <a>
+                        <span class="icon is-small"><i class="fab fa-empire"></i></span>
+                        <span>Extra</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="tab-content">
+            <form id="frmVehicle" role="form">
+                <div class="control">
+                    <button type="button" class="button is-link is-medium" id="btnSubmit">Save
+                    </button>
+                </div>
+                <div class="tab-pane is-active" id="paneVehicleInfo">
+                    {{ template "tabVehicleInfo.html" .}}
+                </div>
+                <div class="tab-pane" id="paneVehicleSeries">
+                    <button type="button" class="button is-info is-small" id="btnAddSeries">Add Series</button>
+                    {{ template "tabVehicleSeries.html" .}}
+                </div>
+                <div class="tab-pane" id="paneVehicleEngine">
+                    <button type="button" class="button is-info is-small" id="btnAddEngin">Add Engin</button>
+                    {{ template "tabVehicleEngine.html" .}}
+                </div>
+                <div class="tab-pane" id="paneVehicleGearbox">
+                    <button type="button" class="button is-info is-small" id="btnAddGearbox">Add Gearbox</button>
+                    {{ template "tabVehicleGearbox.html" .}}
+                </div>
+                <div class="tab-pane" id="paneVehicleExtra">
+                    <button type="button" class="button is-info is-small" id="btnAddExtra">Add Extra</button>
+                    {{ template "tabVehicleExtra.html" .}}
+                </div>
+            </form>
+        </div>
+    </section>
+</div>
+{{end}}

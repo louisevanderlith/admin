@@ -1,0 +1,12 @@
+<table class="table is-fullwidth is-hoverable" id="dataTable">
+    <tbody>
+    {{range $key, $val := .}}
+        <tr>
+            <td>{{$val}}</td>
+            <td>
+                {{$val}}
+            </td>
+        </tr>
+    {{end}}
+    </tbody>
+</table>

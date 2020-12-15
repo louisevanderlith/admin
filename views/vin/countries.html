@@ -1,0 +1,55 @@
+{{template "layout.html" .}}
+{{define "mainlayout"}}
+    <section class="section">
+        <table class="table is-fullwidth is-hoverable" id="dataTable">
+            <thead>
+            <tr>
+                <th>region Code</th>
+            </tr>
+            <tr>
+                <th>Name</th>
+            </tr>
+            <tr>
+                <th>Start Character</th>
+            </tr>
+            <tr>
+                <th>End Character</th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+                <th>region Code</th>
+            </tr>
+            <tr>
+                <th>Name</th>
+            </tr>
+            <tr>
+                <th>Start Character</th>
+            </tr>
+            <tr>
+                <th>End Character</th>
+            </tr>
+            </tfoot>
+            <tbody>
+            {{range $key, $val := .}}
+                <tr>
+                    <td>{{$val.RegionCode}}</td>
+                    <td>{{$val.Name}}</td>
+                    <td>{{$val.StartChar}}</td>
+                    <td>{{$val.EndChar}}</td>
+                    <td>
+                        <p class="buttons">
+                            <a href="#" class="button is-primary">
+                            <span class="icon is-small">
+                                <i class="far fa-edit"></i>
+                            </span>
+                            </a>
+                        </p>
+                    </td>
+                </tr>
+            {{end}}
+            </tbody>
+        </table>
+        {{template "pager.html" .Data}}
+    </section>
+{{end}}

@@ -1,0 +1,49 @@
+{{template "layout.html" .}}
+{{define "mainlayout"}}
+<section class="section">
+    <table class="table is-fullwidth is-hoverable" id="dataTable">
+        <thead>
+            <tr>
+                <th>Car Key</th>
+                <th>Year model</th>
+                <th>Mileage</th>
+                <th>Licence Expiry</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>Car Key</th>
+                <th>Year model</th>
+                <th>Mileage</th>
+                <th>Licence Expiry</th>
+                <th>Actions</th>
+            </tr>
+        </tfoot>
+        <tbody>
+            {{range $key, $val := .Data.Records}}
+            <tr>
+                <td>{{$val.V.Entity.VehicleKey}}</td>
+                <td>{{$val.V.Address.Year}}</td>
+                <td>{{$val.V.Mileage}}</td>
+                <td>{{$val.V.LicenceExpiry}}</td>
+                <td>
+                    <p class="buttons">
+                        <a href="/cars/{{$val.V.K}}" class="button is-primary">
+                            <span class="icon is-small">
+                                <i class="far fa-edit"></i>
+                            </span>
+                        </a>
+                        <button data-key="{{$val.V.K}}" class="button is-danger deleter">
+                            <span class="icon is-small">
+                                <i class="fas fa-ban"></i>
+                            </span>
+                        </button>
+                    </p>
+                </td>
+            </tr>
+            {{end}}
+        </tbody>
+    </table>
+</section>
+{{end}}

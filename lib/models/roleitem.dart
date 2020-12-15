@@ -1,51 +1,51 @@
-import 'dart:html';
+// import 'dart:html';
 
-import 'package:mango_ui/bodies/role.dart';
+// import 'package:mango_ui/bodies/role.dart';
 
-//RoleItem is used within tables to display data in a row.
-class RoleItem {
-  LabelElement _application;
-  ElementList<RadioButtonInputElement> _roletypes;
-  
-  bool _loaded;
+// //RoleItem is used within tables to display data in a row.
+// class RoleItem {
+//   LabelElement _application;
+//   ElementList<RadioButtonInputElement> _roletypes;
 
-  RoleItem(String applicationElem, String roletypeElem) {
-    _application = querySelector(applicationElem);
-    _roletypes = querySelectorAll(roletypeElem);
-    _loaded = _application != null && _roletypes.length != 0;
-  }
-  
-  String get application {
-    return _application.text;
-  }
+//   bool _loaded;
 
-  void set application(String appName) {
-    _application.text = appName;
-  }
+//   RoleItem(String applicationElem, String roletypeElem) {
+//     _application = querySelector(applicationElem);
+//     _roletypes = querySelectorAll(roletypeElem);
+//     _loaded = _application != null && _roletypes.length != 0;
+//   }
 
-  num get roletype {
-    for (var i = 0; i < _roletypes.length; i++) {
-      final curr = _roletypes[i];
-      if (curr.checked) {
-        return num.parse(curr.value);
-      }
-    }
+//   String get application {
+//     return _application.text;
+//   }
 
-    return 3;
-  }
+//   void set application(String appName) {
+//     _application.text = appName;
+//   }
 
-  void set roletype(num role) {
-    for (var i = 0; i < _roletypes.length; i++) {
-      final curr = _roletypes[i];
-      curr.checked = curr.value == role;
-    }
-  }
+//   num get roletype {
+//     for (var i = 0; i < _roletypes.length; i++) {
+//       final curr = _roletypes[i];
+//       if (curr.checked) {
+//         return num.parse(curr.value);
+//       }
+//     }
 
-  Role get role {
-    return new Role(application, roletype);
-  }
-  
-  bool loaded() {
-    return _loaded;
-  }
-}
+//     return 3;
+//   }
+
+//   void set roletype(num role) {
+//     for (var i = 0; i < _roletypes.length; i++) {
+//       final curr = _roletypes[i];
+//       curr.checked = curr.value == role;
+//     }
+//   }
+
+//   Role get role {
+//     return new Role(application, roletype);
+//   }
+
+//   bool loaded() {
+//     return _loaded;
+//   }
+// }

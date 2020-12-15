@@ -1,0 +1,23 @@
+<table class="table is-fullwidth is-hoverable is-mobile" id="dataTable">
+    <tbody>
+    {{range $key, $val := .}}
+        <tr>
+            <td>{{$val.Name}}</td>
+            <td>
+                {{template "tabAssemblyPlants.html" $val.AssemblyPlants}}
+            </td>
+            <!--
+            <td>
+                <p class="buttons">
+                    <a href="#" class="button is-primary">
+                                <span class="icon is-small">
+                                    <i class="far fa-edit"></i>
+                                </span>
+                    </a>
+                </p>
+            </td>
+            -->
+        </tr>
+    {{end}}
+    </tbody>
+</table>

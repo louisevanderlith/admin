@@ -1,0 +1,50 @@
+{{template "layout.html" .}}
+{{define "mainlayout"}}
+    <section class="section">
+        <table class="table is-fullwidth is-hoverable" id="dataTable">
+            <thead>
+            <tr>
+                <th>Type</th>
+                <th>Size</th>
+                <th>Address</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+                <th>Type</th>
+                <th>Size</th>
+                <th>Address</th>
+                <th>Actions</th>
+            </tr>
+            </tfoot>
+            <tbody>
+            {{if .Data.Records}}
+                {{range $_, $val := .Data.GetRecords.ToSlice}}
+                    {{$v := $val.GetValue}}
+                    {{$k := $val.GetKey}}
+                    <tr>
+                        <td>{{$v.Type}}</td>
+                        <td>{{$v.Size}}</td>
+                        <td>{{$v.Address}}</td>
+                        <td>
+                            <p class="buttons">
+                                <a href="/properties/{{$k}}" class="button is-primary">
+                            <span class="icon is-small">
+                                <i class="far fa-edit"></i>
+                            </span>
+                                </a>
+                                <button data-key="{{$k}}" class="button is-danger deleter">
+                            <span class="icon is-small">
+                                <i class="fas fa-ban"></i>
+                            </span>
+                                </button>
+                            </p>
+                        </td>
+                    </tr>
+                {{end}}
+            {{end}}
+            </tbody>
+        </table>
+    </section>
+{{end}}
