@@ -17,6 +17,7 @@ class ServiceForm extends FormState {
 
   ServiceForm(Key k, Key from) : super("#frmService", "#btnSubmit") {
     objKey = k;
+    fromKey = from;
     cboDays = querySelector("#cboDays");
     cboHours = querySelector("#cboHours");
     cboMinutes = querySelector("#cboMinutes");

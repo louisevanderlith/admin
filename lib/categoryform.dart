@@ -29,7 +29,6 @@ class CategoryForm extends FormState {
     if (isFormValid()) {
       disableSubmit(true);
 
-      print(stock.items.length);
       final obj = new Category(
           info.name,
           info.text,

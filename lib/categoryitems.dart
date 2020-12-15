@@ -77,10 +77,17 @@ class CategoryItemsForm {
   }
 
   void addItem() {
-    var schema = buildElement(items.length);
+    final index = items.length;
+    var schema = buildElement(index);
     form.children.add(schema);
 
+
+
     stock = findItems();
+  }
+
+  void populateItemList(num index, String category) {
+      //Add items to list
   }
 
   //returns HTML for this Item
