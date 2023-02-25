@@ -15,7 +15,7 @@ require (
 	github.com/louisevanderlith/utility v1.0.4
 	github.com/louisevanderlith/vehicle v1.0.10
 	github.com/louisevanderlith/wear v1.0.5
-	golang.org/x/net v0.0.0-20201022231255-08b38378de70
+	golang.org/x/net v0.7.0
 	golang.org/x/oauth2 v0.0.0-20200902213428-5d25da1a8d43
 )
 
